@@ -7,18 +7,18 @@
     <base href="">
     <title>Ingo-Forum </title>
     <meta name="description"
-        content="The most advanced Bootstrap Admin Theme on Themeforest trusted by 94,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue &amp; Laravel versions. Grab your copy now and get life-time updates for free." />
+        content="" />
     <meta name="keywords"
-        content="Metronic, bootstrap, bootstrap 5, Angular, VueJs, React, Laravel, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon" />
+        content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="utf-8" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="article" />
     <meta property="og:title"
-        content="Metronic - Bootstrap 5 HTML, VueJS, React, Angular &amp; Laravel Admin Dashboard Theme" />
-    <meta property="og:url" content="https://keenthemes.com/metronic" />
-    <meta property="og:site_name" content="Keenthemes | Metronic" />
-    <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
+        content="INGO Forum" />
+    <meta property="og:url" content="" />
+    <meta property="og:site_name" content="INGO Forum" />
+    {{-- <link rel="canonical" href="https://preview.keenthemes.com/metronic8" /> --}}
     <link rel="shortcut icon" href="{{asset('public/frontend/images/logo.png')}}" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
@@ -30,6 +30,8 @@
     <link href="{{ asset('public/admin/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
 
     <link href="{{ asset('public/admin/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <!--end::Global Stylesheets Bundle-->
 </head>
 <!--end::Head-->
@@ -125,11 +127,11 @@
     <script src="{{ asset('public/admin/js/scripts.bundle.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    @stack('custom-js')
     <!-- Initialize Toastr -->
     {!! Toastr::message() !!}
     @if (session('success'))
@@ -178,7 +180,8 @@
         </script>
     @endif
 
-    @stack('custom-js')
+
+   
     <!--end::Javascript-->
 </body>
 <!--end::Body-->

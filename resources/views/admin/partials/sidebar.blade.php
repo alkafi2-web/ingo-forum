@@ -72,7 +72,7 @@
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'createUser' ? 'show' : '' }}">
-                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
+                        <div class="menu-item menu-accordion ">
                             <span class="menu-link">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
@@ -90,7 +90,7 @@
                         </a>
                     </div>
                 </div>
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::currentRouteName() == 'role' ? 'hover show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -107,22 +107,14 @@
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
-                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                            <span class="menu-link">
+                        <a class="menu-item menu-accordion" href="{{route('role')}}">
+                            <span class="menu-link {{ Route::currentRouteName() == 'role' ? 'active' : '' }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <a href="{{route('role')}}"><span class="menu-title">Role & Assign</span></a>
+                                <span class="menu-title">Role & Permission</span>
                             </span>
-                        </div>
-                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                            <span class="menu-link">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <a href=""><span class="menu-title">Permissions</span></a>
-                            </span>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 
