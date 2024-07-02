@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Role\RoleController;
 use App\Http\Middleware\adminMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -15,4 +16,10 @@ Route::middleware(['admin'])->group(function () {
     //user managment start
     Route::get('/create-user', [AuthController::class, 'createUser'])->name('createUser');
     //user managment end
+
+    // role route start
+    Route::prefix('role')->group(function () {
+        Route::get('/', [RoleController::class, 'role'])->name('role');
+    });
+    // role route end
 });

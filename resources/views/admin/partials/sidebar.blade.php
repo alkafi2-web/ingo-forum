@@ -112,7 +112,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <a href=""><span class="menu-title">Role & Assign</span></a>
+                                <a href="{{route('role')}}"><span class="menu-title">Role & Assign</span></a>
                             </span>
                         </div>
                         <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
