@@ -18,20 +18,22 @@
         content="INGO Forum" />
     <meta property="og:url" content="" />
     <meta property="og:site_name" content="INGO Forum" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- <link rel="canonical" href="https://preview.keenthemes.com/metronic8" /> --}}
     <link rel="shortcut icon" href="{{asset('public/frontend/images/logo.png')}}" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
     <!--begin::Page Vendor Stylesheets(used by this page)-->
+    <link rel="stylesheet" href="{{ asset('public/admin/css/app.css') }}" type="text/css">
 
     <!--end::Page Vendor Stylesheets-->
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="{{ asset('public/admin/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('public/admin/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
 
     <link href="{{ asset('public/admin/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <!--end::Global Stylesheets Bundle-->
 </head>
 <!--end::Head-->
@@ -124,6 +126,7 @@
     <!--begin::Javascript-->
     <!--begin::Global Javascript Bundle(used by all pages)-->
     <script src="{{ asset('public/admin/plugins/global/plugins.bundle.js') }}"></script>
+    <script src="{{ asset('public/admin/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <script src="{{ asset('public/admin/js/scripts.bundle.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- jQuery -->

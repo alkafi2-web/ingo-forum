@@ -1,0 +1,176 @@
+/* Custom CSS for datatable */
+.dt-buttons {
+  text-align: center;
+}
+
+.swal2-container {
+  z-index: 9999 !important;
+}
+
+div.dataTables_wrapper div.dataTables_processing {
+  color: #827175 !important;
+  border: 1px solid;
+  animation: wave 1s infinite;
+}
+
+/* Add a red star after labels with the required class */
+.required:after {
+  content: ' *';
+  color: red;
+}
+
+/* Define the keyframes for the wave animation */
+@keyframes wave {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  div.dataTables_wrapper div.dataTables_processing {
+    left: 40%;
+  }
+}
+
+@media screen and (max-width: 512px) {
+  div.dataTables_wrapper div.dataTables_processing {
+    left: 38%;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  div.dataTables_wrapper div.dataTables_processing {
+    left: 35%;
+  }
+}
+
+/* CSS to make DataTable columns full-width on mobile */
+.dataTable .dtr-details {
+  width: 100% !important;
+}
+
+.dataTable td.dt-body-center {
+  text-align: center;
+}
+
+.blink-red-border {
+  border: 1px solid red !important;
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+.election-datatable {
+  thead {
+    tr {
+      background-color: #dee2e633 !important;
+
+      th {
+        border-left-width: 1px !important;
+        padding: 12px !important;
+      }
+    }
+  }
+
+  tr {
+    td {
+      padding: 12px !important;
+      border-left-width: 1px !important;
+      border-bottom-width: 1px !important;
+    }
+  }
+
+  tbody tr:last-child td,
+  tbody tr:last-child th,
+  tfoot tr:last-child td,
+  tfoot tr:last-child th {
+    border-bottom: 1px solid #dee2e633 !important;
+    border-bottom-width: 1px !important;
+    // border-bottom: 1px solid #dee2e633;
+  }
+}
+
+.paginate_button {
+  padding: 0.5rem 0.75rem;
+  margin: 0 0.25rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #1E1E2D;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.paginate_button:hover {
+  background-color: #1E1E2D;
+  color: #fff;
+}
+
+.paginate_button.current {
+  background-color: #1E1E2D;
+  color: #fff;
+}
+
+.dataTables_filter input {
+  border: 1px solid #e4e6ef;
+}
+
+/* Custom CSS for pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  svg {
+    width: 20px;
+  }
+
+  nav {
+    div.flex-1.sm\:hidden {
+      display: none;
+    }
+  }
+
+  ul.pagination {
+    background-color: transparent;
+  }
+
+  li.page-item {
+    margin: 0 5px;
+    list-style: none;
+    display: inline;
+  }
+
+  a.page-link {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #45a049;
+    }
+  }
+}
+
+// end of pagination 
+table tbody tr:last-child td{
+  border-bottom: 1px solid #dee2e633 !important;
+  border-bottom-width: 1px !important;
+}

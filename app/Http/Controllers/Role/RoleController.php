@@ -12,7 +12,7 @@ class RoleController extends Controller
     public function role(Request $request)
     {
         if ($request->ajax()) {
-            $roles = Role::with('permissions')->whereNotIn('name', ['super-admin'])->get();
+            $roles = Role::with('permissions')->get();
 
             return DataTables::of($roles)
                 ->addColumn('permissions', function ($role) {
