@@ -4,29 +4,40 @@ namespace App\Http\Controllers\Content;
 
 use App\Http\Controllers\Controller;
 use App\Models\MainContent;
+use Brian2694\Toastr\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class SystemController extends Controller
 {
     public function index()
     {
+
         return view('admin.content.systemt-content.index');
     }
     public function systemPost(Request $request)
     {
-        $validatedData = $request->validate([
+        // Validate the request data
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'short_content' => 'required|string',
+            'email' => 'nullable|string|email', // Added email validation
+            'phone' => 'nullable|string', // Added phone validation (adjust as per your validation rules)
             'facebook' => ['nullable', 'string', 'url'],
             'linkedin' => ['nullable', 'string', 'url'],
             'youtube' => ['nullable', 'string', 'url'],
             'twitter' => ['nullable', 'string', 'url'],
-            'logo' => ['nullable', 'file', 'mimes:png,jpeg,gif', 'max:1024'], // max:1024 specifies 1MB limit (1024 KB)
+            'logo' => ['nullable', 'file', 'mimes:png,jpeg,gif', 'max:1024'], // max:1024 specifies 1MB limit
         ], [
             'name.required' => 'The name field is required.',
             'name.string' => 'The name must be a string.',
             'short_content.required' => 'The short content field is required.',
             'short_content.string' => 'The short content must be a string.',
+            'email.string' => 'The email must be a string.',
+            'email.email' => 'The email must be a valid email address.',
+            'phone.string' => 'The phone must be a string.', // Adjust as per specific phone validation rules
             'facebook.string' => 'The facebook must be a string.',
             'facebook.url' => 'The facebook must be a valid URL.',
             'linkedin.string' => 'The linkedin must be a string.',
@@ -41,20 +52,39 @@ class SystemController extends Controller
         ]);
 
 
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         // Data to update or insert
         $data = [
-            'name' => $validatedData['name'],
-            'short_content' => $validatedData['short_content'],
-            'facebook' => $validatedData['facebook'],
-            'linkedin' => $validatedData['linkedin'],
-            'youtube' => $validatedData['youtube'],
-            'twitter' => $validatedData['twitter'],
+            'name' => $request->input('name'),
+            'short_content' => $request->input('short_content'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
+            'facebook' => $request->input('facebook'),
+            'linkedin' => $request->input('linkedin'),
+            'youtube' => $request->input('youtube'),
+            'twitter' => $request->input('twitter'),
         ];
 
         // Handle logo update if provided
-        if (isset($validatedData['logo'])) {
-            return $data['logo'] = $validatedData['logo']; // Example storage path
-            
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $logoName = 'logo.' . $logo->getClientOriginalExtension();
+            $logo->move(public_path('/frontend/images/'), $logoName);
+
+            // Update MainContent for logo
+            MainContent::updateOrCreate(
+                ['name' => 'logo'],
+                ['content' => $logoName]
+            );
+
+            // Add logo name to data array
+            $data['logo'] = $logoName;
         }
 
         // Update or insert based on conditions
@@ -65,7 +95,7 @@ class SystemController extends Controller
             );
         }
 
-
-        return $request->all();
+        // Redirect back with success message
+        return redirect()->route('system')->with('success', 'Successfully updated system information!');
     }
 }

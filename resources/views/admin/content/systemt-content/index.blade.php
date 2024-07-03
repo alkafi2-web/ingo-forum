@@ -13,7 +13,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name" class="text-3xl">System Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
+                                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name')??$global['website_name'] }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -21,7 +21,7 @@
                                     <label for="fileInput" class="text-3xl">System Logo</label>
                                     <input type="file" class="form-control" id="fileInput" name="logo"
                                            oninput="pp.src=window.URL.createObjectURL(this.files[0])">
-                                    <img id="pp" width="100" class="float-start mt-3" src="{{ old('logo') ? old('logo') : '' }}">
+                                    <img id="pp" width="100" class="float-start mt-3" src="{{asset('public/frontend/images/'.$global['logo'])}}">
                                 </div>
                             </div>
                         </div>
@@ -29,7 +29,21 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="content" class="text-3xl">System Short Content</label>
-                                    <input type="text" class="form-control" id="content" name="short_content" value="{{ old('short_content') }}">
+                                    <input type="text" class="form-control" id="content" name="short_content" value="{{ old('short_content') ?? $global['short_content']  }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email" class="text-3xl">Email</label>
+                                    <input type="text" class="form-control" id="facebook" name="email" value="{{ old('email') ?? $global['email'] }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone" class="text-3xl">Phone</label>
+                                    <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') ?? $global['phone']  }}">
                                 </div>
                             </div>
                         </div>
@@ -37,13 +51,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="facebook" class="text-3xl">Facebook URL</label>
-                                    <input type="text" class="form-control" id="facebook" name="facebook" value="{{ old('facebook') }}">
+                                    <input type="text" class="form-control" id="facebook" name="facebook" value="{{ old('facebook') ?? $global['facebook'] }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="linkedin" class="text-3xl">LinkedIn URL</label>
-                                    <input type="text" class="form-control" id="linkedin" name="linkedin" value="{{ old('linkedin') }}">
+                                    <input type="text" class="form-control" id="linkedin" name="linkedin" value="{{ old('linkedin') ?? $global['linkedin']  }}">
                                 </div>
                             </div>
                         </div>
@@ -51,13 +65,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="youtube" class="text-3xl">YouTube URL</label>
-                                    <input type="text" class="form-control" id="youtube" name="youtube" value="{{ old('youtube') }}">
+                                    <input type="text" class="form-control" id="youtube" name="youtube" value="{{ old('youtube') ?? $global['youtube'] }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="twitter" class="text-3xl">Twitter URL</label>
-                                    <input type="text" class="form-control" id="twitter" name="twitter" value="{{ old('twitter') }}">
+                                    <input type="text" class="form-control" id="twitter" name="twitter" value="{{ old('twitter') ?? $global['twitter'] }}">
                                 </div>
                             </div>
                         </div>

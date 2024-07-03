@@ -4,19 +4,21 @@
             <div class="row">
                 <div class="col-md-5 mb-3 mb-md-0">
                     <div class="footer-info">
-                        <img src="{{asset('public/frontend/images/logo.png')}}" alt="">
-                        <p class="pt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi non leo at
-                            justo posuere luctus. Maecenas id mauris sit.</p>
+                        <img src="{{ asset('public/frontend/images/' . $global['logo']) }}" alt="">
+                        <p class="pt-3">{{ $global['short_content'] }}</p>
                         <div class="footer-social pt-2">
                             <nav class="d-flex align-items-center">
-                                <a href="#" class="text-decoration-none"><i
-                                        class="fa-brands fa-instagram"></i></a>
-                                <a href="#" class="text-decoration-none"><i
-                                        class="fa-brands fa-linkedin-in"></i></a>
-                                <a href="#" class="text-decoration-none"><i
+                                <a href="{{ $global['facebook'] }}" class="text-decoration-none"><i
                                         class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#" class="text-decoration-none"><i
+
+                                <a href="{{ $global['linkedin'] }}" class="text-decoration-none"><i
+                                        class="fa-brands fa-linkedin-in"></i></a>
+
+                                <a href="{{ $global['twitter'] }}" class="text-decoration-none"><i
                                         class="fa-brands fa-x-twitter"></i></a>
+
+                                <a href="{{ $global['youtube'] }}" class="text-decoration-none"><i
+                                        class="fa-brands fa-youtube"></i></a>
                             </nav>
                         </div>
                     </div>

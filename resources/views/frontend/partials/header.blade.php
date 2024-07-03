@@ -5,30 +5,30 @@
                 <div class="topbar-info d-flex align-items-center">
                     <div class="mail pe-3">
                         <img src="{{asset('public/frontend/images/icons/email.png')}}" alt="">
-                        <a href="" class="text-decoration-none ms-1">example@gmail.com</a>
+                        <a href="" class="text-decoration-none ms-1">{{$global['email']}}</a>
                     </div>
                     <div class="phone ps-3">
                         <img src="{{asset('public/frontend/images/icons/phone.png')}}" alt="">
-                        <a href="" class="text-decoration-none ms-1">01315254789</a>
+                        <a href="" class="text-decoration-none ms-1">{{$global['phone']}}</a>
                     </div>
                 </div>
                 <div class="topbar-social">
                     <ul class="d-flex">
                         <li>
-                            <a href="#" class="text-decoration-none"><i
-                                    class="fa-brands fa-instagram"></i></a>
+                            <a href="{{$global['facebook']}}" class="text-decoration-none"><i
+                                    class="fa-brands fa-facebook"></i></a>
                         </li>
                         <li>
-                            <a href="#" class="text-decoration-none"><i
+                            <a href="{{$global['linkedin']}}" class="text-decoration-none"><i
                                     class="fa-brands fa-linkedin-in"></i></a>
                         </li>
                         <li>
-                            <a href="#" class="text-decoration-none"><i
-                                    class="fa-brands fa-facebook-f"></i></a>
+                            <a href="{{$global['twitter']}}" class="text-decoration-none"><i
+                                    class="fa-brands fa-x-twitter"></i></a>
                         </li>
                         <li>
-                            <a href="#" class="text-decoration-none"><i
-                                    class="fa-brands fa-x-twitter"></i></a>
+                            <a href="{{$global['youtube']}}" class="text-decoration-none"><i
+                                    class="fa-brands fa-youtube"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -37,7 +37,7 @@
     </div>
     <nav class="navbar navbar-expand-lg bg-white">
         <div class="container">
-            <a class="navbar-brand" href="index.php"><img class="logo" src="{{asset('public/frontend/images/logo.png')}}" alt="logo"></a>
+            <a class="navbar-brand" href="index.php"><img class="logo" src="{{asset('public/frontend/images/'.$global['logo'])}}" alt="logo"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">

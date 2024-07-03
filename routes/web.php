@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Content\SystemController;
+use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Middleware\adminMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -33,4 +34,4 @@ Route::middleware(['admin'])->group(function () {
     // role route end
 });
 
-// Route::get('/', [AuthController::class, 'dashboard'])->name('dashboard');
+Route::get('/', [IndexController::class, 'index']);
