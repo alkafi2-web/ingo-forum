@@ -53,7 +53,7 @@
                         <span class="menu-section text-muted text-uppercase fs-8 ls-1">Content Management</span>
                     </div>
                 </div>
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::currentRouteName() == 'system' ? 'hover show' : '' }}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::currentRouteName() == 'system' || Route::currentRouteName() == 'banner' ? 'hover show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -69,15 +69,15 @@
                         <span class="menu-title">Website Content</span>
                         <span class="menu-arrow"></span>
                     </span>
-                    <div class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'system' ? 'hover show' : '' }}">
-                        <div class="menu-item menu-accordion ">
-                            <span class="menu-link">
+                    <div class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'system' || Route::currentRouteName() == 'banner' ? 'hover show' : '' }}">
+                        <a class="menu-item menu-accordion" href="{{route('banner')}}">
+                            <span class="menu-link {{ Route::currentRouteName() == 'banner' ? 'active' : '' }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <a href=""><span class="menu-title">Banner</span></a>
+                                <span class="menu-title">Banner Content</span>
                             </span>
-                        </div>
+                        </a>
                         <a class="menu-item menu-accordion" href="{{route('system')}}">
                             <span class="menu-link {{ Route::currentRouteName() == 'system' ? 'active' : '' }}">
                                 <span class="menu-bullet">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Content\BannerController;
 use App\Http\Controllers\Content\SystemController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Role\RoleController;
@@ -20,6 +21,16 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/create-user', [AuthController::class, 'createUser'])->name('createUser');
     //user managment end
 
+    // banner route start
+    Route::prefix('banner')->group(function () {
+        Route::get('/', [BannerController::class, 'index'])->name('banner');
+        Route::post('/create', [BannerController::class, 'bannerCreate'])->name('banner.create');
+        Route::post('/delete', [BannerController::class, 'bannerDelete'])->name('banner.delete');
+        Route::post('/status', [BannerController::class, 'bannerStatus'])->name('banner.status');
+        Route::post('/edit', [BannerController::class, 'bannerEdit'])->name('banner.edit');
+        Route::post('/update', [BannerController::class, 'bannerUpdate'])->name('banner.update');
+    });
+    // banner route end
     // content manegment route start
     Route::prefix('system-content')->group(function () {
         Route::get('/', [SystemController::class, 'index'])->name('system');

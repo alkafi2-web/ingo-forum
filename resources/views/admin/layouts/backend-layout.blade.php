@@ -128,7 +128,8 @@
     <script src="{{ asset('public/admin/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('public/admin/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <script src="{{ asset('public/admin/js/scripts.bundle.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- jQuery -->
 
     <!-- Toastr JS -->

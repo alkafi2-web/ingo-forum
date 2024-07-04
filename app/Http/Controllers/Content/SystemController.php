@@ -19,7 +19,6 @@ class SystemController extends Controller
     public function systemPost(Request $request)
     {
         // Validate the request data
-        // Validate the request data
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'short_content' => 'required|string',
