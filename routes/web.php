@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Content\AboutusController;
 use App\Http\Controllers\Content\BannerController;
 use App\Http\Controllers\Content\SystemController;
 use App\Http\Controllers\Frontend\IndexController;
@@ -37,6 +38,13 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/systempost', [SystemController::class, 'systemPost'])->name('system.post');
     });
     // content manegment route end
+
+    // about us-content route start
+    Route::prefix('about-us')->group(function () {
+        Route::get('/', [AboutusController::class, 'index'])->name('aboutus');
+        // Route::post('/systempost', [SystemController::class, 'systemPost'])->name('system.post');
+    });
+    // about us-content route end
 
     // role route start
     Route::prefix('role')->group(function () {
