@@ -5,12 +5,12 @@
 @section('admin-content')
     <div class="row">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card" style="height: 410px;">
                 <div class="card-header">
                     <h2 class="pt-5">About Us Content List</h2>
                 </div>
                 <div class="card-body">
-                    {{-- @include('admin.content.banner.datatables.banner-list-datatable') --}}
+                    @include('admin.content.about-us.datatables.about-us-content-datatable')
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@
                     <h2 class="pt-5 " id="add-header">Add About Us Content</h2>
                 </div>
                 <div class="card-body">
-                    {{-- @include('admin.content.banner.partials.add-banner') --}}
+                    @include('admin.content.about-us.partials.add-about-us-content')
                 </div>
             </div>
         </div>
