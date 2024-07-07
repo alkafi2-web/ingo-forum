@@ -44,6 +44,7 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/', [AboutusController::class, 'index'])->name('aboutus');
         Route::post('/create', [AboutusController::class, 'aboutusCreate'])->name('aboutus.create');
         Route::post('/content-edit', [AboutusController::class, 'aboutuscontentEdit'])->name('aboutuscontent.edit');
+        Route::post('/feature-edit', [AboutusController::class, 'aboutusFeatureCreate'])->name('aboutus.feature.create');
     });
     // about us-content route end
 
