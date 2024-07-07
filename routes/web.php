@@ -5,6 +5,7 @@ use App\Http\Controllers\Content\AboutusController;
 use App\Http\Controllers\Content\BannerController;
 use App\Http\Controllers\Content\SystemController;
 use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Middleware\adminMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -50,9 +51,19 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/feature-status', [AboutusController::class, 'featureStatus'])->name('feature.status');
         Route::post('/feature-edit', [AboutusController::class, 'featureEdit'])->name('feature.edit');
         Route::post('/feature-update', [AboutusController::class, 'featureUpdate'])->name('feature.update');
-        
     });
     // about us-content route end
+
+    // post menagement route start
+    Route::prefix('post')->group(function () {
+        Route::get('/', [PostController::class, 'category'])->name('category');
+        Route::post('/category-create', [PostController::class, 'categoryCreate'])->name('category.create');
+        Route::post('/category-delete', [PostController::class, 'categoryDelete'])->name('category.delete');
+        Route::post('/category-status', [PostController::class, 'categoryStatus'])->name('category.status');
+        Route::post('/category-edit', [PostController::class, 'categoryEdit'])->name('category.edit');
+        Route::post('/category-update', [PostController::class, 'categoryUpdate'])->name('category.update');
+    });
+    // post menagement route end
 
     // role route start
     Route::prefix('role')->group(function () {

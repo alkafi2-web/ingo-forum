@@ -104,7 +104,7 @@
                         <span class="menu-section text-muted text-uppercase fs-8 ls-1">Post & Blog Management</span>
                     </div>
                 </div>
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::currentRouteName() == 'system' || Route::currentRouteName() == 'banner' || Route::currentRouteName() == 'aboutus' ? 'hover show' : '' }}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'banner' || Route::currentRouteName() == 'aboutus' ? 'hover show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -117,16 +117,16 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">POst</span>
+                        <span class="menu-title">Post</span>
                         <span class="menu-arrow"></span>
                     </span>
-                    <div class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'system' || Route::currentRouteName() == 'banner' || Route::currentRouteName() == 'aboutus' ? 'hover show' : '' }}">
-                        <a class="menu-item menu-accordion" href="{{route('system')}}">
-                            <span class="menu-link {{ Route::currentRouteName() == 'system' ? 'active' : '' }}">
+                    <div class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'banner' || Route::currentRouteName() == 'aboutus' ? 'hover show' : '' }}">
+                        <a class="menu-item menu-accordion" href="{{route('category')}}">
+                            <span class="menu-link {{ Route::currentRouteName() == 'category' ? 'active' : '' }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">System Content</span>
+                                <span class="menu-title">Category</span>
                             </span>
                         </a>
                         <a class="menu-item menu-accordion" href="{{route('banner')}}">
