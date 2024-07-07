@@ -29,10 +29,10 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="pt-5">About Us Content List</h2>
+                    <h2 class="pt-5">About Us Feature List</h2>
                 </div>
                 <div class="card-body">
-                    {{-- @include('admin.content.about-us.datatables.about-us-content-datatable') --}}
+                    @include('admin.content.about-us.datatables.about-us-feature-datatable')
                 </div>
             </div>
         </div>

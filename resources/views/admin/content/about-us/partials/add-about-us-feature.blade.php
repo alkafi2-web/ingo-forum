@@ -51,13 +51,14 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        $('#aboutusfeatureForm')[0].reset();
+                        $('#pp').attr('src', '');
+                        $('#about-us-feature-data').DataTable().ajax.reload(null, false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
                         });
-                        $('#aboutusfeatureForm')[0].reset();
-                        $('#pp').attr('src', '');
-                        // $('#about-us-data').DataTable().ajax.reload(null, false);
+                        
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
@@ -70,20 +71,19 @@
                 });
 
             });
-            $('#banner-update').on('click', function(e) {
+            $('#about-us-feature-update').on('click', function(e) {
                 e.preventDefault();
-                let url = "{{ route('banner.update') }}";
-                let id = $(this).attr('data-id');
-                let title = $('#title').val();
-                let description = $('#b_des').val();
-                let image = $('#image')[0].files[0];
-                console.log(image);
+                let url = "{{ route('feature.update') }}";
+                let oldTitle = $(this).attr('data-title');
+                let subtitle = $('#f_sub_title').val();
+                let title = $('#f_title').val();
+                let icon = $('#f_icon')[0].files[0];
                 let formData = new FormData(); // Create FormData object
 
+                formData.append('oldTitle', oldTitle);
                 formData.append('title', title);
-                formData.append('description', description);
-                formData.append('image', image);
-                formData.append('id', id);
+                formData.append('subtitle', subtitle);
+                formData.append('icon', icon);
                 $.ajax({
                     type: 'POST',
                     url: url,
@@ -94,16 +94,13 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        var success = response.success;
-                        $.each(success, function(key, value) {
-                            toastr.success(value); // Displaying each error message
-                        });
-                        $('#add-header').text('Add Banner Content');
-                        $('#bannerForm')[0].reset();
+                        toastr.success(response.success);
+                        $('#feature-header').text('Add About Us Feature');
+                        $('#aboutusfeatureForm')[0].reset();
                         $('#pp').attr('src', '');
-                        $('#banner-data').DataTable().ajax.reload(null, false);
-                        $('#banner-submit').removeClass('d-none');
-                        $('#banner-update ').addClass('d-none');
+                        $('#about-us-feature-data').DataTable().ajax.reload(null, false);
+                        $('#about-us-feature-submit').removeClass('d-none');
+                        $('#about-us-feature-update').addClass('d-none');
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;

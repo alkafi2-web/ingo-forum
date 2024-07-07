@@ -44,7 +44,13 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/', [AboutusController::class, 'index'])->name('aboutus');
         Route::post('/create', [AboutusController::class, 'aboutusCreate'])->name('aboutus.create');
         Route::post('/content-edit', [AboutusController::class, 'aboutuscontentEdit'])->name('aboutuscontent.edit');
-        Route::post('/feature-edit', [AboutusController::class, 'aboutusFeatureCreate'])->name('aboutus.feature.create');
+        Route::post('/feature-create', [AboutusController::class, 'aboutusFeatureCreate'])->name('aboutus.feature.create');
+        Route::post('/feature-data', [AboutusController::class, 'aboutusFeatureData'])->name('aboutus.feature.data');
+        Route::post('/feature-data-delete', [AboutusController::class, 'featureDelete'])->name('feature.delete');
+        Route::post('/feature-status', [AboutusController::class, 'featureStatus'])->name('feature.status');
+        Route::post('/feature-edit', [AboutusController::class, 'featureEdit'])->name('feature.edit');
+        Route::post('/feature-update', [AboutusController::class, 'featureUpdate'])->name('feature.update');
+        
     });
     // about us-content route end
 
