@@ -104,7 +104,7 @@
                         <span class="menu-section text-muted text-uppercase fs-8 ls-1">Post & Blog Management</span>
                     </div>
                 </div>
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'banner' || Route::currentRouteName() == 'aboutus' ? 'hover show' : '' }}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'subcategory' || Route::currentRouteName() == 'aboutus' ? 'hover show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -120,7 +120,7 @@
                         <span class="menu-title">Post</span>
                         <span class="menu-arrow"></span>
                     </span>
-                    <div class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'banner' || Route::currentRouteName() == 'aboutus' ? 'hover show' : '' }}">
+                    <div class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'subcategory' || Route::currentRouteName() == 'aboutus' ? 'hover show' : '' }}">
                         <a class="menu-item menu-accordion" href="{{route('category')}}">
                             <span class="menu-link {{ Route::currentRouteName() == 'category' ? 'active' : '' }}">
                                 <span class="menu-bullet">
@@ -129,8 +129,8 @@
                                 <span class="menu-title">Category</span>
                             </span>
                         </a>
-                        <a class="menu-item menu-accordion" href="{{route('banner')}}">
-                            <span class="menu-link {{ Route::currentRouteName() == 'banner' ? 'active' : '' }}">
+                        <a class="menu-item menu-accordion" href="{{route('subcategory')}}">
+                            <span class="menu-link {{ Route::currentRouteName() == 'subcategory' ? 'active' : '' }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>

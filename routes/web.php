@@ -6,6 +6,7 @@ use App\Http\Controllers\Content\BannerController;
 use App\Http\Controllers\Content\SystemController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Post\PostController;
+use App\Http\Controllers\Post\SubCategoryController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Middleware\adminMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -56,12 +57,22 @@ Route::middleware(['admin'])->group(function () {
 
     // post menagement route start
     Route::prefix('post')->group(function () {
-        Route::get('/', [PostController::class, 'category'])->name('category');
-        Route::post('/category-create', [PostController::class, 'categoryCreate'])->name('category.create');
-        Route::post('/category-delete', [PostController::class, 'categoryDelete'])->name('category.delete');
-        Route::post('/category-status', [PostController::class, 'categoryStatus'])->name('category.status');
-        Route::post('/category-edit', [PostController::class, 'categoryEdit'])->name('category.edit');
-        Route::post('/category-update', [PostController::class, 'categoryUpdate'])->name('category.update');
+        Route::prefix('category')->group(function () {
+            Route::get('/', [PostController::class, 'category'])->name('category');
+            Route::post('/category-create', [PostController::class, 'categoryCreate'])->name('category.create');
+            Route::post('/category-delete', [PostController::class, 'categoryDelete'])->name('category.delete');
+            Route::post('/category-status', [PostController::class, 'categoryStatus'])->name('category.status');
+            Route::post('/category-edit', [PostController::class, 'categoryEdit'])->name('category.edit');
+            Route::post('/category-update', [PostController::class, 'categoryUpdate'])->name('category.update');
+        });
+        Route::prefix('sub-category')->group(function () {
+            Route::get('/', [SubCategoryController::class, 'subcategory'])->name('subcategory');
+            Route::post('/sub-category-create', [SubCategoryController::class, 'subcategoryCreate'])->name('subcategory.create');
+            Route::post('/sub-category-delete', [SubCategoryController::class, 'subcategoryDelete'])->name('subcategory.delete');
+            Route::post('/sub-category-status', [SubCategoryController::class, 'subcategoryStatus'])->name('subcategory.status');
+            Route::post('/sub-category-edit', [SubCategoryController::class, 'subcategoryEdit'])->name('subcategory.edit');
+            Route::post('/sub-category-update', [SubCategoryController::class, 'subcategoryUpdate'])->name('subcategory.update');
+        });
     });
     // post menagement route end
 
