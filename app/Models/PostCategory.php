@@ -9,7 +9,10 @@ class PostCategory extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    public function subcategories() {
-        return $this->hasMany(PostSubCategory::class);
+
+    public function subcategories()
+    {
+        return $this->hasMany(PostSubCategory::class, 'category_id', 'id');
     }
+    
 }

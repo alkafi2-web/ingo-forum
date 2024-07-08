@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id'); // Foreign key referencing post_categories table
             $table->unsignedBigInteger('sub_category_id')->nullable(); // Foreign key referencing post_subcategories table
             $table->string('title')->nullable(false); // Required field for the title of the post
+            $table->string('slug')->nullable(false); // Required field for the title of the post
             $table->text('short_des')->nullable(); // Short description of the post
             $table->text('long_des')->nullable(); // Long description or content of the post
             $table->string('banner')->nullable(); // Banner or featured image URL

@@ -5,12 +5,13 @@ use App\Http\Controllers\Content\AboutusController;
 use App\Http\Controllers\Content\BannerController;
 use App\Http\Controllers\Content\SystemController;
 use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\Post\CategoryController;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\Post\SubCategoryController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Middleware\adminMiddleware;
 use Illuminate\Support\Facades\Route;
-
+use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 Route::get('/admincp', [AuthController::class, 'login'])->name('login');
 Route::post('/loginPost', [AuthController::class, 'loginPost'])->name('loginPost');
@@ -58,12 +59,12 @@ Route::middleware(['admin'])->group(function () {
     // post menagement route start
     Route::prefix('post')->group(function () {
         Route::prefix('category')->group(function () {
-            Route::get('/', [PostController::class, 'category'])->name('category');
-            Route::post('/category-create', [PostController::class, 'categoryCreate'])->name('category.create');
-            Route::post('/category-delete', [PostController::class, 'categoryDelete'])->name('category.delete');
-            Route::post('/category-status', [PostController::class, 'categoryStatus'])->name('category.status');
-            Route::post('/category-edit', [PostController::class, 'categoryEdit'])->name('category.edit');
-            Route::post('/category-update', [PostController::class, 'categoryUpdate'])->name('category.update');
+            Route::get('/', [CategoryController::class, 'category'])->name('category');
+            Route::post('/category-create', [CategoryController::class, 'categoryCreate'])->name('category.create');
+            Route::post('/category-delete', [CategoryController::class, 'categoryDelete'])->name('category.delete');
+            Route::post('/category-status', [CategoryController::class, 'categoryStatus'])->name('category.status');
+            Route::post('/category-edit', [CategoryController::class, 'categoryEdit'])->name('category.edit');
+            Route::post('/category-update', [CategoryController::class, 'categoryUpdate'])->name('category.update');
         });
         Route::prefix('sub-category')->group(function () {
             Route::get('/', [SubCategoryController::class, 'subcategory'])->name('subcategory');
@@ -72,6 +73,11 @@ Route::middleware(['admin'])->group(function () {
             Route::post('/sub-category-status', [SubCategoryController::class, 'subcategoryStatus'])->name('subcategory.status');
             Route::post('/sub-category-edit', [SubCategoryController::class, 'subcategoryEdit'])->name('subcategory.edit');
             Route::post('/sub-category-update', [SubCategoryController::class, 'subcategoryUpdate'])->name('subcategory.update');
+        });
+        Route::prefix('/')->group(function () {
+            Route::get('/', [PostController::class, 'postCreate'])->name('post.create');
+            Route::post('/store', [PostController::class, 'postStore'])->name('post.store');
+            Route::get('/list', [PostController::class, 'postList'])->name('post.list');
         });
     });
     // post menagement route end
