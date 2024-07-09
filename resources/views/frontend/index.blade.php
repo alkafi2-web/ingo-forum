@@ -3,46 +3,49 @@
     <!-- Hero Section Start  -->
     <section>
         <div class="owl-carousel owl-theme hero-slider">
-            <div class="item">
-                <div class="hero-section ptb-70">
-                    <div class="container">
-                        <div class="row d-flex align-items-center">
-                            <div class="col-lg-6 hero-left mb-2 lg-mb-0">
-                                <h1>Lorem ipsum is placeholder text commonly used in the graphic, print, mockups.</h1>
-                                <p class="pb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda rem
-                                    iure, quidem neque quae
-                                    dolorem consequatur dolorum corrupti perspiciatis vero unde, doloribus temporibus itaque
-                                    maxime. Molestiae
-                                    vel enim ab dolor.</p>
-                                <a href="" class="ct-btn btn-yellow">Be a Member</a>
-                            </div>
-                            <div class="col-lg-6 hero-right">
-                                <img src="{{ asset('public/frontend/images/hero-img.png') }}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="hero-section ptb-70">
-                    <div class="container">
-                        <div class="row d-flex align-items-center">
-                            <div class="col-lg-6 hero-left mb-2 lg-mb-0">
-                                <h1>Lorem ipsum is placeholder text commonly used in the graphic, print, mockups.</h1>
-                                <p class="pb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda rem
-                                    iure, quidem neque quae
-                                    dolorem consequatur dolorum corrupti perspiciatis vero unde, doloribus temporibus itaque
-                                    maxime. Molestiae
-                                    vel enim ab dolor.</p>
-                                <a href="" class="ct-btn btn-yellow">Be a Member</a>
-                            </div>
-                            <div class="col-lg-6 hero-right">
-                                <img src="{{ asset('public/frontend/images/hero-img.png') }}" alt="">
+            @forelse ($global['banner'] as $banner)
+                <div class="item">
+                    <div class="hero-section ptb-70">
+                        <div class="container">
+                            <div class="row d-flex align-items-center">
+                                <div class="col-lg-6 hero-left mb-2 lg-mb-0">
+                                    <h1>{{ $banner->title }}</h1>
+                                    <p class="pb-3">{{ $banner->description }}</p>
+                                    <a href="" class="ct-btn btn-yellow">Be a Member</a>
+                                </div>
+                                <div class="col-lg-6 hero-right">
+                                    {{-- <img src="{{ asset('public/frontend/images/banner/') }}/{{$banner->image}}" alt=""> --}}
+                                    <img src="{{ asset('public/frontend/images/hero-img.png') }}" alt="">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @empty
+                <div class="item">
+                    <div class="hero-section ptb-70">
+                        <div class="container">
+                            <div class="row d-flex align-items-center">
+                                <div class="col-lg-6 hero-left mb-2 lg-mb-0">
+                                    <h1>Lorem ipsum is placeholder text commonly used in the graphic, print, mockups.</h1>
+                                    <p class="pb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda rem
+                                        iure, quidem neque quae
+                                        dolorem consequatur dolorum corrupti perspiciatis vero unde, doloribus temporibus
+                                        itaque
+                                        maxime. Molestiae
+                                        vel enim ab dolor.</p>
+                                    <a href="" class="ct-btn btn-yellow">Be a Member</a>
+                                </div>
+                                <div class="col-lg-6 hero-right">
+                                    <img src="{{ asset('public/frontend/images/hero-img.png') }}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforelse
+
+
         </div>
     </section>
     <!-- Hero Section End  -->
@@ -53,69 +56,79 @@
                 <div class="col-lg-6">
                     <div class="fixtures">
                         <div class="row gx-4 gy-5">
-                            <div class="col-6">
-                                <div class="fixtures-item fx1">
-                                    <div class="fixture-icon">
-                                        <img src="images/icons/fx1.png" alt="">
-                                    </div>
-                                    <div class="fixture-text">
-                                        <span>Donate for</span>
-                                        <h3>Children Education</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="fixtures-item fx2">
-                                    <div class="fixture-icon">
-                                        <img src="images/icons/fx3.png" alt="">
-                                    </div>
-                                    <div class="fixture-text">
-                                        <span>Donate for</span>
-                                        <h3>Children Education</h3>
+                            @forelse ($global['aboutus_feature'] as $index => $feature)
+                                <div class="col-6">
+                                    <div class="fixtures-item fx{{ ($index % 4) + 1 }}">
+                                        <div class="fixture-icon">
+                                            <img src="{{ asset('public/frontend/images/icons/') }}/{{$feature['icon']}}" alt="">
+                                            {{-- <img src="{{ asset('public/frontend/images/icons/fx1.png') }}" alt=""> --}}
+                                        </div>
+                                        <div class="fixture-text">
+                                            <span>{{$feature['subtitle']}}</span>
+                                            <h3>{{$feature['title']}}</h3>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="fixtures-item fx3">
-                                    <div class="fixture-icon">
-                                        <img src="images/icons/fx4.png" alt="">
-                                    </div>
-                                    <div class="fixture-text">
-                                        <span>Donate for</span>
-                                        <h3>Children Education</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="fixtures-item fx4">
-                                    <div class="fixture-icon">
-                                        <img src="images/icons/fx2.png" alt="">
-                                    </div>
-                                    <div class="fixture-text">
-                                        <span>Donate for</span>
-                                        <h3>Children Education</h3>
+                            @empty
+                                <div class="col-6">
+                                    <div class="fixtures-item fx1">
+                                        <div class="fixture-icon">
+                                            <img src="{{ asset('public/frontend/images/icons/fx1.png') }}" alt="">
+                                        </div>
+                                        <div class="fixture-text">
+                                            <span>Donate for</span>
+                                            <h3>Children Education</h3>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="col-6">
+                                    <div class="fixtures-item fx2">
+                                        <div class="fixture-icon">
+                                            <img src="{{ asset('public/frontend/images/icons/fx3.png') }}" alt="">
+                                        </div>
+                                        <div class="fixture-text">
+                                            <span>Donate for</span>
+                                            <h3>Children Education</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="fixtures-item fx3">
+                                        <div class="fixture-icon">
+                                            {{-- <img src="images/icons/fx4.png" alt=""> --}}
+                                            <img src="{{ asset('public/frontend/images/icons/fx4.png') }}" alt="">
+                                        </div>
+                                        <div class="fixture-text">
+                                            <span>Donate for</span>
+                                            <h3>Children Education</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="fixtures-item fx4">
+                                        <div class="fixture-icon">
+                                            <img src="{{ asset('public/frontend/images/icons/fx2.png') }}" alt="">
+                                            {{-- <img src="images/icons/fx2.png" alt=""> --}}
+                                        </div>
+                                        <div class="fixture-text">
+                                            <span>Donate for</span>
+                                            <h3>Children Education</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforelse
+
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 ps-lg-5 mt-4 mt-lg-0">
                     <div class="about-text">
                         <h5 class="sub-title">About Us</h5>
-                        <h2 class="section-title">A world where poverty will not exists</h2>
-                        <h4>We are the largest crowdfunding</h4>
+                        <h2 class="section-title">{{ $global['aboutus_content']->title ?? 'Please Upload It From Admin' }}
+                        </h2>
+                        <h4>{{ $global['aboutus_content']->slogan ?? 'Please Upload It From Admin' }}</h4>
                         <p>
-                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic
-                            or web designs. The passage is attributed to an unknown typesetter in the 15th century who is
-                            thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type
-                            specimen book. It usually begins with:</p>
-                        <p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.”</p>
-                        <p>The purpose of lorem ipsum is to create a natural looking block of text (sentence, paragraph,
-                            page, etc.) that doesn't distract from the layout. A practice not without controversy, laying
-                            out pages with meaningless filler text can be very useful when the focus is meant to be on
-                            design, not content.
+                            {{ $global['aboutus_content']->description ?? 'Please Upload It From Admin' }}
                         </p>
                         <a href="" class="ct-btn btn-yellow">Be a Member</a>
                     </div>
@@ -216,32 +229,28 @@
                 <div class="col-lg-6 mb-3 mb-lg-0">
                     <div class="single-big-event">
                         <div class="event-info">
-                            <img src="images/logo.png" alt="">
-                            <h4>Lorem ipsum is placeholder text commonly used in the graphic, print, mockups.</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            <img src="{{asset('public/frontend/images/'.$global['logo'])}}" alt="logo">
+                            <h4>{{ $global['aboutus_content']->title ?? 'Please Upload It From Admin' }}</h4>
+                            <p>{{ $global['aboutus_content']->description ?? 'Please Upload It From Admin' }}</p>
                         </div>
                         <div class="single-event">
                             <span class="mini-title mb-2 d-block">#Event2024</span>
-                            <h4 class="event-title"><a href="">Children Education</a></h4>
-                            <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            <h4 class="event-title"><a href="">{{$global['latest_event']->title}}</a></h4>
+                            <p class="line-clamp-3">{{$global['latest_event']->details}}</p>
                             <div class="event-date-time py-2">
                                 <div class="row">
                                     <div class="col-6 border-right">
                                         <div class="d-flex align-items-center">
-                                            <img src="images/icons/location.png" alt="">
+                                            <img src="{{asset('public/frontend/images/icons/location.png')}}" alt="">
                                             <div class="ms-2">
                                                 <span class="d-block fw-semibold">Location:</span>
-                                                <span>Banani, Dhaka</span>
+                                                <span>{{$global['latest_event']->location}}</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="d-flex d-flex align-items-center">
-                                            <img src="images/icons/time.png" alt="">
+                                            <img src="{{asset('public/frontend/images/icons/time.png')}}" alt="">
                                             <div class="ms-2">
                                                 <span class="d-block fw-semibold">Starts at:</span>
                                                 <span>10 am</span>

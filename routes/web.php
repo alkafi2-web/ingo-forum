@@ -106,4 +106,4 @@ Route::middleware(['admin'])->group(function () {
     // role route end
 });
 
-Route::get('/', [IndexController::class, 'index']);
+Route::get('/', [IndexController::class, 'index'])->name('frontend.index');

@@ -14,6 +14,7 @@ class EventController extends Controller
 {
     public function event(Request $request)
     {
+        
         if ($request->ajax()) {
             $events = Event::latest();;
 
