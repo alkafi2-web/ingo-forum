@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
+use Stevebauman\Purify\Facades\Purify;
 
 class PostController extends Controller
 {
@@ -84,10 +85,8 @@ class PostController extends Controller
 
     public function postList(Request $request)
     {
-        return $posts = Post::with('category', 'subcategory', 'addedBy')->get();
         if ($request->ajax()) {
-            
-            
+            $posts = Post::with('category', 'subcategory', 'addedBy')->get();
             // Format data for DataTables
             return DataTables::of($posts)
                 ->addColumn('category_name', function ($post) {
@@ -99,8 +98,44 @@ class PostController extends Controller
                 ->addColumn('added_by', function ($post) {
                     return $post->addedBy->name;
                 })
+                // ->addColumn('long_des2', function ($post) {
+                //     $sanitizedContent = Purify::clean($post->long_des);
+                //     return $sanitizedContent;
+                // })
                 ->make(true);
         }
         return view('admin.post.post-list');
+    }
+
+    public function postDelete(Request $request)
+    {
+        $post = Post::findOrFail($request->id);
+        $bannerImagePath = public_path('/frontend/images/posts/') . $post->banner;
+        // Delete the image file if it exists
+        if (file_exists($bannerImagePath)) {
+            unlink($bannerImagePath);
+        }
+
+        // Delete the banner record
+        $post->delete();
+
+        return response()->json(['success' => 'Post deleted successfully']);
+    }
+
+    public function postStatus(Request $request)
+    {
+        // Find the banner by ID or throw an exception if not found
+        $post = Post::findOrFail($request->id);
+
+        // Toggle the status
+        $newStatus = $request->status == 0 ? 1 : 0;
+
+        // Update the status attribute
+        $post->status = $newStatus;
+
+        // Save the changes to the database
+        $post->save();
+
+        return response()->json(['success' => 'Post status updated successfully']);
     }
 }

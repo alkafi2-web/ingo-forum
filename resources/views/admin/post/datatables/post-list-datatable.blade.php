@@ -58,8 +58,34 @@
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'slug',
-                        name: 'slug'
+                        data: 'category_name',
+                        name: 'category_name'
+                    },
+                    {
+                        orderable: true,
+                        sortable: false,
+                        data: 'subcategory_name',
+                        name: 'subcategory_name'
+                    },
+                    {
+                        orderable: true,
+                        sortable: false,
+                        data: 'short_des',
+                        name: 'short_des',
+                        render: function(data, type, row, meta) {
+                            console.log("Render Function Data: ", data);
+                            return $('<div/>').html(data).text();
+                        }
+                    },
+                    {
+                        data: 'banner',
+                        name: 'banner',
+                        orderable: true,
+                        sortable: false,
+                        render: function(data, type, row) {
+                            let basePath = '{{ asset('public/frontend/images/posts/') }}/'
+                            return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
+                        }
                     },
                     {
                         data: 'status',
@@ -77,13 +103,18 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            return `
-                            <a href="javascript:void(0)" class="edit text-primary mr-2 me-2 " data-id="${row.id}">
-                                <i class="fas fa-edit text-primary" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
-                            </a>
-                            <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}">
-                                <i class="fas fa-trash text-danger" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
-                            </a>`;
+                            return `<div style="display: flex; align-items: center;">
+                                        <a href="javascript:void(0)" class="view text-info mr-2 me-2" data-id="${row.id}">
+                                            <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" class="edit text-primary mr-2 me-2" data-id="${row.id}" style="margin-right: 10px;">
+                                            <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}" style="margin-right: 10px;">
+                                            <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
+                                        </a>
+                                        
+                                    </div>`;
                         }
                     }
 
@@ -149,7 +180,7 @@
                     $('#add-header').text('Update Post Category');
                     $('#name').val(category.name);
                     $('#category-update').removeClass('d-none');
-                    $('#category-update').attr('data-id',category.id);
+                    $('#category-update').attr('data-id', category.id);
                     $('#category-submit').addClass('d-none');
                 },
                 error: function(xhr, status, error) {
@@ -162,11 +193,11 @@
             e.preventDefault(); // Prevent default link behavior
 
             var id = $(this).attr('data-id');
-            var url = "{{ route('category.delete') }}";
+            var url = "{{ route('post.delete') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will delete this post category!',
+                text: 'This action will delete this Post!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',
@@ -186,11 +217,11 @@
 
             var id = $(this).attr('data-id'); // Get the URL from the href attribute
             var status = $(this).attr('data-status');
-            var url = "{{ route('category.status') }}";
+            var url = "{{ route('post.status') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will change status of this banner!',
+                text: 'This action will change status of this Post!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, Change it!',
@@ -236,6 +267,5 @@
                 }
             });
         }
-
     </script>
 @endpush
