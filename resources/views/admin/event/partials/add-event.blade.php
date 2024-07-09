@@ -16,16 +16,24 @@
         </div>
     </div>
     <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="location" class="text-3xl">Event Location</label>
+                <textarea class="form-control" id="location" name="location" rows="2">{{ old('location') }}</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
         <div class="col-md-6">
             <div class="form-group">
                 <label for="start_date" class="text-3xl">Event Start Date</label>
-                <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date') }}">
+                <input type="datetime-local" class="form-control" id="start_date" name="start_date" value="{{ old('start_date') }}">
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="end_date" class="text-3xl">Event End Date</label>
-                <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date') }}">
+                <input type="datetime-local" class="form-control" id="end_date" name="end_date" value="{{ old('end_date') }}">
             </div>
         </div>
     </div>
@@ -33,7 +41,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="deadline_date" class="text-3xl">Registrtaion Deadline</label>
-                <input type="date" class="form-control" id="deadline_date" name="deadline_date" value="{{ old('deadline_date') }}">
+                <input type="datetime-local" class="form-control" id="deadline_date" name="deadline_date" value="{{ old('deadline_date') }}">
             </div>
         </div>
         {{-- <div class="col-md-6">
@@ -121,7 +129,7 @@
                         $('#pp').attr('src', '');
                         $('#event-data').DataTable().ajax.reload(null, false);
                         $('#event-submit').removeClass('d-none');
-                        $('#banner-update ').addClass('d-none');
+                        $('#event-update ').addClass('d-none');
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;

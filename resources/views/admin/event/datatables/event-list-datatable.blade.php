@@ -184,6 +184,7 @@
                     $('#add-header').text('Update Event');
                     $('#title').val(event.title);
                     $('#des').val(event.details);
+                    $('#location').val(event.location);
                     $('#start_date').val(event.start_date);
                     $('#end_date').val(event.end_date);
                     $('#deadline_date').val(event.reg_dead_line);

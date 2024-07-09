@@ -1,5 +1,9 @@
 @extends('frontend.layouts.front-end-layout')
 @section('fontend-section')
+    @php
+        use Carbon\Carbon;
+        use Illuminate\Support\Str;
+    @endphp
     <!-- Hero Section Start  -->
     <section>
         <div class="owl-carousel owl-theme hero-slider">
@@ -60,12 +64,13 @@
                                 <div class="col-6">
                                     <div class="fixtures-item fx{{ ($index % 4) + 1 }}">
                                         <div class="fixture-icon">
-                                            <img src="{{ asset('public/frontend/images/icons/') }}/{{$feature['icon']}}" alt="">
+                                            <img src="{{ asset('public/frontend/images/icons/') }}/{{ $feature['icon'] }}"
+                                                alt="">
                                             {{-- <img src="{{ asset('public/frontend/images/icons/fx1.png') }}" alt=""> --}}
                                         </div>
                                         <div class="fixture-text">
-                                            <span>{{$feature['subtitle']}}</span>
-                                            <h3>{{$feature['title']}}</h3>
+                                            <span>{{ $feature['subtitle'] }}</span>
+                                            <h3>{{ $feature['title'] }}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -229,31 +234,35 @@
                 <div class="col-lg-6 mb-3 mb-lg-0">
                     <div class="single-big-event">
                         <div class="event-info">
-                            <img src="{{asset('public/frontend/images/'.$global['logo'])}}" alt="logo">
+                            <img src="{{ asset('public/frontend/images/' . $global['logo']) }}" alt="logo">
                             <h4>{{ $global['aboutus_content']->title ?? 'Please Upload It From Admin' }}</h4>
                             <p>{{ $global['aboutus_content']->description ?? 'Please Upload It From Admin' }}</p>
                         </div>
                         <div class="single-event">
-                            <span class="mini-title mb-2 d-block">#Event2024</span>
-                            <h4 class="event-title"><a href="">{{$global['latest_event']->title}}</a></h4>
-                            <p class="line-clamp-3">{{$global['latest_event']->details}}</p>
+                            <span
+                                class="mini-title mb-2 d-block">#Event{{ Carbon::parse($global['latest_event']->start_date??'')->format('Y') }}</span>
+                            <h4 class="event-title"><a href="">{{ $global['latest_event']->title??'' }}</a></h4>
+                            <p class="line-clamp-3">{{ Str::limit($global['latest_event']->details??'', 200) }}</p>
                             <div class="event-date-time py-2">
                                 <div class="row">
                                     <div class="col-6 border-right">
                                         <div class="d-flex align-items-center">
-                                            <img src="{{asset('public/frontend/images/icons/location.png')}}" alt="">
+                                            <img src="{{ asset('public/frontend/images/icons/location.png') }}"
+                                                alt="">
                                             <div class="ms-2">
                                                 <span class="d-block fw-semibold">Location:</span>
-                                                <span>{{$global['latest_event']->location}}</span>
+                                                <span>{{ $global['latest_event']->location??'' }}</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="d-flex d-flex align-items-center">
-                                            <img src="{{asset('public/frontend/images/icons/time.png')}}" alt="">
+                                            <img src="{{ asset('public/frontend/images/icons/time.png') }}"
+                                                alt="">
                                             <div class="ms-2">
                                                 <span class="d-block fw-semibold">Starts at:</span>
-                                                <span>10 am</span>
+                                                <span>{{ Carbon::parse($global['latest_event']->start_date??'')->format('h A') }}</span>
+                                                {{-- <span>10 am</span> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -265,7 +274,51 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="row gy-3">
-                        <div class="col-12">
+                        @forelse ($global['events'] as $event)
+                            <div class="col-12">
+                                <div class="event-item">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <span
+                                                class="mini-title mb-2 d-block">#Event{{ Carbon::parse($event->start_date)->format('Y') }}</span>
+                                            <h4 class="event-title"><a href="">{{ $event->title }}</a></h4>
+                                            <p class="line-clamp-2 mb-0 pb-1">{{ Str::limit($event->details, 150) }}</p>
+                                        </div>
+                                        <div class="col-3 bg-event-date">
+                                            <div class="event-item-date position-relative">
+                                                <div class="position-absolute event-date-card text-center">
+                                                    <span class="date-event d-block">{{ Carbon::parse($event->start_date)->format('d') }}</span>
+                                                    <span class="date-month">{{ Carbon::parse($event->start_date)->format('M') }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="event-date-time py-1">
+                                            <div class="row">
+                                                <div class="col-6 border-right">
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="{{ asset('public/frontend/images/icons/location.png') }}" alt="">
+                                                        <div class="ms-2">
+                                                            <span class="d-block fw-semibold">Location:</span>
+                                                            <span>{{$event->location}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="d-flex d-flex align-items-center">
+                                                        <img src="{{ asset('public/frontend/images/icons/time.png') }}" alt="">
+                                                        <div class="ms-2">
+                                                            <span class="d-block fw-semibold">Starts at:</span>
+                                                            <span>{{ Carbon::parse($event->start_date)->format('h A') }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            {{-- <div class="col-12">
                             <div class="event-item">
                                 <div class="row">
                                     <div class="col-9">
@@ -399,7 +452,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
+                        @endforelse
+
                     </div>
                 </div>
             </div>

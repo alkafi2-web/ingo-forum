@@ -14,7 +14,7 @@ class EventController extends Controller
 {
     public function event(Request $request)
     {
-        
+
         if ($request->ajax()) {
             $events = Event::latest();;
 
@@ -26,6 +26,7 @@ class EventController extends Controller
 
     public function eventCreate(Request $request)
     {
+        // return $request->all();
         // Validate incoming request
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
@@ -33,7 +34,7 @@ class EventController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'deadline_date' => 'required|date|before:end_date',
-            // 'reg_fee' => 'required|string',
+            'location' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
         ], [
             // Custom error messages
@@ -47,7 +48,7 @@ class EventController extends Controller
             'deadline_date.required' => 'Deadline Date is required.',
             'deadline_date.date' => 'Deadline Date must be a valid date.',
             'deadline_date.after' => 'Deadline Date must be after End Date.',
-            // 'reg_fee.required' => 'Registration Fee is required.',
+            'location.required' => 'Location Fee is required.',
             'image.required' => 'Image is required.',
             'image.image' => 'Image must be an image file.',
             'image.mimes' => 'Image must be a JPEG, PNG, JPG, or GIF image.',
@@ -71,11 +72,10 @@ class EventController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'reg_dead_line' => $request->deadline_date,
-            // 'reg_fee' => $request->reg_fee,
+            'location' => $request->location,
             'media' => $imageName ?? null, // Save image name or path to database
         ]);
         return response()->json(['success' => ['success' => 'You have successfully Create Event!']]);
-        // return $request->all();
     }
 
     public function eventDelete(Request $request)
@@ -127,6 +127,7 @@ class EventController extends Controller
             'title' => 'required|string|max:255',
             'des' => 'required|string',
             'start_date' => 'required|date',
+            'location' => 'required|string',
             'end_date' => 'required|date|after:start_date',
             'deadline_date' => 'required|date|before:end_date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
@@ -134,7 +135,7 @@ class EventController extends Controller
             // Custom error messages
             'id.required' => 'Event ID is required.',
             'id.exists' => 'Event not found.',
-
+            'location.required' => 'Location Fee is required.',
             'title.required' => 'Title is required.',
             'des.required' => 'Description is required.',
             'start_date.required' => 'Start Date is required.',
@@ -190,6 +191,7 @@ class EventController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'reg_dead_line' => $request->deadline_date,
+            'location' => $request->location,
         ]);
 
         return response()->json(['success' => ['success' => 'Event updated successfully']]);

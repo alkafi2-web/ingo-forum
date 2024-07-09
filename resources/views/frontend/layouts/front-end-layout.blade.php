@@ -21,7 +21,7 @@
 </head>
 
 <body>
-
+    
     <!-- Header Section Start  -->
     @include('frontend.partials.header')
     <!-- Header Section end  -->
@@ -35,7 +35,8 @@
     <script src="{{ asset('public/frontend/js/jquery.min.js') }}"></script>
     <script src="{{ asset('public/frontend/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('public/frontend/js/fontawesome.min.js') }}"></script>
-    <script src="https://cdn.tiny.cloud/1/emwvn1hivgqh9y7ups8vvy1id0vs2af4uh2rjhhtt1gpmjuj/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/emwvn1hivgqh9y7ups8vvy1id0vs2af4uh2rjhhtt1gpmjuj/tinymce/7/tinymce.min.js"
+        referrerpolicy="origin"></script>
     <script src="{{ asset('public/frontend/js/all.min.js') }}"></script>
     <script src="{{ asset('public/frontend/js/owl-carousel/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('public/frontend/js/photo-gallery/unitegallery.min.js') }}"></script>
