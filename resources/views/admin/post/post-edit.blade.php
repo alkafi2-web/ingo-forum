@@ -1,6 +1,6 @@
 @extends('admin.layouts.backend-layout')
 @section('breadcame')
-    Post Create
+    Post Update
 @endsection
 @section('admin-content')
     <style>
@@ -27,10 +27,10 @@
         <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="mt-5">Post Create</h2>
+                    <h2 class="mt-5">Post Update</h2>
                 </div>
                 <div class="card-body">
-                    <form action="/submit-form" id="postForm" method="POST" enctype="multipart/form-data">
+                    <form action="/submit-form" id="postUpdateForm" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-6">
                                 <!-- Category -->
@@ -39,7 +39,9 @@
                                     <select id="category" name="category" class="form-control mt-3" required>
                                         <option value="">-- Select Category --</option>
                                         @forelse ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option value="{{ $category->id }}"
+                                                {{ $post->category_id == $category->id ? 'selected' : '' }}>
+                                                {{ $category->name }}</option>
                                         @empty
                                             <option value="">There is No Category</option>
                                         @endforelse
@@ -62,13 +64,15 @@
                                 <!-- Title -->
                                 <div class="form-group mt-3">
                                     <label for="title">Title</label>
-                                    <input type="text" id="title" name="title" class="form-control mt-3" required>
+                                    <input type="text" id="title" name="title" class="form-control mt-3" required
+                                        value="{{ $post->title }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mt-3">
                                     <label for="slug">Slug</label>
-                                    <input type="text" id="slug" name="slug" class="form-control mt-3" required>
+                                    <input type="text" id="slug" name="slug" class="form-control mt-3" required
+                                        value="{{ $post->slug }}">
                                 </div>
                             </div>
                         </div>
@@ -78,13 +82,13 @@
                         <!-- Short Description -->
                         <div class="form-group mt-3">
                             <label for="short_description" class="mb-3">Short Description</label>
-                            <textarea id="short_description" name="short_description" class="form-control mt-5" rows="1" required></textarea>
+                            <textarea id="short_description" name="short_description" class="form-control mt-5" rows="1" required>{{ $post->short_des ?? '' }}</textarea>
                         </div>
 
                         <!-- Long Description -->
                         <div class="form-group mt-3">
                             <label for="long_description" class="mb-3">Long Description</label>
-                            <textarea id="long_description" name="long_description" class="form-control mt-5" rows="7" required></textarea>
+                            <textarea id="long_description" name="long_description" class="form-control mt-5" rows="7" required>{{ $post->long_des ?? '' }}</textarea>
                         </div>
 
                         <!-- Banner -->
@@ -92,12 +96,14 @@
                             <label for="banner" class="">Banner</label>
                             <input type="file" id="banner" name="banner" class="form-control mt-3" required
                                 oninput="pp.src=window.URL.createObjectURL(this.files[0])">
-                            <img id="pp" width="200" class="float-start mt-3" src="">
+                            <img id="pp" width="200" class="float-start mt-3"
+                                src="{{ asset('/public/frontend/images/posts/') }}/{{ $post->banner }}">
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group mt-3">
-                                    <button type="" id="submit" class="btn btn-primary mt-4">Submit</button>
+                                    <input type="hidden" id="id" name="id" value="{{ $post->id }}">
+                                    <button type="" id="update" class="btn btn-primary mt-4">Update</button>
                                 </div>
                             </div>
                         </div>
@@ -116,25 +122,38 @@
         CKEDITOR.replace('long_description');
         $(document).ready(function() {
             var categories = @json($categories);
+            var postId = '{{ $post->id }}';
+            var selectedCategoryId = '{{ $post->category_id }}';
+            var selectedSubcategoryId = '{{ $post->sub_category_id }}';
 
             $('#category').on('change', function() {
                 var categoryId = $(this).val();
-                var subcategories = categories.find(category => category.id == categoryId).subcategories;
+                var subcategories = [];
+
+                if (categoryId) {
+                    subcategories = categories.find(category => category.id == categoryId).subcategories;
+                }
 
                 $('#subcategory').empty().append('<option value="">-- Select Subcategory --</option>');
 
                 subcategories.forEach(function(subcategory) {
+                    var selected = (subcategory.id == selectedSubcategoryId) ? 'selected' : '';
                     $('#subcategory').append(
-                        `<option value="${subcategory.id}">${subcategory.name}</option>`);
+                        `<option value="${subcategory.id}" ${selected}>${subcategory.name}</option>`
+                    );
                 });
             });
+
+            // Trigger change event on page load to populate subcategories based on selected category
+            $('#category').val(selectedCategoryId).trigger('change');
         });
 
         $(document).ready(function() {
 
-            $('#submit').on('click', function(e) {
+            $('#update').on('click', function(e) {
                 e.preventDefault();
-                let url = "{{ route('post.store') }}";
+                let url = "{{ route('post.update') }}";
+                let id = $('#id').val();
                 let category = $('#category').val();
                 let subcategory = $('#subcategory').val();
                 let title = $('#title').val();
@@ -151,7 +170,10 @@
                 formData.append('slug', slug);
                 formData.append('long_description', long_description);
                 formData.append('short_description', short_description);
-                formData.append('banner', banner);
+                if (banner) {
+                    formData.append('banner', banner);
+                }
+                formData.append('id', id);
                 $.ajax({
                     type: 'POST',
                     url: url,
@@ -167,14 +189,14 @@
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
                         });
-                        $('#postForm')[0].reset();
-                        var long_description = CKEDITOR.instances['long_description'];
-                        long_description.setData('');
-                        long_description.focus();
-                        var short_description = CKEDITOR.instances['short_description'];
-                        short_description.setData('');
-                        short_description.focus();
-                        $('#pp').attr('src', '');
+                        // $('#postUpdateForm')[0].reset();
+                        // var long_description = CKEDITOR.instances['long_description'];
+                        // long_description.setData('');
+                        // long_description.focus();
+                        // var short_description = CKEDITOR.instances['short_description'];
+                        // short_description.setData('');
+                        // short_description.focus();
+                        // $('#pp').attr('src', '');
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;

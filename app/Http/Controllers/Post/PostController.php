@@ -138,4 +138,83 @@ class PostController extends Controller
 
         return response()->json(['success' => 'Post status updated successfully']);
     }
+
+    public function postEdit($id)
+    {
+        $categories = PostCategory::where('status', 1)->with('subcategories')->get();
+        $post = Post::with(['category', 'subcategory'])->where('id', $id)->firstOrFail();
+        return view('admin.post.post-edit', [
+            'post' => $post,
+            'categories' => $categories,
+        ]);
+    }
+
+    public function postUpdate(Request $request)
+    {
+        
+        // Validate incoming request data
+        $validator = Validator::make($request->all(), [
+            'category' => 'required', // Example validation rule
+            'subcategory' => 'required',
+            'title' => 'required|string|max:255',
+            'slug' => [
+                'nullable',
+                'string',
+                'max:255',
+                'unique:posts,slug,' . $request->id, // Ensure slug is unique except for current post
+                // Regex pattern to allow only alphanumeric characters and dashes
+                'regex:/^[a-zA-Z0-9\-]*$/u',
+            ],
+            'long_description' => 'required|string',
+            // 'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
+        ], [
+            // Custom error messages
+            'category.required' => 'Category is required.',
+            'subcategory.required' => 'Subcategory is required.',
+            'title.required' => 'Title is required.',
+            'slug.required' => 'Slug is required.',
+            'slug.unique' => 'Slug must be unique.',
+            'slug.regex' => 'Slug must only contain letters, numbers, and dashes.',
+            'long_description.required' => 'Long description is required.',
+            'banner.image' => 'Banner must be an image file.',
+            'banner.mimes' => 'Banner must be a JPEG, PNG, JPG, or GIF image.',
+            'banner.max' => 'Banner size should not exceed 2MB.',
+        ]);
+
+        // Check validation results
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422); // Validation failed
+        }
+        $post = Post::findOrFail($request->id);
+        $bannerName = null;
+        if ($request->hasFile('banner')) {
+            $banner = $request->file('banner');
+            $bannerName = Str::uuid() . '.' . $banner->getClientOriginalExtension();
+            $dir = public_path('/frontend/images/posts/');
+
+            $bannerImagePath = public_path('/frontend/images/posts/') . $post->banner;
+            // Delete the image file if it exists
+            if (file_exists($bannerImagePath)) {
+                unlink($bannerImagePath);
+            }
+            // Ensure the directory exists
+            if (!File::exists($dir)) {
+                File::makeDirectory($dir, 0755, true);
+            }
+
+            // Move new image to directory
+            $banner->move($dir, $bannerName);
+        }
+        $post->category_id = $request->category;
+        $post->sub_category_id = $request->subcategory;
+        $post->title = $request->title;
+        $post->slug = $request->slug ?? Str::slug($request->title, '-');
+        $post->short_des = $request->short_description;
+        $post->long_des = $request->long_description;
+        if ($bannerName) {
+            $post->banner = $bannerName;
+        }
+        $post->save();
+        return response()->json(['success' => ['success' => 'Post Update Successfully']]);
+    }
 }

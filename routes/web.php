@@ -80,6 +80,8 @@ Route::middleware(['admin'])->group(function () {
             Route::get('/list', [PostController::class, 'postList'])->name('post.list');
             Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
             Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');
+            Route::get('/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
+            Route::post('/update', [PostController::class, 'postUpdate'])->name('post.update');
         });
     });
     // post menagement route end
