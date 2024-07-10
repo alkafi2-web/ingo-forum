@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div data-kt-menu-trigger="click"
-                    class="menu-item menu-accordion {{ Route::currentRouteName() == 'media.album' || Route::currentRouteName() == 'banner' || Route::currentRouteName() == 'aboutus' ? 'hover show' : '' }}">
+                    class="menu-item menu-accordion {{ Route::currentRouteName() == 'media.album' || Route::currentRouteName() == 'photo' || Route::currentRouteName() == 'aboutus' ? 'hover show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -149,7 +149,7 @@
                         <span class="menu-arrow"></span>
                     </span>
                     <div
-                        class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'media.album' || Route::currentRouteName() == 'banner' || Route::currentRouteName() == 'aboutus' ? 'hover show' : '' }}">
+                        class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'media.album' || Route::currentRouteName() == 'photo' || Route::currentRouteName() == 'aboutus' ? 'hover show' : '' }}">
                         <a class="menu-item menu-accordion" href="{{ route('media.album') }}">
                             <span class="menu-link {{ Route::currentRouteName() == 'media.album' ? 'active' : '' }}">
                                 <span class="menu-bullet">
@@ -158,8 +158,8 @@
                                 <span class="menu-title">Photo Album</span>
                             </span>
                         </a>
-                        <a class="menu-item menu-accordion" href="{{ route('banner') }}">
-                            <span class="menu-link {{ Route::currentRouteName() == 'banner' ? 'active' : '' }}">
+                        <a class="menu-item menu-accordion" href="{{ route('photo') }}">
+                            <span class="menu-link {{ Route::currentRouteName() == 'photo' ? 'active' : '' }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>

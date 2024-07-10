@@ -116,6 +116,14 @@ Route::middleware(['admin'])->group(function () {
             Route::post('/edit', [MediaController::class, 'albumEdit'])->name('album.edit');
             Route::post('/update', [MediaController::class, 'albumUpdate'])->name('album.update');
         });
+        Route::prefix('photo')->group(function () {
+            Route::get('/', [MediaController::class, 'photoIndex'])->name('photo');
+            Route::post('/create', [MediaController::class, 'photoCreate'])->name('photo.create');
+            // Route::post('/delete', [MediaController::class, 'albumDelete'])->name('album.delete');
+            // Route::post('/status', [MediaController::class, 'albumStatus'])->name('album.status');
+            // Route::post('/edit', [MediaController::class, 'albumEdit'])->name('album.edit');
+            // Route::post('/update', [MediaController::class, 'albumUpdate'])->name('album.update');
+        });
     });
     // media route end
 });
