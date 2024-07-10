@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Content\AboutusController;
 use App\Http\Controllers\Content\BannerController;
+use App\Http\Controllers\Content\MediaController;
 use App\Http\Controllers\Content\SystemController;
 use App\Http\Controllers\Event\EventController;
 use App\Http\Controllers\Frontend\IndexController;
@@ -104,6 +105,19 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/', [RoleController::class, 'role'])->name('role');
     });
     // role route end
+
+    // media route start
+    Route::prefix('media')->group(function () {
+        Route::prefix('album')->group(function () {
+            Route::get('/album', [MediaController::class, 'mediaAlbum'])->name('media.album');
+            Route::post('/create', [MediaController::class, 'albumCreate'])->name('album.create');
+            Route::post('/delete', [MediaController::class, 'albumDelete'])->name('album.delete');
+            Route::post('/status', [MediaController::class, 'albumStatus'])->name('album.status');
+            Route::post('/edit', [MediaController::class, 'albumEdit'])->name('album.edit');
+            Route::post('/update', [MediaController::class, 'albumUpdate'])->name('album.update');
+        });
+    });
+    // media route end
 });
 
 Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
