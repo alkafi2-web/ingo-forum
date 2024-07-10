@@ -1,7 +1,7 @@
 <div class="table-responsive table-container">
     <!--begin::Table-->
     <table class="table election-datatable align-middle table-bordered fs-6 gy-5 m-auto display responsive"
-        id="post-list-data">
+        id="event-data">
         <!--begin::Table head-->
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
@@ -9,16 +9,13 @@
                     {{ __('Title') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Category') }}
+                    {{ __('Details') }}
                 </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Subcategory') }}
+                <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                    {{ __('Event Date') }}
                 </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Description') }}
-                </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Banner') }}
+                <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                    {{ __('Event Image') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Status') }}
@@ -39,11 +36,11 @@
 @push('custom-js')
     <script>
         $(document).ready(function() {
-            var table = $('#post-list-data').DataTable({
+            var table = $('#event-data').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('post.list') }}",
+                    url: "{{ route('event') }}",
                     type: 'GET',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -58,54 +55,40 @@
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'category_name',
-                        name: 'category_name'
+                        data: 'details',
+                        name: 'details'
                     },
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'subcategory_name',
-                        name: 'subcategory_name'
-                    },
-                    {
-                        orderable: true,
-                        sortable: false,
-                        data: 'short_des',
-                        name: 'short_des',
-                        render: function(data, type, row, meta) {
-                            console.log("Render Function Data: ", data);
-                            return $('<div/>').html(data).text();
+                        name: 'event_details',
+                        render: function(data, type, row) {
+                            // Format dates
+                            const startDate = new Date(row.start_date).toLocaleDateString();
+                            const endDate = new Date(row.end_date).toLocaleDateString();
+                            const deadlineDate = new Date(row.reg_dead_line).toLocaleDateString();
+
+                            // Format registration fee if applicable
+                            const regFee = row.reg_fee ? `$${parseFloat(row.reg_fees).toFixed(2)}` :
+                                'Free';
+
+                            // Return formatted string with user-friendly text
+                            return `
+                                    <div>
+                                        <div><strong>Start Date:</strong> ${startDate}</div>
+                                        <div><strong>End Date:</strong> ${endDate}</div>
+                                        <div><strong>Registration Deadline:</strong> ${deadlineDate}</div>
+                                    </div>
+                                `;
                         }
                     },
-                    // {
-                    //     orderable: true,
-                    //     sortable: false,
-                    //     data: 'long_des',
-                    //     name: 'long_des',
-                    //     render: function(data, type, row, meta) {
-                    //         console.log("Render Function Data: ", data);
-
-                    //         // Create a temporary DOM element to work with HTML content
-                    //         var tempDiv = $('<div/>').html(data);
-
-                    //         // Remove image tags from the content
-                    //         tempDiv.find('img').remove();
-
-                    //         // Get the text content and truncate it to 300 characters
-                    //         var textContent = tempDiv.text();
-                    //         var truncatedText = textContent.length > 300 ? textContent.substring(0,
-                    //             300) + '...' : textContent;
-
-                    //         return truncatedText;
-                    //     }
-                    // },
                     {
-                        data: 'banner',
-                        name: 'banner',
+                        data: 'media',
+                        name: 'media',
                         orderable: true,
                         sortable: false,
                         render: function(data, type, row) {
-                            let basePath = '{{ asset('public/frontend/images/posts/') }}/'
+                            let basePath = '{{ asset('public/frontend/images/events/') }}/'
                             return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
                         }
                     },
@@ -125,18 +108,16 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            var editRoute = '{{ route("post.edit", ":id") }}'.replace(':id', row.id);
-                            return `<div style="display: flex; align-items: center;">
-                                        <a href="javascript:void(0)" class="view text-info mr-2 me-2" data-id="${row.id}">
-                                            <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
-                                        </a>
-                                        <a href="${editRoute}" class="edit text-primary mr-2 me-2" data-id="${row.id}" style="margin-right: 10px;">
-                                            <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}" style="margin-right: 10px;">
-                                            <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
-                                        </a>
-                                    </div>`;
+                            return `
+                            <a href="javascript:void(0)" class="view text-info mr-2 me-2" data-id="${row.id}">
+                                <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
+                            </a>
+                            <a href="javascript:void(0)" class="edit text-primary mr-2 me-2 " data-id="${row.id}">
+                                <i class="fas fa-edit text-primary" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
+                            </a>
+                            <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}">
+                                <i class="fas fa-trash text-danger" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
+                            </a>`;
                         }
                     }
 
@@ -179,19 +160,56 @@
                         orderable: true
                     }
                 ],
-                responsive: true,
+                // responsive: true,
 
+            });
+        });
+        $(document).on('click', '.edit', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+
+            var id = $(this).attr('data-id');
+            var url = "{{ route('event.edit') }}";
+            $.ajax({
+                url: url,
+                type: 'POST', // or 'GET' depending on your server endpoint
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    id: id
+                }, // You can send additional data if needed
+                success: function(response) {
+                    console.log(response.event);
+                    var event = response.event;
+                    $('#add-header').text('Update Event');
+                    $('#title').val(event.title);
+                    $('#des').val(event.details);
+                    $('#location').val(event.location);
+                    $('#start_date').val(event.start_date);
+                    $('#end_date').val(event.end_date);
+                    $('#deadline_date').val(event.reg_dead_line);
+                    let basePath = '{{ asset('public/frontend/images/events/') }}/'
+                    var imagePath = basePath + event.media;
+                    $('#pp').attr('src', imagePath);
+                    $('#event-update').removeClass('d-none');
+                    $('#event-update').attr('data-id', event.id);
+                    $('#event-submit').addClass('d-none');
+                },
+                error: function(xhr, status, error) {
+                    // Handle AJAX error
+                    Swal.fire('Error!', 'An error occurred.', 'error');
+                }
             });
         });
         $(document).on('click', '.delete', function(e) {
             e.preventDefault(); // Prevent default link behavior
 
             var id = $(this).attr('data-id');
-            var url = "{{ route('post.delete') }}";
+            var url = "{{ route('event.delete') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will delete this Post!',
+                text: 'This action will delete this event!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',
@@ -211,11 +229,11 @@
 
             var id = $(this).attr('data-id'); // Get the URL from the href attribute
             var status = $(this).attr('data-status');
-            var url = "{{ route('post.status') }}";
+            var url = "{{ route('event.status') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will change status of this Post!',
+                text: 'This action will change status of this event!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, Change it!',
@@ -250,7 +268,7 @@
                 data: requestData, // You can send additional data if needed
                 success: function(response) {
 
-                    $('#post-list-data').DataTable().ajax.reload(null, false);
+                    $('#event-data').DataTable().ajax.reload(null, false);
                     // Swal.fire('Success!', response.success,
                     //     'success');
                     toastr.success(response.success);

@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Content\AboutusController;
 use App\Http\Controllers\Content\BannerController;
 use App\Http\Controllers\Content\SystemController;
+use App\Http\Controllers\Event\EventController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Post\CategoryController;
 use App\Http\Controllers\Post\PostController;
@@ -35,6 +36,7 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/update', [BannerController::class, 'bannerUpdate'])->name('banner.update');
     });
     // banner route end
+
     // content manegment route start
     Route::prefix('system-content')->group(function () {
         Route::get('/', [SystemController::class, 'index'])->name('system');
@@ -80,9 +82,22 @@ Route::middleware(['admin'])->group(function () {
             Route::get('/list', [PostController::class, 'postList'])->name('post.list');
             Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
             Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');
+            Route::get('/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
+            Route::post('/update', [PostController::class, 'postUpdate'])->name('post.update');
         });
     });
     // post menagement route end
+
+    // event managment route start
+    Route::prefix('event')->group(function () {
+        Route::get('/', [EventController::class, 'event'])->name('event');
+        Route::post('/create', [EventController::class, 'eventCreate'])->name('event.create');
+        Route::post('/delete', [EventController::class, 'eventDelete'])->name('event.delete');
+        Route::post('/status', [EventController::class, 'eventStatus'])->name('event.status');
+        Route::post('/edit', [EventController::class, 'eventEdit'])->name('event.edit');
+        Route::post('/update', [EventController::class, 'eventUpdate'])->name('event.update');
+    });
+    // event managment route end
 
     // role route start
     Route::prefix('role')->group(function () {
@@ -91,4 +106,4 @@ Route::middleware(['admin'])->group(function () {
     // role route end
 });
 
-Route::get('/', [IndexController::class, 'index']);
+Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
