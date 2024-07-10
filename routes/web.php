@@ -10,6 +10,7 @@ use App\Http\Controllers\Post\CategoryController;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\Post\SubCategoryController;
 use App\Http\Controllers\Role\RoleController;
+use App\Http\Controllers\Content\PageController;
 use App\Http\Middleware\adminMiddleware;
 use Illuminate\Support\Facades\Route;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
@@ -25,6 +26,13 @@ Route::middleware(['admin'])->group(function () {
     //user managment start
     Route::get('/create-user', [AuthController::class, 'createUser'])->name('createUser');
     //user managment end
+
+    // page route start
+    Route::prefix('page')->group(function () {
+        Route::get('/', [PageController::class, 'index'])->name('admin.page
+        ');
+    });
+    // page route end
 
     // banner route start
     Route::prefix('banner')->group(function () {
