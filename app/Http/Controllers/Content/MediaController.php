@@ -204,4 +204,94 @@ class MediaController extends Controller
         }
         return response()->json(['success' => ['success' => 'You have successfully Add Photo In Album!']]);
     }
+
+    public function photoDelete(Request $request)
+    {
+        $photo = MediaGallery::findOrFail($request->id);
+        $photoImagePath = public_path('/frontend/images/photo-gallery/') . $photo->media;
+        // Delete the image file if it exists
+        if (file_exists($photoImagePath)) {
+            unlink($photoImagePath);
+        }
+
+        // Delete the banner record
+        $photo->delete();
+
+        return response()->json(['success' => 'Photo deleted successfully']);
+    }
+    public function photoStatus(Request $request)
+    {
+        $photo = MediaGallery::findOrFail($request->id);
+
+        // Toggle the status
+        $newStatus = $request->status == 0 ? 1 : 0;
+
+        // Update the status attribute
+        $photo->status = $newStatus;
+
+        // Save the changes to the database
+        $photo->save();
+
+        return response()->json(['success' => 'Photo status updated successfully']);
+    }
+    public function photoEdit(Request $request)
+    {
+        // Find the banner by ID or throw an exception if not found
+        // return $request->all();
+        $photo = MediaGallery::findOrFail($request->id);
+
+        return response()->json(['photo' => $photo]);
+    }
+
+    public function photoUpdate(Request $request)
+    {
+        $messages = [
+            'album_id.required' => 'The album ID is required.',
+            'album_id.exists' => 'The selected album does not exist.',
+            'images.required' => 'At least one image is required.',
+            'images.max' => 'You may not upload more than 1 image.',
+            'images.*.image' => 'Each file must be an image.',
+            'images.*.mimes' => 'Each image must be a file of type: jpeg, png, jpg, gif, svg.',
+            'images.*.max' => 'Each image may not be greater than :max kilobytes.',
+        ];
+
+        // Validate incoming data
+        $validator = Validator::make($request->all(), [
+            'album_id' => 'required|exists:media_albums,id',
+            'images' => 'array|max:1',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ], $messages);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $photo = MediaGallery::findOrFail($request->id);
+
+        // Handle image update if a new image is provided
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $image = $image;
+                $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
+                $dir = public_path('/frontend/images/photo-gallery/');
+                $oldImagePath = $dir . $photo->media;
+                if (File::exists($oldImagePath)) {
+                    File::delete($oldImagePath);
+                }
+                if (!File::exists($dir)) {
+                    File::makeDirectory($dir, 0755, true);
+                }
+                $image->move($dir, $imageName);
+                $photo->update([
+                    'media' => $imageName,
+                ]);
+            }
+            
+        }
+        $photo->update([
+            'album_id' => $request->album_id,
+        ]);
+        return response()->json(['success' => ['success' => 'You have successfully Update Photo In Album!']]);
+    }
 }

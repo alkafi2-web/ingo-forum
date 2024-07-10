@@ -10,7 +10,7 @@
                     <h2 class="pt-5">Photo List</h2>
                 </div>
                 <div class="card-body">
-                    <div class="col-md-12 mt-3">
+                    <div class="col-md-12 mt-3 mb-3">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
