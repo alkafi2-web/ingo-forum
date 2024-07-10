@@ -218,6 +218,7 @@
     </section>
     <!-- Member Section End  -->
     <!-- Events Section Start  -->
+    @if($global['events']->count() > 0)
     <section class="events-area ptb-70">
         <div class="container">
             <div class="row">
@@ -240,9 +241,9 @@
                         </div>
                         <div class="single-event">
                             <span
-                                class="mini-title mb-2 d-block">#Event{{ Carbon::parse($global['latest_event']->start_date??'')->format('Y') }}</span>
-                            <h4 class="event-title"><a href="">{{ $global['latest_event']->title??'' }}</a></h4>
-                            <p class="line-clamp-3">{{ Str::limit($global['latest_event']->details??'', 200) }}</p>
+                                class="mini-title mb-2 d-block">#Event{{ Carbon::parse($global['latest_event']->start_date ?? '')->format('Y') }}</span>
+                            <h4 class="event-title"><a href="">{{ $global['latest_event']->title ?? '' }}</a></h4>
+                            <p class="line-clamp-3">{{ Str::limit($global['latest_event']->details ?? '', 200) }}</p>
                             <div class="event-date-time py-2">
                                 <div class="row">
                                     <div class="col-6 border-right">
@@ -251,7 +252,7 @@
                                                 alt="">
                                             <div class="ms-2">
                                                 <span class="d-block fw-semibold">Location:</span>
-                                                <span>{{ $global['latest_event']->location??'' }}</span>
+                                                <span>{{ $global['latest_event']->location ?? '' }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -261,7 +262,7 @@
                                                 alt="">
                                             <div class="ms-2">
                                                 <span class="d-block fw-semibold">Starts at:</span>
-                                                <span>{{ Carbon::parse($global['latest_event']->start_date??'')->format('h A') }}</span>
+                                                <span>{{ Carbon::parse($global['latest_event']->start_date ?? '')->format('h A') }}</span>
                                                 {{-- <span>10 am</span> --}}
                                             </div>
                                         </div>
@@ -287,8 +288,10 @@
                                         <div class="col-3 bg-event-date">
                                             <div class="event-item-date position-relative">
                                                 <div class="position-absolute event-date-card text-center">
-                                                    <span class="date-event d-block">{{ Carbon::parse($event->start_date)->format('d') }}</span>
-                                                    <span class="date-month">{{ Carbon::parse($event->start_date)->format('M') }}</span>
+                                                    <span
+                                                        class="date-event d-block">{{ Carbon::parse($event->start_date)->format('d') }}</span>
+                                                    <span
+                                                        class="date-month">{{ Carbon::parse($event->start_date)->format('M') }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -296,16 +299,18 @@
                                             <div class="row">
                                                 <div class="col-6 border-right">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="{{ asset('public/frontend/images/icons/location.png') }}" alt="">
+                                                        <img src="{{ asset('public/frontend/images/icons/location.png') }}"
+                                                            alt="">
                                                         <div class="ms-2">
                                                             <span class="d-block fw-semibold">Location:</span>
-                                                            <span>{{$event->location}}</span>
+                                                            <span>{{ $event->location }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="d-flex d-flex align-items-center">
-                                                        <img src="{{ asset('public/frontend/images/icons/time.png') }}" alt="">
+                                                        <img src="{{ asset('public/frontend/images/icons/time.png') }}"
+                                                            alt="">
                                                         <div class="ms-2">
                                                             <span class="d-block fw-semibold">Starts at:</span>
                                                             <span>{{ Carbon::parse($event->start_date)->format('h A') }}</span>
@@ -460,48 +465,53 @@
             </div>
         </div>
     </section>
+    @endif
     <!-- Events Section End  -->
     <!-- Blog Section Start  -->
+    @if ($global['posts']->count() > 0)
     <section class="blog-section ptb-70 bg-gray">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3"></div>
                 <div class="col-lg-6">
                     <div class="text-center">
-                        <h5 class="sub-title">Our latest news</h5>
-                        <h2 class="section-title">Check all our latest news and updates</h2>
+                        <h5 class="sub-title">Our latest news & blogs</h5>
+                        <h2 class="section-title">Check all our latest news and blogs</h2>
                     </div>
                 </div>
                 <div class="col-lg-3"></div>
             </div>
             <div class="row gy-3 gy-md-4 gx-3 gx-md-4 pt-5">
-                <div class="col-6 col-md-4">
-                    <div class="blog-card h-100">
-                        <div class="blog-img">
-                            <a href=""><img src="images/blog.png" alt=""></a>
-                        </div>
-                        <div class="blog-content">
-                            <span class="mini-title">#Education</span>
-                            <h3 class="blog-title line-clamp-2"><a href="">Children Education</a></h3>
-                            <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                            <div class="blog-publice py-1">
-                                <div class="row pb-1">
-                                    <div class="col-6 border-right">
-                                        <div class="d-flex align-items-center">
-                                            <img src="images/icons/calender.png" alt="">
-                                            <div class="ms-2">
-                                                <span class="d-block fw-semibold">Date:</span>
-                                                <span class="blog-date-admin">10 Jun</span>
+                @forelse ($global['posts'] as $post)
+                    <div class="col-6 col-md-4">
+                        <div class="blog-card h-100">
+                            <div class="blog-img">
+                                <a href=""><img src="{{ asset('public/frontend/images/posts')}}/{{$post->banner}}" alt=""></a>
+                                {{-- <a href=""><img src="{{ asset('public/frontend/images/blog.png')}}" alt=""></a> --}}
+                            </div>
+                            <div class="blog-content">
+                                <span class="mini-title">#{{$post->category->name}}</span>
+                                <span class="mini-title">#{{$post->subcategory->name}}</span>
+                                <h3 class="blog-title line-clamp-2"><a href="">{{$post->title}}</a></h3>
+                                <p class="line-clamp-3">{!! Str::limit($post->short_des, 50) !!}</p>
+                                <div class="blog-publice py-1">
+                                    <div class="row pb-1">
+                                        <div class="col-6 border-right">
+                                            <div class="d-flex align-items-center">
+                                                <img src="{{ asset('public/frontend/images/icons/calender.png')}}" alt="">
+                                                <div class="ms-2">
+                                                    <span class="d-block fw-semibold">Date:</span>
+                                                    <span class="blog-date-admin">{{ Carbon::parse($post->created_at)->format('d M') }}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="d-flex d-flex align-items-center">
-                                            <img src="images/icons/profile.png" alt="">
-                                            <div class="ms-2">
-                                                <span class="d-block fw-semibold">By:</span>
-                                                <span class="blog-date-admin">Admin</span>
+                                        <div class="col-6">
+                                            <div class="d-flex d-flex align-items-center">
+                                                <img src="{{ asset('public/frontend/images/icons/profile.png')}}" alt="">
+                                                <div class="ms-2">
+                                                    <span class="d-block fw-semibold">By:</span>
+                                                    <span class="blog-date-admin">{{$post->addedBy->name}}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -509,34 +519,36 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-6 col-md-4">
-                    <div class="blog-card h-100">
-                        <div class="blog-img">
-                            <a href=""><img src="images/blog.png" alt=""></a>
-                        </div>
-                        <div class="blog-content">
-                            <span class="mini-title">#Education</span>
-                            <h3 class="blog-title line-clamp-2"><a href="">Children Education</a></h3>
-                            <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                            <div class="blog-publice py-1">
-                                <div class="row pb-1">
-                                    <div class="col-6 border-right">
-                                        <div class="d-flex align-items-center">
-                                            <img src="images/icons/calender.png" alt="">
-                                            <div class="ms-2">
-                                                <span class="d-block fw-semibold">Date:</span>
-                                                <span class="blog-date-admin">10 Jun</span>
+                @empty
+                    <div class="col-6 col-md-4">
+                        <div class="blog-card h-100">
+                            <div class="blog-img">
+                                <a href=""><img src="images/blog.png" alt=""></a>
+                            </div>
+                            <div class="blog-content">
+                                <span class="mini-title">#Education</span>
+                                <h3 class="blog-title line-clamp-2"><a href="">Children Education</a></h3>
+                                <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                                <div class="blog-publice py-1">
+                                    <div class="row pb-1">
+                                        <div class="col-6 border-right">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/icons/calender.png" alt="">
+                                                <div class="ms-2">
+                                                    <span class="d-block fw-semibold">Date:</span>
+                                                    <span class="blog-date-admin">10 Jun</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="d-flex d-flex align-items-center">
-                                            <img src="images/icons/profile.png" alt="">
-                                            <div class="ms-2">
-                                                <span class="d-block fw-semibold">By:</span>
-                                                <span class="blog-date-admin">Admin</span>
+                                        <div class="col-6">
+                                            <div class="d-flex d-flex align-items-center">
+                                                <img src="images/icons/profile.png" alt="">
+                                                <div class="ms-2">
+                                                    <span class="d-block fw-semibold">By:</span>
+                                                    <span class="blog-date-admin">Admin</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -544,34 +556,35 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-6 col-md-4">
-                    <div class="blog-card h-100">
-                        <div class="blog-img">
-                            <a href=""><img src="images/blog.png" alt=""></a>
-                        </div>
-                        <div class="blog-content">
-                            <span class="mini-title">#Education</span>
-                            <h3 class="blog-title line-clamp-2"><a href="">Children Education</a></h3>
-                            <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                            <div class="blog-publice py-1">
-                                <div class="row pb-1">
-                                    <div class="col-6 border-right">
-                                        <div class="d-flex align-items-center">
-                                            <img src="images/icons/calender.png" alt="">
-                                            <div class="ms-2">
-                                                <span class="d-block fw-semibold">Date:</span>
-                                                <span class="blog-date-admin">10 Jun</span>
+                    <div class="col-6 col-md-4">
+                        <div class="blog-card h-100">
+                            <div class="blog-img">
+                                <a href=""><img src="images/blog.png" alt=""></a>
+                            </div>
+                            <div class="blog-content">
+                                <span class="mini-title">#Education</span>
+                                <h3 class="blog-title line-clamp-2"><a href="">Children Education</a></h3>
+                                <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                                <div class="blog-publice py-1">
+                                    <div class="row pb-1">
+                                        <div class="col-6 border-right">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/icons/calender.png" alt="">
+                                                <div class="ms-2">
+                                                    <span class="d-block fw-semibold">Date:</span>
+                                                    <span class="blog-date-admin">10 Jun</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="d-flex d-flex align-items-center">
-                                            <img src="images/icons/profile.png" alt="">
-                                            <div class="ms-2">
-                                                <span class="d-block fw-semibold">By:</span>
-                                                <span class="blog-date-admin">Admin</span>
+                                        <div class="col-6">
+                                            <div class="d-flex d-flex align-items-center">
+                                                <img src="images/icons/profile.png" alt="">
+                                                <div class="ms-2">
+                                                    <span class="d-block fw-semibold">By:</span>
+                                                    <span class="blog-date-admin">Admin</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -579,10 +592,48 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-6 col-md-4">
+                        <div class="blog-card h-100">
+                            <div class="blog-img">
+                                <a href=""><img src="images/blog.png" alt=""></a>
+                            </div>
+                            <div class="blog-content">
+                                <span class="mini-title">#Education</span>
+                                <h3 class="blog-title line-clamp-2"><a href="">Children Education</a></h3>
+                                <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                                <div class="blog-publice py-1">
+                                    <div class="row pb-1">
+                                        <div class="col-6 border-right">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/icons/calender.png" alt="">
+                                                <div class="ms-2">
+                                                    <span class="d-block fw-semibold">Date:</span>
+                                                    <span class="blog-date-admin">10 Jun</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="d-flex d-flex align-items-center">
+                                                <img src="images/icons/profile.png" alt="">
+                                                <div class="ms-2">
+                                                    <span class="d-block fw-semibold">By:</span>
+                                                    <span class="blog-date-admin">Admin</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforelse
+
             </div>
         </div>
     </section>
+    @endif
     <!-- Blog Section End  -->
     <!-- Photo Gallery Section start  -->
     <section class="gallery-section ptb-70">

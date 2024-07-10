@@ -17,6 +17,7 @@ class PostController extends Controller
 {
     public function postCreate()
     {
+        // return $posts = Post::with(['category', 'subcategory','addedBy'])->where('status',1)->latest()->get();
         $categories = PostCategory::where('status', 1)->with('subcategories')->get();
         return view('admin.post.post-create', [
             'categories' => $categories,

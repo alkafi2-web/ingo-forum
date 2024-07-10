@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Banner;
 use App\Models\Event;
 use App\Models\MainContent;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -78,6 +79,9 @@ class AppServiceProvider extends ServiceProvider
 
                 $events = Event::where('status', 1)->latest()->take(3)->get();
                 $global['events'] = $events;
+
+                $posts = Post::with(['category', 'subcategory','addedBy'])->where('status',1)->latest()->get();
+                $global['posts'] = $posts;
             }
             $view->with('global', $global);
         });
