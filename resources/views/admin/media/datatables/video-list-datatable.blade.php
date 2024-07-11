@@ -145,7 +145,6 @@
            
             // Get the video path from the data attribute
             var videoPath = $(this).attr('data-video');
-            alert(videoPath)
             // Set the video source
             // $('#videoSource').attr('src', videoPath);
 

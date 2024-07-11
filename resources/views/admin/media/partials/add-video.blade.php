@@ -2,7 +2,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="title" class="text-3xl">Video Title</label>
+                <label for="title" class="text-3xl required">Video Title</label>
                 <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
             </div>
         </div>
@@ -10,7 +10,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="image" class="text-3xl">Upload Thumnil Images</label>
+                <label for="image" class="text-3xl required">Upload Thumnil Images</label>
                 <input type="file" class="form-control" id="image" name="image" value=""
                     oninput="pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
                 <img id="pp" width="100" class="float-end mt-3" src="">
@@ -20,7 +20,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="url" class="text-3xl">Video Link</label>
+                <label for="url" class="text-3xl required">Video Link</label>
                 <input type="text" class="form-control" id="url" name="url" value="{{ old('url') }}">
             </div>
         </div>
@@ -28,7 +28,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="content" class="text-3xl">Video Content</label>
+                <label for="content" class="text-3xl required">Video Content</label>
                 <textarea class="form-control" id="content" name="content">{{ old('content') }}</textarea>
             </div>
         </div>
