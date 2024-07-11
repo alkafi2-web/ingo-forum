@@ -144,10 +144,7 @@ div.dataTables_wrapper div.dataTables_processing {
   background-color: #45a049;
 }
 
-table tbody tr:last-child td,
-.table tbody tr:last-child th,
-.table tfoot tr:last-child td,
-.table tfoot tr:last-child th {
+table tbody tr:last-child td {
   border-bottom: 1px solid rgba(222, 226, 230, 0.2) !important;
   border-bottom-width: 1px !important;
 }
