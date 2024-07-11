@@ -136,10 +136,10 @@ Route::prefix('admin')->group(function () {
             Route::prefix('video')->group(function () {
                 Route::get('/', [MediaController::class, 'videoIndex'])->name('video');
                 Route::post('/create', [MediaController::class, 'videoCreate'])->name('video.create');
-                // Route::post('/delete', [MediaController::class, 'photoDelete'])->name('photo.delete');
-                // Route::post('/status', [MediaController::class, 'photoStatus'])->name('photo.status');
-                // Route::post('/edit', [MediaController::class, 'photoEdit'])->name('photo.edit');
-                // Route::post('/update', [MediaController::class, 'photoUpdate'])->name('photo.update');
+                Route::post('/delete', [MediaController::class, 'videoDelete'])->name('video.delete');
+                Route::post('/status', [MediaController::class, 'videoStatus'])->name('video.status');
+                Route::post('/edit', [MediaController::class, 'videoEdit'])->name('video.edit');
+                Route::post('/update', [MediaController::class, 'videoUpdate'])->name('video.update');
             });
         });
         // media route end
