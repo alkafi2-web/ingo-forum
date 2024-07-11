@@ -294,4 +294,10 @@ class MediaController extends Controller
         ]);
         return response()->json(['success' => ['success' => 'You have successfully Update Photo In Album!']]);
     }
+
+
+    public function videoIndex()
+    {
+        return view('admin.media.video-index');
+    }
 }
