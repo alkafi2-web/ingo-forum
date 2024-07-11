@@ -1,4 +1,4 @@
-<form id="photoForm" action="" method="POST" enctype="multipart/form-data">
+<form id="videoForm" action="" method="POST" enctype="multipart/form-data">
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
@@ -34,10 +34,10 @@
         </div>
     </div>
     <div id="image-preview" class="row mb-3"></div>
-    <button id="photo-submit" type="submit" class="btn btn-primary ">Submit <span id="spinner"
+    <button id="video-submit" type="submit" class="btn btn-primary ">Submit <span id="spinner"
             class="spinner-border spinner-border-sm text-light d-none" role="status"
             aria-hidden="true"></span></button>
-    <button id="photo-update" type="submit" class="btn btn-primary d-none">Update <span id="update-spinner"
+    <button id="video-update" type="submit" class="btn btn-primary d-none">Update <span id="update-spinner"
             class="spinner-border spinner-border-sm text-light d-none" role="status"
             aria-hidden="true"></span></button></button>
 </form>
@@ -46,12 +46,12 @@
     <script>
         $(document).ready(function() {
 
-            $('#photo-submit').on('click', function(e) {
+            $('#video-submit').on('click', function(e) {
                 e.preventDefault();
 
                 $('#spinner').removeClass('d-none');
-                let url = "{{ route('photo.create') }}";
-                let formData = new FormData($('#photoForm')[0]);
+                let url = "{{ route('video.create') }}";
+                let formData = new FormData($('#videoForm')[0]);
                 $.ajax({
                     type: 'POST',
                     url: url,
@@ -62,17 +62,14 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        console.log(response);
                         $('#spinner').addClass('d-none');
-                        $('#image-preview').empty(); // Clear all previews
-                        filesArray = []; // Clear the files array
-                        $('#images').val('');
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
                         });
-                        $('#photoForm')[0].reset();
-                        $('#photo-data').DataTable().ajax.reload(null, false);
+                        $('#videoForm')[0].reset();
+                        $('#pp').src('');
+                        $('#video-data').DataTable().ajax.reload(null, false);
                     },
                     error: function(xhr) {
                         $('#spinner').addClass('d-none');
@@ -86,12 +83,12 @@
                 });
 
             });
-            $('#photo-update').on('click', function(e) {
+            $('#video-update').on('click', function(e) {
                 e.preventDefault();
                 $('#spinner').removeClass('d-none');
                 let url = "{{ route('photo.update') }}";
                 let id = $(this).attr('data-id');
-                let formData = new FormData($('#photoForm')[0]);
+                let formData = new FormData($('#videoForm')[0]);
                 formData.append('id', id);
                 $.ajax({
                     type: 'POST',
@@ -113,12 +110,12 @@
                             toastr.success(value); // Displaying each error message
                         });
                         $('#add-header').text('Add Photo');
-                        $('#photoForm')[0].reset();
+                        $('#videoForm')[0].reset();
                         $('#pp').addClass('d-none');
                         $('#pp').attr('src', '');
-                        $('#photo-data').DataTable().ajax.reload(null, false);
-                        $('#photo-submit').removeClass('d-none');
-                        $('#photo-update ').addClass('d-none');
+                        $('#video-data').DataTable().ajax.reload(null, false);
+                        $('#video-submit').removeClass('d-none');
+                        $('#video-update ').addClass('d-none');
                     },
                     error: function(xhr) {
                         $('#spinner').addClass('d-none');

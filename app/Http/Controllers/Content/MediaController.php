@@ -287,7 +287,6 @@ class MediaController extends Controller
                     'media' => $imageName,
                 ]);
             }
-            
         }
         $photo->update([
             'album_id' => $request->album_id,
@@ -296,8 +295,72 @@ class MediaController extends Controller
     }
 
 
-    public function videoIndex()
+    public function videoIndex(Request $request)
     {
+        
+        if ($request->ajax()) {
+            $videos = MediaGallery::where('type','video')->latest()->get();
+
+            return DataTables::of($videos)
+                ->make(true);
+        }
         return view('admin.media.video-index');
+    }
+
+    public function videoCreate(Request $request)
+    {
+        // Define validation rules
+        $rules = [
+            'title' => 'required|string|max:255',
+            'url' => 'required|string|max:255',
+            'content' => 'required|string|max:255',
+            'image' => 'required|mimes:jpeg,jpg,png|max:2048' // Ensure image is required and validate type and size
+        ];
+
+        // Define custom error messages
+        $messages = [
+            'title.required' => 'The title field is required.',
+            'title.string' => 'The title must be a string.',
+            'title.max' => 'The title may not be greater than 255 characters.',
+            'url.required' => 'The URL field is required.',
+            'url.string' => 'The URL must be a string.',
+            'url.max' => 'The URL may not be greater than 255 characters.',
+            'content.required' => 'The content field is required.',
+            'content.string' => 'The content must be a string.',
+            'content.max' => 'The content may not be greater than 255 characters.',
+            'image.required' => 'The image field is required.',
+            'image.mimes' => 'The image must be a file of type: jpeg, jpg, png.',
+            'image.max' => 'The image may not be greater than 2048 kilobytes.',
+        ];
+
+        // Validate the request
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            // Return errors as JSON
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Process and store the image
+        $imageName = null;
+        if (isset($request->image)) {
+            $image = $request->image;
+            $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
+            $dir = public_path('/frontend/images/video-thumbnail/');
+            if (!File::exists($dir)) {
+                File::makeDirectory($dir, 0755, true);
+            }
+            $image->move($dir, $imageName);
+        }
+
+        // Store the data in the database
+        MediaGallery::create([
+            'type' => 'video',
+            'name' => $request->title,
+            'url' => $request->url,
+            'content' => $request->content,
+            'media' => $imageName,
+        ]);
+        return response()->json(['success' => ['success' => 'You have successfully Upload Video!']]);
     }
 }

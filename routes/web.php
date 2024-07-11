@@ -21,7 +21,7 @@ Route::post('/loginPost', [AuthController::class, 'loginPost'])->name('loginPost
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['admin'])->group(function () {
-    
+
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
     // Other routes that require authentication
 
@@ -135,7 +135,7 @@ Route::middleware(['admin'])->group(function () {
         });
         Route::prefix('video')->group(function () {
             Route::get('/', [MediaController::class, 'videoIndex'])->name('video');
-            // Route::post('/create', [MediaController::class, 'photoCreate'])->name('photo.create');
+            Route::post('/create', [MediaController::class, 'videoCreate'])->name('video.create');
             // Route::post('/delete', [MediaController::class, 'photoDelete'])->name('photo.delete');
             // Route::post('/status', [MediaController::class, 'photoStatus'])->name('photo.status');
             // Route::post('/edit', [MediaController::class, 'photoEdit'])->name('photo.edit');
