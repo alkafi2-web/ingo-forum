@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('media_galleries', function (Blueprint $table) {
             $table->id();
             $table->string('type')->nullable(); // Required field for the type of media
+            $table->integer('album_id')->nullable(); // Required field for the type of media
             $table->string('name')->nullable(); // Required field for the name of the media
-            $table->string('mewdia')->nullable(); // Main media
+            $table->string('media')->nullable(); // Main media
             $table->string('mob_media')->nullable(); // Mobile media
             $table->string('sub_media')->nullable(); // Sub media
             $table->longText('content')->nullable(); // Main content

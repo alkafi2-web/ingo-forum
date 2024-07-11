@@ -1,15 +1,18 @@
 <div class="table-responsive table-container">
     <!--begin::Table-->
     <table class="table election-datatable align-middle table-bordered fs-6 gy-5 m-auto display responsive"
-        id="photo-data">
+        id="video-data">
         <!--begin::Table head-->
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Album Title') }}
+                    {{ __('Video Title') }}
+                </th>
+                <th class="min-w-100px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                    {{ __('Video Content') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Photo') }}
+                    {{ __('Video') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Status') }}
@@ -30,17 +33,12 @@
 @push('custom-js')
     <script>
         $(document).ready(function() {
-            var table = $('#photo-data').DataTable({
+            var table = $('#video-data').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('photo') }}",
+                    url: "{{ route('video') }}",
                     type: 'GET',
-                    data: function(data) {
-                        data.album_filter = $('#album_filter').val();
-                        data.status_filter = $('#status_filter').val();
-                        return data;
-                    },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
@@ -48,8 +46,14 @@
                 columns: [{
                         orderable: true,
                         sortable: false,
-                        data: 'album_name',
-                        name: 'album_name'
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        orderable: true,
+                        sortable: false,
+                        data: 'content',
+                        name: 'content'
                     },
                     {
                         data: 'media',
@@ -57,8 +61,11 @@
                         orderable: true,
                         sortable: false,
                         render: function(data, type, row) {
-                            let basePath = '{{ asset('public/frontend/images/photo-gallery/') }}/'
-                            return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
+                            let basePath =
+                                '{{ asset('public/frontend/images/video-thumbnail/') }}/';
+                            let videoURL = row
+                                .url; // Assuming you have the video filename in the row data
+                            return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;" class="video-thumbnail" data-video="${videoURL}">`;
                         }
                     },
                     {
@@ -132,8 +139,22 @@
             $('#album_filter, #status_filter').on('change', function() {
                 table.ajax.reload(null, false);
             });
-        });
 
+        });
+        $(document).on('click', '.video-thumbnail', function() {
+           
+            // Get the video path from the data attribute
+            var videoPath = $(this).attr('data-video');
+            alert(videoPath)
+            // Set the video source
+            // $('#videoSource').attr('src', videoPath);
+
+            // // Load the video
+            // $('#videoPlayer')[0].load();
+
+            // Show the modal
+            $('#videoModal').modal('show');
+        });
         $(document).on('click', '.edit', function(e) {
             e.preventDefault(); // Prevent default link behavior
 
@@ -235,7 +256,7 @@
                 data: requestData, // You can send additional data if needed
                 success: function(response) {
 
-                    $('#photo-data').DataTable().ajax.reload(null, false);
+                    $('#video-data').DataTable().ajax.reload(null, false);
                     // Swal.fire('Success!', response.success,
                     //     'success');
                     toastr.success(response.success);

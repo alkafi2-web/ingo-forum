@@ -1,70 +1,43 @@
-<style>
-    .preview-container {
-        display: flex;
-        flex-wrap: wrap;
-        margin-bottom: 10px;
-    }
-
-    .preview-image {
-        position: relative;
-        width: calc(33.33% - 10px);
-        /* Adjust width and margin as needed */
-        margin-right: 10px;
-        margin-bottom: 10px;
-    }
-
-    .preview-image img {
-        display: block;
-        width: 100%;
-        height: auto;
-    }
-
-    .remove-btn {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background-color: rgba(255, 255, 255, 0.8);
-        border: none;
-        color: red;
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        line-height: 1;
-        text-align: center;
-        cursor: pointer;
-    }
-</style>
-<form id="photoForm" action="" method="POST" enctype="multipart/form-data">
+<form id="videoForm" action="" method="POST" enctype="multipart/form-data">
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="albumtype" class="text-3xl">Album Type</label>
-                <select class="form-control" id="albumtype" name="album_id">
-                    <option value="" disabled selected>Select Album</option>
-                    @forelse ($albums as $album)
-                        <option value="{{ $album->id }}">{{ $album->title }}</option>
-                    @empty
-                    @endforelse
-                </select>
+                <label for="title" class="text-3xl">Video Title</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
             </div>
         </div>
     </div>
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="images" class="text-3xl">Upload Images</label>
-                <input type="file" class="form-control" id="images" name="images[]" multiple>
-                <p class="text-danger mt-2" id="warning-photo">Upload 10 file at once</p>
-                <img src="" id="pp" alt="image" class="d-none"
-                    style="height: 150px;width:150px; object-fit:contain">
+                <label for="image" class="text-3xl">Upload Thumnil Images</label>
+                <input type="file" class="form-control" id="image" name="image" value=""
+                    oninput="pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
+                <img id="pp" width="100" class="float-end mt-3" src="">
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="url" class="text-3xl">Video Link</label>
+                <input type="text" class="form-control" id="url" name="url" value="{{ old('url') }}">
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="content" class="text-3xl">Video Content</label>
+                <textarea class="form-control" id="content" name="content">{{ old('content') }}</textarea>
             </div>
         </div>
     </div>
     <div id="image-preview" class="row mb-3"></div>
-    <button id="photo-submit" type="submit" class="btn btn-primary ">Submit <span id="spinner"
+    <button id="video-submit" type="submit" class="btn btn-primary ">Submit <span id="spinner"
             class="spinner-border spinner-border-sm text-light d-none" role="status"
             aria-hidden="true"></span></button>
-    <button id="photo-update" type="submit" class="btn btn-primary d-none">Update <span id="update-spinner"
+    <button id="video-update" type="submit" class="btn btn-primary d-none">Update <span id="update-spinner"
             class="spinner-border spinner-border-sm text-light d-none" role="status"
             aria-hidden="true"></span></button></button>
 </form>
@@ -73,12 +46,12 @@
     <script>
         $(document).ready(function() {
 
-            $('#photo-submit').on('click', function(e) {
+            $('#video-submit').on('click', function(e) {
                 e.preventDefault();
 
                 $('#spinner').removeClass('d-none');
-                let url = "{{ route('photo.create') }}";
-                let formData = new FormData($('#photoForm')[0]);
+                let url = "{{ route('video.create') }}";
+                let formData = new FormData($('#videoForm')[0]);
                 $.ajax({
                     type: 'POST',
                     url: url,
@@ -89,17 +62,14 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        console.log(response);
                         $('#spinner').addClass('d-none');
-                        $('#image-preview').empty(); // Clear all previews
-                        filesArray = []; // Clear the files array
-                        $('#images').val('');
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
                         });
-                        $('#photoForm')[0].reset();
-                        $('#photo-data').DataTable().ajax.reload(null, false);
+                        $('#videoForm')[0].reset();
+                        $('#pp').src('');
+                        $('#video-data').DataTable().ajax.reload(null, false);
                     },
                     error: function(xhr) {
                         $('#spinner').addClass('d-none');
@@ -113,12 +83,12 @@
                 });
 
             });
-            $('#photo-update').on('click', function(e) {
+            $('#video-update').on('click', function(e) {
                 e.preventDefault();
                 $('#spinner').removeClass('d-none');
                 let url = "{{ route('photo.update') }}";
                 let id = $(this).attr('data-id');
-                let formData = new FormData($('#photoForm')[0]);
+                let formData = new FormData($('#videoForm')[0]);
                 formData.append('id', id);
                 $.ajax({
                     type: 'POST',
@@ -140,12 +110,12 @@
                             toastr.success(value); // Displaying each error message
                         });
                         $('#add-header').text('Add Photo');
-                        $('#photoForm')[0].reset();
+                        $('#videoForm')[0].reset();
                         $('#pp').addClass('d-none');
                         $('#pp').attr('src', '');
-                        $('#photo-data').DataTable().ajax.reload(null, false);
-                        $('#photo-submit').removeClass('d-none');
-                        $('#photo-update ').addClass('d-none');
+                        $('#video-data').DataTable().ajax.reload(null, false);
+                        $('#video-submit').removeClass('d-none');
+                        $('#video-update ').addClass('d-none');
                     },
                     error: function(xhr) {
                         $('#spinner').addClass('d-none');
