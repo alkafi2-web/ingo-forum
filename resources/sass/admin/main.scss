@@ -128,6 +128,14 @@ div.dataTables_wrapper div.dataTables_processing {
   border: 1px solid #e4e6ef;
 }
 
+.dataTables_filter .input-group{
+  flex-wrap: nowrap!important;
+}
+
+.dataTables_filter input[type='search']{
+  width: 100%!important;
+}
+
 /* Custom CSS for pagination */
 .pagination {
   display: flex;
