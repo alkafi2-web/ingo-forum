@@ -83,8 +83,8 @@
                                     <a href="" class="ct-btn btn-yellow">Be a Member</a>
                                 </div>
                                 <div class="col-lg-6 hero-right">
-                                    {{-- <img src="{{ asset('public/frontend/images/banner/') }}/{{$banner->image}}" alt=""> --}}
-                                    <img src="{{ asset('public/frontend/images/hero-img.png') }}" alt="">
+                                    <img src="{{ asset('public/frontend/images/banner/') }}/{{$banner->image}}" alt="">
+                                    {{-- <img src="{{ asset('public/frontend/images/hero-img.png') }}" alt=""> --}}
                                 </div>
                             </div>
                         </div>
@@ -627,7 +627,7 @@
                                                         alt="">
                                                     <div class="ms-2">
                                                         <span class="d-block fw-semibold">By:</span>
-                                                        <span class="blog-date-admin">Admin</span>
+                                                        <span class="blog-date-admin">{{ ucfirst($album->addedBy->name) }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -699,7 +699,7 @@
                                                         alt="">
                                                     <div class="ms-2">
                                                         <span class="d-block fw-semibold">By:</span>
-                                                        <span class="blog-date-admin">Admin</span>
+                                                        <span class="blog-date-admin">{{ucfirst($video->addedBy->name)}}</span>
                                                     </div>
                                                 </div>
                                             </div>

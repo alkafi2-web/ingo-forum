@@ -22,9 +22,12 @@ class MediaController extends Controller
         //     ->take(3)
         //     ->get();
         //  $albums->media_galleries;
-        $albums = MediaAlbum::with(['mediaGalleries' => function ($query) {
-            $query->where('status', 1);
-        }])->get();
+        $albums = MediaAlbum::with([
+            'mediaGalleries' => function ($query) {
+                $query->where('status', 1);
+            },
+            'addedBy' // Include the user relationship
+        ])->get();
 
         if ($request->ajax()) {
             $albums = MediaAlbum::latest();
@@ -63,6 +66,7 @@ class MediaController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+        $request->merge(['added_by' => auth()->id()]);
         $mediaAlbum = MediaAlbum::create($request->all());
         return response()->json(['success' => ['success' => 'You have successfully Create Media Album!']]);
     }
@@ -212,6 +216,7 @@ class MediaController extends Controller
                 'type' => 'photo',
                 'media' => $imageName,
                 'status' => 1,
+                'added_by' => auth()->id(),
             ]);
         }
         return response()->json(['success' => ['success' => 'You have successfully Add Photo In Album!']]);
@@ -372,6 +377,7 @@ class MediaController extends Controller
             'url' => $request->url,
             'content' => $request->content,
             'media' => $imageName,
+            'added_by' => auth()->id(),
         ]);
         return response()->json(['success' => ['success' => 'You have successfully Upload Video!']]);
     }

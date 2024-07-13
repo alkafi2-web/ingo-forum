@@ -73,7 +73,8 @@ class SystemController extends Controller
         // Handle logo update if provided
         if ($request->hasFile('logo')) {
             $logo = $request->file('logo');
-            $logoName = 'logo.' . $logo->getClientOriginalExtension();
+            $randomNumber = rand(1000, 9999); // You can adjust the range as needed
+            $logoName = 'logo' . $randomNumber . '.' . $logo->getClientOriginalExtension();
             $logo->move(public_path('/frontend/images/'), $logoName);
 
             // Update MainContent for logo

@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
 
             // Define default values or fallbacks if content is not found
             $global = [
-                'logo' => $mainContent['logo'] ?? '',
+                'logo' => $mainContent['logo'] ?? 'logo.png',
                 'website_name' => $mainContent['name'] ?? '',
                 'short_content' => $mainContent['short_content'] ?? '',
                 'facebook' => $mainContent['facebook'] ?? '',
@@ -102,11 +102,14 @@ class AppServiceProvider extends ServiceProvider
                 //     ->latest()->take(3)->get();
                 // $global['photos'] = $photos;
 
-                $albums = MediaAlbum::with(['mediaGalleries' => function ($query) {
-                    $query->where('status', 1);
-                }])->where('status', 1)->take(3)->get();
+                $albums = MediaAlbum::with([
+                    'mediaGalleries' => function ($query) {
+                        $query->where('status', 1);
+                    },
+                    'addedBy' // Include the user relationship
+                ])->where('status', 1)->take(3)->get();
                 $global['albums'] = $albums;
-                $videos = MediaGallery::where('type', 'video')->where('status', 1)->latest()->get();
+                $videos = MediaGallery::with('addedBy')->where('type', 'video')->where('status', 1)->latest()->get();
                 $global['videos'] = $videos;
             }
             $view->with('global', $global);
