@@ -194,6 +194,7 @@
                     $('#event-update').removeClass('d-none');
                     $('#event-update').attr('data-id', event.id);
                     $('#event-submit').addClass('d-none');
+                    $('#page-refresh').removeClass('d-none');
                 },
                 error: function(xhr, status, error) {
                     // Handle AJAX error

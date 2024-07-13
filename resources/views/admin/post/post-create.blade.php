@@ -97,7 +97,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group mt-3">
-                                    <button type="" id="submit" class="btn btn-primary mt-4">Submit</button>
+                                    <button type="" id="submit" class="btn btn-primary mt-4"> <i class="fas fa-upload"></i>Submit</button>
                                 </div>
                             </div>
                         </div>

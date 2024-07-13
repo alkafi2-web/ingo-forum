@@ -160,6 +160,7 @@
                     $('#about-us-feature-update').removeClass('d-none');
                     $('#about-us-feature-update').attr('data-title',feature.title);
                     $('#about-us-feature-submit').addClass('d-none');
+                    $('#page-refresh').removeClass('d-none');
                 },
                 error: function(xhr, status, error) {
                     // Handle AJAX error

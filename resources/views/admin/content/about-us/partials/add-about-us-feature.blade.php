@@ -3,7 +3,8 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="f_icon" class="text-3xl required">Feature Icon</label>
-                <input type="file" class="form-control" id="f_icon" name="f_icon" value="{{ old('f_icon') }}" oninput="pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
+                <input type="file" class="form-control" id="f_icon" name="f_icon" value="{{ old('f_icon') }}"
+                    oninput="pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
                 <img id="pp" width="100" class="float-start mt-3" src="">
             </div>
         </div>
@@ -12,7 +13,8 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="f_sub_title" class="text-3xl required">Feature Sub Title</label>
-                <input type="text" class="form-control" id="f_sub_title" name="f_sub_title" value="{{ old('f_sub_title') }}">
+                <input type="text" class="form-control" id="f_sub_title" name="f_sub_title"
+                    value="{{ old('f_sub_title') }}">
             </div>
         </div>
     </div>
@@ -24,8 +26,12 @@
             </div>
         </div>
     </div>
-    <button id="about-us-feature-submit" type="submit" class="btn btn-primary mt-3">Submit</button>
-    <button id="about-us-feature-update" type="submit" class="btn btn-primary mt-3 d-none">Update</button>
+    <button id="about-us-feature-submit" type="submit" class="btn btn-primary mt-3"> <i
+            class="fas fa-upload"></i>Submit</button>
+    <button id="about-us-feature-update" type="submit" class="btn btn-primary mt-3 d-none"> <i
+            class="fas fa-wrench"></i>Update</button>
+    <button id="page-refresh" type="submit" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i>
+        Refresh</button>
 </form>
 @push('custom-js')
     <script>
@@ -58,7 +64,7 @@
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
                         });
-                        
+
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
@@ -101,6 +107,7 @@
                         $('#about-us-feature-data').DataTable().ajax.reload(null, false);
                         $('#about-us-feature-submit').removeClass('d-none');
                         $('#about-us-feature-update').addClass('d-none');
+                        $('#page-refresh').addClass('d-none');
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
@@ -112,6 +119,16 @@
                     }
                 });
 
+            });
+            // Refresh button click event
+            $('#page-refresh').on('click', function(e) {
+                e.preventDefault();
+                $('#feature-header').text('Add About Us Feature');
+                $('#aboutusfeatureForm')[0].reset();
+                $('#pp').attr('src', '');
+                $('#about-us-feature-submit').removeClass('d-none');
+                $('#about-us-feature-update').addClass('d-none');
+                $('#page-refresh').addClass('d-none');
             });
         });
     </script>

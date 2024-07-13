@@ -27,13 +27,15 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="start_date" class="text-3xl required">Event Start Date</label>
-                <input type="datetime-local" class="form-control" id="start_date" name="start_date" value="{{ old('start_date') }}">
+                <input type="datetime-local" class="form-control" id="start_date" name="start_date"
+                    value="{{ old('start_date') }}">
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="end_date" class="text-3xl required">Event End Date</label>
-                <input type="datetime-local" class="form-control" id="end_date" name="end_date" value="{{ old('end_date') }}">
+                <input type="datetime-local" class="form-control" id="end_date" name="end_date"
+                    value="{{ old('end_date') }}">
             </div>
         </div>
     </div>
@@ -41,7 +43,8 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="deadline_date" class="text-3xl required">Registrtaion Deadline</label>
-                <input type="datetime-local" class="form-control" id="deadline_date" name="deadline_date" value="{{ old('deadline_date') }}">
+                <input type="datetime-local" class="form-control" id="deadline_date" name="deadline_date"
+                    value="{{ old('deadline_date') }}">
             </div>
         </div>
         {{-- <div class="col-md-6">
@@ -61,8 +64,11 @@
             </div>
         </div>
     </div>
-    <button id="event-submit" type="submit" class="btn btn-primary mt-3">Submit</button>
-    <button id="event-update" type="submit" class="btn btn-primary mt-3 d-none">Update</button>
+    <button id="event-submit" type="submit" class="btn btn-primary mt-3"> <i class="fas fa-upload"></i>Submit</button>
+    <button id="event-update" type="submit" class="btn btn-primary mt-3 d-none"><i class="fas fa-wrench"></i>
+        Update</button>
+    <button id="page-refresh" type="submit" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i>
+        Refresh</button>
 </form>
 
 @push('custom-js')
@@ -130,6 +136,7 @@
                         $('#event-data').DataTable().ajax.reload(null, false);
                         $('#event-submit').removeClass('d-none');
                         $('#event-update ').addClass('d-none');
+                        $('#page-refresh').addClass('d-none');
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
@@ -141,6 +148,15 @@
                     }
                 });
 
+            });
+            $('#page-refresh').on('click', function(e) {
+                e.preventDefault();
+                $('#add-header').text('Add Event');
+                $('#eventForm')[0].reset();
+                $('#pp').attr('src', '');
+                $('#event-submit').removeClass('d-none');
+                $('#event-update ').addClass('d-none');
+                $('#page-refresh').addClass('d-none');
             });
         });
     </script>

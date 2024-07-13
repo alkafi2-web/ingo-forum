@@ -180,6 +180,7 @@
                     $('#video-update').removeClass('d-none');
                     $('#video-update').attr('data-id', video.id);
                     $('#video-submit').addClass('d-none');
+                    $('#page-refresh').removeClass('d-none');
                 },
                 error: function(xhr, status, error) {
                     // Handle AJAX error

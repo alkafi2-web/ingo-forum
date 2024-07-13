@@ -160,6 +160,7 @@
                     $('#banner-update').removeClass('d-none');
                     $('#banner-update').attr('data-id',banner.id);
                     $('#banner-submit').addClass('d-none');
+                    $('#page-refresh').removeClass('d-none');
                 },
                 error: function(xhr, status, error) {
                     // Handle AJAX error
