@@ -23,4 +23,10 @@
         </div>
     </section>
     <!-- Title Area end here  -->
+
+    <!-- Page content start here  -->
+    <div class="container ptb-50">
+        {!! $page->details !!}
+    </div>
+    <!-- Page contentend here  -->
 @endsection
