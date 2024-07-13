@@ -58,7 +58,7 @@
         .modal-header .close {
             padding: 1rem 1.25rem;
             margin: -1rem -1.25rem -1rem auto;
-            /* display: none; */
+            display: none;
         }
 
         .modal-header {

@@ -17,11 +17,12 @@
     <link rel="stylesheet" href="{{ asset('public/frontend/css/slick-slider/slick-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/bootstrap.min.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('public/frontend/css/style.css') }}">
 </head>
 
 <body>
-    
+
     <!-- Header Section Start  -->
     @include('frontend.partials.header')
     <!-- Header Section end  -->
@@ -42,7 +43,20 @@
     <script src="{{ asset('public/frontend/js/photo-gallery/unitegallery.min.js') }}"></script>
     <script src="{{ asset('public/frontend/js/photo-gallery/ug-theme-tiles.js') }}"></script>
     <script src="{{ asset('public/frontend/js/slick-slider/slick.min.js') }}"></script>
+    <script src="{{ asset('public/admin/js/ekko-lightbox.js') }}"></script>
     <script src="{{ asset('public/frontend/js/main.js') }}"></script>
+    <script>
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox({
+                onShown: function() {
+                    var title = $(this).attr('data-title');
+                    $('.ekko-lightbox .modal-title').text(title).css('text-align', 'left');
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

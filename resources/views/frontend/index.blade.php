@@ -1,5 +1,70 @@
 @extends('frontend.layouts.front-end-layout')
 @section('fontend-section')
+    <style>
+        .ekko-lightbox.modal .modal-header {
+            flex-direction: row-reverse !important;
+        }
+
+        .modal-header .close {
+            padding: 1rem 1.25rem;
+            margin: -1rem -1.25rem -1rem auto;
+            /* display: none; */
+        }
+
+        .modal-header {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: start;
+            align-items: flex-start;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #e3e9ef;
+            border-top-left-radius: calc(.4375rem - 1px);
+            border-top-right-radius: calc(.4375rem - 1px);
+        }
+
+        .modal-content {
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            width: 100%;
+            pointer-events: auto;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #e3e9ef;
+            border-radius: .4375rem;
+            box-shadow: 0 0.3rem 1.525rem -0.375rem rgba(0, 0, 0, 0.1);
+            outline: 0;
+        }
+
+        .modal-header {
+            -ms-flex-align: center;
+            align-items: center;
+        }
+
+        button:not(:disabled),
+        [type="button"]:not(:disabled),
+        [type="reset"]:not(:disabled),
+        [type="submit"]:not(:disabled) {
+            cursor: pointer;
+        }
+
+        button.close {
+            padding: 0;
+            background-color: transparent;
+            border: 0;
+        }
+
+        .modal-body {
+            position: relative;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            padding: 1.25rem;
+        }
+    </style>
     @php
         use Carbon\Carbon;
         use Illuminate\Support\Str;
@@ -325,141 +390,7 @@
                                     </div>
                                 </div>
                             @empty
-                                {{-- <div class="col-12">
-                            <div class="event-item">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <span class="mini-title mb-2 d-block">#Event2024</span>
-                                        <h4 class="event-title"><a href="">Children Education</a></h4>
-                                        <p class="line-clamp-2 mb-0 pb-1">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing elit, sed do eiusmod
-                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                            quis nostrud exercitation ullamco
-                                            laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                    </div>
-                                    <div class="col-3 bg-event-date">
-                                        <div class="event-item-date position-relative">
-                                            <div class="position-absolute event-date-card text-center">
-                                                <span class="date-event d-block">12</span>
-                                                <span class="date-month">Jan</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="event-date-time py-1">
-                                        <div class="row">
-                                            <div class="col-6 border-right">
-                                                <div class="d-flex align-items-center">
-                                                    <img src="images/icons/location.png" alt="">
-                                                    <div class="ms-2">
-                                                        <span class="d-block fw-semibold">Location:</span>
-                                                        <span>Banani, Dhaka</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="d-flex d-flex align-items-center">
-                                                    <img src="images/icons/time.png" alt="">
-                                                    <div class="ms-2">
-                                                        <span class="d-block fw-semibold">Starts at:</span>
-                                                        <span>10 am</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="event-item">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <span class="mini-title mb-2 d-block">#Event2024</span>
-                                        <h4 class="event-title"><a href="">Children Education</a></h4>
-                                        <p class="line-clamp-2 mb-0 pb-1">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing elit, sed do eiusmod
-                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                            quis nostrud exercitation ullamco
-                                            laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                    </div>
-                                    <div class="col-3 bg-event-date">
-                                        <div class="event-item-date position-relative">
-                                            <div class="position-absolute event-date-card text-center">
-                                                <span class="date-event d-block">12</span>
-                                                <span class="date-month">Jan</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="event-date-time py-1">
-                                        <div class="row">
-                                            <div class="col-6 border-right">
-                                                <div class="d-flex align-items-center">
-                                                    <img src="images/icons/location.png" alt="">
-                                                    <div class="ms-2">
-                                                        <span class="d-block fw-semibold">Location:</span>
-                                                        <span>Banani, Dhaka</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="d-flex d-flex align-items-center">
-                                                    <img src="images/icons/time.png" alt="">
-                                                    <div class="ms-2">
-                                                        <span class="d-block fw-semibold">Starts at:</span>
-                                                        <span>10 am</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="event-item">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <span class="mini-title mb-2 d-block">#Event2024</span>
-                                        <h4 class="event-title"><a href="">Children Education</a></h4>
-                                        <p class="line-clamp-2 mb-0 pb-1">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing elit, sed do eiusmod
-                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                            quis nostrud exercitation ullamco
-                                            laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                    </div>
-                                    <div class="col-3 bg-event-date">
-                                        <div class="event-item-date position-relative">
-                                            <div class="position-absolute event-date-card text-center">
-                                                <span class="date-event d-block">12</span>
-                                                <span class="date-month">Jan</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="event-date-time py-1">
-                                        <div class="row">
-                                            <div class="col-6 border-right">
-                                                <div class="d-flex align-items-center">
-                                                    <img src="images/icons/location.png" alt="">
-                                                    <div class="ms-2">
-                                                        <span class="d-block fw-semibold">Location:</span>
-                                                        <span>Banani, Dhaka</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="d-flex d-flex align-items-center">
-                                                    <img src="images/icons/time.png" alt="">
-                                                    <div class="ms-2">
-                                                        <span class="d-block fw-semibold">Starts at:</span>
-                                                        <span>10 am</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
+                                
                             @endforelse
 
                         </div>
@@ -732,18 +663,22 @@
                         <div class="item">
                             <div class="blog-card h-100">
                                 <div class="blog-img">
-                                    <a href="javascript:void(0)" data-bs-target="#exampleModalToggle"
-                                        data-bs-toggle="modal"><img
-                                            src="{{ asset('public/frontend/images/video-thumbnail/') }}/{{$video->media}}"
+                                    <a href="{{ $video->url }}" data-toggle="lightbox"
+                                        data-gallery="video-gallery"
+                                        data-title="{{ $video->name }}"><img
+                                            src="{{ asset('public/frontend/images/video-thumbnail/') }}/{{ $video->media }}"
                                             alt=""></a>
-                                            {{-- {{ asset('public/frontend/images/video-thumbnail.png') }} --}}
+                                    {{-- {{ asset('public/frontend/images/video-thumbnail.png') }} --}}
                                 </div>
                                 <div class="blog-content">
-                                    <span class="mini-title">#{{$video->type}}</span>
-                                    <h3 class="blog-title line-clamp-2"><a href="javascript:void(0)"
-                                            data-bs-target="#exampleModalToggle" data-bs-toggle="modal">{{$video->name}}</a>
+                                    <span class="mini-title">#{{ $video->type }}</span>
+                                    <h3 class="blog-title line-clamp-2">
+                                        <a href="{{ $video->url }}" data-toggle="lightbox"
+                                            data-gallery="video-gallery"
+                                            data-title="{{ $video->name }}">{{ $video->name }}</a>
+
                                     </h3>
-                                    <p class="line-clamp-3">{{$video->content}}
+                                    <p class="line-clamp-3">{{ $video->content }}
                                     </p>
                                     <div class="blog-publice py-1">
                                         <div class="row pb-1">
@@ -753,7 +688,8 @@
                                                         alt="">
                                                     <div class="ms-2">
                                                         <span class="d-block fw-semibold">Date:</span>
-                                                        <span class="blog-date-admin">{{ Carbon::parse($video->created_at)->format('d M') }}</span>
+                                                        <span
+                                                            class="blog-date-admin">{{ Carbon::parse($video->created_at)->format('d M') }}</span>
                                                     </div>
                                                 </div>
                                             </div>

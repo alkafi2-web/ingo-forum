@@ -70,7 +70,7 @@
                             // Use data-toggle and data-gallery for Ekko Lightbox
                             return `<a href="${videoURL}" data-toggle="lightbox" data-gallery="video-gallery" data-title="${row.name}">
                                 <img src="${thumbnailPath}" alt="Video Thumbnail" style="width: 100px; height: 100px; object-fit: contain;" class="video-thumbnail">
-                            </a>`;
+                            </a>`; 
                         }
                     },
                     {
