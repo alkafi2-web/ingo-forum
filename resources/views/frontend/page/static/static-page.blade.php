@@ -8,7 +8,7 @@
                 <div class="col-lg-8 p-mobile">
                     <div class="text-center page-title-area">
                         <div class="page-title">
-                            <h2>Page Title</h2>
+                            <h2>{{ $page->title }}</h2>
                         </div>
                         <div class="page-border">
                             <div class="top-bottom-img">

@@ -15,6 +15,7 @@ use App\Http\Controllers\Content\PageController;
 use App\Http\Middleware\adminMiddleware;
 use Illuminate\Support\Facades\Route;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
+use App\Http\Controllers\Frontend\Page\PageController as FrontendPageController;
 
 Route::prefix('admin')->group(function () {
     Route::get('/', [AuthController::class, 'login'])->name('login');
@@ -153,3 +154,4 @@ Route::prefix('admin')->group(function () {
     });
 });
 Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
+Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('frontend.static.page');
