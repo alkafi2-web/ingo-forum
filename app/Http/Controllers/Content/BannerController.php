@@ -18,7 +18,7 @@ class BannerController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $banners = Banner::latest();;
+            $banners = Banner::latest();
 
             return DataTables::of($banners)
                 ->make(true);
