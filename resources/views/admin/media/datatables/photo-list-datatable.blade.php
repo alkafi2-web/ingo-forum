@@ -162,6 +162,7 @@
                     $('#photo-update').removeClass('d-none');
                     $('#photo-update').attr('data-id', photo.id);
                     $('#photo-submit').addClass('d-none');
+                    $('#page-refresh').removeClass('d-none');
                 },
                 error: function(xhr, status, error) {
                     // Handle AJAX error

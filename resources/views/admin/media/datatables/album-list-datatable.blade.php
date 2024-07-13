@@ -164,6 +164,7 @@
                     $('#album-update').removeClass('d-none');
                     $('#album-update').attr('data-id',album.id);
                     $('#album-submit').addClass('d-none');
+                    $('#page-refresh').removeClass('d-none');
                 },
                 error: function(xhr, status, error) {
                     // Handle AJAX error

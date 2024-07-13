@@ -75,7 +75,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button id="system-submit" type="submit" class="btn btn-primary mt-3">Submit</button>
+                        <button id="system-submit" type="submit" class="btn btn-primary mt-3"><i class="fas fa-upload"></i>Submit</button>
                     </form>
                     
                 </div>

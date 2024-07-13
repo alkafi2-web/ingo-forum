@@ -22,8 +22,12 @@
             </div>
         </div>
     </div>
-    <button id="subcategory-submit" type="submit" class="btn btn-primary mt-3">Submit</button>
-    <button id="subcategory-update" type="submit" class="btn btn-primary mt-3 d-none">Update</button>
+    <button id="subcategory-submit" type="submit" class="btn btn-primary mt-3"><i
+            class="fas fa-upload"></i>Submit</button>
+    <button id="subcategory-update" type="submit" class="btn btn-primary mt-3 d-none"><i
+            class="fas fa-wrench"></i>Update</button>
+    <button id="page-refresh" type="submit" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i>
+        Refresh</button>
 </form>
 
 @push('custom-js')
@@ -97,6 +101,7 @@
                         $('#post-category-data').DataTable().ajax.reload(null, false);
                         $('#subcategory-submit').removeClass('d-none');
                         $('#category-update ').addClass('d-none');
+                        $('#page-refresh ').addClass('d-none');
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
@@ -108,6 +113,14 @@
                     }
                 });
 
+            });
+            $('#page-refresh').on('click', function(e) {
+                e.preventDefault();
+                $('#add-header').text('Add Post Category');
+                $('#subcategoryForm')[0].reset();
+                $('#subcategory-submit').removeClass('d-none');
+                $('#subcategory-update').addClass('d-none');
+                $('#page-refresh ').addClass('d-none');
             });
         });
     </script>

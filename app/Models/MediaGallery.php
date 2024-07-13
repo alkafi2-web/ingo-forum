@@ -13,4 +13,8 @@ class MediaGallery extends Model
     {
         return $this->belongsTo(MediaAlbum::class, 'album_id');
     }
+    public function addedBy()
+    {
+        return $this->belongsTo(User::class, 'added_by'); // Assuming 'added_by' is the foreign key in your posts table
+    }
 }

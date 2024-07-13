@@ -152,6 +152,7 @@
                     $('#subcategory-update').removeClass('d-none');
                     $('#subcategory-update').attr('data-id',category.id);
                     $('#subcategory-submit').addClass('d-none');
+                    $('#page-refresh ').removeClass('d-none');
                 },
                 error: function(xhr, status, error) {
                     // Handle AJAX error

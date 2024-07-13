@@ -23,8 +23,9 @@
             </div>
         </div>
     </div>
-    <button id="about-us-submit" type="submit" class="btn btn-primary mt-3">Submit</button>
-    <button id="about-us-update" type="submit" class="btn btn-primary mt-3 d-none">Update</button>
+    <button id="about-us-submit" type="submit" class="btn btn-primary mt-3"> <i class="fas fa-upload"></i>Submit</button>
+    <button id="about-us-update" type="submit" class="btn btn-primary mt-3 d-none"> <i class="fas fa-wrench"></i>Update</button>
+    
 </form>
 @push('custom-js')
     <script>

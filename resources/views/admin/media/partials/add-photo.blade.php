@@ -61,12 +61,14 @@
         </div>
     </div>
     <div id="image-preview" class="row mb-3"></div>
-    <button id="photo-submit" type="submit" class="btn btn-primary ">Submit <span id="spinner"
-            class="spinner-border spinner-border-sm text-light d-none" role="status"
+    <button id="photo-submit" type="submit" class="btn btn-primary "><i class="fas fa-upload"></i>Submit <span
+            id="spinner" class="spinner-border spinner-border-sm text-light d-none" role="status"
             aria-hidden="true"></span></button>
-    <button id="photo-update" type="submit" class="btn btn-primary d-none">Update <span id="update-spinner"
-            class="spinner-border spinner-border-sm text-light d-none" role="status"
+    <button id="photo-update" type="submit" class="btn btn-primary d-none"><i class="fas fa-wrench"></i>Update <span
+            id="update-spinner" class="spinner-border spinner-border-sm text-light d-none" role="status"
             aria-hidden="true"></span></button></button>
+    <button id="page-refresh" type="submit" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i>
+        Refresh </button>
 </form>
 
 @push('custom-js')
@@ -147,6 +149,7 @@
                         $('#photo-data').DataTable().ajax.reload(null, false);
                         $('#photo-submit').removeClass('d-none');
                         $('#photo-update ').addClass('d-none');
+                        $('#page-refresh').addClass('d-none');
                     },
                     error: function(xhr) {
                         $('#spinner').addClass('d-none');
@@ -209,6 +212,24 @@
                 }
                 input.get(0).files = newFileList.files;
             }
+
+            $('#page-refresh').on('click', function(e) {
+                e.preventDefault();
+                $('#spinner').addClass('d-none');
+                $('#images-label').addClass('required');
+                $('#image-preview').empty(); // Clear all previews
+                filesArray = []; // Clear the files array
+                $('#images').val('');
+                $('#warning-photo').removeClass('d-none');
+                $('#add-header').text('Add Photo');
+                $('#photoForm')[0].reset();
+                $('#pp').addClass('d-none');
+                $('#pp').attr('src', '');
+                $('#photo-data').DataTable().ajax.reload(null, false);
+                $('#photo-submit').removeClass('d-none');
+                $('#photo-update ').addClass('d-none');
+                $('#page-refresh').addClass('d-none');
+            });
 
         });
     </script>

@@ -34,12 +34,14 @@
         </div>
     </div>
     <div id="image-preview" class="row mb-3"></div>
-    <button id="video-submit" type="submit" class="btn btn-primary ">Submit <span id="spinner"
-            class="spinner-border spinner-border-sm text-light d-none" role="status"
+    <button id="video-submit" type="submit" class="btn btn-primary "><i class="fas fa-upload"></i>Submit <span
+            id="spinner" class="spinner-border spinner-border-sm text-light d-none" role="status"
             aria-hidden="true"></span></button>
-    <button id="video-update" type="submit" class="btn btn-primary d-none">Update <span id="update-spinner"
-            class="spinner-border spinner-border-sm text-light d-none" role="status"
+    <button id="video-update" type="submit" class="btn btn-primary d-none"><i class="fas fa-wrench"></i>Update <span
+            id="update-spinner" class="spinner-border spinner-border-sm text-light d-none" role="status"
             aria-hidden="true"></span></button></button>
+    <button id="page-refresh" type="submit" class="btn btn-secondary d-none"><i class="fas fa-sync-alt"></i>
+        Refresh</button>
 </form>
 
 @push('custom-js')
@@ -112,6 +114,7 @@
                         $('#video-data').DataTable().ajax.reload(null, false);
                         $('#video-submit').removeClass('d-none');
                         $('#video-update ').addClass('d-none');
+                        $('#page-refresh').addClass('d-none');
                     },
                     error: function(xhr) {
                         $('#spinner').addClass('d-none');
@@ -124,6 +127,18 @@
                     }
                 });
 
+            });
+
+            $('#page-refresh').on('click', function(e) {
+                e.preventDefault();
+                $('#spinner').addClass('d-none');
+                $('#warning-photo').removeClass('d-none');
+                $('#add-header').text('Add Photo');
+                $('#videoForm')[0].reset();
+                $('#pp').attr('src', '');
+                $('#video-submit').removeClass('d-none');
+                $('#video-update ').addClass('d-none');
+                $('#page-refresh').addClass('d-none');
             });
         });
     </script>

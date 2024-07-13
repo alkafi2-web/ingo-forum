@@ -34,8 +34,11 @@
             </div>
         </div>
     </div>
-    <button id="album-submit" type="submit" class="btn btn-primary mt-3">Submit</button>
-    <button id="album-update" type="submit" class="btn btn-primary mt-3 d-none">Update</button>
+    <button id="album-submit" type="submit" class="btn btn-primary mt-3"><i class="fas fa-upload"></i>Submit</button>
+    <button id="album-update" type="submit" class="btn btn-primary mt-3 d-none"><i
+            class="fas fa-wrench"></i>Update</button>
+    <button id="page-refresh" type="submit" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i>
+        Refresh</button>
 </form>
 
 @push('custom-js')
@@ -101,6 +104,7 @@
                         $('#album-data').DataTable().ajax.reload(null, false);
                         $('#album-submit').removeClass('d-none');
                         $('#album-update ').addClass('d-none');
+                        $('#page-refresh').addClass('d-none');
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
@@ -112,6 +116,16 @@
                     }
                 });
 
+            });
+            // Refresh button click event
+            $('#page-refresh').on('click', function(e) {
+                e.preventDefault();
+                $('#add-header').text('Add Banner Content');
+                $('#albumForm')[0].reset();
+                $('#pp').attr('src', '');
+                $('#album-submit').removeClass('d-none');
+                $('#album-update ').addClass('d-none');
+                $('#page-refresh').addClass('d-none');
             });
         });
     </script>
