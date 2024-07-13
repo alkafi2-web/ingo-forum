@@ -15,14 +15,17 @@ class MediaController extends Controller
 {
     public function mediaAlbum(Request $request)
     {
-        // $albums = MediaAlbum::with(['mediaGalleries' => function ($query) {
+        // return $albums = MediaAlbum::with(['mediaGalleries' => function ($query) {
         //     $query->where('status', 1);
-        // }])->take(3)->get();
-        // return $albums->media_galleries;
+        // }])
+        //     ->where('status', 1)
+        //     ->take(3)
+        //     ->get();
+        //  $albums->media_galleries;
         $albums = MediaAlbum::with(['mediaGalleries' => function ($query) {
             $query->where('status', 1);
         }])->get();
-        
+
         if ($request->ajax()) {
             $albums = MediaAlbum::latest();
 
@@ -133,7 +136,7 @@ class MediaController extends Controller
 
     public function photoIndex(Request $request)
     {
-        
+
         if ($request->ajax()) {
             $album_filter = $request->input('album_filter');
             $status_filter = $request->input('status_filter');

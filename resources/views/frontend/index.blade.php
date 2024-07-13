@@ -643,179 +643,75 @@
     @endif
     <!-- Blog Section End  -->
     <!-- Photo Gallery Section start  -->
-    <section class="gallery-section ptb-70">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3"></div>
-                <div class="col-lg-6">
-                    <div class="text-center">
-                        <h5 class="sub-title">Photo Gallery</h5>
-                        <h2 class="section-title">Showcasing Our Best Moments</h2>
+    @if ($global['albums']->count() > 0)
+        <section class="gallery-section ptb-70">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
+                        <div class="text-center">
+                            <h5 class="sub-title">Photo Gallery</h5>
+                            <h2 class="section-title">Showcasing Our Best Moments</h2>
+                        </div>
                     </div>
+                    <div class="col-lg-3"></div>
                 </div>
-                <div class="col-lg-3"></div>
-            </div>
-            <div class="row gy-4 pt-5 px-1">
-                @forelse ($global['albums'] as $album)
-                    <div class="col-6 col-md-4">
-                        <div class="gallery-card h-100">
-                            <div class="gallery-img">
-                                @forelse ($album->mediaGalleries->where('status', 1)->take(3) as $photo)
-                                    <a href=""><img src="{{ asset('public/frontend/images/photo-gallery/') }}/{{$photo->media}}"
-                                            alt="" style="width: 415px; height: 415px;"></a>
-                                @empty
-                                    <p>No photos available.</p>
-                                @endforelse
+                <div class="row gy-4 pt-5 px-1">
+                    @forelse ($global['albums'] as $album)
+                        <div class="col-6 col-md-4">
+                            <div class="gallery-card h-100">
+                                <div class="gallery-img">
+                                    @forelse ($album->mediaGalleries->where('status', 1)->take(3) as $photo)
+                                        <a href=""><img
+                                                src="{{ asset('public/frontend/images/photo-gallery/') }}/{{ $photo->media }}"
+                                                alt="" style="width: 415px; height: 415px;"></a>
+                                    @empty
+                                        {{-- <p>No photos available.</p> --}}
+                                        <a href=""><img src="images/gallery1.png" alt=""></a>
+                                        <a href=""><img src="images/gallery3.png" alt=""></a>
+                                        <a href=""><img src="images/gallery2.png" alt=""></a>
+                                    @endforelse
 
-                            </div>
-                            <div class="blog-content">
-                                <span class="mini-title">#{{ $album->albumtype }}</span>
-                                <h3 class="blog-title line-clamp-2"><a href="">{{ $album->title }}</a></h3>
-                                <p class="line-clamp-3">{{ Str::limit($album->subcontent ?? '', 150) }}</p>
-                                <div class="blog-publice py-1">
-                                    <div class="row pb-1">
-                                        <div class="col-6 border-right">
-                                            <div class="d-flex align-items-center">
-                                                <img src="{{ asset('public/frontend/images/icons/calender.png') }}"
-                                                    alt="">
-                                                <div class="ms-2">
-                                                    <span class="d-block fw-semibold">Date:</span>
-                                                    <span
-                                                        class="blog-date-admin">{{ Carbon::parse($album->created_at)->format('d M') }}</span>
+                                </div>
+                                <div class="blog-content">
+                                    <span class="mini-title">#{{ $album->albumtype }}</span>
+                                    <h3 class="blog-title line-clamp-2"><a href="">{{ $album->title }}</a></h3>
+                                    <p class="line-clamp-3">{{ Str::limit($album->subcontent ?? '', 150) }}</p>
+                                    <div class="blog-publice py-1">
+                                        <div class="row pb-1">
+                                            <div class="col-6 border-right">
+                                                <div class="d-flex align-items-center">
+                                                    <img src="{{ asset('public/frontend/images/icons/calender.png') }}"
+                                                        alt="">
+                                                    <div class="ms-2">
+                                                        <span class="d-block fw-semibold">Date:</span>
+                                                        <span
+                                                            class="blog-date-admin">{{ Carbon::parse($album->created_at)->format('d M') }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex d-flex align-items-center">
+                                                    <img src="{{ asset('public/frontend/images/icons/profile.png') }}"
+                                                        alt="">
+                                                    <div class="ms-2">
+                                                        <span class="d-block fw-semibold">By:</span>
+                                                        <span class="blog-date-admin">Admin</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="d-flex d-flex align-items-center">
-                                                <img src="{{ asset('public/frontend/images/icons/profile.png') }}"
-                                                    alt="">
-                                                <div class="ms-2">
-                                                    <span class="d-block fw-semibold">By:</span>
-                                                    <span class="blog-date-admin">Admin</span>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @empty
-                @endforelse
-                {{-- <div class="col-6 col-md-4">
-                    <div class="gallery-card h-100">
-                        <div class="gallery-img">
-                            <a href=""><img src="images/gallery1.png" alt=""></a>
-                            <a href=""><img src="images/gallery3.png" alt=""></a>
-                            <a href=""><img src="images/gallery2.png" alt=""></a>
-                        </div>
-                        <div class="blog-content">
-                            <span class="mini-title">#Education</span>
-                            <h3 class="blog-title line-clamp-2"><a href="">Children Education</a></h3>
-                            <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                            <div class="blog-publice py-1">
-                                <div class="row pb-1">
-                                    <div class="col-6 border-right">
-                                        <div class="d-flex align-items-center">
-                                            <img src="images/icons/calender.png" alt="">
-                                            <div class="ms-2">
-                                                <span class="d-block fw-semibold">Date:</span>
-                                                <span class="blog-date-admin">10 Jun</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="d-flex d-flex align-items-center">
-                                            <img src="images/icons/profile.png" alt="">
-                                            <div class="ms-2">
-                                                <span class="d-block fw-semibold">By:</span>
-                                                <span class="blog-date-admin">Admin</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @empty
+                    @endforelse
+
                 </div>
-                <div class="col-6 col-md-4">
-                    <div class="gallery-card h-100">
-                        <div class="gallery-img">
-                            <a href=""><img src="images/gallery2.png" alt=""></a>
-                            <a href=""><img src="images/gallery3.png" alt=""></a>
-                            <a href=""><img src="images/gallery1.png" alt=""></a>
-                        </div>
-                        <div class="blog-content">
-                            <span class="mini-title">#Education</span>
-                            <h3 class="blog-title line-clamp-2"><a href="">Children Education</a></h3>
-                            <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                            <div class="blog-publice py-1">
-                                <div class="row pb-1">
-                                    <div class="col-6 border-right">
-                                        <div class="d-flex align-items-center">
-                                            <img src="images/icons/calender.png" alt="">
-                                            <div class="ms-2">
-                                                <span class="d-block fw-semibold">Date:</span>
-                                                <span class="blog-date-admin">10 Jun</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="d-flex d-flex align-items-center">
-                                            <img src="images/icons/profile.png" alt="">
-                                            <div class="ms-2">
-                                                <span class="d-block fw-semibold">By:</span>
-                                                <span class="blog-date-admin">Admin</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4">
-                    <div class="gallery-card h-100">
-                        <div class="gallery-img">
-                            <a href=""><img src="images/gallery3.png" alt=""></a>
-                            <a href=""><img src="images/gallery1.png" alt=""></a>
-                            <a href=""><img src="images/gallery2.png" alt=""></a>
-                        </div>
-                        <div class="blog-content">
-                            <span class="mini-title">#Education</span>
-                            <h3 class="blog-title line-clamp-2"><a href="">Children Education</a></h3>
-                            <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                            <div class="blog-publice py-1">
-                                <div class="row pb-1">
-                                    <div class="col-6 border-right">
-                                        <div class="d-flex align-items-center">
-                                            <img src="images/icons/calender.png" alt="">
-                                            <div class="ms-2">
-                                                <span class="d-block fw-semibold">Date:</span>
-                                                <span class="blog-date-admin">10 Jun</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="d-flex d-flex align-items-center">
-                                            <img src="images/icons/profile.png" alt="">
-                                            <div class="ms-2">
-                                                <span class="d-block fw-semibold">By:</span>
-                                                <span class="blog-date-admin">Admin</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
     <!-- Photo Gallery Section End  -->
     <!-- Video Section start  -->
     <section class="video-gallery ptb-70 bg-gray">
@@ -832,7 +728,54 @@
             </div>
             <div class="row pt-2">
                 <div class="video-slider">
-                    <div class="item">
+                    @forelse ($global['videos'] as $video)
+                        <div class="item">
+                            <div class="blog-card h-100">
+                                <div class="blog-img">
+                                    <a href="javascript:void(0)" data-bs-target="#exampleModalToggle"
+                                        data-bs-toggle="modal"><img
+                                            src="{{ asset('public/frontend/images/video-thumbnail/') }}/{{$video->media}}"
+                                            alt=""></a>
+                                            {{-- {{ asset('public/frontend/images/video-thumbnail.png') }} --}}
+                                </div>
+                                <div class="blog-content">
+                                    <span class="mini-title">#{{$video->type}}</span>
+                                    <h3 class="blog-title line-clamp-2"><a href="javascript:void(0)"
+                                            data-bs-target="#exampleModalToggle" data-bs-toggle="modal">{{$video->name}}</a>
+                                    </h3>
+                                    <p class="line-clamp-3">{{$video->content}}
+                                    </p>
+                                    <div class="blog-publice py-1">
+                                        <div class="row pb-1">
+                                            <div class="col-6 border-right">
+                                                <div class="d-flex align-items-center">
+                                                    <img src="{{ asset('public/frontend/images/icons/calender.png') }}"
+                                                        alt="">
+                                                    <div class="ms-2">
+                                                        <span class="d-block fw-semibold">Date:</span>
+                                                        <span class="blog-date-admin">{{ Carbon::parse($video->created_at)->format('d M') }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex d-flex align-items-center">
+                                                    <img src="{{ asset('public/frontend/images/icons/profile.png') }}"
+                                                        alt="">
+                                                    <div class="ms-2">
+                                                        <span class="d-block fw-semibold">By:</span>
+                                                        <span class="blog-date-admin">Admin</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                    @endforelse
+
+                    {{-- <div class="item">
                         <div class="blog-card h-100">
                             <div class="blog-img">
                                 <a href="javascript:void(0)" data-bs-target="#exampleModalToggle"
@@ -945,45 +888,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="blog-card h-100">
-                            <div class="blog-img">
-                                <a href="javascript:void(0)" data-bs-target="#exampleModalToggle"
-                                    data-bs-toggle="modal"><img src="./images/video-thumbnail.png" alt=""></a>
-                            </div>
-                            <div class="blog-content">
-                                <span class="mini-title">#Education</span>
-                                <h3 class="blog-title line-clamp-2"><a href="javascript:void(0)"
-                                        data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Children Education</a>
-                                </h3>
-                                <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                                <div class="blog-publice py-1">
-                                    <div class="row pb-1">
-                                        <div class="col-6 border-right">
-                                            <div class="d-flex align-items-center">
-                                                <img src="images/icons/calender.png" alt="">
-                                                <div class="ms-2">
-                                                    <span class="d-block fw-semibold">Date:</span>
-                                                    <span class="blog-date-admin">10 Jun</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="d-flex d-flex align-items-center">
-                                                <img src="images/icons/profile.png" alt="">
-                                                <div class="ms-2">
-                                                    <span class="d-block fw-semibold">By:</span>
-                                                    <span class="blog-date-admin">Admin</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
     </section>

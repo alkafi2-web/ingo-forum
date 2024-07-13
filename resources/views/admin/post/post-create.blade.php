@@ -35,7 +35,7 @@
                             <div class="col-md-6">
                                 <!-- Category -->
                                 <div class="form-group">
-                                    <label for="category">Category</label>
+                                    <label for="category" class="required">Category</label>
                                     <select id="category" name="category" class="form-control mt-3" required>
                                         <option value="">-- Select Category --</option>
                                         @forelse ($categories as $category)
@@ -49,7 +49,7 @@
                             <div class="col-md-6">
                                 <!-- Subcategory -->
                                 <div class="form-group">
-                                    <label for="subcategory">Subcategory</label>
+                                    <label for="subcategory" class="required">Subcategory</label>
                                     <select id="subcategory" name="subcategory" class="form-control mt-3" required>
                                         <option value="">-- Select Subcategory --</option>
                                     </select>
@@ -61,7 +61,7 @@
                             <div class="col-md-6">
                                 <!-- Title -->
                                 <div class="form-group mt-3">
-                                    <label for="title">Title</label>
+                                    <label for="title" class="required">Title</label>
                                     <input type="text" id="title" name="title" class="form-control mt-3" required>
                                 </div>
                             </div>
@@ -77,19 +77,19 @@
 
                         <!-- Short Description -->
                         <div class="form-group mt-3">
-                            <label for="short_description" class="mb-3">Short Description</label>
+                            <label for="short_description" class="mb-3 required">Short Description</label>
                             <textarea id="short_description" name="short_description" class="form-control mt-5" rows="1" required></textarea>
                         </div>
 
                         <!-- Long Description -->
                         <div class="form-group mt-3">
-                            <label for="long_description" class="mb-3">Long Description</label>
+                            <label for="long_description" class="mb-3 required">Long Description</label>
                             <textarea id="long_description" name="long_description" class="form-control mt-5" rows="7" required></textarea>
                         </div>
 
                         <!-- Banner -->
                         <div class="form-group mt-3">
-                            <label for="banner" class="">Banner</label>
+                            <label for="banner" class="required">Banner</label>
                             <input type="file" id="banner" name="banner" class="form-control mt-3" required
                                 oninput="pp.src=window.URL.createObjectURL(this.files[0])">
                             <img id="pp" width="200" class="float-start mt-3" src="">
@@ -194,7 +194,8 @@
                 var title = $(this).val();
                 var slug = title.toLowerCase()
                     .replace(/\s+/g, '-') // Replace spaces with hyphens
-                    .replace(/[^a-zA-Z0-9-ঀ-৿]/g, ''); // Allow alphanumeric, hyphens, and Bangla characters
+                    .replace(/[^a-zA-Z0-9-ঀ-৿]/g, '') // Allow alphanumeric, hyphens, and Bangla characters
+                    .replace(/-+/g, '-'); // Replace multiple hyphens with a single hyphen
 
                 $('#slug').val(slug);
             });

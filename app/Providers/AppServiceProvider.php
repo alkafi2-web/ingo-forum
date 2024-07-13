@@ -97,9 +97,10 @@ class AppServiceProvider extends ServiceProvider
 
                 $albums = MediaAlbum::with(['mediaGalleries' => function ($query) {
                     $query->where('status', 1);
-                }])->take(3)->get();
+                }])->where('status', 1)->take(3)->get();
                 $global['albums'] = $albums;
-
+                $videos = MediaGallery::where('type', 'video')->where('status',1)->latest()->get();
+                $global['videos'] = $videos;
             }
             $view->with('global', $global);
         });

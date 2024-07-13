@@ -2,7 +2,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="name" class="text-3xl">-- Select Category --</label>
+                <label for="name" class="text-3xl required">-- Select Category --</label>
                 <select name="category" id="category" class="form-select">
                     <option value="">-- Select Category --</option>
                     @forelse ($categories as $category)
@@ -17,7 +17,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="name" class="text-3xl">Sub Category Name</label>
+                <label for="name" class="text-3xl required">Sub Category Name</label>
                 <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
             </div>
         </div>

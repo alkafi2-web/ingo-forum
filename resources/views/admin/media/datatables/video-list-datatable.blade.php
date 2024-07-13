@@ -68,7 +68,7 @@
                             let thumbnailPath = basePath + data;
 
                             // Use data-toggle and data-gallery for Ekko Lightbox
-                            return `<a href="${videoURL}" data-toggle="lightbox" data-gallery="video-gallery">
+                            return `<a href="${videoURL}" data-toggle="lightbox" data-gallery="video-gallery" data-title="${row.name}">
                                 <img src="${thumbnailPath}" alt="Video Thumbnail" style="width: 100px; height: 100px; object-fit: contain;" class="video-thumbnail">
                             </a>`;
                         }
@@ -145,8 +145,14 @@
         });
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
             event.preventDefault();
-            $(this).ekkoLightbox();
+            $(this).ekkoLightbox({
+                onShown: function() {
+                    var title = $(this).attr('data-title');
+                    $('.ekko-lightbox .modal-title').text(title).css('text-align', 'left');
+                }
+            });
         });
+
         $(document).on('click', '.edit', function(e) {
             e.preventDefault(); // Prevent default link behavior
 

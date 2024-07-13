@@ -36,8 +36,8 @@ class PostController extends Controller
                 'string',
                 'max:255',
                 'unique:posts',
-                // Regex pattern to allow only alphanumeric characters and dashes
-                'regex:/^[a-zA-Z0-9\-]*$/u',
+                // Regex pattern to allow alphanumeric characters, dashes, and Bangla characters
+                // 'regex:/^[\p{L}a-zA-Z0-9\-]*$/u',
             ],
             'long_description' => 'required|string',
             'banner' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
@@ -152,7 +152,7 @@ class PostController extends Controller
 
     public function postUpdate(Request $request)
     {
-        
+
         // Validate incoming request data
         $validator = Validator::make($request->all(), [
             'category' => 'required', // Example validation rule
