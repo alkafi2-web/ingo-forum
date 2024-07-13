@@ -2,7 +2,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="f_icon" class="text-3xl">Feature Icon</label>
+                <label for="f_icon" class="text-3xl required">Feature Icon</label>
                 <input type="file" class="form-control" id="f_icon" name="f_icon" value="{{ old('f_icon') }}" oninput="pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
                 <img id="pp" width="100" class="float-start mt-3" src="">
             </div>
@@ -11,7 +11,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="f_sub_title" class="text-3xl">Feature Sub Title</label>
+                <label for="f_sub_title" class="text-3xl required">Feature Sub Title</label>
                 <input type="text" class="form-control" id="f_sub_title" name="f_sub_title" value="{{ old('f_sub_title') }}">
             </div>
         </div>
@@ -19,7 +19,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="f_title" class="text-3xl">Feature Title</label>
+                <label for="f_title" class="text-3xl required">Feature Title</label>
                 <input type="text" class="form-control" id="f_title" name="f_title" value="{{ old('f_title') }}">
             </div>
         </div>

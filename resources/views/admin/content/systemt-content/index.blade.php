@@ -12,7 +12,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="name" class="text-3xl">System Name</label>
+                                    <label for="name" class="text-3xl required">System Name</label>
                                     <input type="text" class="form-control" id="name" name="name" value="{{ old('name')??$global['website_name'] }}">
                                 </div>
                             </div>
@@ -28,7 +28,7 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="content" class="text-3xl">System Short Content</label>
+                                    <label for="content" class="text-3xl required">System Short Content</label>
                                     <input type="text" class="form-control" id="content" name="short_content" value="{{ old('short_content') ?? $global['short_content']  }}">
                                 </div>
                             </div>

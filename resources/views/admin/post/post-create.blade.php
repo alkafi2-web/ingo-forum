@@ -51,7 +51,7 @@
                                 <div class="form-group">
                                     <label for="subcategory" class="required">Subcategory</label>
                                     <select id="subcategory" name="subcategory" class="form-control mt-3" required>
-                                        <option value="">-- Select Subcategory --</option>
+                                        <option value="">-- Select Category First --</option>
                                     </select>
                                 </div>
                             </div>

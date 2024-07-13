@@ -38,7 +38,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="albumtype" class="text-3xl">Album Type</label>
+                <label for="albumtype" class="text-3xl required">Album Type</label>
                 <select class="form-control" id="albumtype" name="album_id">
                     <option value="" disabled selected>Select Album</option>
                     @forelse ($albums as $album)
@@ -52,7 +52,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="images" class="text-3xl">Upload Images</label>
+                <label for="images" class="text-3xl required" id="images-label">Upload Images</label>
                 <input type="file" class="form-control" id="images" name="images[]" multiple>
                 <p class="text-danger mt-2" id="warning-photo">Upload 10 file at once</p>
                 <img src="" id="pp" alt="image" class="d-none"
@@ -132,6 +132,7 @@
                     success: function(response) {
                         var success = response.success;
                         $('#spinner').addClass('d-none');
+                        $('#images-label').addClass('required');
                         $('#image-preview').empty(); // Clear all previews
                         filesArray = []; // Clear the files array
                         $('#images').val('');

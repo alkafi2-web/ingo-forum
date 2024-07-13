@@ -2,7 +2,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="title" class="text-3xl">Album Title</label>
+                <label for="title" class="text-3xl required">Album Title</label>
                 <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
             </div>
         </div>
@@ -10,7 +10,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="content" class="text-3xl">Album Content</label>
+                <label for="content" class="text-3xl required">Album Content</label>
                 <textarea class="form-control" id="content" name="content">{{ old('content') }}</textarea>
             </div>
         </div>
@@ -18,7 +18,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="subcontent" class="text-3xl">Album Sub Content</label>
+                <label for="subcontent" class="text-3xl required">Album Sub Content</label>
                 <textarea class="form-control" id="subcontent" name="subcontent">{{ old('subcontent') }}</textarea>
             </div>
         </div>
@@ -26,7 +26,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="albumtype" class="text-3xl">Album Type</label>
+                <label for="albumtype" class="text-3xl required">Album Type</label>
                 <select class="form-control" id="albumtype" name="albumtype">
                     <option value="photo" {{ old('albumtype') == 'photo' ? 'selected' : '' }}>Photo</option>
                     <option value="video" {{ old('albumtype') == 'video' ? 'selected' : '' }}>Video</option>

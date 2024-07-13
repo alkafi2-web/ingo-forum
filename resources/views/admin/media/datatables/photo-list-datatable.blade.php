@@ -153,6 +153,7 @@
                     var photo = response.photo;
                     $('#add-header').text('Update Photo');
                     $('#warning-photo').addClass('d-none');
+                    $('#images-label').removeClass('required');
                     $('#albumtype').val(photo.album_id);
                     $('#pp').removeClass('d-none');
                     let basePath = '{{ asset('public/frontend/images/photo-gallery/') }}/'

@@ -2,7 +2,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="title" class="text-3xl">About Us Title</label>
+                <label for="title" class="text-3xl required">About Us Title</label>
                 <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
             </div>
         </div>
@@ -10,7 +10,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="slogan" class="text-3xl">About Us Slogan</label>
+                <label for="slogan" class="text-3xl required">About Us Slogan</label>
                 <input type="text" class="form-control" id="slogan" name="slogan" value="{{ old('slogan') }}">
             </div>
         </div>
@@ -18,7 +18,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="ab_des" class="text-3xl">About Us Description</label>
+                <label for="ab_des" class="text-3xl required">About Us Description</label>
                 <textarea class="form-control" id="ab_des" name="ab_des">{{ old('ab_des') }}</textarea>
             </div>
         </div>
