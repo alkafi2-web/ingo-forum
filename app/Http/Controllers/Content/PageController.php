@@ -32,4 +32,12 @@ class PageController extends Controller
 
         return view('admin.content.page.index');
     }
+    
+    public function verifySlug(Request $request)
+    {
+        $slug = $request->input('slug');
+        $exists = Page::where('slug', $slug)->exists();
+        return response()->json(['exists' => $exists]);
+    }
+    
 }
