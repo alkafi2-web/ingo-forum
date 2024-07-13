@@ -186,3 +186,15 @@ table tbody tr:last-child td{
   border-bottom: 1px solid #dee2e633 !important;
   border-bottom-width: 1px !important;
 }
+/* Modal Design start Here  */
+.modal-body iframe {
+  width: 100%;
+  height: 430px;
+}
+@media screen and (max-width: 992px) {
+  .modal-body iframe {
+    width: 100%;
+    height: 260px;
+  }
+}
+/* Modal Design end Here  */

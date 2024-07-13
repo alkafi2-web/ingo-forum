@@ -65,7 +65,12 @@
                                 '{{ asset('public/frontend/images/video-thumbnail/') }}/';
                             let videoURL = row
                                 .url; // Assuming you have the video filename in the row data
-                            return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;" class="video-thumbnail" data-video="${videoURL}">`;
+                            let thumbnailPath = basePath + data;
+
+                            // Use data-toggle and data-gallery for Ekko Lightbox
+                            return `<a href="${videoURL}" data-toggle="lightbox" data-gallery="video-gallery" data-title="${row.name}">
+                                <img src="${thumbnailPath}" alt="Video Thumbnail" style="width: 100px; height: 100px; object-fit: contain;" class="video-thumbnail">
+                            </a>`;
                         }
                     },
                     {
@@ -136,30 +141,23 @@
                 // responsive: true,
 
             });
-            $('#album_filter, #status_filter').on('change', function() {
-                table.ajax.reload(null, false);
+
+        });
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox({
+                onShown: function() {
+                    var title = $(this).attr('data-title');
+                    $('.ekko-lightbox .modal-title').text(title).css('text-align', 'left');
+                }
             });
-
         });
-        $(document).on('click', '.video-thumbnail', function() {
-           
-            // Get the video path from the data attribute
-            var videoPath = $(this).attr('data-video');
-            alert(videoPath)
-            // Set the video source
-            // $('#videoSource').attr('src', videoPath);
 
-            // // Load the video
-            // $('#videoPlayer')[0].load();
-
-            // Show the modal
-            $('#videoModal').modal('show');
-        });
         $(document).on('click', '.edit', function(e) {
             e.preventDefault(); // Prevent default link behavior
 
             var id = $(this).attr('data-id');
-            var url = "{{ route('photo.edit') }}";
+            var url = "{{ route('video.edit') }}";
             $.ajax({
                 url: url,
                 type: 'POST', // or 'GET' depending on your server endpoint
@@ -170,18 +168,18 @@
                     id: id
                 }, // You can send additional data if needed
                 success: function(response) {
-                    console.log(response.photo);
-                    var photo = response.photo;
-                    $('#add-header').text('Update Photo');
-                    $('#warning-photo').addClass('d-none');
-                    $('#albumtype').val(photo.album_id);
-                    $('#pp').removeClass('d-none');
-                    let basePath = '{{ asset('public/frontend/images/photo-gallery/') }}/'
-                    var imagePath = basePath + photo.media;
+                    console.log(response.video);
+                    var video = response.video;
+                    $('#add-header').text('Update Video');
+                    $('#title').val(video.name);
+                    $('#url').val(video.url);
+                    $('#content').val(video.content);
+                    let basePath = '{{ asset('public/frontend/images/video-thumbnail/') }}/'
+                    var imagePath = basePath + video.media;
                     $('#pp').attr('src', imagePath);
-                    $('#photo-update').removeClass('d-none');
-                    $('#photo-update').attr('data-id', photo.id);
-                    $('#photo-submit').addClass('d-none');
+                    $('#video-update').removeClass('d-none');
+                    $('#video-update').attr('data-id', video.id);
+                    $('#video-submit').addClass('d-none');
                 },
                 error: function(xhr, status, error) {
                     // Handle AJAX error
@@ -193,11 +191,11 @@
             e.preventDefault(); // Prevent default link behavior
 
             var id = $(this).attr('data-id');
-            var url = "{{ route('photo.delete') }}";
+            var url = "{{ route('video.delete') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will delete this photo!',
+                text: 'This action will delete this video!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',
@@ -217,11 +215,11 @@
 
             var id = $(this).attr('data-id'); // Get the URL from the href attribute
             var status = $(this).attr('data-status');
-            var url = "{{ route('photo.status') }}";
+            var url = "{{ route('video.status') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will change status of this photo!',
+                text: 'This action will change status of this video!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, Change it!',

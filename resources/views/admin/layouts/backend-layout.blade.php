@@ -31,7 +31,7 @@
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="{{ asset('public/admin/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/admin/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.css" rel="stylesheet" />
     <link href="{{ asset('public/admin/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <!-- DataTables CSS -->
     <!--end::Global Stylesheets Bundle-->
@@ -136,6 +136,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.js"></script> --}}
+    <script src="{{ asset('public/admin/js/ekko-lightbox.js') }}"></script>
     {{-- <script src="https://cdn.ckeditor.com/4.24.0-lts/standard/ckeditor.js"></script> --}}
     @stack('custom-js')
     <!-- Initialize Toastr -->

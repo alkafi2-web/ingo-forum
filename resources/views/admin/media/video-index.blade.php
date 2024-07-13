@@ -50,31 +50,69 @@
             </div>
         </div>
     </div>
+    <style>
+        .ekko-lightbox.modal .modal-header {
+            flex-direction: row-reverse !important;
+        }
 
-    <!-- Modal -->
-    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <iframe src="https://www.youtube.com/embed/Q-Fr04F19G8" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="videoModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-        tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <iframe src="https://www.youtube.com/embed/Q-Fr04F19G8" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
+        .modal-header .close {
+            padding: 1rem 1.25rem;
+            margin: -1rem -1.25rem -1rem auto;
+            /* display: none; */
+        }
+
+        .modal-header {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: start;
+            align-items: flex-start;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #e3e9ef;
+            border-top-left-radius: calc(.4375rem - 1px);
+            border-top-right-radius: calc(.4375rem - 1px);
+        }
+
+        .modal-content {
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            width: 100%;
+            pointer-events: auto;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #e3e9ef;
+            border-radius: .4375rem;
+            box-shadow: 0 0.3rem 1.525rem -0.375rem rgba(0, 0, 0, 0.1);
+            outline: 0;
+        }
+
+        .modal-header {
+            -ms-flex-align: center;
+            align-items: center;
+        }
+
+        button:not(:disabled),
+        [type="button"]:not(:disabled),
+        [type="reset"]:not(:disabled),
+        [type="submit"]:not(:disabled) {
+            cursor: pointer;
+        }
+
+        button.close {
+            padding: 0;
+            background-color: transparent;
+            border: 0;
+        }
+
+        .modal-body {
+            position: relative;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            padding: 1.25rem;
+        }
+    </style>
 @endsection

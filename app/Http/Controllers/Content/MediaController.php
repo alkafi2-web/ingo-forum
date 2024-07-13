@@ -15,8 +15,19 @@ class MediaController extends Controller
 {
     public function mediaAlbum(Request $request)
     {
+        // return $albums = MediaAlbum::with(['mediaGalleries' => function ($query) {
+        //     $query->where('status', 1);
+        // }])
+        //     ->where('status', 1)
+        //     ->take(3)
+        //     ->get();
+        //  $albums->media_galleries;
+        $albums = MediaAlbum::with(['mediaGalleries' => function ($query) {
+            $query->where('status', 1);
+        }])->get();
+
         if ($request->ajax()) {
-            $albums = MediaAlbum::latest();;
+            $albums = MediaAlbum::latest();
 
             return DataTables::of($albums)
                 ->make(true);
@@ -125,6 +136,7 @@ class MediaController extends Controller
 
     public function photoIndex(Request $request)
     {
+
         if ($request->ajax()) {
             $album_filter = $request->input('album_filter');
             $status_filter = $request->input('status_filter');
@@ -297,9 +309,9 @@ class MediaController extends Controller
 
     public function videoIndex(Request $request)
     {
-        
+
         if ($request->ajax()) {
-            $videos = MediaGallery::where('type','video')->latest()->get();
+            $videos = MediaGallery::where('type', 'video')->latest()->get();
 
             return DataTables::of($videos)
                 ->make(true);
@@ -362,5 +374,102 @@ class MediaController extends Controller
             'media' => $imageName,
         ]);
         return response()->json(['success' => ['success' => 'You have successfully Upload Video!']]);
+    }
+
+    public function videoDelete(Request $request)
+    {
+        $video = MediaGallery::findOrFail($request->id);
+        $videoThumnailPath = public_path('/frontend/images/video-thumbnail/') . $video->media;
+        // Delete the image file if it exists
+        if (file_exists($videoThumnailPath)) {
+            unlink($videoThumnailPath);
+        }
+
+        // Delete the banner record
+        $video->delete();
+
+        return response()->json(['success' => 'Video deleted successfully']);
+    }
+    public function videoStatus(Request $request)
+    {
+        $video = MediaGallery::findOrFail($request->id);
+
+        // Toggle the status
+        $newStatus = $request->status == 0 ? 1 : 0;
+
+        // Update the status attribute
+        $video->status = $newStatus;
+
+        // Save the changes to the database
+        $video->save();
+
+        return response()->json(['success' => 'Video status updated successfully']);
+    }
+    public function videoEdit(Request $request)
+    {
+        // Find the banner by ID or throw an exception if not found
+        // return $request->all();
+        $video = MediaGallery::findOrFail($request->id);
+
+        return response()->json(['video' => $video]);
+    }
+    public function videoUpdate(Request $request)
+    {
+        // Define validation rules
+        $rules = [
+            'title' => 'required|string|max:255',
+            'url' => 'required|string|max:255',
+            'content' => 'required|string|max:255',
+            'image' => 'nullable|mimes:jpeg,jpg,png|max:2048' // Ensure image is required and validate type and size
+        ];
+
+        // Define custom error messages
+        $messages = [
+            'title.required' => 'The title field is required.',
+            'title.string' => 'The title must be a string.',
+            'title.max' => 'The title may not be greater than 255 characters.',
+            'url.required' => 'The URL field is required.',
+            'url.string' => 'The URL must be a string.',
+            'url.max' => 'The URL may not be greater than 255 characters.',
+            'content.required' => 'The content field is required.',
+            'content.string' => 'The content must be a string.',
+            'content.max' => 'The content may not be greater than 255 characters.',
+            'image.mimes' => 'The image must be a file of type: jpeg, jpg, png.',
+            'image.max' => 'The image may not be greater than 2048 kilobytes.',
+        ];
+
+        // Validate the request
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            // Return errors as JSON
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $video = MediaGallery::findOrFail($request->id);
+        // // Process and store the image
+        // $imageName = null;
+        if (isset($request->image)) {
+            $image = $request->image;
+            $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
+            $dir = public_path('/frontend/images/video-thumbnail/');
+            $oldImagePath = $dir . $video->media;
+            if (File::exists($oldImagePath)) {
+                File::delete($oldImagePath);
+            }
+            if (!File::exists($dir)) {
+                File::makeDirectory($dir, 0755, true);
+            }
+            $image->move($dir, $imageName);
+            $video->update([
+                'media' => $imageName,
+            ]);
+        }
+
+        $video->update([
+            'name' => $request->title,
+            'url' => $request->url,
+            'content' => $request->content,
+        ]);
+        return response()->json(['success' => ['success' => 'You have successfully Update Video!']]);
     }
 }
