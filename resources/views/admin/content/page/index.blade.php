@@ -7,7 +7,7 @@
         <div class="col-12 col-md-7">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="pt-5 " id="add-header">Add New Page</h2>
+                    <h2 class="pt-5 " id="page-header">Add New Page</h2>
                 </div>
                 <div class="card-body">
                     @include('admin.content.page.partials.page-form')

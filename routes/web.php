@@ -34,6 +34,11 @@ Route::prefix('admin')->group(function () {
             Route::prefix('page')->group(function () {
                 Route::get('/', [PageController::class, 'index'])->name('admin.page');
                 Route::get('/slug-verify', [PageController::class, 'verifySlug'])->name('slug.verify');
+                Route::get('/edit/{id}', [PageController::class, 'edit'])->name('page.edit');
+                Route::post('/storeOrupdate-page', [PageController::class, 'storeOrUpdate'])->name('page.storeOrUpdate');
+                Route::post('page/toggle-visibility', [PageController::class, 'toggleVisibility'])->name('page.toggleVisibility');
+                Route::delete('/admin/content/page', [PageController::class, 'destroy'])->name('page.destroy');
+
 
             });
             // page route end
