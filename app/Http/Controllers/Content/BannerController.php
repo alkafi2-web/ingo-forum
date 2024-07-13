@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
+use Intervention\Image\Facades\Image;
 
 class BannerController extends Controller
 {
@@ -38,13 +39,26 @@ class BannerController extends Controller
         }
         $data = $request->only(['title', 'description']);
         if (isset($request->image)) {
-            $image = $request->image;
+            // $image = $request->image;
+            // $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
+            // $dir = public_path('/frontend/images/banner/');
+            // if (!File::exists($dir)) {
+            //     File::makeDirectory($dir, 0755, true);
+            // }
+            // $image->move($dir, $imageName);
+            // $data['image'] = $imageName;
+            $image = $request->file('image');
             $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
             $dir = public_path('/frontend/images/banner/');
+
             if (!File::exists($dir)) {
                 File::makeDirectory($dir, 0755, true);
             }
-            $image->move($dir, $imageName);
+
+            // Resize the image to 415x415
+            $img = Image::make($image)->fit(638, 549);
+            $img->save($dir . $imageName);
+
             $data['image'] = $imageName;
         }
         $data['added_by'] = Auth::user()->id;
