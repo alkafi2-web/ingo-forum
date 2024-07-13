@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Models\Banner;
 use App\Models\Event;
 use App\Models\MainContent;
+use App\Models\MediaAlbum;
+use App\Models\MediaGallery;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
@@ -80,8 +82,24 @@ class AppServiceProvider extends ServiceProvider
                 $events = Event::where('status', 1)->latest()->take(3)->get();
                 $global['events'] = $events;
 
-                $posts = Post::with(['category', 'subcategory','addedBy'])->where('status',1)->latest()->get();
+                $posts = Post::with(['category', 'subcategory', 'addedBy'])->where('status', 1)->latest()->get();
                 $global['posts'] = $posts;
+
+                // $photos = MediaGallery::where('type', 'photo')
+                //     ->whereHas('mediaAlbum', function ($query) {
+                //         $query->where('status', 1);
+                //     })
+                //     ->with(['mediaAlbum' => function ($query) {
+                //         $query->where('status', 1);
+                //     }])
+                //     ->latest()->take(3)->get();
+                // $global['photos'] = $photos;
+
+                $albums = MediaAlbum::with(['mediaGalleries' => function ($query) {
+                    $query->where('status', 1);
+                }])->take(3)->get();
+                $global['albums'] = $albums;
+
             }
             $view->with('global', $global);
         });
