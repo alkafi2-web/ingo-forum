@@ -16,6 +16,7 @@ use App\Http\Middleware\adminMiddleware;
 use Illuminate\Support\Facades\Route;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 use App\Http\Controllers\Frontend\Page\PageController as FrontendPageController;
+use App\Http\Controllers\Menu\MenuController;
 
 Route::prefix('admin')->group(function () {
     Route::get('/', [AuthController::class, 'login'])->name('login');
@@ -31,6 +32,14 @@ Route::prefix('admin')->group(function () {
             Route::get('/create-user', [AuthController::class, 'createUser'])->name('createUser');
             //user managment end
 
+            // menu route start
+            Route::prefix('menu')->group(function () {
+                Route::get('/', [MenuController::class, 'index'])->name('menu.index');
+                // Route for storing the menu
+                Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
+                
+            });
+
             // page route start
             Route::prefix('page')->group(function () {
                 Route::get('/', [PageController::class, 'index'])->name('admin.page');
@@ -39,8 +48,9 @@ Route::prefix('admin')->group(function () {
                 Route::post('/storeOrupdate-page', [PageController::class, 'storeOrUpdate'])->name('page.storeOrUpdate');
                 Route::post('page/toggle-visibility', [PageController::class, 'toggleVisibility'])->name('page.toggleVisibility');
                 Route::delete('/admin/content/page', [PageController::class, 'destroy'])->name('page.destroy');
-
-
+                // Route for getting the page list
+                Route::get('/menu/pages', [PageController::class, 'getPages'])->name('menu.pages');
+                Route::post('menu/update-order', [MenuController::class, 'updateOrder'])->name('menu.updateOrder');
             });
             // page route end
 

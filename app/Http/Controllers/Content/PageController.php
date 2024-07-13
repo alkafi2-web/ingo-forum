@@ -111,4 +111,11 @@ class PageController extends Controller
         ]);
     }
 
+    public function getPages(Request $request)
+    {
+        if ($request->ajax()) {
+            $pages = Page::select('id', 'title')->get();
+            return response()->json($pages);
+        }
+    }
 }

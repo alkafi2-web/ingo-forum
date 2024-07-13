@@ -23,6 +23,8 @@
     <link rel="shortcut icon" href="{{asset('public/frontend/images/logo.png')}}" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <!-- jQuery UI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!--end::Fonts-->
     <!--begin::Page Vendor Stylesheets(used by this page)-->
     <link rel="stylesheet" href="{{ asset('public/admin/css/app.css') }}" type="text/css">
@@ -139,6 +141,7 @@
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.js"></script> --}}
     <script src="{{ asset('public/admin/js/ekko-lightbox.js') }}"></script>
     {{-- <script src="https://cdn.ckeditor.com/4.24.0-lts/standard/ckeditor.js"></script> --}}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     @stack('custom-js')
     <!-- Initialize Toastr -->
     {!! Toastr::message() !!}
