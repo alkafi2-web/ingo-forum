@@ -24,7 +24,10 @@ return new class extends Migration
             $table->integer('position')->default(0); // Position for ordering the media items
             $table->string('url')->nullable(); // URL associated with the media
             $table->integer('status')->default(0);
+            $table->unsignedBigInteger('added_by'); // Status of the album, default to active
             $table->timestamps();
+
+            $table->foreign('added_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
