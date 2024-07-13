@@ -54,24 +54,31 @@ class AppServiceProvider extends ServiceProvider
                 $banners  = Banner::where('status', 1)->get();
                 $global['banner'] = $banners;
 
-                $mainContent  = MainContent::where('name', 'aboutus-content')->first();
-                $aboutus_content = $mainContent->content;
-                $aboutus = json_decode($aboutus_content);
-                $content = $aboutus->content;
-                $global['aboutus_content'] = $content;
+                $mainContent = MainContent::where('name', 'aboutus-content')->first();
+                if ($mainContent) {
+                    $aboutus_content = $mainContent->content;
+                    $aboutus = json_decode($aboutus_content);
+                    $content = $aboutus->content ?? '';
+                    $global['aboutus_content'] = $content;
+                } else {
+                    // Handle the case where no record is found
+                    $global['aboutus_content'] = ''; // or provide a default value
+                }
 
                 $features = MainContent::where('name', 'aboutus-feature')->first();
-                $featuresContent = json_decode($features->content, true);
                 $featuresArray = [];
 
-                if (isset($featuresContent['feature'])) {
-                    foreach ($featuresContent['feature'] as $key => $feature) {
-                        $featuresArray[] = [
-                            'title' => $feature['title'],
-                            'subtitle' => $feature['subtitle'],
-                            'icon' => $feature['icon_name'],
-                            'status' => $feature['status'],
-                        ];
+                if ($features) {
+                    $featuresContent = json_decode($features->content, true);
+                    if (isset($featuresContent['feature'])) {
+                        foreach ($featuresContent['feature'] as $key => $feature) {
+                            $featuresArray[] = [
+                                'title' => $feature['title'] ?? '',
+                                'subtitle' => $feature['subtitle'] ?? '',
+                                'icon' => $feature['icon_name'] ?? '',
+                                'status' => $feature['status'] ?? '',
+                            ];
+                        }
                     }
                 }
                 $global['aboutus_feature'] = $featuresArray;
@@ -99,7 +106,7 @@ class AppServiceProvider extends ServiceProvider
                     $query->where('status', 1);
                 }])->where('status', 1)->take(3)->get();
                 $global['albums'] = $albums;
-                $videos = MediaGallery::where('type', 'video')->where('status',1)->latest()->get();
+                $videos = MediaGallery::where('type', 'video')->where('status', 1)->latest()->get();
                 $global['videos'] = $videos;
             }
             $view->with('global', $global);
