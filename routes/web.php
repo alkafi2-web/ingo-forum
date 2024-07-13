@@ -33,6 +33,8 @@ Route::prefix('admin')->group(function () {
             // page route start
             Route::prefix('page')->group(function () {
                 Route::get('/', [PageController::class, 'index'])->name('admin.page');
+                Route::get('/slug-verify', [PageController::class, 'verifySlug'])->name('slug.verify');
+
             });
             // page route end
 

@@ -6,9 +6,6 @@
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Serial') }}
-                </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Title') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
@@ -37,7 +34,6 @@ $(document).ready(function() {
         serverSide: true,
         ajax: '{{ route('admin.page') }}',
         columns: [
-            { data: 'id', name: 'id' },
             { data: 'title', name: 'title' },
             { data: 'slug', name: 'slug' },
             { data: 'status', name: 'status', orderable: false, searchable: false },
