@@ -1,3 +1,8 @@
+<style>
+    .fas{
+        cursor: pointer;
+    }
+</style>
 <div class="table-responsive table-container">
     <!--begin::Table-->
     <table class="table election-datatable align-middle table-bordered fs-6 gy-5 m-auto display responsive"
@@ -29,7 +34,7 @@
 @push('custom-js')
 <script>
 $(document).ready(function() {
-    $('#pagelist-datatable').DataTable({
+    var table = $('#pagelist-datatable').DataTable({
         processing: true,
         serverSide: true,
         ajax: '{{ route('admin.page') }}',
@@ -40,10 +45,10 @@ $(document).ready(function() {
             { data: 'actions', name: 'actions', orderable: false, searchable: false }
         ],
         lengthMenu: [
-            [5, 10, 30, 50, -1],
-            [5, 10, 30, 50, "All"]
+            [15, 20, 30, 50, -1],
+            [15, 20, 30, 50, "All"]
         ], // Add 'All' option
-        pageLength: 5, // Set default page length
+        pageLength: 15, // Set default page length
         dom: "<'row'<'col-sm-4'l><'col-sm-4 d-flex justify-content-center'B><'col-sm-4'f>>" +
             // Page length, buttons, and search
             "<'row'<'col-sm-12'tr>>" + // Table rows
@@ -78,6 +83,112 @@ $(document).ready(function() {
         ],
         // responsive: true,
     });
+    // Edit button click event
+    $('#pagelist-datatable').on('click', '#edit-page-button', function(e) {
+        e.preventDefault();
+        let url = $(this).attr('href');
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(response) {
+                $('#page_id').val(response.id);
+                $('#page_title').val(response.title);
+                $('#page_slug').val(response.slug);
+                CKEDITOR.instances['page_details'].setData(response.details);
+                $('#page-submit').addClass('d-none');
+                $('#page-update').removeClass('d-none');
+                $('#page-refresh').removeClass('d-none');
+                $('#page-header').text('Update ' + response.title + ' Page');
+            },
+            error: function() {
+                toastr.error('Failed to load page details');
+            }
+        });
+    });
+
+    // Toggle visibility
+    $('#pagelist-datatable').on('click', '#inactive-page, #active-page', function() {
+        var pageId = $(this).attr('data');
+        var iconElement = $(this);
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to change the visibility of this page!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, change it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '{{ route('page.toggleVisibility') }}',
+                    type: 'POST',
+                    data: {
+                        id: pageId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire(
+                            'Updated!',
+                            response.message,
+                            'success'
+                        );
+                        table.draw(false); // Refresh the DataTable without resetting pagination
+                    },
+                    error: function(response) {
+                        Swal.fire(
+                            'Failed!',
+                            'An error occurred while updating the visibility.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    });
+
+    // Delete page
+    $('#pagelist-datatable').on('click', '#delete-page', function() {
+        var pageId = $(this).attr('data');
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to delete this page!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '{{ route('page.destroy') }}',
+                    type: 'DELETE',
+                    data: {
+                        id: pageId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire(
+                            'Deleted!',
+                            response.message,
+                            'success'
+                        );
+                        table.draw(false); // Refresh the DataTable without resetting pagination
+                    },
+                    error: function(response) {
+                        Swal.fire(
+                            'Failed!',
+                            'An error occurred while deleting the page.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    });
+
 });
 </script>
 @endpush

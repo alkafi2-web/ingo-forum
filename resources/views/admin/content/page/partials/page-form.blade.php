@@ -1,4 +1,6 @@
 <form id="pageForm" action="" method="POST" enctype="multipart/form-data">
+    @csrf
+    <input type="hidden" id="page_id" name="page_id" value="">
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
@@ -24,13 +26,14 @@
             </div>
         </div>
     </div>
-    <button id="page-submit" type="submit" class="btn btn-primary mt-3">Submit</button>
-    <button id="page-update" type="submit" class="btn btn-primary mt-3 d-none">Update</button>
+    <button id="page-submit" type="submit" class="btn btn-primary mt-3"><i class="fas fa-upload"></i> Submit</button>
+    <button id="page-update" type="submit" class="btn btn-primary mt-3 d-none"><i class="fas fa-wrench"></i> Update</button>
+    <button id="page-refresh" type="submit" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i> Refresh</button>
 </form>
 
 @push('custom-js')
-    <script>
-        CKEDITOR.replace('page_details');
+<script>
+    CKEDITOR.replace('page_details');
     $(document).ready(function() {
         // Function to generate slug
         function generateSlug(value) {
@@ -74,6 +77,97 @@
                     console.log('Error checking slug');
                 }
             });
+        }
+
+        // Update button click event
+        $('#page-update').on('click', function(e) {
+            e.preventDefault();
+            let pageId = $('#page_id').val();
+            let isValid = true;
+
+            // Check for required fields
+            if (!$('#page_title').val()) {
+                toastr.error('Page title is required');
+                isValid = false;
+            }
+            if (!$('#page_slug').val()) {
+                toastr.error('Page slug is required');
+                isValid = false;
+            }
+            if (CKEDITOR.instances['page_details'].getData().trim() === '') {
+                toastr.error('Page details are required');
+                isValid = false;
+            }
+
+            if (isValid) {
+                $('#pageForm').submit();
+            }
+        });
+
+        // Form submit handler
+        $('#pageForm').on('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+
+            // Check for required fields
+            if (!$('#page_title').val()) {
+                toastr.error('Page title is required');
+                isValid = false;
+            }
+            if (!$('#page_slug').val()) {
+                toastr.error('Page slug is required');
+                isValid = false;
+            }
+            let pageDetails = CKEDITOR.instances['page_details'].getData().trim();
+            if (pageDetails === '') {
+                toastr.error('Page details are required');
+                isValid = false;
+            }
+
+            if (isValid) {
+                let formData = new FormData(this);
+                formData.append('page_details', pageDetails);
+
+                $.ajax({
+                    url: '{{ route('page.storeOrUpdate') }}',
+                    method: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        toastr.success(response.message);
+                        resetForm();
+                        $('#pagelist-datatable').DataTable().ajax.reload();
+                    },
+                    error: function(response) {
+                        if (response.responseJSON && response.responseJSON.errors) {
+                            $.each(response.responseJSON.errors, function(key, value) {
+                                toastr.error(value[0]);
+                            });
+                        } else {
+                            toastr.error('An error occurred while saving the page');
+                        }
+                    }
+                });
+            }
+        });
+
+        // Refresh button click event
+        $('#page-refresh').on('click', function(e) {
+            e.preventDefault();
+            resetForm();
+        });
+
+        // Reset form function
+        function resetForm() {
+            $('#pageForm')[0].reset();
+            CKEDITOR.instances['page_details'].setData('');
+            $('#page-submit').removeClass('d-none');
+            $('#page-update').addClass('d-none');
+            $('#page-refresh').addClass('d-none');
+            $('#page-header').text('Add New Page');
+            $('#slug-exist').addClass('d-none');
+            $('#page-submit').prop('disabled', false);
         }
     });
 </script>
