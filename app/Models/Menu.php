@@ -12,6 +12,7 @@ class Menu extends Model
     protected $fillable = [
         'name',
         'has_sub_menu',
+        'parent_id',
         'type',
         'page_id',
         'route',

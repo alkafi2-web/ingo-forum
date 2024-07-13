@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable(false); // Required field
             $table->boolean('has_sub_menu')->default(0); // Indicates if the menu has sub-menus
+            $table->integer('parent_id')->default(0); // Position for ordering the menu items
             $table->string('type')->nullable(); // Type of menu item (e.g., page, route, URL, etc.)
             $table->unsignedBigInteger('page_id')->nullable(); // References the page associated with the menu item
             $table->string('route')->nullable(); // Route name if the type is route
