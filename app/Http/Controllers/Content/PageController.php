@@ -25,7 +25,11 @@ class PageController extends Controller
                     return '<a href="'.route('page.edit', $row->id).'" id="edit-page-button"><i class="fas fa-edit text-success"></i></a>&nbsp;<i class="fas fa-trash-alt text-danger" id="delete-page" data="'.$row->id.'"></i>';
                 })
                 ->addColumn('status', function($row){
-                    return $row->visibility ? '<i class="fas fa-eye text-primary" id="inactive-page" data="'.$row->id.'"></i>' : '<i class="fas fa-eye-slash" id="active-page" data="'.$row->id.'"></i>';
+                    // Use the url() helper to generate the full URL
+                    $pageUrl = url($row->slug);
+                    return $row->visibility 
+                        ? '<i class="fas fa-eye text-primary" id="inactive-page" data="'.$row->id.'"></i>&nbsp;<a href="'.$pageUrl.'" target="_blank"><i class="fas fa-external-link-alt text-info"></i></a>'
+                        : '<i class="fas fa-eye-slash" id="active-page" data="'.$row->id.'"></i>';
                 })
                 ->rawColumns(['actions', 'status'])
                 ->make(true);

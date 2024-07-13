@@ -8,7 +8,7 @@
                 <div class="col-lg-8 p-mobile">
                     <div class="text-center page-title-area">
                         <div class="page-title">
-                            <h2>Page Title</h2>
+                            <h2>{{ $page->title }}</h2>
                         </div>
                         <div class="page-border">
                             <div class="top-bottom-img">
@@ -23,4 +23,10 @@
         </div>
     </section>
     <!-- Title Area end here  -->
+
+    <!-- Page content start here  -->
+    <div class="container ptb-50">
+        {!! $page->details !!}
+    </div>
+    <!-- Page contentend here  -->
 @endsection
