@@ -10,5 +10,6 @@ class IndexController extends Controller
     public function index()
     {
         return view('frontend.index');
+        // return view('frontend.page.static.static-layout');
     }
 }
