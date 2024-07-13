@@ -18,7 +18,10 @@ return new class extends Migration
             $table->text('subcontent')->nullable(); // Sub-content of the album
             $table->string('albumtype')->nullable(); // Type of the album
             $table->integer('status')->default(0); // Status of the album, default to active
+            $table->unsignedBigInteger('added_by');
             $table->timestamps();
+
+            $table->foreign('added_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
