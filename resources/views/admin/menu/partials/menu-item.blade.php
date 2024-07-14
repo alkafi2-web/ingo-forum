@@ -1,9 +1,16 @@
-<div class="d-flex align-items-center mb-1" data-id="{{ $menu->id }}">
-    <div id="menu_{{ $menu->id }}" class="dragagble-menu-item w-100">
-        <span>{{ $menu->name }}</span>
+<li id="menu-{{ $menu->id }}" class="mjs-nestedSortable-branch mjs-nestedSortable-expanded">
+    <div class="draggable-menu-item">
+        <span class="draggable-menu-name">{{ $menu->name }}</span>
+        <div>
+            <button class="btn btn-danger btn-sm">x</button>
+            <button class="btn btn-success btn-sm">edit</button>
+        </div>
     </div>
-    <div class="dragagble-menu-actions d-flex align-items-center">
-        <button class="btn btn-delete" data-id="{{ $menu->id }}"><i class="fas fa-times text-white"></i></button>&nbsp;
-        <button class="btn btn-edit" data-id="{{ $menu->id }}"><i class="fas fa-pencil-alt text-white"></i></button>
-    </div>
-</div>
+    @if ($menu->subMenus->count())
+        <ul class="draggable-sub-menu-container">
+            @foreach ($menu->subMenus as $subMenu)
+                @include('admin.menu.partials.menu-item', ['menu' => $subMenu])
+            @endforeach
+        </ul>
+    @endif
+</li>

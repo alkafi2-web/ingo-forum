@@ -10,7 +10,7 @@ use App\Models\Page;
 class MenuController extends Controller
 {
     public function index(){
-        $menus = Menu::orderBy('position')->get();
+        $menus = Menu::with('subMenus')->where('parent_id', 0)->orderBy('position')->get();
         return view('admin.menu.index', compact('menus'));
     }
     // store the menu 
@@ -46,21 +46,46 @@ class MenuController extends Controller
 
     public function updateOrder(Request $request)
     {
-        $sortedIDs = $request->input('sortedIDs');
-
-        if (!is_array($sortedIDs)) {
-            return response()->json(['error' => 'Invalid input format'], 400);
+        $order = $request->input('order');
+        if (!$order) {
+            return response()->json(['status' => 'error', 'message' => 'Invalid data'], 400);
         }
 
-        foreach ($sortedIDs as $index => $id) {
-            $menu = Menu::find($id);
-            if ($menu) {
-                $menu->position = $index;
-                $menu->save();
+        foreach ($order as $index => $item) {
+            if (!isset($item['item_id'])) {
+                continue; // Skip items without an ID
             }
+            $id = str_replace('menu-', '', $item['item_id']);
+            $parentId = isset($item['parent_id']) && $item['parent_id'] ? str_replace('menu-', '', $item['parent_id']) : 0;
+            Menu::where('id', $id)->update(['position' => $index, 'parent_id' => $parentId]);
         }
 
-        return response()->json(['success' => true, 'message' => 'Menu order updated successfully']);
+        return response()->json(['status' => 'success']);
     }
 
+    public function createOrRemoveSubmenu(Request $request)
+    {
+        $submenu = $request->input('submenu');
+        if (!$submenu) {
+            return response()->json(['status' => 'error', 'message' => 'Invalid data'], 400);
+        }
+
+        $id = $submenu[0];
+        $parentId = $submenu[1];
+
+        Menu::where('id', $id)->update(['parent_id' => $parentId]);
+        Menu::where('id', $parentId)->update(['has_sub_menu' => 1]);
+
+        return response()->json(['status' => 'success']);
+    }
+
+    public function updateHasSubMenu(Request $request)
+    {
+        $itemId = $request->input('itemId');
+        $hasSubMenu = $request->input('hasSubMenu');
+
+        Menu::where('id', $itemId)->update(['has_sub_menu' => $hasSubMenu]);
+
+        return response()->json(['status' => 'success']);
+    }
 }

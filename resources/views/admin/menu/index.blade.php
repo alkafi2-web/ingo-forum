@@ -1,13 +1,15 @@
 @extends('admin.layouts.backend-layout')
+
 @section('breadcame')
     Menus
 @endsection
+
 @section('admin-content')
     <div class="row">
         <div class="col-12 col-md-4">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="pt-5 " id="page-header">Add New Menu</h2>
+                    <h2 class="pt-5" id="page-header">Add New Menu</h2>
                 </div>
                 <div class="card-body">
                     @include('admin.menu.partials.add-menu')
@@ -19,73 +21,120 @@
                 <div class="card-header">
                     <h2 class="pt-5">Menu List</h2>
                 </div>
-                <div class="card-body"><div id="menu-container" class="menu-container">
-                    @foreach ($menus as $menu)
-                        @include('admin.menu.partials.menu-item', ['menu' => $menu])
-                    @endforeach
-                </div>
-                <style>
-                    .dragagble-menu-item {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        background-color: #e2e3e5;
-                        padding: 10px;
-                        border-radius: 5px;
-                    }
-                    .dragagble-menu-item .dragagble-menu-actions {
-                        display: flex;
-                    }
-                    .dragagble-menu-item .dragagble-menu-actions button {
-                        margin-left: 5px;
-                    }
-                    .btn-delete {
-                        background-color: red;
-                        color: white;
-                    }
-                    .btn-edit {
-                        background-color: green;
-                        color: white;
-                    }
-                </style>
+                <div class="card-body">
+                    <ul id="menu-container" class="draggable-menu-container">
+                        @foreach ($menus as $menu)
+                            @include('admin.menu.partials.menu-item', ['menu' => $menu])
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .draggable-menu-container, .draggable-sub-menu-container {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
+        .draggable-menu-item, .draggable-sub-menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background: #f0f0f0;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+            cursor: move;
+            width: 100%;
+        }
+        .draggable-menu-item .draggable-menu-name, .draggable-sub-menu-item .draggable-menu-name {
+            flex: 1;
+        }
+        .draggable-menu-item .btn, .draggable-sub-menu-item .btn {
+            margin-left: 5px;
+        }
+        .ui-state-highlight {
+            height: 50px;
+            background: #ccc;
+        }
+        .draggable-sub-menu-container {
+            padding-left: 20px; /* Indent sub-menus */
+        }
+        .drop-target {
+            background-color: #f9f9f9;
+            border: 2px dashed #ccc;
+        }
+        .menu-hover {
+            border: 2px solid #007bff;
+        }
+    </style>
+
     @push('custom-js')
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="https://cdn.rawgit.com/mjsarfatti/nestedSortable/master/jquery.mjs.nestedSortable.js"></script>
         <script>
-            $(document).ready(function () {
-                function makeMenuDraggable() {
-                    $('#menu-container').sortable({
-                        handle: '.dragagble-menu-item',
-                        update: function (event, ui) {
-                            var sortedIDs = $(this).sortable('toArray', { attribute: 'data-id' });
-                            updateMenuOrder(sortedIDs);
-                        }
-                    }).disableSelection();
+            $(function () {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $("#menu-container").nestedSortable({
+                    handle: 'div',
+                    items: 'li',
+                    toleranceElement: '> div',
+                    placeholder: 'ui-state-highlight',
+                    listType: 'ul',
+                    isTree: true,
+                    expandOnHover: 700,
+                    startCollapsed: false,
+                    maxLevels: 2,
+                    update: function (event, ui) {
+                        var serializedData = $(this).nestedSortable('toArray', { attribute: 'id', expression: /menu-(\d+)/ });
+                        $.post("{{ route('menu.updateOrder') }}", { order: serializedData })
+                            .done(function() {
+                                toastr.success('Menu order updated successfully.');
+                            })
+                            .fail(function() {
+                                toastr.error('Failed to update menu order.');
+                            });
+                    },
+                    stop: function (event, ui) {
+                        var item = ui.item;
+                        var parent = item.parent().closest('li');
+                        var parentId = parent.length ? parent.attr('id').replace('menu-', '') : 0;
+                        var itemId = item.attr('id').replace('menu-', '');
+
+                        $.post("{{ route('menu.createOrRemoveSubmenu') }}", { submenu: [itemId, parentId] })
+                            .done(function() {
+                                toastr.success('Sub-menu updated successfully.');
+                            })
+                            .fail(function() {
+                                toastr.error('Failed to update sub-menu.');
+                            });
+
+                        // Update the parent menu's has_sub_menu field
+                        updateHasSubMenuField(itemId, parentId);
+                    }
+                });
+
+                function updateHasSubMenuField(itemId, parentId) {
+                    // If the item has children, update has_sub_menu to 1
+                    var hasSubMenu = $("#menu-" + itemId).find("ul").children("li").length > 0 ? 1 : 0;
+                    $.post("{{ route('menu.updateHasSubMenu') }}", { itemId: itemId, hasSubMenu: hasSubMenu });
+
+                    // If the parent has no more children, update has_sub_menu to 0
+                    if (parentId) {
+                        var parentHasSubMenu = $("#menu-" + parentId).find("ul").children("li").length > 0 ? 1 : 0;
+                        $.post("{{ route('menu.updateHasSubMenu') }}", { itemId: parentId, hasSubMenu: parentHasSubMenu });
+                    }
                 }
-    
-                function updateMenuOrder(sortedIDs) {
-                    $.ajax({
-                        url: '{{ route("menu.updateOrder") }}',
-                        method: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            sortedIDs: sortedIDs
-                        },
-                        success: function (response) {
-                            console.log(response);
-                            toastr.success('Menu order updated successfully');
-                        },
-                        error: function () {
-                            toastr.error('Failed to update menu order');
-                        }
-                    });
-                }
-    
-                makeMenuDraggable();
             });
         </script>
     @endpush
 @endsection
-

@@ -142,6 +142,7 @@
     <script src="{{ asset('public/admin/js/ekko-lightbox.js') }}"></script>
     {{-- <script src="https://cdn.ckeditor.com/4.24.0-lts/standard/ckeditor.js"></script> --}}
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.rawgit.com/mjsarfatti/nestedSortable/master/jquery.mjs.nestedSortable.js"></script>
     @stack('custom-js')
     <!-- Initialize Toastr -->
     {!! Toastr::message() !!}

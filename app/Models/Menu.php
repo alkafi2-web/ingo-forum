@@ -40,4 +40,14 @@ class Menu extends Model
     {
         return $this->menu()->exists();
     }
+    
+    /**
+     * get submenu.
+     *
+     * @return array
+     */
+    public function subMenus()
+    {
+        return $this->hasMany(Menu::class, 'parent_id')->orderBy('position');
+    }
 }
