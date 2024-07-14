@@ -208,28 +208,28 @@
                 <div class="row">
                     <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
                         <div class="counter border-right">
-                            <img src="images/member-badge.png" alt="">
+                            <img src="{{ asset('public/frontend/images/member-badge.png')}}" alt="">
                             <h3 class="text-white count-number" data-count="150">0</h3>
                             <p class="text-white">Total Members</p>
                         </div>
                     </div>
                     <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
                         <div class="counter border-right mobile-border-none">
-                            <img src="images/member-badge.png" alt="">
+                            <img src="{{ asset('public/frontend/images/member-badge.png')}}" alt="">
                             <h3 class="text-white count-number" data-count="120">0</h3>
                             <p class="text-white">Total Members</p>
                         </div>
                     </div>
                     <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
                         <div class="counter border-right">
-                            <img src="images/member-badge.png" alt="">
+                            <img src="{{ asset('public/frontend/images/member-badge.png')}}" alt="">
                             <h3 class="text-white count-number" data-count="170">0</h3>
                             <p class="text-white">Total Members</p>
                         </div>
                     </div>
                     <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
                         <div class="counter">
-                            <img src="images/member-badge.png" alt="">
+                            <img src="{{ asset('public/frontend/images/member-badge.png')}}" alt="">
                             <h3 class="text-white count-number" data-count="100">0</h3>
                             <p class="text-white">Total Members</p>
                         </div>
@@ -257,25 +257,25 @@
         <div class="container">
             <div class="owl-carousel owl-theme members-logo py-2">
                 <div class="item">
-                    <img src="images/wateraid.png" alt="">
+                    <img src="{{ asset('public/frontend/images/wateraid.png')}}" alt="">
                 </div>
                 <div class="item">
-                    <img src="images/int.png" alt="">
+                    <img src="{{ asset('public/frontend/images/int.png')}}" alt="">
                 </div>
                 <div class="item">
-                    <img src="images/snv.png" alt="">
+                    <img src="{{ asset('public/frontend/images/snv.png')}}" alt="">
                 </div>
                 <div class="item">
-                    <img src="images/pa.png" alt="">
+                    <img src="{{ asset('public/frontend/images/pa.png')}}" alt="">
                 </div>
                 <div class="item">
-                    <img src="images/snv.png" alt="">
+                    <img src="{{ asset('public/frontend/images/snv.png')}}" alt="">
                 </div>
                 <div class="item">
-                    <img src="images/int.png" alt="">
+                    <img src="{{ asset('public/frontend/images/int.png')}}" alt="">
                 </div>
                 <div class="item">
-                    <img src="images/pa.png" alt="">
+                    <img src="{{ asset('public/frontend/images/pa.png')}}" alt="">
                 </div>
             </div>
         </div>
