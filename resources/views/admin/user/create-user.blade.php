@@ -13,6 +13,14 @@
                     @include('admin.user.datatables.user-list-datatable')
                 </div>
             </div>
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h2 class="pt-5">Deleted User List</h2>
+                </div>
+                <div class="card-body">
+                    @include('admin.user.datatables.delete-user-list-datatable')
+                </div>
+            </div>
         </div>
         <div class="col-md-4">
             <div class="card">

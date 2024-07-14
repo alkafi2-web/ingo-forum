@@ -181,4 +181,34 @@ class AuthController extends Controller
         $user->syncRoles([$request->input('role')]);
         return response()->json(['success' => ['success' => 'User Update Successfully']]);
     }
+
+    public function userDelete(Request $request)
+    {
+        $user = User::findOrFail($request->id);
+        $user->status = 0; // Example update
+        $user->save();
+        $user->delete();
+        return response()->json(['success' => 'User Delete Successfully']);
+    }
+
+    public function trashedUser()
+    {
+        $users = User::onlyTrashed()->get(); // Filter users by role
+
+        return DataTables::of($users)
+            ->make(true);
+    }
+    public function userRestore(Request $request)
+    {
+        $user = User::withTrashed()->find($request->id);
+        $user->restore();
+        return response()->json(['success' => 'User Restore Successfully']);
+    }
+
+    public function userParDelete(Request $request)
+    {
+        $user = User::withTrashed()->find($request->id);
+        $user->forceDelete();
+        return response()->json(['success' => 'User Permanent Delete Successfully']);
+    }
 }

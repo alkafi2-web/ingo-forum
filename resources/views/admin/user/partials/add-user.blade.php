@@ -151,7 +151,8 @@
                         });
                         $('#add-header').text('Add User');
                         $('#sign_up_form')[0].reset();
-                        $('#user-data-list').DataTable().ajax.reload(null, false);
+                        $('#user-list-data').DataTable().ajax.reload(null, false);
+                        $('#delete-user-list-data').DataTable().ajax.reload(null, false);
                         $('#user-submit').removeClass('d-none');
                         $('#user-update').addClass('d-none');
                         $('#page-refresh').addClass('d-none');

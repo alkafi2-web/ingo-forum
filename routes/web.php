@@ -36,6 +36,10 @@ Route::prefix('admin')->group(function () {
         Route::post('/user-status', [AuthController::class, 'userStatus'])->name('user.status');
         Route::post('/user-edit', [AuthController::class, 'userEdit'])->name('user.edit');
         Route::post('/user-update', [AuthController::class, 'userUpdate'])->name('user.update');
+        Route::post('/user-delete', [AuthController::class, 'userDelete'])->name('user.delete');
+        Route::get('/user-trash', [AuthController::class, 'trashedUser'])->name('trashedUser');
+        Route::post('/user-restore', [AuthController::class, 'userRestore'])->name('user.restore');
+        Route::post('/user-per-delete', [AuthController::class, 'userParDelete'])->name('user.par.delete');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
         //user managment end
 
