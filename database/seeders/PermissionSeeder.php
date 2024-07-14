@@ -15,16 +15,22 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-         // Define array of permission names
-         $permissions = [
-            'manage-role',
-            'admin-dashboard',
-            
+        // Define array of permission names
+        $permissions = [
+            'dashboard',
+            'menu',
+            'page',
+            'website-content',
+            'event',
+            'post',
+            'user',
+            'role'
+
         ];
 
         // Create permissions
         foreach ($permissions as $permissionName) {
-            Permission::create(['name' => $permissionName, 'guard_name' => 'web']);
+            Permission::create(['name' => $permissionName, 'guard_name' => 'admin']);
         }
 
         // Create roles
@@ -47,8 +53,14 @@ class PermissionSeeder extends Seeder
                 case 'admin':
                     // Assign permissions for admin role
                     $adminPermissions = [
-                        'manage-role',
-                        'admin-dashboard',
+                        'dashboard',
+                        'menu',
+                        'page',
+                        'website-content',
+                        'event',
+                        'post',
+                        'user',
+                        'role'
                     ];
                     $adminPermissionsIds = Permission::whereIn('name', $adminPermissions)->pluck('id')->all();
                     $role->syncPermissions($adminPermissionsIds);

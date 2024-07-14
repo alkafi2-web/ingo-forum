@@ -140,6 +140,10 @@ Route::prefix('admin')->group(function () {
         // role route start
         Route::prefix('role')->group(function () {
             Route::get('/', [RoleController::class, 'role'])->name('role');
+            Route::post('/create', [RoleController::class, 'roleCreate'])->name('role.create');
+            Route::post('/delete', [RoleController::class, 'roleDelete'])->name('role.delete');
+            Route::post('/edit', [RoleController::class, 'roleEdit'])->name('role.edit');
+            Route::post('/update', [RoleController::class, 'roleUpdate'])->name('role.update');
         });
         // role route end
 

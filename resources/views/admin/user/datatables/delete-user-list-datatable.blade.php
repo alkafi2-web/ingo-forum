@@ -91,7 +91,7 @@
                             <a href="javascript:void(0)" class="text-danger restore" data-id="${row.id}">
                                 <i class="fas fa-undo-alt text-success" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
                             </a>
-                            <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}">
+                            <a href="javascript:void(0)" class="text-danger force-delete" data-id="${row.id}">
                                 <i class="fas fa-trash text-danger" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
                             </a>
                             `;
@@ -192,7 +192,7 @@
                 }
             });
         });
-        $(document).on('click', '.delete', function(e) {
+        $(document).on('click', '.force-delete', function(e) {
             e.preventDefault(); // Prevent default link behavior
 
             var id = $(this).attr('data-id');
