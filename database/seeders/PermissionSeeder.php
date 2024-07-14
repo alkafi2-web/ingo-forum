@@ -29,8 +29,8 @@ class PermissionSeeder extends Seeder
 
         // Create roles
         $roles = [
-            ['name' => 'super-admin', 'guard_name' => 'web'],
-            ['name' => 'admin', 'guard_name' => 'web']
+            ['name' => 'super-admin', 'guard_name' => 'admin'],
+            ['name' => 'admin', 'guard_name' => 'admin']
         ];
 
         foreach ($roles as $roleData) {
