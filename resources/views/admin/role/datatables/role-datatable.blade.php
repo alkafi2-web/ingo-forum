@@ -10,7 +10,7 @@
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">{{ __('Role Name') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
-                    {{ __('Created at') }}
+                    {{ __('Permissions') }}
                 </th>
                 <th class="text-end min-w-140px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
                     {{ __('Action') }}</th>
@@ -53,30 +53,77 @@
                         orderable: true,
                         sortable: false,
                         data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        orderable: true,
-                        sortable: false,
-                        data: 'created_at',
-                        name: 'created_at',
+                        name: 'name',
                         render: function(data, type, row) {
-                            // Format the date using moment.js
-                            return moment(data).format(
-                                'DD MMM YYYY hh:mm A');
+                            if (!data) return ''; // Return early if data is null or undefined
+
+                            // Capitalize the first letter of role
+                            let roleText = data.charAt(0).toUpperCase() + data.slice(1);
+                            return `${roleText}`;
+                            // Return formatted badge span
+                            return `<span class="badge badge-primary" style="display: inline-block; text-align: center;">${roleText}</span>`;
                         }
                     },
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'created_at',
-                        name: 'created_at',
+                        data: 'permissions',
+                        name: 'permissions',
                         render: function(data, type, row) {
-                            // Format the date using moment.js
-                            return moment(data).format(
-                                'DD MMM YYYY hh:mm A');
+                            if (!data) return ''; // Return early if data is null or undefined
+
+                            // Split the comma-separated string into an array
+                            let permissionsArray = data.split(',');
+
+                            // Array of possible Bootstrap badge classes
+                            let badgeClasses = ['badge-primary', 'badge-success',
+                                'badge-danger', 'badge-warning', 'badge-info',
+                                'badge-dark'
+                            ];
+
+                            // Initialize a counter to cycle through badge classes
+                            let badgeIndex = 0;
+
+                            // Create a comma-separated list of permission badges with cycling colors
+                            let permissionsHtml = permissionsArray.map(permission => {
+                                // Trim and capitalize the first letter of permission
+                                let permissionText = permission.trim().charAt(0)
+                                    .toUpperCase() + permission.trim().slice(1);
+                                // Get the next badge class in the cycle
+                                let badgeClass = badgeClasses[badgeIndex % badgeClasses
+                                    .length];
+                                // Increment the badge index
+                                badgeIndex++;
+                                // Return formatted badge span with cycling color
+                                return `<span class="badge ${badgeClass} mt-2 me-2">${permissionText}</span>`;
+                            }).join('');
+
+                            return permissionsHtml;
                         }
                     },
+                    {
+                        data: null,
+                        name: 'actions',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            // Determine if the role is admin
+                            let isAdmin = (row.name === 'admin');
+
+                            // Render edit button
+                            let editButtonHtml = `<a href="javascript:void(0)" class="edit text-primary me-2" data-id="${row.id}">
+                                <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
+                            </a>`;
+
+                            // Render delete button if not admin
+                            let deleteButtonHtml = isAdmin ? '' : `<a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}">
+                                    <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
+                                </a>`;
+
+                            // Combine buttons and return
+                            return editButtonHtml + deleteButtonHtml;
+                        }
+                    }
 
                 ],
                 lengthMenu: [
@@ -119,7 +166,103 @@
                 // responsive: true,
 
             });
+
+            $(document).on('click', '.edit', function(e) {
+                e.preventDefault(); // Prevent default link behavior
+
+                var id = $(this).attr('data-id');
+                var url = "{{ route('role.edit') }}";
+                $.ajax({
+                    url: url,
+                    type: 'POST', // or 'GET' depending on your server endpoint
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        id: id
+                    }, // You can send additional data if needed
+                    success: function(response) {
+                        console.log(response);
+                        var role = response.perm;
+                        $('#add-header').text('Update Role');
+                        $('#name').val(role.name);
+                        // Uncheck all checkboxes initially
+                        $('input[type="checkbox"][name="permissions[]"]').prop('checked',
+                        false);
+
+                        // Check checkboxes based on role.permissions array
+                        role.permissions.forEach(permission => {
+                            let permissionId = permission.id;
+
+                            // Check the checkbox corresponding to the permission ID
+                            $(`input[type="checkbox"][name="permissions[]"][value="${permissionId}"]`)
+                                .prop('checked', true);
+                        });
+                        $('#role-update').removeClass('d-none');
+                        $('#role-update').attr('data-id', role.id);
+                        $('#role-submit').addClass('d-none');
+                        $('#page-refresh').removeClass('d-none');
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle AJAX error
+                        Swal.fire('Error!', 'An error occurred.', 'error');
+                    }
+                });
+            });
+            $(document).on('click', '.delete', function(e) {
+                e.preventDefault(); // Prevent default link behavior
+
+                var id = $(this).attr('data-id');
+                var url = "{{ route('role.delete') }}";
+                // Show SweetAlert confirmation dialog
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action will delete this role!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Send AJAX request
+                        // sendAjaxRequest(url, row);
+
+                        sendAjaxReq(id, status = null, url);
+                    }
+                });
+            });
+
+            function sendAjaxReq(id, status, url) {
+                var requestData = {
+                    id: id,
+                    // Optionally include status if it's provided
+                };
+
+                // Check if status is defined and not null
+                if (typeof status !== 'undefined' && status !== null) {
+                    requestData.status = status;
+                }
+                $.ajax({
+                    url: url,
+                    type: 'POST', // or 'GET' depending on your server endpoint
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: requestData, // You can send additional data if needed
+                    success: function(response) {
+
+                        $('#role-data').DataTable().ajax.reload(null, false);
+                        // Swal.fire('Success!', response.success,
+                        //     'success');
+                        toastr.success(response.success);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle AJAX error
+                        Swal.fire('Error!', 'An error occurred.', 'error');
+                    }
+                });
+            }
         });
-        
     </script>
 @endpush
