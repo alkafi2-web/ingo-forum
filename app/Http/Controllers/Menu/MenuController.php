@@ -73,18 +73,21 @@ class MenuController extends Controller
         $id = $submenu[0];
         $parentId = $submenu[1];
 
+        $oldParentId = Menu::where('id', $id)->first()->parent_id;
+
         Menu::where('id', $id)->update(['parent_id' => $parentId]);
-        Menu::where('id', $parentId)->update(['has_sub_menu' => 1]);
-
-        return response()->json(['status' => 'success']);
-    }
-
-    public function updateHasSubMenu(Request $request)
-    {
-        $itemId = $request->input('itemId');
-        $hasSubMenu = $request->input('hasSubMenu');
-
-        Menu::where('id', $itemId)->update(['has_sub_menu' => $hasSubMenu]);
+        if ($parentId == 0) {
+            $oldParentChilds = Menu::where('parent_id', $oldParentId)->count();
+            if ($oldParentChilds > 0) {
+                Menu::where('id', $oldParentId)->update(['has_sub_menu' => 1]);
+            } else {
+                Menu::where('id', $oldParentId)->update(['has_sub_menu' => 0]);
+            }
+            
+        }
+        else{
+            Menu::where('id', $parentId)->update(['has_sub_menu' => 1]);
+        }
 
         return response()->json(['status' => 'success']);
     }

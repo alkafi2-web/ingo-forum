@@ -31,8 +31,74 @@
             </div>
         </div>
     </div>
+    @push('custom-js')
+        <script>
+            $(function () {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
 
+                $("#menu-container").nestedSortable({
+                    handle: 'div',
+                    items: 'li',
+                    toleranceElement: '> div',
+                    placeholder: 'ui-state-highlight',
+                    listType: 'ul',
+                    isTree: true,
+                    expandOnHover: 700,
+                    startCollapsed: false,
+                    maxLevels: 2,
+                    attribute: 'data-id',  // Use data-id for serialization
+                    expression: /^(\d+)$/,    // Match numeric values
+                    update: function (event, ui) {
+                        var serializedData = [];
+
+                        $('#menu-container li').each(function (index) {
+                            var item = $(this);
+                            var itemId = item.data('id');
+                            var parentId = item.parent().closest('li').data('id') || 0;
+                            
+                            serializedData.push({
+                                item_id: itemId,
+                                parent_id: parentId,
+                                position: index + 1
+                            });
+                        });
+
+                        console.log('Serialized Data:', serializedData); // Debugging
+
+                        $.post("{{ route('menu.updateOrder') }}", { order: serializedData });
+                            // .done(function() {
+                            //     toastr.success('Menu order updated successfully.');
+                            // })
+                            // .fail(function() {
+                            //     toastr.error('Failed to update menu order.');
+                            // });
+                    },
+                    stop: function (event, ui) {
+                        var item = ui.item;
+                        var parent = item.parent().closest('li');
+                        var parentId = parent.length ? parent.attr('id').replace('menu-', '') : 0;
+                        var itemId = item.attr('id').replace('menu-', '');
+
+                        $.post("{{ route('menu.createOrRemoveSubmenu') }}", { submenu: [itemId, parentId] })
+                            .done(function() {
+                                toastr.success('Menu updated successfully.');
+                            })
+                            .fail(function() {
+                                toastr.error('Failed to update Menu.');
+                            });
+                    }
+                });
+            });
+        </script>
+    @endpush
     <style>
+        ul{
+            list-style-type: none;
+        }
         .draggable-menu-container, .draggable-sub-menu-container {
             list-style-type: none;
             padding: 0;
@@ -61,7 +127,7 @@
             background: #ccc;
         }
         .draggable-sub-menu-container {
-            padding-left: 20px; /* Indent sub-menus */
+            padding-left: 24px; /* Indent sub-menus */
         }
         .drop-target {
             background-color: #f9f9f9;
@@ -71,70 +137,4 @@
             border: 2px solid #007bff;
         }
     </style>
-
-    @push('custom-js')
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-        <script src="https://cdn.rawgit.com/mjsarfatti/nestedSortable/master/jquery.mjs.nestedSortable.js"></script>
-        <script>
-            $(function () {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $("#menu-container").nestedSortable({
-                    handle: 'div',
-                    items: 'li',
-                    toleranceElement: '> div',
-                    placeholder: 'ui-state-highlight',
-                    listType: 'ul',
-                    isTree: true,
-                    expandOnHover: 700,
-                    startCollapsed: false,
-                    maxLevels: 2,
-                    update: function (event, ui) {
-                        var serializedData = $(this).nestedSortable('toArray', { attribute: 'id', expression: /menu-(\d+)/ });
-                        $.post("{{ route('menu.updateOrder') }}", { order: serializedData })
-                            .done(function() {
-                                toastr.success('Menu order updated successfully.');
-                            })
-                            .fail(function() {
-                                toastr.error('Failed to update menu order.');
-                            });
-                    },
-                    stop: function (event, ui) {
-                        var item = ui.item;
-                        var parent = item.parent().closest('li');
-                        var parentId = parent.length ? parent.attr('id').replace('menu-', '') : 0;
-                        var itemId = item.attr('id').replace('menu-', '');
-
-                        $.post("{{ route('menu.createOrRemoveSubmenu') }}", { submenu: [itemId, parentId] })
-                            .done(function() {
-                                toastr.success('Sub-menu updated successfully.');
-                            })
-                            .fail(function() {
-                                toastr.error('Failed to update sub-menu.');
-                            });
-
-                        // Update the parent menu's has_sub_menu field
-                        updateHasSubMenuField(itemId, parentId);
-                    }
-                });
-
-                function updateHasSubMenuField(itemId, parentId) {
-                    // If the item has children, update has_sub_menu to 1
-                    var hasSubMenu = $("#menu-" + itemId).find("ul").children("li").length > 0 ? 1 : 0;
-                    $.post("{{ route('menu.updateHasSubMenu') }}", { itemId: itemId, hasSubMenu: hasSubMenu });
-
-                    // If the parent has no more children, update has_sub_menu to 0
-                    if (parentId) {
-                        var parentHasSubMenu = $("#menu-" + parentId).find("ul").children("li").length > 0 ? 1 : 0;
-                        $.post("{{ route('menu.updateHasSubMenu') }}", { itemId: parentId, hasSubMenu: parentHasSubMenu });
-                    }
-                }
-            });
-        </script>
-    @endpush
 @endsection

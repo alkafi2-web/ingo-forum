@@ -1,4 +1,4 @@
-<li id="menu-{{ $menu->id }}" class="mjs-nestedSortable-branch mjs-nestedSortable-expanded">
+<li data-id="{{ $menu->id }}" id="menu-{{ $menu->id }}" class="mjs-nestedSortable-branch mjs-nestedSortable-expanded">
     <div class="draggable-menu-item">
         <span class="draggable-menu-name">{{ $menu->name }}</span>
         <div>
