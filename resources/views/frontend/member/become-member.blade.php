@@ -169,12 +169,10 @@
                                 <div class="col-lg-6 mb-3">
                                     <div class="row align-items-center">
                                         <div class="col-md-4">
-                                            <label for="confirm_password" class="form-label required">Confirm
-                                                Password</label>
+                                            <label for="password_confirmation" class="form-label required">Confirm Password</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <input type="password" name="confirm_password" class="form-control"
-                                                id="confirm_password" placeholder="Confirm Password" required>
+                                            <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" placeholder="Confirm Password" required>
                                         </div>
                                     </div>
                                 </div>

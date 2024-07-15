@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Frontend\Member;
 
 use App\Http\Controllers\Controller;
+use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -27,7 +29,7 @@ class MemberController extends Controller
             'director_email' => 'required|email|max:255',
             'director_phone' => 'required|string|max:20',
             'login_email' => 'required|email|max:255',
-            'login_phone' => 'required|string|max:20',
+            'login_phone' => 'nullable|string|max:20',
             'password' => 'required|string|min:8|confirmed',
         ];
 
@@ -46,7 +48,6 @@ class MemberController extends Controller
             'director_phone.required' => 'The director phone is required.',
             'login_email.required' => 'The login email is required.',
             'login_email.email' => 'The login email must be a valid email address.',
-            'login_phone.required' => 'The login phone is required.',
             'password.required' => 'The password is required.',
             'password.confirmed' => 'The password confirmation does not match.',
             'password.min' => 'The password must be at least 8 characters.',
@@ -57,6 +58,12 @@ class MemberController extends Controller
         if ($validator->fails()) {
             return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
         }
+        $member = Member::create([
+            'email' => $request->login_email,
+            'phone' => $request->login_phone,
+            'password' => Hash::make($request->input('password')),
+        ]);
+        return $member->id;
         return $request->all();
     }
 }
