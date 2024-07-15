@@ -58,6 +58,7 @@
     </div>
 
     <button id="menu-submit" type="submit" class="btn btn-primary mt-3"><i class="fas fa-upload"></i> Add</button>
+    <button id="menu-update" type="submit" class="btn btn-primary mt-3"><i class="fas fa-wrench"></i> Add</button>
 </form>
 
 @push('custom-js')

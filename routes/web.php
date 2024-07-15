@@ -62,7 +62,6 @@ Route::prefix('admin')->group(function () {
                 Route::get('/menu/pages', [PageController::class, 'getPages'])->name('menu.pages');
                 Route::post('menu/update-order', [MenuController::class, 'updateOrder'])->name('menu.updateOrder');
                 Route::post('menu/create-or-remove-submenu', [MenuController::class, 'createOrRemoveSubmenu'])->name('menu.createOrRemoveSubmenu');
-                Route::post('menu/update-has-submenu', [MenuController::class, 'updateHasSubMenu'])->name('menu.updateHasSubMenu');
                 
             });
             // page route end
