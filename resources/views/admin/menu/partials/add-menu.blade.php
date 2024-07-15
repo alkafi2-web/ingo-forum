@@ -3,7 +3,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label class="text-3xl required">Select Menu Type</label>
+                <label class="text-3xl mb-2 required">Select Menu Type</label>
                 <div class="form-check mb-2">
                     <input class="form-check-input menu-type" type="radio" name="menu_type" id="menu_type_page" value="page">
                     <label class="form-check-label" for="menu_type_page">Pages</label>

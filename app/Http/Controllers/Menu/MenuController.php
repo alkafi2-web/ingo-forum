@@ -10,7 +10,7 @@ use App\Models\Page;
 class MenuController extends Controller
 {
     public function index(){
-        $menus = Menu::with('subMenus')->where('parent_id', 0)->orderBy('position')->get();
+        $menus = Menu::with('subMenus', 'page')->where('parent_id', 0)->orderBy('position')->get();
         return view('admin.menu.index', compact('menus'));
     }
     // store the menu 
