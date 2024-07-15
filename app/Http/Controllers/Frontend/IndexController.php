@@ -12,4 +12,12 @@ class IndexController extends Controller
         return view('frontend.index');
         // return view('frontend.page.static.static-layout');
     }
+    public function becomeMember()
+    {
+        return 'a';
+        return view('frontend.member.become-member');
+    }
+    
+
+
 }

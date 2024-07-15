@@ -184,9 +184,11 @@ Route::prefix('admin')->group(function () {
 
 
 Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
+
 Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('frontend.static.page');
-// member route start
-Route::prefix('member')->group(function () {
-    Route::get('/', [MemberController::class, 'becomeMember'])->name('member');
+
+Route::prefix('/member')->group(function () {
+    Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
 });
-// member route end
+
+
