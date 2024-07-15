@@ -189,6 +189,7 @@ Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('frontend.s
 
 Route::prefix('/member')->group(function () {
     Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
+    Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
 });
 
 

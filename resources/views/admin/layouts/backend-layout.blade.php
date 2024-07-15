@@ -6,21 +6,18 @@
 <head>
     <base href="">
     <title>Ingo-Forum </title>
-    <meta name="description"
-        content="" />
-    <meta name="keywords"
-        content="" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="utf-8" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="article" />
-    <meta property="og:title"
-        content="INGO Forum" />
+    <meta property="og:title" content="INGO Forum" />
     <meta property="og:url" content="" />
     <meta property="og:site_name" content="INGO Forum" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- <link rel="canonical" href="https://preview.keenthemes.com/metronic8" /> --}}
-    <link rel="shortcut icon" href="{{asset('public/frontend/images/logo.png')}}" />
+    <link rel="shortcut icon" href="{{ asset('public/frontend/images/logo.png') }}" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!-- jQuery UI -->
@@ -28,11 +25,14 @@
     <!--end::Fonts-->
     <!--begin::Page Vendor Stylesheets(used by this page)-->
     <link rel="stylesheet" href="{{ asset('public/admin/css/app.css') }}" type="text/css">
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <!--end::Page Vendor Stylesheets-->
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="{{ asset('public/admin/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('public/admin/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('public/admin/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet"
+        type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.css" rel="stylesheet" />
     <link href="{{ asset('public/admin/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <!-- DataTables CSS -->
@@ -130,7 +130,6 @@
     <script src="{{ asset('public/admin/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('public/admin/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <script src="{{ asset('public/admin/js/scripts.bundle.js') }}"></script>
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- jQuery -->
 
@@ -138,9 +137,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.js"></script> --}}
     <script src="{{ asset('public/admin/js/ekko-lightbox.js') }}"></script>
-    {{-- <script src="https://cdn.ckeditor.com/4.24.0-lts/standard/ckeditor.js"></script> --}}
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.rawgit.com/mjsarfatti/nestedSortable/master/jquery.mjs.nestedSortable.js"></script>
     @stack('custom-js')
@@ -193,7 +190,7 @@
     @endif
 
 
-   
+
     <!--end::Javascript-->
 </body>
 <!--end::Body-->
