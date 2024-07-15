@@ -307,7 +307,7 @@
         }
 
         .draggable-sub-menu-container {
-            padding-left: 24px; /* Indent sub-menus */
+            padding-left: 26px; /* Indent sub-menus */
         }
 
         .drop-target {
