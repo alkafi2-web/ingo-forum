@@ -17,12 +17,6 @@ class MenuSeeder extends Seeder
 
         $menus = [
             [
-                'name' => 'Home',
-                'type' => 'route',
-                'url' => 'frontend.index',
-                'children' => [],
-            ],
-            [
                 'name' => 'About Us',
                 'type' => 'url',
                 'url' => '#',
