@@ -167,7 +167,7 @@
                             $('#page-header').text('Edit Menu');
                             $('input[name="menu_type"][value="' + menu.type + '"]').prop('checked', true).trigger('change');
                             if (menu.type === 'page') {
-                                $('#page_id').val(menu.page_id);
+                                loadPages(menu.page_id);
                             } else if (menu.type === 'route') {
                                 $('#route_name').val(menu.route);
                                 $('#menu_title').val(menu.name);
@@ -182,6 +182,24 @@
                             toastr.error('Failed to load menu details.');
                         });
                 });
+
+                function loadPages(selectedPageId) {
+                    $.ajax({
+                        url: '{{ route("menu.pages") }}',
+                        method: 'GET',
+                        success: function(response) {
+                            var options = '<option value="">Select Page</option>';
+                            response.forEach(function(page) {
+                                var selected = page.id == selectedPageId ? 'selected' : '';
+                                options += `<option value="${page.id}" ${selected}>${page.title}</option>`;
+                            });
+                            $('#page_id').html(options);
+                        },
+                        error: function() {
+                            toastr.error('Error loading pages');
+                        }
+                    });
+                }
 
                 // Update Menu
                 $('#menu-update').on('click', function(event) {
