@@ -63,6 +63,11 @@ Route::prefix('admin')->group(function () {
                 Route::get('/menu/pages', [PageController::class, 'getPages'])->name('menu.pages');
                 Route::post('menu/update-order', [MenuController::class, 'updateOrder'])->name('menu.updateOrder');
                 Route::post('menu/create-or-remove-submenu', [MenuController::class, 'createOrRemoveSubmenu'])->name('menu.createOrRemoveSubmenu');
+                Route::post('menu/toggle-visibility', [MenuController::class, 'toggleVisibility'])->name('menu.toggleVisibility');
+                Route::post('menu/delete', [MenuController::class, 'delete'])->name('menu.delete');
+                Route::get('menu/edit', [MenuController::class, 'edit'])->name('menu.edit');
+                Route::post('menu/update', [MenuController::class, 'update'])->name('menu.update');
+
                 
             });
             // page route end

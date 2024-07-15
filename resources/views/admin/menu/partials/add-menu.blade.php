@@ -19,6 +19,7 @@
             </div>
         </div>
     </div>
+
     <div class="row mb-3" id="page_select_div" style="display: none;">
         <div class="col-md-12">
             <div class="form-group">
@@ -58,7 +59,8 @@
     </div>
 
     <button id="menu-submit" type="submit" class="btn btn-primary mt-3"><i class="fas fa-upload"></i> Add</button>
-    <button id="menu-update" type="submit" class="btn btn-primary mt-3"><i class="fas fa-wrench"></i> Add</button>
+    <button id="menu-update" type="submit" class="btn btn-primary mt-3" style="display: none;"><i class="fas fa-wrench"></i> Update</button>
+    <button id="menu-refresh" type="button" class="btn btn-secondary mt-3"><i class="fas fa-sync"></i> Refresh</button>
 </form>
 
 @push('custom-js')
@@ -113,7 +115,7 @@
                 toastr.error('Menu Type is required');
                 return;
             }
-            
+
             if (menuType == 'page' && !pageId) {
                 toastr.error('Please select a page');
                 return;

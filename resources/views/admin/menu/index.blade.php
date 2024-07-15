@@ -31,6 +31,7 @@
             </div>
         </div>
     </div>
+
     @push('custom-js')
         <script>
             $(function () {
@@ -40,6 +41,7 @@
                     }
                 });
 
+                // Initialize nestedSortable
                 $("#menu-container").nestedSortable({
                     handle: 'div',
                     items: 'li',
@@ -50,8 +52,8 @@
                     expandOnHover: 700,
                     startCollapsed: false,
                     maxLevels: 2,
-                    attribute: 'data-id',  // Use data-id for serialization
-                    expression: /^(\d+)$/,    // Match numeric values
+                    attribute: 'data-id',
+                    expression: /^(\d+)$/,
                     update: function (event, ui) {
                         var serializedData = [];
 
@@ -59,7 +61,7 @@
                             var item = $(this);
                             var itemId = item.data('id');
                             var parentId = item.parent().closest('li').data('id') || 0;
-                            
+
                             serializedData.push({
                                 item_id: itemId,
                                 parent_id: parentId,
@@ -70,12 +72,6 @@
                         console.log('Serialized Data:', serializedData); // Debugging
 
                         $.post("{{ route('menu.updateOrder') }}", { order: serializedData });
-                            // .done(function() {
-                            //     toastr.success('Menu order updated successfully.');
-                            // })
-                            // .fail(function() {
-                            //     toastr.error('Failed to update menu order.');
-                            // });
                     },
                     stop: function (event, ui) {
                         var item = ui.item;
@@ -92,19 +88,181 @@
                             });
                     }
                 });
+
+                // Enable Menu
+                $(document).on('click', '#menuEnableBtn', function() {
+                    var menuId = $(this).data('id');
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'You want to enable this menu item?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, enable it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.post("{{ route('menu.toggleVisibility') }}", { menu_id: menuId, visibility: 1 })
+                                .done(function(response) {
+                                    toastr.success('Menu item enabled successfully.');
+                                    refreshMenu();
+                                })
+                                .fail(function() {
+                                    toastr.error('Failed to enable menu item.');
+                                });
+                        }
+                    });
+                });
+
+                // Disable Menu
+                $(document).on('click', '#menuDisableBtn', function() {
+                    var menuId = $(this).data('id');
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'You want to disable this menu item?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, disable it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.post("{{ route('menu.toggleVisibility') }}", { menu_id: menuId, visibility: 0 })
+                                .done(function(response) {
+                                    toastr.success('Menu item disabled successfully.');
+                                    refreshMenu();
+                                })
+                                .fail(function() {
+                                    toastr.error('Failed to disable menu item.');
+                                });
+                        }
+                    });
+                });
+
+                // Delete Menu
+                $(document).on('click', '#deleteBtn', function() {
+                    var menuId = $(this).data('id');
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'You want to delete this menu item?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.post("{{ route('menu.delete') }}", { menu_id: menuId })
+                                .done(function(response) {
+                                    toastr.success('Menu item deleted successfully.');
+                                    refreshMenu();
+                                })
+                                .fail(function() {
+                                    toastr.error('Failed to delete menu item.');
+                                });
+                        }
+                    });
+                });
+
+                // Edit Menu
+                $(document).on('click', '#editBtn', function() {
+                    var menuId = $(this).data('id');
+                    $.get("{{ route('menu.edit') }}", { menu_id: menuId })
+                        .done(function(response) {
+                            var menu = response.menu;
+                            $('#page-header').text('Edit Menu');
+                            $('input[name="menu_type"][value="' + menu.type + '"]').prop('checked', true).trigger('change');
+                            if (menu.type === 'page') {
+                                $('#page_id').val(menu.page_id);
+                            } else if (menu.type === 'route') {
+                                $('#route_name').val(menu.route);
+                                $('#menu_title').val(menu.name);
+                            } else if (menu.type === 'url') {
+                                $('#custom_url').val(menu.url);
+                                $('#menu_title').val(menu.name);
+                            }
+                            $('#menu-submit').hide();
+                            $('#menu-update').show().data('id', menu.id);
+                        })
+                        .fail(function() {
+                            toastr.error('Failed to load menu details.');
+                        });
+                });
+
+                // Update Menu
+                $('#menu-update').on('click', function(event) {
+                    event.preventDefault();
+                    var menuId = $(this).data('id');
+                    var formData = new FormData($('#menuForm')[0]);
+                    formData.append('menu_id', menuId);
+
+                    $.ajax({
+                        url: "{{ route('menu.update') }}",
+                        method: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            toastr.success('Menu item updated successfully.');
+                            resetMenuForm();
+                            refreshMenu();
+                        },
+                        error: function(xhr) {
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                toastr.error(value[0]);
+                            });
+                        }
+                    });
+                });
+
+                // Refresh Menu Form
+                $('#menu-refresh').on('click', function() {
+                    resetMenuForm();
+                });
+
+                function resetMenuForm() {
+                    $('#page-header').text('Add New Menu');
+                    $('#menuForm')[0].reset();
+                    $('#page_select_div').hide();
+                    $('#route_input_div').hide();
+                    $('#url_input_div').hide();
+                    $('#menu-submit').show();
+                    $('#menu-update').hide();
+                }
+
+                
+                // Refresh Menu Form
+                $('#menu-refresh').on('click', function() {
+                    resetMenuForm();
+                });
+
+                function resetMenuForm() {
+                    $('#page-header').text('Add New Menu');
+                    $('#menuForm')[0].reset();
+                    $('#page_select_div').hide();
+                    $('#route_input_div').hide();
+                    $('#url_input_div').hide();
+                    $('#menu-submit').show();
+                    $('#menu-update').hide();
+                }
+
+                function refreshMenu() {
+                    $.get(window.location.href, function(data) {
+                        var newMenuContainer = $(data).find('#menu-container').html();
+                        $('#menu-container').html(newMenuContainer);
+                    });
+                }
             });
         </script>
     @endpush
+
     <style>
-        ul{
+        ul {
             list-style-type: none;
         }
+
         .draggable-menu-container, .draggable-sub-menu-container {
             list-style-type: none;
             padding: 0;
             margin: 0;
             width: 100%;
         }
+
         .draggable-menu-item, .draggable-sub-menu-item {
             display: flex;
             align-items: center;
@@ -116,23 +274,29 @@
             cursor: move;
             width: 100%;
         }
+
         .draggable-menu-item .draggable-menu-name, .draggable-sub-menu-item .draggable-menu-name {
             flex: 1;
         }
+
         .draggable-menu-item .btn, .draggable-sub-menu-item .btn {
             margin-left: 5px;
         }
+
         .ui-state-highlight {
             height: 50px;
             background: #ccc;
         }
+
         .draggable-sub-menu-container {
             padding-left: 24px; /* Indent sub-menus */
         }
+
         .drop-target {
             background-color: #f9f9f9;
             border: 2px dashed #ccc;
         }
+
         .menu-hover {
             border: 2px solid #007bff;
         }

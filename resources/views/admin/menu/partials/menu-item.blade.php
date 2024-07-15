@@ -15,7 +15,7 @@
             </label>
         </span>
         <div>
-            <button class="border-0 bg-transparent" id="{{ $menu->visibility==1?'menuEnableBtn':'menuDisableBtn' }}" data-id="{{ $menu->id }}"><i class="far fa-eye{{ $menu->visibility==1?' text-info':'-slash' }} "></i></button>
+            <button class="border-0 bg-transparent" id="{{ $menu->visibility==1?'menuDisableBtn':'menuEnableBtn' }}" data-id="{{ $menu->id }}"><i class="far fa-eye{{ $menu->visibility==1?' text-info':'-slash' }} "></i></button>
             <button class="border-0 bg-transparent" id="editBtn" data-id="{{ $menu->id }}"><i class="fas fa-edit text-primary"></i></button>
             <button class="border-0 bg-transparent" id="deleteBtn" data-id="{{ $menu->id }}"><i class="fas fa-trash-alt text-danger"></i></button>
         </div>
