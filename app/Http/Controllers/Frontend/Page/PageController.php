@@ -20,4 +20,9 @@ class PageController extends Controller
 
         return view('frontend.page.static.static-page', compact('page'));
     }
+
+    public function becomeMember()
+    {
+        return view('frontend.member.become-member');
+    }
 }

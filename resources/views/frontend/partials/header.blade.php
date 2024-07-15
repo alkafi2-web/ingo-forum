@@ -73,7 +73,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Our members</a></li>
                             <li><a class="dropdown-item" href="#">Membership Criteria</a></li>
-                            <li><a class="dropdown-item" href="#">Become a member/ Join us</a></li>
+                            <li><a class="dropdown-item" href="{{route('member')}}">Become a member/ Join us</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

@@ -25,7 +25,7 @@
 
     <!-- Header Section Start  -->
     @include('frontend.partials.header')
-    {{-- @include('frontend.partials.breadcum') --}}
+    @include('frontend.partials.breadcum')
     <!-- Header Section end  -->
     @yield('fontend-section')
     <!-- footer Section Start  -->
@@ -61,3 +61,4 @@
 </body>
 
 </html>
+
