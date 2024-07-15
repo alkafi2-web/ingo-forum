@@ -26,7 +26,7 @@
 
     <!-- Header Section Start  -->
     @include('frontend.partials.header')
-    {{-- @include('frontend.partials.breadcum') --}}
+    @include('frontend.partials.breadcum')
     <!-- Header Section end  -->
     @yield('fontend-section')
     <!-- footer Section Start  -->
@@ -46,9 +46,10 @@
     <script src="{{ asset('public/frontend/js/photo-gallery/ug-theme-tiles.js') }}"></script>
     <script src="{{ asset('public/frontend/js/slick-slider/slick.min.js') }}"></script>
     <script src="{{ asset('public/admin/js/ekko-lightbox.js') }}"></script>
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="{{ asset('public/frontend/js/main.js') }}"></script>
     <script>
-        
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
             event.preventDefault();
             $(this).ekkoLightbox({

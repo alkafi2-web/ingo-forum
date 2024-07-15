@@ -12,6 +12,7 @@ use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\Post\SubCategoryController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Content\PageController;
+use App\Http\Controllers\Frontend\Member\MemberController;
 use App\Http\Middleware\adminMiddleware;
 use Illuminate\Support\Facades\Route;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
@@ -179,5 +180,15 @@ Route::prefix('admin')->group(function () {
         // media route end
     });
 });
+
+
 Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
+
 Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('frontend.static.page');
+
+Route::prefix('/member')->group(function () {
+    Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
+    Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
+});
+
+
