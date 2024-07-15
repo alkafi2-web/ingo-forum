@@ -84,9 +84,9 @@
                             </div>
                         </div>
 
-                        <!-- Company Director Details Section -->
+                        <!-- Organisation Director Details Section -->
                         <div class="col-lg-6 mb-3 mb-lg-0">
-                            <h4 class="form-title border-bottom pb-2 pt-3">Your Company Director Details</h4>
+                            <h4 class="form-title border-bottom pb-2 pt-3">Your Organisation Director Details</h4>
                             <div class="">
                                 <div class="row pt-2">
                                     <div class="col-12 mb-3">
@@ -209,12 +209,9 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        console.log(response)
-                        var success = response.success;
-                        $.each(success, function(key, value) {
-                            toastr.success(value); // Displaying each error message
-                        });
+                        toastr.success(response.message);
                         $('#member-form')[0].reset();
+                        window.location.href = response.redirect;
                     },
                     error: function(xhr) {
                       toastr.error('this is from error');

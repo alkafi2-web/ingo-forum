@@ -12,6 +12,7 @@ use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\Post\SubCategoryController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Content\PageController;
+use App\Http\Controllers\Frontend\Auth\FrontAuthController;
 use App\Http\Controllers\Frontend\Member\MemberController;
 use App\Http\Middleware\adminMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -195,5 +196,8 @@ Route::prefix('/member')->group(function () {
     Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
     Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
 });
+
+Route::get('/member/login', [FrontAuthController::class, 'login'])->name('frontend.login');
+
 
 

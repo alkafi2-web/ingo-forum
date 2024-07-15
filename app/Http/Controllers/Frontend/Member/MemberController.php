@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use App\Models\MemberInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -63,7 +64,16 @@ class MemberController extends Controller
             'phone' => $request->login_phone,
             'password' => Hash::make($request->input('password')),
         ]);
-        return $member->id;
-        return $request->all();
+
+        MemberInfo::create([
+            'member_id' => $member->id,
+            'organisation_name' => $request->org_name,
+            'organisation_email' => $request->org_email,
+            'organisation_type' => $request->org_type,
+            'organisation_website' => $request->org_website,
+            'organisation_address' => $request->org_address,
+        ]);
+        return response()->json(['success' => true,'message' => 'Successfully Be A Member.Now Log in And Update Info' ,'redirect' => route('frontend.login')], 200);
+        
     }
 }
