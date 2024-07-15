@@ -11,6 +11,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use App\Models\Menu;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,9 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         view()->composer('*', function ($view) {
+            // Fetch all menus with submenus where visibility is 1
+            $menus = Menu::with('subMenus', 'page')->Where('visibility', 1)->Where('parent_id', 0)->orderBy('position')->get();
+
             // Fetch all MainContent records once
             $mainContent = MainContent::pluck('content', 'name')->all();
 
@@ -112,7 +116,8 @@ class AppServiceProvider extends ServiceProvider
                 $videos = MediaGallery::with('addedBy')->where('type', 'video')->where('status', 1)->latest()->get();
                 $global['videos'] = $videos;
             }
-            $view->with('global', $global);
+            
+            $view->with(compact('global', 'menus'));
         });
     }
 }
