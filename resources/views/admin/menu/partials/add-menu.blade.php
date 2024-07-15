@@ -140,6 +140,7 @@
                 success: function(response) {
                     if (response.success) {
                         toastr.success(response.message);
+                        refreshMenu()
                         $('#menuForm')[0].reset();
                         $('#page_select_div').hide();
                         $('#route_input_div').hide();
@@ -156,6 +157,12 @@
                 }
             });
         });
+        function refreshMenu() {
+            $.get(window.location.href, function(data) {
+                var newMenuContainer = $(data).find('#menu-container').html();
+                $('#menu-container').html(newMenuContainer);
+            });
+        }
     });
     </script>
 @endpush
