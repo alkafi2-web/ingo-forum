@@ -8,12 +8,10 @@
         <div class="container">
             <div class="register-card">
                 <div class="register-card-header border-bottom">
-                    <h2 class="section-title text-center">Membership Request Form</h2>
-                    <p class="text-center">Please let us know you before we proceed with the registration.</p>
+                    <h2 class="section-title text-center">Membership Login Form</h2>
                 </div>
                 <form id="member-form" action="" method="post">
-                    <div class="row">
-                        
+                    <div class="row pt-2">
                         <!-- Member Access Credential Section -->
                         <div class="col-12">
                             <div class="row pt-2">
