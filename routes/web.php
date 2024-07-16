@@ -69,8 +69,6 @@ Route::prefix('admin')->group(function () {
             Route::post('menu/delete', [MenuController::class, 'delete'])->name('menu.delete');
             Route::get('menu/edit', [MenuController::class, 'edit'])->name('menu.edit');
             Route::post('menu/update', [MenuController::class, 'update'])->name('menu.update');
-
-            
         });
         // page route end
 
@@ -206,12 +204,11 @@ Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
 
 Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('frontend.static.page');
 
+Route::get('/member/login', [FrontAuthController::class, 'login'])->name('frontend.login');
+Route::post('/member/login/post', [FrontAuthController::class, 'loginPost'])->name('frontend.login.post');
+
 Route::prefix('/member')->group(function () {
     Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
     Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
+    Route::get('/profile', [MemberController::class, 'memberProfile'])->name('member.profile');
 });
-
-Route::get('/member/login', [FrontAuthController::class, 'login'])->name('frontend.login');
-
-
-

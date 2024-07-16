@@ -80,4 +80,9 @@ class MemberController extends Controller
         return response()->json(['success' => true,'message' => 'Successfully Be A Member.Now Log in And Update Info' ,'redirect' => route('frontend.login')], 200);
         
     }
+
+    public function memberProfile()
+    {
+        return view('frontend.member.profile');
+    }
 }
