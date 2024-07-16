@@ -52,4 +52,47 @@ class PostController extends Controller
 
         return view('frontend.post.single-post', compact('postCategory', 'post', 'latestPosts', 'relatedPosts'));
     }
+
+    // Method to store comment
+    public function storeComment(Request $request, $postId)
+    {
+        $request->validate([
+            'comment_text' => 'required|string',
+        ]);
+
+        $comment = new Comment();
+        $comment->comment_text = $request->comment_text;
+        $comment->post_id = $postId;
+        $comment->member_id = Auth::guard('member')->id(); // Using Member model
+        $comment->save();
+
+        return back()->with('success', 'Comment added successfully.');
+    }
+
+    // Method to store reply
+    public function storeReply(Request $request, $commentId)
+    {
+        $request->validate([
+            'reply_text' => 'required|string',
+        ]);
+
+        $reply = new Reply();
+        $reply->reply_text = $request->reply_text;
+        $reply->comment_id = $commentId;
+        $reply->member_id = Auth::guard('member')->id(); // Using Member model
+        $reply->save();
+
+        return back()->with('success', 'Reply added successfully.');
+    }
+
+    // Method to store reaction
+    public function reactToComment($commentId)
+    {
+        $reaction = new Reaction();
+        $reaction->comment_id = $commentId;
+        $reaction->member_id = Auth::guard('member')->id(); // Using Member model
+        $reaction->save();
+
+        return back()->with('success', 'Reacted to comment successfully.');
+    }
 }

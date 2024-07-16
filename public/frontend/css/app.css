@@ -28,6 +28,11 @@
 .comment-wrapper ul {
   list-style-type: none;
 }
+.comment-wrapper .commentBtn {
+  height: 41px;
+  width: 41px;
+  border: 1px solid #F4F0E9 !important;
+}
 
 /** ====================
 * Lista de Comentarios

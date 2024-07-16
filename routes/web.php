@@ -204,3 +204,10 @@ Route::get('/member/login', [FrontAuthController::class, 'login'])->name('fronte
 Route::get('/post/{categorySlug}', [FrontendPostController::class, 'index']);
 Route::get('/{categorySlug}/{postSlug}', [FrontendPostController::class, 'showSinglePost']);
 
+// Routes for comments, replies, and reactions
+Route::middleware(['auth.member'])->group(function () {
+    // Comment routes
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/replies', [CommentController::class, 'storeReply'])->name('replies.store');
+    Route::post('/reactions', [CommentController::class, 'react'])->name('reactions.react');
+});
