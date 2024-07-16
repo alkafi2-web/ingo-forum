@@ -22,6 +22,6 @@ class MemberMiddleware
         }
 
         // If not authenticated as member, redirect or handle accordingly
-        return redirect()->route('member.login'); // Example: Redirect to member login route
+        return redirect()->route('frontend.login')->with('failed', 'Login is required for comment'); // Example: Redirect to member login route
     }
 }
