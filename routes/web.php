@@ -18,6 +18,7 @@ use App\Http\Middleware\adminMiddleware;
 use Illuminate\Support\Facades\Route;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 use App\Http\Controllers\Frontend\Page\PageController as FrontendPageController;
+use App\Http\Controllers\Member\MemberController as AdminMemberController;
 use App\Http\Controllers\Menu\MenuController;
 use App\Http\Controllers\Frontend\Post\PostController as FrontendPostController;
 
@@ -53,26 +54,24 @@ Route::prefix('admin')->group(function () {
             Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
         });
 
-            // page route start
-            Route::prefix('page')->group(function () {
-                Route::get('/', [PageController::class, 'index'])->name('admin.page');
-                Route::get('/slug-verify', [PageController::class, 'verifySlug'])->name('slug.verify');
-                Route::get('/edit/{id}', [PageController::class, 'edit'])->name('page.edit');
-                Route::post('/storeOrupdate-page', [PageController::class, 'storeOrUpdate'])->name('page.storeOrUpdate');
-                Route::post('page/toggle-visibility', [PageController::class, 'toggleVisibility'])->name('page.toggleVisibility');
-                Route::delete('/admin/content/page', [PageController::class, 'destroy'])->name('page.destroy');
-                // Route for getting the page list
-                Route::get('/menu/pages', [PageController::class, 'getPages'])->name('menu.pages');
-                Route::post('menu/update-order', [MenuController::class, 'updateOrder'])->name('menu.updateOrder');
-                Route::post('menu/create-or-remove-submenu', [MenuController::class, 'createOrRemoveSubmenu'])->name('menu.createOrRemoveSubmenu');
-                Route::post('menu/toggle-visibility', [MenuController::class, 'toggleVisibility'])->name('menu.toggleVisibility');
-                Route::post('menu/delete', [MenuController::class, 'delete'])->name('menu.delete');
-                Route::get('menu/edit', [MenuController::class, 'edit'])->name('menu.edit');
-                Route::post('menu/update', [MenuController::class, 'update'])->name('menu.update');
-
-                
-            });
-            // page route end
+        // page route start
+        Route::prefix('page')->group(function () {
+            Route::get('/', [PageController::class, 'index'])->name('admin.page');
+            Route::get('/slug-verify', [PageController::class, 'verifySlug'])->name('slug.verify');
+            Route::get('/edit/{id}', [PageController::class, 'edit'])->name('page.edit');
+            Route::post('/storeOrupdate-page', [PageController::class, 'storeOrUpdate'])->name('page.storeOrUpdate');
+            Route::post('page/toggle-visibility', [PageController::class, 'toggleVisibility'])->name('page.toggleVisibility');
+            Route::delete('/admin/content/page', [PageController::class, 'destroy'])->name('page.destroy');
+            // Route for getting the page list
+            Route::get('/menu/pages', [PageController::class, 'getPages'])->name('menu.pages');
+            Route::post('menu/update-order', [MenuController::class, 'updateOrder'])->name('menu.updateOrder');
+            Route::post('menu/create-or-remove-submenu', [MenuController::class, 'createOrRemoveSubmenu'])->name('menu.createOrRemoveSubmenu');
+            Route::post('menu/toggle-visibility', [MenuController::class, 'toggleVisibility'])->name('menu.toggleVisibility');
+            Route::post('menu/delete', [MenuController::class, 'delete'])->name('menu.delete');
+            Route::get('menu/edit', [MenuController::class, 'edit'])->name('menu.edit');
+            Route::post('menu/update', [MenuController::class, 'update'])->name('menu.update');
+        });
+        // page route end
 
         // banner route start
         Route::prefix('banner')->group(function () {
@@ -185,6 +184,19 @@ Route::prefix('admin')->group(function () {
             });
         });
         // media route end
+
+        // member route star
+        Route::prefix('member')->group(function () {
+            Route::get('/', [AdminMemberController::class, 'memberlist'])->name('member.list');
+            Route::get('/request', [AdminMemberController::class, 'memberRequest'])->name('member.request');
+            Route::get('/members/{id}/view', [AdminMemberController::class, 'view'])->name('member.view');
+            Route::post('/members/approved', [AdminMemberController::class, 'approved'])->name('member.approved');
+            Route::post('/members/suspend', [AdminMemberController::class, 'suspend'])->name('member.suspend');
+            Route::post('/members/reject', [AdminMemberController::class, 'reject'])->name('member.reject');
+
+            // Route::post('/view', [AdminMemberController::class, 'memberView'])->name('member.view');
+        });
+        // member route end
     });
 });
 
@@ -193,12 +205,14 @@ Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
 
 Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('frontend.static.page');
 
+Route::get('/member/login', [FrontAuthController::class, 'login'])->name('frontend.login');
+Route::post('/member/login/post', [FrontAuthController::class, 'loginPost'])->name('frontend.login.post');
+
 Route::prefix('/member')->group(function () {
     Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
     Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
+    Route::get('/profile', [MemberController::class, 'memberProfile'])->name('member.profile');
 });
-
-Route::get('/member/login', [FrontAuthController::class, 'login'])->name('frontend.login');
 
 // post routes 
 Route::get('/post/{categorySlug}', [FrontendPostController::class, 'index']);

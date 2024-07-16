@@ -71,6 +71,7 @@ class AuthController extends Controller
     }
     public function dashboard()
     {
+        
         return view('admin.dashboard.dashborad');
     }
     public function loginPost(Request $request)

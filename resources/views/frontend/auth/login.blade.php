@@ -53,3 +53,39 @@
     </section>
     <!-- Membership Area end here  -->
 @endsection
+@push('custom-js')
+    <script>
+        $(document).ready(function() {
+            $('#member-submit').on('click', function(e) {
+                e.preventDefault();
+                let url = "{{ route('frontend.login.post') }}";
+                let form = $('#member-form')[0];
+                let formData = new FormData(form);
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    processData: false, // Prevent jQuery from processing the data
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        // console.log(response)
+                        toastr.success(response.message);
+                        window.location.href = response.redirect;
+                    },
+                    error: function(xhr) {
+                        var errors = xhr.responseJSON.errors;
+                        // Iterate through each error and display it
+                        $.each(errors, function(key, value) {
+                            console.log(key, value);
+                            toastr.error(value); // Displaying each error message
+                        });
+                    }
+                });
+
+            });
+        });
+    </script>
+@endpush
