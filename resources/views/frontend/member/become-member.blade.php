@@ -220,7 +220,8 @@
                         $.each(errors, function(key, value) {
                             console.log(value[0]);
                             toastr.error(value[
-                            0]); // Displaying the first error message for each field
+                                0
+                            ]); // Displaying the first error message for each field
                         });
                     }
                 });

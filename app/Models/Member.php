@@ -9,4 +9,8 @@ class Member extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+    public function memberInfos()
+    {
+        return $this->hasMany(MemberInfo::class);
+    }
 }

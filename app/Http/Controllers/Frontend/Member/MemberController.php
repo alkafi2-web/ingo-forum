@@ -72,6 +72,10 @@ class MemberController extends Controller
             'organisation_type' => $request->org_type,
             'organisation_website' => $request->org_website,
             'organisation_address' => $request->org_address,
+
+            'director_name' => $request->director_name,
+            'director_email' => $request->director_email,
+            'director_phone' => $request->director_phone,
         ]);
         return response()->json(['success' => true,'message' => 'Successfully Be A Member.Now Log in And Update Info' ,'redirect' => route('frontend.login')], 200);
         
