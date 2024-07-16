@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PostCategory;
 use App\Models\Post;
+use App\Models\Comment;
+use App\Models\Reply;
+use App\Models\Reaction;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -53,77 +57,70 @@ class PostController extends Controller
         return view('frontend.post.single-post', compact('post', 'latestPosts', 'relatedPosts'));
     }
 
-    /**
-     * Store a new comment for a post.
-     *
-     * @param  CommentRequest  $request
-     * @param  int  $postId
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function storeComment(CommentRequest $request, $postId)
+    public function storeComment(Request $request)
     {
-        $post = Post::findOrFail($postId);
+        // Get authenticated user using the 'member' guard
+        $user = Auth::guard('member')->user();
+        
+        $request->validate([
+            'post_id' => 'required|exists:posts,id', // Validate post_id exists in posts table    
+            'comment_text' => 'required|string',
+        ]);
 
+        // Create new comment
         $comment = new Comment();
-        $comment->post_id = $post->id;
-        $comment->member_id = auth()->id(); // Assuming authenticated member
-        $comment->comment_text = $request->input('comment_text');
+        $comment->post_id = $request->post_id; // Adjust as per your form structure
+        $comment->member_id = $user->id;
+        $comment->comment_text = $request->comment_text;
         $comment->save();
 
-        return back()->with('success', 'Comment posted successfully.');
+        return response()->json(['success' => true]);
     }
 
-    /**
-     * Store a new reply for a comment.
-     *
-     * @param  CommentRequest  $request
-     * @param  int  $commentId
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function storeReply(CommentRequest $request, $commentId)
+    public function storeReply(Request $request)
     {
-        $comment = Comment::findOrFail($commentId);
+        // Get authenticated user using the 'member' guard
+        $user = Auth::guard('member')->user();
+        
+        $request->validate([
+            'comment_id' => 'required|exists:comments,id',
+            'reply_text' => 'required|string',
+        ]);
 
+        // Create new reply
         $reply = new Reply();
-        $reply->comment_id = $comment->id;
-        $reply->member_id = auth()->id(); // Assuming authenticated member
-        $reply->reply_text = $request->input('comment_text');
+        $reply->comment_id = $request->comment_id;
+        $reply->member_id = $user->id;
+        $reply->reply_text = $request->reply_text;
         $reply->save();
 
-        return back()->with('success', 'Reply posted successfully.');
+        return response()->json(['success' => true]);
     }
 
-    /**
-     * Store a reaction to a comment or reply.
-     *
-     * @param  Request  $request
-     * @param  string  $type  'comment' or 'reply'
-     * @param  int  $id  Comment or reply ID
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function storeReaction(Request $request, $type, $id)
+    public function storeReaction(Request $request)
     {
-        $model = ($type === 'comment') ? Comment::findOrFail($id) : Reply::findOrFail($id);
+        // Get authenticated user using the 'member' guard
+        $user = Auth::guard('member')->user();
+        
+        $request->validate([
+            'comment_id' => 'required|exists:comments,id',
+        ]);
 
-        $reaction = Reaction::where('model_type', get_class($model))
-                            ->where('model_id', $model->id)
-                            ->where('member_id', auth()->id())
-                            ->first();
+        // Check if reaction exists, toggle it if so, or create new
+        $existingReaction = Reaction::where('comment_id', $request->comment_id)
+                                    ->where('member_id', $user->id)
+                                    ->first();
 
-        if ($reaction) {
-            // Update existing reaction
-            $reaction->reaction_type = $request->input('reaction_type');
-            $reaction->save();
+        if ($existingReaction) {
+            $existingReaction->delete();
         } else {
-            // Create new reaction
             $reaction = new Reaction();
-            $reaction->model_type = get_class($model);
-            $reaction->model_id = $model->id;
-            $reaction->member_id = auth()->id();
-            $reaction->reaction_type = $request->input('reaction_type');
+            $reaction->comment_id = $request->comment_id;
+            $reaction->member_id = $user->id;
             $reaction->save();
         }
 
         return response()->json(['success' => true]);
     }
+
 }

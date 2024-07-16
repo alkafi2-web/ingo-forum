@@ -14,4 +14,9 @@ class Member extends Authenticatable
     {
         return $this->hasMany(MemberInfo::class);
     }
+
+    public function info()
+    {
+        return $this->hasOne(MemberInfo::class);
+    }
 }

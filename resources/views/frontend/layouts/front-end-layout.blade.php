@@ -21,6 +21,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('public/frontend/css/app.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body>
@@ -34,8 +35,6 @@
     @include('frontend.partials.footer')
     <!-- footer Section End  -->
 
-
-
     <script src="{{ asset('public/frontend/js/jquery.min.js') }}"></script>
     <script src="{{ asset('public/frontend/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('public/frontend/js/fontawesome.min.js') }}"></script>
@@ -48,6 +47,8 @@
     <script src="{{ asset('public/frontend/js/slick-slider/slick.min.js') }}"></script>
     <script src="{{ asset('public/admin/js/ekko-lightbox.js') }}"></script>
     <script src="{{ asset('public/frontend/js/main.js') }}"></script>
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {

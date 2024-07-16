@@ -33,6 +33,9 @@
   width: 41px;
   border: 1px solid #F4F0E9 !important;
 }
+.comment-wrapper .fa-reply, .comment-wrapper .fa-heart {
+  cursor: pointer;
+}
 
 /** ====================
 * Lista de Comentarios
