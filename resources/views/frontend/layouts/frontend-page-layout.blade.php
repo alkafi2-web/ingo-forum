@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{{ asset('public/frontend/css/slick-slider/slick-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/bootstrap.min.css') }}">
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('public/frontend/css/style.css') }}">
 </head>

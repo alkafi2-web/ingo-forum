@@ -1,7 +1,5 @@
 @extends('frontend.layouts.frontend-page-layout')
-@section('page-title')
-    Become A Member
-@endsection
+@section('page-title', 'Become A Member')
 @section('fontend-section')
     <!-- Membership Area start here  -->
     <section class="membership-area ptb-50">
@@ -169,10 +167,12 @@
                                 <div class="col-lg-6 mb-3">
                                     <div class="row align-items-center">
                                         <div class="col-md-4">
-                                            <label for="password_confirmation" class="form-label required">Confirm Password</label>
+                                            <label for="password_confirmation" class="form-label required">Confirm
+                                                Password</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" placeholder="Confirm Password" required>
+                                            <input type="password" name="password_confirmation" class="form-control"
+                                                id="password_confirmation" placeholder="Confirm Password" required>
                                         </div>
                                     </div>
                                 </div>
@@ -214,12 +214,13 @@
                         window.location.href = response.redirect;
                     },
                     error: function(xhr) {
-                      toastr.error('this is from error');
+                        toastr.error('this is from error');
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display the message using Toastr
                         $.each(errors, function(key, value) {
-                          console.log(value[0]);
-                            toastr.error(value[0]); // Displaying the first error message for each field
+                            console.log(value[0]);
+                            toastr.error(value[
+                            0]); // Displaying the first error message for each field
                         });
                     }
                 });
