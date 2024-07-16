@@ -212,6 +212,7 @@ Route::prefix('/member')->group(function () {
     Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
     Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
     Route::get('/profile', [MemberController::class, 'memberProfile'])->name('member.profile');
+    Route::get('/logout', [MemberController::class, 'logout'])->name('member.logout');
 });
 
 // post routes 

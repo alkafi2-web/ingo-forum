@@ -1,6 +1,6 @@
 @extends('frontend.layouts.frontend-page-layout')
-@section('page-title', 'Become A Member')
-@section('fontend-section')
+@section('page-title', 'Profile')
+@section('frontend-section')
     <!-- Profile edit page start -->
     <section class="ptb-50">
         <div class="container">
