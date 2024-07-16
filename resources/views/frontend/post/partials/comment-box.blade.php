@@ -89,6 +89,7 @@
             processData: false,
             contentType: false,
             success: function(response) {
+                refreshComment();
                 toastr.success('Comment added successful');
                 // Reload comments box or refresh page as needed
             },
@@ -116,6 +117,7 @@
             processData: false,
             contentType: false,
             success: function(response) {
+                refreshComment();
                 toastr.success('Reply added successfully');
                 // Reload comments box or refresh page as needed
             },
@@ -189,6 +191,7 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
+                    refreshComment();
                     toastr.success('Comment added successful');
                     // Reload comments box or refresh page as needed
                 },
@@ -216,6 +219,7 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
+                    refreshComment();
                     toastr.success('Reply added successfully');
                     // Reload comments box or refresh page as needed
                 },
