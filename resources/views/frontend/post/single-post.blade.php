@@ -9,7 +9,11 @@
             <div class="col-lg-8 p-mobile">
                 <div class="text-center page-title-area">
                     <div class="page-title">
-                        <h2>{{ $postCategory->name }}</h2>
+                        <h2>
+                        @if ($post->category)
+                          <h2>{{ $post->category->name }}</h2>
+                      @endif
+                        </h2>
                     </div>
                     <div class="page-border">
                         <div class="top-bottom-img">
@@ -49,14 +53,18 @@
       </div>
       <div class="col-lg-4">
         <div class="blog-sidebar bg-white p-2">
-          <h4 class="sidebar-title pb-1">Latest {{ $postCategory->name }}</h4>
+          <h4 class="sidebar-title pb-1">Latest 
+            @if ($post->category)
+            {{ $post->category->name }}
+          @endif
+        </h4>
           <div class="row gy-3">
             @foreach ($latestPosts as $latestPost)
             <div class="col-12">
               <div class="latest-post d-flex align-items-center">
                 <img src="{{ asset("public/frontend/images/posts/{$latestPost->banner}") }}" alt="">
                 <div class="ms-2">
-                  <h5><a href="{{ url("{$postCategory->slug}/{$latestPost->slug}") }}">{{ $latestPost->title }}</a></h5>
+                  <h5><a href="{{ url("{$post->category->slug}/{$latestPost->slug}") }}">{{ $latestPost->title }}</a></h5>
                   <span>Date: {{ $latestPost->created_at->format('d M Y') }}</span>
                 </div>
               </div>
@@ -65,14 +73,18 @@
           </div>
         </div>
         <div class="blog-sidebar mt-4 bg-white p-2">
-          <h4 class="sidebar-title pb-1">Related {{ $postCategory->name }}</h4>
+          <h4 class="sidebar-title pb-1">Related
+            @if ($post->category)
+            {{ $post->category->name }}
+          @endif
+        </h4>
           <div class="row gy-3">
             @foreach ($relatedPosts as $relatedPost)
             <div class="col-12">
               <div class="latest-post d-flex align-items-center">
                 <img src="{{ asset("public/frontend/images/posts/{$relatedPost->banner}") }}" alt="">
                 <div class="ms-2">
-                  <h5><a href="{{ url("{$postCategory->slug}/{$relatedPost->slug}") }}">{{ $relatedPost->title }}</a></h5>
+                  <h5><a href="{{ url("{$post->category->slug}/{$relatedPost->slug}") }}">{{ $relatedPost->title }}</a></h5>
                   <span>Date: {{ $relatedPost->created_at->format('d M Y') }}</span>
                 </div>
               </div>

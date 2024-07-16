@@ -22,77 +22,108 @@ class PostController extends Controller
         return view('frontend.post.index', compact('postCategory', 'posts'));
     }
 
+    /**
+     * Display a single post with comments, latest posts, and related posts.
+     *
+     * @param  string  $categorySlug
+     * @param  string  $postSlug
+     * @return \Illuminate\View\View
+     */
     public function showSinglePost($categorySlug, $postSlug)
     {
-        // Fetch the post category with its posts and subcategories
-        $postCategory = PostCategory::where('slug', $categorySlug)
-                        ->with(['posts','subcategories'])
-                        ->firstOrFail(); // Assuming the category slug is unique
-        
-        // Fetch the single post based on the category and post slugs
         $post = Post::where('slug', $postSlug)
-                    ->where('category_id', $postCategory->id)
-                    ->with('category', 'addedBy')
+                    ->whereHas('category', function ($query) use ($categorySlug) {
+                        $query->where('slug', $categorySlug);
+                    })
+                    ->with('category', 'comments', 'comments.replies') // Eager load comments and their replies
                     ->firstOrFail();
 
-        // Fetch latest posts from the same category except the current post
-        $latestPosts = Post::where('category_id', $postCategory->id)
-                        ->where('id', '!=', $post->id)
-                        ->latest()
-                        ->limit(5)
-                        ->get();
+        $latestPosts = Post::where('category_id', $post->category_id)
+                            ->where('id', '<>', $post->id) // Exclude the current post
+                            ->latest()
+                            ->take(5)
+                            ->get();
 
-        // Fetch related posts based on some criteria (could be based on tags, keywords, etc.)
-        // For now, let's assume related posts are also the latest posts
-        $relatedPosts = Post::where('category_id', $postCategory->id)
-                        ->where('id', '!=', $post->id)
-                        ->latest()
-                        ->limit(5)
-                        ->get();
+        $relatedPosts = Post::where('category_id', $post->category_id)
+                            ->where('id', '<>', $post->id) // Exclude the current post
+                            ->inRandomOrder() // Example of random order for related posts
+                            ->take(5)
+                            ->get();
 
-        return view('frontend.post.single-post', compact('postCategory', 'post', 'latestPosts', 'relatedPosts'));
+        return view('frontend.post.single-post', compact('post', 'latestPosts', 'relatedPosts'));
     }
 
-    // Method to store comment
-    public function storeComment(Request $request, $postId)
+    /**
+     * Store a new comment for a post.
+     *
+     * @param  CommentRequest  $request
+     * @param  int  $postId
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeComment(CommentRequest $request, $postId)
     {
-        $request->validate([
-            'comment_text' => 'required|string',
-        ]);
+        $post = Post::findOrFail($postId);
 
         $comment = new Comment();
-        $comment->comment_text = $request->comment_text;
-        $comment->post_id = $postId;
-        $comment->member_id = Auth::guard('member')->id(); // Using Member model
+        $comment->post_id = $post->id;
+        $comment->member_id = auth()->id(); // Assuming authenticated member
+        $comment->comment_text = $request->input('comment_text');
         $comment->save();
 
-        return back()->with('success', 'Comment added successfully.');
+        return back()->with('success', 'Comment posted successfully.');
     }
 
-    // Method to store reply
-    public function storeReply(Request $request, $commentId)
+    /**
+     * Store a new reply for a comment.
+     *
+     * @param  CommentRequest  $request
+     * @param  int  $commentId
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeReply(CommentRequest $request, $commentId)
     {
-        $request->validate([
-            'reply_text' => 'required|string',
-        ]);
+        $comment = Comment::findOrFail($commentId);
 
         $reply = new Reply();
-        $reply->reply_text = $request->reply_text;
-        $reply->comment_id = $commentId;
-        $reply->member_id = Auth::guard('member')->id(); // Using Member model
+        $reply->comment_id = $comment->id;
+        $reply->member_id = auth()->id(); // Assuming authenticated member
+        $reply->reply_text = $request->input('comment_text');
         $reply->save();
 
-        return back()->with('success', 'Reply added successfully.');
+        return back()->with('success', 'Reply posted successfully.');
     }
 
-    // Method to store reaction
-    public function reactToComment($commentId)
+    /**
+     * Store a reaction to a comment or reply.
+     *
+     * @param  Request  $request
+     * @param  string  $type  'comment' or 'reply'
+     * @param  int  $id  Comment or reply ID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeReaction(Request $request, $type, $id)
     {
-        $reaction = new Reaction();
-        $reaction->comment_id = $commentId;
-        $reaction->member_id = Auth::guard('member')->id(); // Using Member model
-        $reaction->save();
+        $model = ($type === 'comment') ? Comment::findOrFail($id) : Reply::findOrFail($id);
 
-        return back()->with('success', 'Reacted to comment successfully.');
+        $reaction = Reaction::where('model_type', get_class($model))
+                            ->where('model_id', $model->id)
+                            ->where('member_id', auth()->id())
+                            ->first();
+
+        if ($reaction) {
+            // Update existing reaction
+            $reaction->reaction_type = $request->input('reaction_type');
+            $reaction->save();
+        } else {
+            // Create new reaction
+            $reaction = new Reaction();
+            $reaction->model_type = get_class($model);
+            $reaction->model_id = $model->id;
+            $reaction->member_id = auth()->id();
+            $reaction->reaction_type = $request->input('reaction_type');
+            $reaction->save();
+        }
+
+        return response()->json(['success' => true]);
     }
 }

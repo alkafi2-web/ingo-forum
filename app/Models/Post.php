@@ -26,4 +26,9 @@ class Post extends Model
     {
         return $this->belongsTo(User::class, 'added_by'); // Assuming 'added_by' is the foreign key in your posts table
     }
+    
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
