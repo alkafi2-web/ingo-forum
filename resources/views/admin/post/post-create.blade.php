@@ -67,19 +67,17 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mt-3">
-                                    <label for="slug">Slug</label>
+                                    <label for="slug" class="required">Slug</label>
                                     <input type="text" id="slug" name="slug" class="form-control mt-3" required>
                                 </div>
                             </div>
                         </div>
 
-
-
-                        <!-- Short Description -->
+                        {{-- <!-- Short Description -->
                         <div class="form-group mt-3">
                             <label for="short_description" class="mb-3 required">Short Description</label>
                             <textarea id="short_description" name="short_description" class="form-control mt-5" rows="1" required></textarea>
-                        </div>
+                        </div> --}}
 
                         <!-- Long Description -->
                         <div class="form-group mt-3">
@@ -112,7 +110,7 @@
 @push('custom-js')
     <script>
         // Initialize CKEditor on the textareas
-        CKEDITOR.replace('short_description');
+        // CKEDITOR.replace('short_description');
         CKEDITOR.replace('long_description');
         $(document).ready(function() {
             var categories = @json($categories);
@@ -140,7 +138,7 @@
                 let title = $('#title').val();
                 let slug = $('#slug').val();
                 let long_description = CKEDITOR.instances['long_description'].getData();
-                let short_description = CKEDITOR.instances['short_description'].getData();
+                // let short_description = CKEDITOR.instances['short_description'].getData();
                 let banner = $('#banner')[0].files[0];
                 let formData = new FormData(); // Create FormData object
 
@@ -150,7 +148,7 @@
                 formData.append('title', title);
                 formData.append('slug', slug);
                 formData.append('long_description', long_description);
-                formData.append('short_description', short_description);
+                // formData.append('short_description', short_description);
                 formData.append('banner', banner);
                 $.ajax({
                     type: 'POST',
@@ -171,9 +169,9 @@
                         var long_description = CKEDITOR.instances['long_description'];
                         long_description.setData('');
                         long_description.focus();
-                        var short_description = CKEDITOR.instances['short_description'];
-                        short_description.setData('');
-                        short_description.focus();
+                        // var short_description = CKEDITOR.instances['short_description'];
+                        // short_description.setData('');
+                        // short_description.focus();
                         $('#pp').attr('src', '');
                     },
                     error: function(xhr) {

@@ -32,7 +32,7 @@ class PostController extends Controller
             'subcategory' => 'required',
             'title' => 'required|string|max:255',
             'slug' => [
-                'nullable',
+                'required',
                 'string',
                 'max:255',
                 'unique:posts',
@@ -76,7 +76,7 @@ class PostController extends Controller
             'sub_category_id' => $request->subcategory,
             'title' => $request->title,
             'slug' => $request->slug ?? Str::slug($request->title, '-'),
-            'short_des' => $request->short_description,
+            // 'short_des' => $request->short_description,
             'long_des' => $request->long_description,
             'banner' => $bannerName,
             'added_by' => Auth::user()->id,
@@ -210,7 +210,7 @@ class PostController extends Controller
         $post->sub_category_id = $request->subcategory;
         $post->title = $request->title;
         $post->slug = $request->slug ?? Str::slug($request->title, '-');
-        $post->short_des = $request->short_description;
+        // $post->short_des = $request->short_description;
         $post->long_des = $request->long_description;
         if ($bannerName) {
             $post->banner = $bannerName;

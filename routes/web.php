@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 use App\Http\Controllers\Frontend\Page\PageController as FrontendPageController;
 use App\Http\Controllers\Menu\MenuController;
+use App\Http\Controllers\Frontend\Post\PostController as FrontendPostController;
 
 Route::prefix('admin')->group(function () {
     Route::get('/', [AuthController::class, 'login'])->name('login');
@@ -199,5 +200,7 @@ Route::prefix('/member')->group(function () {
 
 Route::get('/member/login', [FrontAuthController::class, 'login'])->name('frontend.login');
 
-
+// post routes 
+Route::get('/post/{categorySlug}', [FrontendPostController::class, 'index']);
+Route::get('/{categorySlug}/{postSlug}', [FrontendPostController::class, 'showSinglePost']);
 

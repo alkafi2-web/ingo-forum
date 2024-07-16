@@ -1,5 +1,5 @@
 @extends('frontend.layouts.front-end-layout')
-@section('fontend-section')
+@section('frontend-section')
     <style>
         .ekko-lightbox.modal .modal-header {
             flex-direction: row-reverse !important;

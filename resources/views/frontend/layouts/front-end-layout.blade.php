@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{ asset('public/frontend/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/bootstrap.min.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/app.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/style.css') }}">
 </head>
 
@@ -28,7 +29,7 @@
     @include('frontend.partials.header')
     {{-- @include('frontend.partials.breadcum') --}}
     <!-- Header Section end  -->
-    @yield('fontend-section')
+    @yield('frontend-section')
     <!-- footer Section Start  -->
     @include('frontend.partials.footer')
     <!-- footer Section End  -->

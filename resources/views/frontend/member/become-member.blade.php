@@ -1,6 +1,6 @@
 @extends('frontend.layouts.frontend-page-layout')
 @section('page-title', 'Become A Member')
-@section('fontend-section')
+@section('frontend-section')
     <!-- Membership Area start here  -->
     <section class="membership-area ptb-50">
         <div class="container">
