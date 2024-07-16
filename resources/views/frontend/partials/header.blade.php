@@ -101,7 +101,7 @@
                         <a href="{{route('member.logout')}}" class="btn btn-outline-warning">Logout</a>
                     @else
                         <a href="{{ route('frontend.login') }}" class="btn btn-outline-success">Login</a>
-                        <button class="btn btn-outline-success" type="submit">Be a Member</button>
+                        <a href="{{ route('member') }}" class="btn btn-outline-success">Be a Member</a>
                     @endif
                 </form>
             </div>

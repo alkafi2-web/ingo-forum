@@ -26,12 +26,14 @@ return new class extends Migration
             $table->string('director_phone')->nullable(); // Representative name
             $table->string('membership_id')->nullable(); // Membership ID
 
+            $table->text('ttile')->nullable(); // Mission statement
+            $table->text('sub_title')->nullable(); // Mission statement
             $table->longText('mission')->nullable(); // Mission statement
             $table->longText('vision')->nullable(); // Vision statement
             $table->longText('value')->nullable(); // Values of the organization
-            $table->text('work')->nullable(); // Work or projects
+            $table->longText('work')->nullable(); // Work or projects
             $table->longText('history')->nullable(); // History of the organization
-            $table->text('services')->nullable(); // Services offered
+            $table->longText('other_description')->nullable(); // Services offered
 
             $table->string('facebook')->nullable(); // Facebook URL
             $table->string('linkedin')->nullable(); // LinkedIn URL

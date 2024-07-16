@@ -1581,3 +1581,6 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
     width: 135px;
   }
 }
+.cke_notifications_area{
+  display: none!important;
+}

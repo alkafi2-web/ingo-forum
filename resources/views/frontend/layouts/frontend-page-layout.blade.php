@@ -51,6 +51,7 @@
     <script src="{{ asset('public/admin/js/ekko-lightbox.js') }}"></script>
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
     <script src="{{ asset('public/frontend/js/main.js') }}"></script>
     <script>
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
