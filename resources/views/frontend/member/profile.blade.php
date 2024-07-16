@@ -98,7 +98,7 @@
                                                         </div>
                                                         <div class="col-md-8">
                                                             <input type="text" class="form-control" id="og-name"
-                                                                placeholder="Your Organisation Name" spellcheck="false"
+                                                                placeholder="Your Organisation Name"
                                                                 data-ms-editor="true">
                                                         </div>
                                                     </div>
@@ -111,8 +111,7 @@
                                                         </div>
                                                         <div class="col-md-8">
                                                             <input type="text" class="form-control" id="og-mail"
-                                                                placeholder="Organisation Email" spellcheck="false"
-                                                                data-ms-editor="true">
+                                                                placeholder="Organisation Email" data-ms-editor="true">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -124,8 +123,7 @@
                                                         </div>
                                                         <div class="col-md-8">
                                                             <input type="text" class="form-control" id="og-acronym"
-                                                                placeholder="Orgainsation Acronym" spellcheck="false"
-                                                                data-ms-editor="true">
+                                                                placeholder="Orgainsation Acronym" data-ms-editor="true">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -153,8 +151,7 @@
                                                         </div>
                                                         <div class="col-md-8">
                                                             <input type="text" class="form-control" id="og-address"
-                                                                placeholder="Organisation Address" spellcheck="false"
-                                                                data-ms-editor="true">
+                                                                placeholder="Organisation Address" data-ms-editor="true">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -173,8 +170,7 @@
                                                         </div>
                                                         <div class="col-md-8">
                                                             <input type="text" class="form-control" id="mail"
-                                                                placeholder="Email" spellcheck="false"
-                                                                data-ms-editor="true">
+                                                                placeholder="Email" data-ms-editor="true">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -311,3 +307,14 @@
     </section>
     <!-- Profile edit page end -->
 @endsection
+
+@push('custom-js')
+    <script>
+        // Initialize CKEditor on the textareas
+        CKEDITOR.replace('description');
+        CKEDITOR.replace('mission');
+        CKEDITOR.replace('vision');
+        CKEDITOR.replace('values');
+        CKEDITOR.replace('other');
+    </script>
+@endpush

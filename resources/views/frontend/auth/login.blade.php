@@ -72,7 +72,7 @@
                     },
                     success: function(response) {
                         // console.log(response)
-                        toastr.success(response.message);
+                        // toastr.success(response.message);
                         window.location.href = response.redirect;
                     },
                     error: function(xhr) {
