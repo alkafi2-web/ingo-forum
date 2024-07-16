@@ -221,7 +221,7 @@ Route::get('/{categorySlug}/{postSlug}', [FrontendPostController::class, 'showSi
 // Routes for comments, replies, and reactions
 Route::middleware(['auth.member'])->group(function () {
     // Comment routes
-    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
-    Route::post('/replies', [CommentController::class, 'storeReply'])->name('replies.store');
-    Route::post('/reactions', [CommentController::class, 'react'])->name('reactions.react');
+    Route::post('/comments', [FrontendPostController::class, 'storeComment'])->name('comments.store');
+    Route::post('/replies', [FrontendPostController::class, 'storeReply'])->name('replies.store');
+    Route::post('/reactions', [FrontendPostController::class, 'storeReaction'])->name('reactions.react');
 });
