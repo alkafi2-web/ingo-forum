@@ -130,7 +130,7 @@
                                 <div class="col-6">
                                     <div class="fixtures-item fx{{ ($index % 4) + 1 }}">
                                         <div class="fixture-icon">
-                                            <img src="{{ asset('public/frontend/images/icons/') }}/{{ $feature['icon'] }}"
+                                            <img src="{{ asset('public/frontend/images/icons/fx' . (($index % 4) + 1) . '.png') }}"
                                                 alt="">
                                             {{-- <img src="{{ asset('public/frontend/images/icons/fx1.png') }}" alt=""> --}}
                                         </div>
@@ -241,26 +241,31 @@
     </section>
     <!-- About Us Section End  -->
     <!-- Member Section Start  -->
-    <section class="member-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3"></div>
-                <div class="col-lg-6">
-                    <div class="text-center">
-                        <h5 class="sub-title">Our Members</h5>
-                        <h2 class="section-title">Hands in Together, Hearts in Unison</h2>
+    @if ($global['membersInfos']->count() > 0)
+        <section class="member-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
+                        <div class="text-center">
+                            <h5 class="sub-title">Our Members</h5>
+                            <h2 class="section-title">Hands in Together, Hearts in Unison</h2>
+                        </div>
                     </div>
+                    <div class="col-lg-3"></div>
                 </div>
-                <div class="col-lg-3"></div>
             </div>
-        </div>
-        <hr>
-        <div class="container">
-            <div class="owl-carousel owl-theme members-logo py-2">
-                <div class="item">
-                    <img src="{{ asset('public/frontend/images/wateraid.png') }}" alt="">
-                </div>
-                <div class="item">
+            <hr>
+            <div class="container">
+                <div class="owl-carousel owl-theme members-logo py-2">
+                    @foreach ($global['membersInfos'] as $membersInfos)
+                        <div class="item">
+                            <img src="{{ asset('public/frontend/images/member') }}/{{ $membersInfos->logo }}"
+                                alt="">
+                        </div>
+                    @endforeach
+
+                    {{-- <div class="item">
                     <img src="{{ asset('public/frontend/images/int.png') }}" alt="">
                 </div>
                 <div class="item">
@@ -277,11 +282,12 @@
                 </div>
                 <div class="item">
                     <img src="{{ asset('public/frontend/images/pa.png') }}" alt="">
+                </div> --}}
                 </div>
             </div>
-        </div>
-        <hr>
-    </section>
+            <hr>
+        </section>
+    @endif
     <!-- Member Section End  -->
     <!-- Events Section Start  -->
     @if ($global['events']->count() > 0)
@@ -427,7 +433,9 @@
                                 <div class="blog-content">
                                     <span class="mini-title">#{{ $post->category->name }}</span>
                                     <span class="mini-title">#{{ $post->subcategory->name }}</span>
-                                    <h3 class="blog-title line-clamp-2"><a href="{{ url("{$post->category->slug}/{$post->slug}") }}">{{ $post->title }}</a></h3>
+                                    <h3 class="blog-title line-clamp-2"><a
+                                            href="{{ url("{$post->category->slug}/{$post->slug}") }}">{{ $post->title }}</a>
+                                    </h3>
                                     <p class="line-clamp-3">{!! Str::limit($post->short_des, 50) !!}</p>
                                     <div class="blog-publice py-1">
                                         <div class="row pb-1">

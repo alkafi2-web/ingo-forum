@@ -2,7 +2,7 @@
     <div class="container">
         <div class="footer-top-area">
             <div class="row">
-                <div class="col-md-5 mb-3 mb-md-0">
+                <div class="col-md-4 mb-3 mb-md-0">
                     <div class="footer-info">
                         <img src="{{ asset('public/frontend/images/' . $global['logo']) }}" alt="">
                         <p class="pt-3">{{ $global['short_content'] }}</p>
@@ -26,16 +26,50 @@
                 <div class="col-md-3 mb-3 mb-md-0">
                     <h4 class="footer-menu-title">About Us</h4>
                     <nav class="footer-menu">
-                        <ul>
-                            <li><a href="">Why INGO Forum</a></li>
-                            <li><a href="">What we do</a></li>
-                            <li><a href="">Governance and structure</a></li>
-                            <li><a href="">Values and principles</a></li>
-                            <li><a href="">Executive Committee members</a></li>
-                        </ul>
+                        @foreach ($menus as $menu)
+                            <ul>
+                                @if ($menu->name === 'About Us' && $menu->subMenus->count())
+                                    @foreach ($menu->subMenus as $child)
+                                        <li>
+                                            @if ($child->type == 'route')
+                                                <a href="{{ route($child->url) }}">{{ $child->name }}</a>
+                                            @elseif ($child->type == 'page' && $child->page)
+                                                <a href="{{ url($child->page->slug) }}">{{ $child->name }}</a>
+                                            @elseif ($child->type == 'url')
+                                                <a href="{{ $child->url }}">{{ $child->name }}</a>
+                                            @endif
+                                        </li>
+                                    @endforeach
+                                @else
+                                @endif
+                            </ul>
+                        @endforeach
                     </nav>
                 </div>
-                <div class="col-6 col-md-2 mb-3 mb-md-0">
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <h4 class="footer-menu-title">Members</h4>
+                    <nav class="footer-menu">
+                        @foreach ($menus as $menu)
+                            <ul>
+                                @if ($menu->name === 'Members' && $menu->subMenus->count())
+                                    @foreach ($menu->subMenus as $child)
+                                        <li>
+                                            @if ($child->type == 'route')
+                                                <a href="{{ route($child->url) }}">{{ $child->name }}</a>
+                                            @elseif ($child->type == 'page' && $child->page)
+                                                <a href="{{ url($child->page->slug) }}">{{ $child->name }}</a>
+                                            @elseif ($child->type == 'url')
+                                                <a href="{{ $child->url }}">{{ $child->name }}</a>
+                                            @endif
+                                        </li>
+                                    @endforeach
+                                @else
+                                @endif
+                            </ul>
+                        @endforeach
+                    </nav>
+                </div>
+                {{-- <div class="col-6 col-md-2 mb-3 mb-md-0">
                     <h4 class="footer-menu-title">Resources</h4>
                     <nav class="footer-menu">
                         <ul>
@@ -47,7 +81,7 @@
                             <li><a href="">Video Gallery</a></li>
                         </ul>
                     </nav>
-                </div>
+                </div> --}}
                 <div class="col-6 col-md-2 mb-3 mb-md-0">
                     <h4 class="footer-menu-title">Resources</h4>
                     <nav class="footer-menu">

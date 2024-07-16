@@ -39,7 +39,7 @@
     <nav class="navbar navbar-expand-lg bg-white">
         <div class="container">
             <a class="navbar-brand" href="{{ route('frontend.index') }}">
-                <img class="logo" src="{{ asset('public/frontend/images/' . $global['logo']) }}" alt="logo">
+                <img class="logo" src="{{ asset('public/frontend/images/' . $global['logo']??'logo.png') }}" alt="logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

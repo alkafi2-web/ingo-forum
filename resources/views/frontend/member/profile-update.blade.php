@@ -246,42 +246,44 @@
                                         <div class="col-12 mb-3">
                                             <label for="title" class="form-label">Title</label>
                                             <input type="text" class="form-control" id="title" name="title"
-                                                placeholder="Title">
+                                                   placeholder="Title" value="{{ $member->memberInfos[0]['title'] ?? '' }}">
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="sub_title" class="form-label">Sub Title</label>
                                             <input type="text" class="form-control" id="sub_title" name="sub_title"
-                                                placeholder="Sub Title">
+                                                   placeholder="Sub Title" value="{{ $member->memberInfos[0]['sub_title'] ?? '' }}">
                                         </div>
                                         <div class="col-12 mb-3">
-                                            <label for="description" class="form-label">Mission</label>
-                                            <textarea class="form-control" id="mission" name="mission" rows="3"></textarea>
+                                            <label for="mission" class="form-label">Mission</label>
+                                            <textarea class="form-control" id="mission" name="mission" rows="3">{{ $member->memberInfos[0]['mission'] ?? '' }}</textarea>
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="vision" class="form-label">Vision</label>
-                                            <textarea class="form-control" id="vision" name="vision" rows="3"></textarea>
+                                            <textarea class="form-control" id="vision" name="vision" rows="3">{{ $member->memberInfos[0]['vision'] ?? '' }}</textarea>
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="values" class="form-label">Values</label>
-                                            <textarea class="form-control" id="values" name="values" rows="3"></textarea>
+                                            <textarea class="form-control" id="values" name="values" rows="3">{{ $member->memberInfos[0]['value'] ?? '' }}</textarea>
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="work" class="form-label">Work or Projects</label>
-                                            <textarea class="form-control" id="work" name="work" rows="3"></textarea>
+                                            <textarea class="form-control" id="work" name="work" rows="3">{{ $member->memberInfos[0]['work'] ?? '' }}</textarea>
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="history" class="form-label">History</label>
-                                            <textarea class="form-control" id="history" name="history" rows="3"></textarea>
+                                            <textarea class="form-control" id="history" name="history" rows="3">{{ $member->memberInfos[0]['history'] ?? '' }}</textarea>
                                         </div>
                                         <div class="col-12 mb-3">
-                                            <label for="other" class="form-label">Other Description</label>
-                                            <textarea class="form-control" id="other_description" name="other_description" rows="3"></textarea>
+                                            <label for="other_description" class="form-label">Other Description</label>
+                                            <textarea class="form-control" id="other_description" name="other_description" rows="3">{{ $member->memberInfos[0]['other_description'] ?? '' }}</textarea>
                                         </div>
                                         <div class="col-12 mb-3 text-end">
                                             <button id="profilData-submit" class="submit-btn">Update</button>
                                         </div>
                                     </div>
                                 </form>
+                                
+
 
                             </div>
                             <div class="tab-pane fade" id="v-pills-disabled" role="tabpanel"
@@ -290,34 +292,40 @@
                                     <div id="formContainer" class="row">
                                         <div class="col-12 mb-3">
                                             <label for="facebook" class="form-label">Facebook</label>
-                                            <input type="text" class="form-control" id="facebook"
-                                                placeholder="Facebook Link">
+                                            <input type="text" class="form-control" id="facebook" name="facebook"
+                                                placeholder="Facebook Link"
+                                                value="{{ $member->memberInfos[0]['facebook'] ?? '' }}">
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="twitter" class="form-label">Twitter</label>
-                                            <input type="text" class="form-control" id="twitter"
-                                                placeholder="Twitter Link">
+                                            <input type="text" class="form-control" id="twitter" name="twitter"
+                                                placeholder="Twitter Link"
+                                                value="{{ $member->memberInfos[0]['twitter'] ?? '' }}">
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="linkedin" class="form-label">Linkedin</label>
-                                            <input type="text" class="form-control" id="linkedin"
-                                                placeholder="Linkedin Link">
+                                            <input type="text" class="form-control" id="linkedin" name="linkedin"
+                                                placeholder="Linkedin Link"
+                                                value="{{ $member->memberInfos[0]['linkedin'] ?? '' }}">
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="instagram" class="form-label">Instagram</label>
                                             <input type="text" class="form-control" id="instagram"
-                                                placeholder="Instagram Link">
+                                                placeholder="Instagram Link"
+                                                value="{{ $member->memberInfos[0]['instagram'] ?? '' }}">
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="youtube" class="form-label">YouTube</label>
-                                            <input type="text" class="form-control" id="youtube"
-                                                placeholder="YouTube Link">
+                                            <input type="text" class="form-control" id="youtube" name="youtube"
+                                                placeholder="YouTube Link"
+                                                value="{{ $member->memberInfos[0]['youtube'] ?? '' }}">
                                         </div>
                                         <div class="col-12 text-end">
                                             <button id="social-submit" class="submit-btn">Update</button>
                                         </div>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
                     </div>
@@ -461,14 +469,11 @@
                     instagram: $('#instagram').val(),
                     youtube: $('#youtube').val(),
                 };
-
-                console.log('Form Data:', formData);
                 $.ajax({
                     type: 'POST',
                     url: url,
                     data: formData,
-                    processData: false, // Prevent jQuery from processing the data
-                    contentType: false,
+
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },

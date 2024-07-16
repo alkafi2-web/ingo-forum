@@ -206,7 +206,7 @@ Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
 Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('frontend.static.page');
 
 Route::get('/member/login', [FrontAuthController::class, 'login'])->name('frontend.login');
-Route::post('/member/login/post', [FrontAuthController::class, 'loginPost'])->name('frontend.login.post');
+
 
 Route::prefix('/member')->group(function () {
     Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
@@ -217,6 +217,9 @@ Route::prefix('/member')->group(function () {
     Route::post('/profile/social', [MemberController::class, 'profileUpdateSocial'])->name('member.profile.update.social');
     Route::post('/profile/image', [MemberController::class, 'uploadProfileImage'])->name('upload.profile.image');
     Route::get('/logout', [MemberController::class, 'logout'])->name('member.logout');
+
+    Route::get('/ours/member', [FrontAuthController::class, 'oursMember'])->name('frontend.ours.member');
+    Route::get('/{membership_id}/show', [FrontAuthController::class, 'profileShow'])->name('frontend.member.show');
 });
 
 // post routes 

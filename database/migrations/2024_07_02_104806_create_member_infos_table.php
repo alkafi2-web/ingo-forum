@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('director_phone')->nullable(); // Representative name
             $table->string('membership_id')->nullable(); // Membership ID
 
-            $table->text('ttile')->nullable(); // Mission statement
+            $table->text('title')->nullable(); // Mission statement
             $table->text('sub_title')->nullable(); // Mission statement
             $table->longText('mission')->nullable(); // Mission statement
             $table->longText('vision')->nullable(); // Vision statement
@@ -38,6 +38,8 @@ return new class extends Migration
             $table->string('facebook')->nullable(); // Facebook URL
             $table->string('linkedin')->nullable(); // LinkedIn URL
             $table->string('youtube')->nullable(); // YouTube URL
+            $table->string('instagram')->nullable(); // YouTube URL
+            $table->string('twitter')->nullable(); // YouTube URL
             $table->string('google_map')->nullable(); // Google Map URL
 
             $table->string('logo')->nullable(); // Logo

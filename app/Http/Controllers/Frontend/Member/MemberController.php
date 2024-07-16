@@ -26,7 +26,7 @@ class MemberController extends Controller
         // Define validation rules
         $rules = [
             'org_name' => 'required|string|max:255',
-            'org_website' => 'required|string|max:255',
+            'org_website' => 'required|url|string|max:255',
             'org_email' => 'required|email|max:255',
             'org_type' => ['required', Rule::in(['1', '2'])],
             'org_address' => 'required|string|max:255',
@@ -42,6 +42,7 @@ class MemberController extends Controller
         $messages = [
             'org_name.required' => 'The organisation name is required.',
             'org_website.required' => 'The organisation website is required.',
+            'org_website.url' => 'The organisation website is invalid url.',
             'org_email.required' => 'The organisation email is required.',
             'org_email.email' => 'The organisation email must be a valid email address.',
             'org_type.required' => 'The organisation type is required.',
@@ -87,7 +88,7 @@ class MemberController extends Controller
     public function memberProfile()
     {
         $member = Auth::guard('member')->user()->load('memberInfos');
-        return view('frontend.member.profile', compact('member'));
+        return view('frontend.member.profile-update', compact('member'));
     }
 
     public function logout(Request $request)
@@ -268,7 +269,48 @@ class MemberController extends Controller
 
     public function profileUpdateSocial(Request $request)
     {
-        // return 'a';
+        
+        // Define custom error messages
+        $messages = [
+            'facebook.required' => 'The facebook field is required.',
+            'facebook.url' => 'The facebook field must be a valid URL.',
+            'facebook.max' => 'The facebook URL must not exceed :max characters.',
+            'twitter.required' => 'The twitter field is required.',
+            'twitter.url' => 'The twitter field must be a valid URL.',
+            'twitter.max' => 'The twitter URL must not exceed :max characters.',
+            'linkedin.required' => 'The linkedin field is required.',
+            'linkedin.url' => 'The linkedin field must be a valid URL.',
+            'linkedin.max' => 'The linkedin URL must not exceed :max characters.',
+            // 'instagram.required' => 'The instagram field is required.',
+            // 'instagram.url' => 'The instagram field must be a valid URL.',
+            // 'instagram.max' => 'The instagram URL must not exceed :max characters.',
+            'youtube.required' => 'The youtube field is required.',
+            'youtube.url' => 'The youtube field must be a valid URL.',
+            'youtube.max' => 'The youtube URL must not exceed :max characters.',
+            // Add more custom messages as needed
+        ];
+
+        // Define validation rules
+        $validator = Validator::make($request->all(), [
+            'facebook' => 'required|url|max:255',
+            'twitter' => 'required|url|max:255',
+            'linkedin' => 'required|url|max:255',
+            'instagram' => 'required|url|max:255',
+            'youtube' => 'required|url|max:255',
+        ], $messages);
+
+        // If validation fails, return JSON response with validation errors
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
+        }
+        $member = Auth::guard('member')->user();
+        $memberInfo = $member->memberInfos()->firstOrNew();
+        // Update the memberInfo attributes based on the request data
+        $memberInfo->fill($request->all());
+
+        // Save the updated memberInfo
+        $member->memberInfos()->save($memberInfo);
+        return response()->json(['success' => true, 'message' => 'Social profile Update'], 200);
         return $request->all();
     }
 }

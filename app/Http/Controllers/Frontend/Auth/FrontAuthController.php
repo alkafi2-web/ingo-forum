@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Frontend\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Member;
+use App\Models\MemberInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -36,12 +38,29 @@ class FrontAuthController extends Controller
                 Auth::guard('member')->logout();
                 return response()->json(['errors' => ['login_email' => ['Your account is not allowed to log in.']]], 403);
             }
-            return response()->json(['success' => true,'message' => 'Successfully Be A Member.Now Log in And Update Info' ,'redirect' => route('member.profile')], 200);
+            return response()->json(['success' => true, 'message' => 'Successfully Be A Member.Now Log in And Update Info', 'redirect' => route('member.profile')], 200);
         } else {
             // Authentication failed
             return response()->json(['errors' => ['login_email' => [trans('auth.failed')]]], 422);
         }
-        
+
         return $request->all();
+    }
+
+    public function oursMember()
+    {
+        $membersInfos = MemberInfo::with('member')
+            ->whereHas('member', function ($query) {
+                $query->where('status', 1);
+            })
+            ->select('member_id', 'membership_id', 'logo')
+            ->get();
+        return view('frontend.member.our-members', compact('membersInfos'));
+    }
+
+    public function profileShow($membershipId)
+    {
+        $memberinfo = MemberInfo::where('membership_id', $membershipId)->with('member')->first();
+        return view('frontend.member.member-profile', compact('memberinfo'));
     }
 }
