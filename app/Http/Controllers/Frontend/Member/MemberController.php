@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\MemberInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -28,7 +29,7 @@ class MemberController extends Controller
             'org_address' => 'required|string|max:255',
             'director_name' => 'required|string|max:255',
             'director_email' => 'required|email|max:255',
-            'director_phone' => 'required|string|max:20',
+            'director_phone' => 'nullable|string|max:20',
             'login_email' => 'required|email|max:255',
             'login_phone' => 'nullable|string|max:20',
             'password' => 'required|string|min:8|confirmed',
@@ -84,5 +85,14 @@ class MemberController extends Controller
     public function memberProfile()
     {
         return view('frontend.member.profile');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('member')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('frontend.login');
     }
 }

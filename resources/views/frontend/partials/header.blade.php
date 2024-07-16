@@ -96,7 +96,13 @@
                     @endforeach
                 </ul>
                 <form class="navbar-btn" role="search">
-                    <button class="btn btn-outline-success" type="submit">Be a Member</button>
+                    @if (Auth::guard('member')->check())
+                        <a href="{{ route('member.profile') }}" class="btn btn-outline-success">Profile</a>
+                        <a href="{{route('member.logout')}}" class="btn btn-outline-warning">Logout</a>
+                    @else
+                        <a href="{{ route('frontend.login') }}" class="btn btn-outline-success">Login</a>
+                        <button class="btn btn-outline-success" type="submit">Be a Member</button>
+                    @endif
                 </form>
             </div>
         </div>
