@@ -29,6 +29,7 @@
         </span>
     </a>
 
-    <a href="{{ route('member.request') }}"><button class="btn btn-info"><i class="fas fa-arrow-left"></i>
-            Back</button></a>
+    <button class="btn btn-info" onclick="window.history.back();">
+        <i class="fas fa-arrow-left"></i> Back
+    </button>
 </div>
