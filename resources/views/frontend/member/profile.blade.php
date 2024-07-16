@@ -245,11 +245,13 @@
                                     <div class="row">
                                         <div class="col-12 mb-3">
                                             <label for="title" class="form-label">Title</label>
-                                            <input type="text" class="form-control" id="title" name="title" placeholder="Title">
+                                            <input type="text" class="form-control" id="title" name="title"
+                                                placeholder="Title">
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="sub_title" class="form-label">Sub Title</label>
-                                            <input type="text" class="form-control" id="sub_title" name="sub_title" placeholder="Sub Title">
+                                            <input type="text" class="form-control" id="sub_title" name="sub_title"
+                                                placeholder="Sub Title">
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="description" class="form-label">Mission</label>
@@ -261,7 +263,7 @@
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="values" class="form-label">Values</label>
-                                            <textarea class="form-control" id="values" name="value" rows="3"></textarea>
+                                            <textarea class="form-control" id="values" name="values" rows="3"></textarea>
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="work" class="form-label">Work or Projects</label>
@@ -273,7 +275,7 @@
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="other" class="form-label">Other Description</label>
-                                            <textarea class="form-control" id="other" name="other_description" rows="3"></textarea>
+                                            <textarea class="form-control" id="other_description" name="other_description" rows="3"></textarea>
                                         </div>
                                         <div class="col-12 mb-3 text-end">
                                             <button id="profilData-submit" class="submit-btn">Update</button>
@@ -284,7 +286,7 @@
                             </div>
                             <div class="tab-pane fade" id="v-pills-disabled" role="tabpanel"
                                 aria-labelledby="v-pills-disabled-tab" tabindex="0">
-                                <form action="">
+                                <form action="" id="social-form">
                                     <div id="formContainer" class="row">
                                         <div class="col-12 mb-3">
                                             <label for="facebook" class="form-label">Facebook</label>
@@ -312,7 +314,7 @@
                                                 placeholder="YouTube Link">
                                         </div>
                                         <div class="col-12 text-end">
-                                            <input type="submit" value="Update" class="submit-btn">
+                                            <button id="social-submit" class="submit-btn">Update</button>
                                         </div>
                                     </div>
                                 </form>
@@ -335,7 +337,7 @@
         CKEDITOR.replace('history');
         CKEDITOR.replace('work');
         CKEDITOR.replace('values');
-        CKEDITOR.replace('other');
+        CKEDITOR.replace('other_description');
 
 
         $(document).ready(function() {
@@ -370,6 +372,7 @@
                 });
 
             });
+
             $('#profile-input').on('change', function() {
                 var fileInput = $(this)[0];
                 if (fileInput.files && fileInput.files[0]) {
@@ -400,8 +403,26 @@
             $('#profilData-submit').on('click', function(e) {
                 e.preventDefault();
                 let url = "{{ route('member.profile.update.summary') }}";
-                let form = $('#profilDataForm')[0];
-                let formData = new FormData(form);
+                let title = $('#title').val();
+                let subTitle = $('#sub_title').val();
+                let mission = CKEDITOR.instances['mission'].getData();
+                let vision = CKEDITOR.instances['vision'].getData();
+                let value = CKEDITOR.instances['values'].getData();
+                let work = CKEDITOR.instances['work'].getData();
+                let history = CKEDITOR.instances['history'].getData();
+                let otherDescription = CKEDITOR.instances['other_description'].getData();
+
+                let formData = new FormData(); // Create FormData object
+
+                // Append form data to FormData object
+                formData.append('title', title);
+                formData.append('sub_title', subTitle);
+                formData.append('mission', mission);
+                formData.append('vision', vision);
+                formData.append('value', value);
+                formData.append('work', work);
+                formData.append('history', history);
+                formData.append('other_description', otherDescription);
                 $.ajax({
                     type: 'POST',
                     url: url,
@@ -413,7 +434,6 @@
                             'content')
                     },
                     success: function(response) {
-                        console.log(response);
                         toastr.success(response.message);
                     },
                     error: function(xhr) {
@@ -429,6 +449,31 @@
                 });
 
             });
+
+            $('#social-submit').on('click', function(e) {
+                e.preventDefault();
+                let url = "{{ route('member.profile.update.social') }}";
+                let form = $('#social-form')[0];
+                let formData = new FormData(form);
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    processData: false, // Prevent jQuery from processing the data
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        toastr.success(response.message);
+                    },
+                    error: function(xhr) {
+
+                    }
+                });
+            });
+
         });
     </script>
 @endpush

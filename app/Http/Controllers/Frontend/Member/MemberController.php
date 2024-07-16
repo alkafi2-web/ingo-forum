@@ -101,6 +101,7 @@ class MemberController extends Controller
 
     public function profileUpdate(Request $request)
     {
+        return $request->all();
         // Define validation rules
         $rules = [
             'org_name' => 'required|string|max:255',
@@ -221,6 +222,7 @@ class MemberController extends Controller
 
     public function profileUpdateSummary(Request $request)
     {
+        // return $request->all();
         // Define custom error messages
         $messages = [
             'title.required' => 'The title field is required.',
@@ -261,6 +263,11 @@ class MemberController extends Controller
         $memberInfo->save();
         // Return success response
         return response()->json(['success' => true, 'message' => 'Data successfully Update.'], 200);
+        return $request->all();
+    }
+
+    public function profileUpdateSocial(Request $request)
+    {
         return $request->all();
     }
 }
