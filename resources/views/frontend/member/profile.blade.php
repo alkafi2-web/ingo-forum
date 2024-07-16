@@ -453,8 +453,16 @@
             $('#social-submit').on('click', function(e) {
                 e.preventDefault();
                 let url = "{{ route('member.profile.update.social') }}";
-                let form = $('#social-form')[0];
-                let formData = new FormData(form);
+                // Collect form data manually
+                let formData = {
+                    facebook: $('#facebook').val(),
+                    twitter: $('#twitter').val(),
+                    linkedin: $('#linkedin').val(),
+                    instagram: $('#instagram').val(),
+                    youtube: $('#youtube').val(),
+                };
+
+                console.log('Form Data:', formData);
                 $.ajax({
                     type: 'POST',
                     url: url,
@@ -469,7 +477,16 @@
                         toastr.success(response.message);
                     },
                     error: function(xhr) {
-
+                        console.log(xhr);
+                        var errors = xhr.responseJSON.errors;
+                        console.log(errors)
+                        // Iterate through each error and display the message using Toastr
+                        $.each(errors, function(key, value) {
+                            console.log(value[0]);
+                            toastr.error(value[
+                                0
+                            ]); // Displaying the first error message for each field
+                        });
                     }
                 });
             });

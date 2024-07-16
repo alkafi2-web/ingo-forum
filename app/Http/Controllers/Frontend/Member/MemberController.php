@@ -268,6 +268,7 @@ class MemberController extends Controller
 
     public function profileUpdateSocial(Request $request)
     {
+        // return 'a';
         return $request->all();
     }
 }
