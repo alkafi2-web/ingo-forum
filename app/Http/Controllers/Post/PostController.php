@@ -79,7 +79,7 @@ class PostController extends Controller
             // 'short_des' => $request->short_description,
             'long_des' => $request->long_description,
             'banner' => $bannerName,
-            'added_by' => Auth::user()->id,
+            'added_by' => Auth::guard('admin')->user()->id,
         ]);
         return response()->json(['success' => ['success' => 'Post Added Successfully']]);
     }

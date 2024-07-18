@@ -11,7 +11,7 @@
                             aria-orientation="vertical">
                             <div class="edit-profile-img bg-white py-4 px-3 text-center">
                                 <div class="preview-img mb-3">
-                                    <img src="{{ asset('public/frontend/images/member/') }}/{{ $member->memberInfos[0]['logo'] ?? 'logo' }}"
+                                    <img src="{{ asset('public/frontend/images/member/') }}/{{ $member->memberInfos[0]['logo'] ?? 'logo.png' }}"
                                         alt="" id="preview-img">
                                     <i class="fa-solid fa-camera" id="upload-icon"></i>
                                     <input type="file" name="" id="profile-input" class="d-none">

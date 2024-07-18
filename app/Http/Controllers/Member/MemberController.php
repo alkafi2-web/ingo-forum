@@ -85,12 +85,17 @@ class MemberController extends Controller
 
         // Save the changes
         $member->save(); // Render the view with admin.member.partials.view-header
+        // Render view-header.blade.php
         $viewHeader = view('admin.member.partials.view-header', compact('member'))->render();
 
-        // Return JSON response with success message and rendered partial view
+        // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
+        $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
+
+        // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',
-            'viewHeader' => $viewHeader
+            'viewHeader' => $viewHeader,
+            'profileImageName' => $profileImageName
         ]);
     }
     public function suspend(Request $request)
@@ -103,12 +108,17 @@ class MemberController extends Controller
 
         // Save the changes
         $member->save();
+        // Render view-header.blade.php
         $viewHeader = view('admin.member.partials.view-header', compact('member'))->render();
 
-        // Return JSON response with success message and rendered partial view
+        // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
+        $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
+
+        // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',
-            'viewHeader' => $viewHeader
+            'viewHeader' => $viewHeader,
+            'profileImageName' => $profileImageName
         ]);
         return response()->json(['success' => 'Member Suspend successfully']);
     }
@@ -122,12 +132,17 @@ class MemberController extends Controller
 
         // Save the changes
         $member->save();
+        // Render view-header.blade.php
         $viewHeader = view('admin.member.partials.view-header', compact('member'))->render();
 
-        // Return JSON response with success message and rendered partial view
+        // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
+        $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
+
+        // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',
-            'viewHeader' => $viewHeader
+            'viewHeader' => $viewHeader,
+            'profileImageName' => $profileImageName
         ]);
     }
 }

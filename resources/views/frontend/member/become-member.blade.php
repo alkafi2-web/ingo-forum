@@ -214,7 +214,6 @@
                         window.location.href = response.redirect;
                     },
                     error: function(xhr) {
-                        toastr.error('this is from error');
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display the message using Toastr
                         $.each(errors, function(key, value) {

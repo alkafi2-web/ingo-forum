@@ -61,7 +61,7 @@ class AuthController extends Controller
     public function login()
     {
 
-        if (Auth::check()) {
+        if (Auth::guard('admin')->check()) {
             // If user is authenticated, redirect to admin home with no-cache header
             return redirect()->route('dashboard');
         } else {
@@ -88,8 +88,8 @@ class AuthController extends Controller
 
         // Attempt to authenticate the user
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            // Authentication passed, display success toastr and redirect to dashboard
+        if (Auth::guard('admin')->attempt($credentials)) {
+            // Authentication passed for the 'admin' guard
             Toastr::success('You have successfully logged in!', 'Success');
             return response()->json(['redirect' => route('dashboard')], 200);
         }
