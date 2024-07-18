@@ -56,7 +56,7 @@
                         <li class="nav-item {{ $menu->subMenus->count() ? 'dropdown' : '' }}">
                             @if ($menu->type == 'route')
                                 <a class="nav-link {{ $menu->subMenus->count() ? 'dropdown-toggle' : '' }}"
-                                    href="{{ route($menu->url) }}"
+                                    href="{{ route($menu->route) }}"
                                     {{ $menu->subMenus->count() ? 'role=button data-bs-toggle=dropdown aria-expanded=false' : '' }}>
                                     <span>{{ $menu->name }}</span>
                                     @if ($menu->subMenus->count())
@@ -88,7 +88,7 @@
                                     @foreach ($menu->subMenus as $child)
                                         @if ($child->type == 'route')
                                             <li><a class="dropdown-item"
-                                                    href="{{ route($child->url) }}">{{ $child->name }}</a></li>
+                                                    href="{{ route($child->route) }}">{{ $child->name }}</a></li>
                                         @elseif ($child->type == 'page' && $child->page)
                                             <li><a class="dropdown-item"
                                                     href="{{ url($child->page->slug) }}">{{ $child->name }}</a></li>

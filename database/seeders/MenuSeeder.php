@@ -37,7 +37,7 @@ class MenuSeeder extends Seeder
                 'children' => [
                     ['name' => 'Our members', 'type' => 'url', 'url' => '#'],
                     ['name' => 'Membership Criteria', 'type' => 'url', 'url' => '#'],
-                    ['name' => 'Become a member/ Join us', 'type' => 'route', 'url' => 'member'],
+                    ['name' => 'Become a member/ Join us', 'type' => 'url', 'url' => '#'],
                 ],
             ],
             [

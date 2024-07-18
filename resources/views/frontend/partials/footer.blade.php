@@ -32,7 +32,7 @@
                                     @foreach ($menu->subMenus as $child)
                                         <li>
                                             @if ($child->type == 'route')
-                                                <a href="{{ route($child->url) }}">{{ $child->name }}</a>
+                                                <a href="{{ route($child->route) }}">{{ $child->name }}</a>
                                             @elseif ($child->type == 'page' && $child->page)
                                                 <a href="{{ url($child->page->slug) }}">{{ $child->name }}</a>
                                             @elseif ($child->type == 'url')
@@ -55,7 +55,7 @@
                                     @foreach ($menu->subMenus as $child)
                                         <li>
                                             @if ($child->type == 'route')
-                                                <a href="{{ route($child->url) }}">{{ $child->name }}</a>
+                                                <a href="{{ route($child->route) }}">{{ $child->name }}</a>
                                             @elseif ($child->type == 'page' && $child->page)
                                                 <a href="{{ url($child->page->slug) }}">{{ $child->name }}</a>
                                             @elseif ($child->type == 'url')

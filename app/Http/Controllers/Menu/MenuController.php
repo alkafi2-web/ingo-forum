@@ -116,7 +116,7 @@ class MenuController extends Controller
             'menu_type' => 'required|in:page,route,url',
             'page_id' => 'required_if:menu_type,page|nullable|exists:pages,id',
             'route_name' => 'required_if:menu_type,route|nullable|string|max:255',
-            'custom_url' => 'required_if:menu_type,url|nullable|url|max:255',
+            'custom_url' => 'required_if:menu_type,url|nullable|max:255',
         ]);
 
         $menu->type = $request->menu_type;
