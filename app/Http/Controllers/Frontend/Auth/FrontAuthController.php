@@ -13,6 +13,12 @@ class FrontAuthController extends Controller
 {
     public function login()
     {
+        if (Auth::check()) {
+            // User is authenticated, redirect to homepage
+            return redirect('/');
+        }
+
+        // User is not authenticated, show the login page
         return view('frontend.auth.login');
     }
     public function loginPost(Request $request)
@@ -38,7 +44,7 @@ class FrontAuthController extends Controller
                 Auth::guard('member')->logout();
                 return response()->json(['errors' => ['login_email' => ['Your account is not allowed to log in.']]], 403);
             }
-            return response()->json(['success' => true, 'message' => 'Successfully Be A Member.Now Log in And Update Info', 'redirect' => route('member.profile')], 200);
+            return response()->json(['success' => true, 'message' => 'Successfully Be A Member.Now Log in And Update Info', 'redirect' => route('frontend.index')], 200);
         } else {
             // Authentication failed
             return response()->json(['errors' => ['login_email' => [trans('auth.failed')]]], 422);
