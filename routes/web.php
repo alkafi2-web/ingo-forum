@@ -13,6 +13,7 @@ use App\Http\Controllers\Post\SubCategoryController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Content\PageController;
 use App\Http\Controllers\Frontend\Auth\FrontAuthController;
+use App\Http\Controllers\Frontend\Gallery\FrontendGalleryController;
 use App\Http\Controllers\Frontend\Member\MemberController;
 use App\Http\Middleware\adminMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -201,6 +202,7 @@ Route::prefix('admin')->group(function () {
     });
 });
 
+// frontend route start
 
 Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
 
@@ -222,19 +224,25 @@ Route::prefix('/member')->group(function () {
         Route::post('/profile/image', [MemberController::class, 'uploadProfileImage'])->name('upload.profile.image');
         Route::get('/logout', [MemberController::class, 'logout'])->name('member.logout');
     });
-    
+
     Route::get('/ours/member', [FrontAuthController::class, 'oursMember'])->name('frontend.ours.member');
     Route::get('/{membership_id}/show', [FrontAuthController::class, 'profileShow'])->name('frontend.member.show');
 });
 
-// post routes 
+// post routes start
 Route::get('/post/{categorySlug}', [FrontendPostController::class, 'index']);
 Route::get('/{categorySlug}/{postSlug}', [FrontendPostController::class, 'showSinglePost']);
 
-// Routes for comments, replies, and reactions
-// Route::middleware(['auth.member'])->group(function () {
-    // Comment routes
-    Route::post('/comments', [FrontendPostController::class, 'storeComment'])->name('comments.store');
-    Route::post('/replies', [FrontendPostController::class, 'storeReply'])->name('replies.store');
-    Route::post('/reactions', [FrontendPostController::class, 'storeReaction'])->name('reactions.react');
-// });
+Route::post('/comments', [FrontendPostController::class, 'storeComment'])->name('comments.store');
+Route::post('/replies', [FrontendPostController::class, 'storeReply'])->name('replies.store');
+Route::post('/reactions', [FrontendPostController::class, 'storeReaction'])->name('reactions.react');
+// post routes end
+
+//photo gallery start
+Route::prefix('gallery')->group(function () {
+    Route::get('/photo', [FrontendGalleryController::class, 'photoGallery'])->name('frontend.photo.gallery');
+});
+//photo gallery end
+
+
+// frontend route end
