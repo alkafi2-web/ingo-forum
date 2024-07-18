@@ -59,6 +59,12 @@ class PostController extends Controller
 
     public function storeComment(Request $request)
     {
+        if (!Auth::guard('member')->check()) {
+            return response()->json([
+                'success' => false,
+                'msg' => 'Be a member to write comment',
+            ]);
+        }
         // Get authenticated user using the 'member' guard
         $user = Auth::guard('member')->user();
         

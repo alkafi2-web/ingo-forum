@@ -232,9 +232,9 @@ Route::get('/post/{categorySlug}', [FrontendPostController::class, 'index']);
 Route::get('/{categorySlug}/{postSlug}', [FrontendPostController::class, 'showSinglePost']);
 
 // Routes for comments, replies, and reactions
-Route::middleware(['auth.member'])->group(function () {
+// Route::middleware(['auth.member'])->group(function () {
     // Comment routes
     Route::post('/comments', [FrontendPostController::class, 'storeComment'])->name('comments.store');
     Route::post('/replies', [FrontendPostController::class, 'storeReply'])->name('replies.store');
     Route::post('/reactions', [FrontendPostController::class, 'storeReaction'])->name('reactions.react');
-});
+// });

@@ -52,6 +52,7 @@
         </div>
       </div>
       <div class="col-lg-4">
+        @if($latestPosts->count())
         <div class="blog-sidebar bg-white p-2">
           <h4 class="sidebar-title pb-1">Latest 
             @if ($post->category)
@@ -72,6 +73,8 @@
             @endforeach
           </div>
         </div>
+        @endif
+        @if($relatedPosts->count())
         <div class="blog-sidebar mt-4 bg-white p-2">
           <h4 class="sidebar-title pb-1">Related
             @if ($post->category)
@@ -92,6 +95,7 @@
             @endforeach
           </div>
         </div>
+        @endif
       </div>
     </div>
   </div>

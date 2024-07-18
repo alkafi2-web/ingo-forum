@@ -89,9 +89,15 @@
             processData: false,
             contentType: false,
             success: function(response) {
-                refreshComment();
-                toastr.success('Comment added successful');
-                // Reload comments box or refresh page as needed
+                console.log(response);
+                if (response.success) {
+                    // refreshComment();
+                    toastr.success('Comment added successful');
+                }
+                else{
+                    // refreshComment();
+                    toastr.error(response.msg);
+                }
             },
             error: function(xhr, status, error) {
                 if (xhr.responseJSON && xhr.responseJSON.errors) {
@@ -161,104 +167,6 @@
         $.get(window.location.href, function(data) {
             var commentBox = $(data).find('.comment-wrapper').html();
             $('.comment-wrapper').html(commentBox);
-            // re initialized after refresh
-        var routes = {
-            commentStore: '{{ route("comments.store") }}',
-            replyStore: '{{ route("replies.store") }}',
-            reactionStore: '{{ route("reactions.react") }}'
-        };
-        
-        // Function to get CSRF token
-        function getCsrfToken() {
-            return '{{ csrf_token() }}';
-        }
-        
-        // AJAX setup to include CSRF token in headers
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': getCsrfToken()
-            }
-        });
-
-        // AJAX for submitting a comment
-        $('#comment-form').submit(function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            $.ajax({
-                url: routes.commentStore,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    refreshComment();
-                    toastr.success('Comment added successful');
-                    // Reload comments box or refresh page as needed
-                },
-                error: function(xhr, status, error) {
-                    if (xhr.responseJSON && xhr.responseJSON.errors) {
-                        $.each(xhr.responseJSON.errors, function(key, value) {
-                            toastr.error(value);
-                        });
-                    } else {
-                        toastr.error('Failed to add comment');
-                    }
-                }
-            });
-        });
-
-        // AJAX for submitting a reply
-        $('#comments-list').on('submit', '.reply-form', function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            var commentId = $(this).data('comment-id');
-            $.ajax({
-                url: routes.replyStore,
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    refreshComment();
-                    toastr.success('Reply added successfully');
-                    // Reload comments box or refresh page as needed
-                },
-                error: function(xhr, status, error) {
-                    if (xhr.responseJSON && xhr.responseJSON.errors) {
-                        $.each(xhr.responseJSON.errors, function(key, value) {
-                            toastr.error(value);
-                        });
-                    } else {
-                        toastr.error('Failed to add reply');
-                    }
-                }
-            });
-        });
-
-        // AJAX for reacting to a comment
-        $('#comments-list').on('click', '.reaction-btn', function(e) {
-            e.preventDefault();
-            var commentId = $(this).data('comment-id');
-            $.ajax({
-                url: routes.reactionStore,
-                method: 'POST',
-                data: { comment_id: commentId },
-                success: function(response) {
-                    refreshComment();
-                    toastr.success('Reaction added successfully');
-                    // Update UI to reflect reaction status
-                },
-                error: function(xhr, status, error) {
-                    if (xhr.responseJSON && xhr.responseJSON.errors) {
-                        $.each(xhr.responseJSON.errors, function(key, value) {
-                            toastr.error(value);
-                        });
-                    } else {
-                        toastr.error('Failed to add reaction');
-                    }
-                }
-            });
-        });
         });
     }
   </script>
