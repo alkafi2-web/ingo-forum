@@ -1,6 +1,7 @@
 <div>
-    Organigation Name: <h4> {{ $member->memberInfos[0]['organisation_name'] }}  <i class="fas fa-check-circle text-success {{$member->status == 1 ? '' : 'd-none'}}"></i></h4>
-    
+    Organigation Name: <h4> {{ $member->memberInfos[0]['organisation_name'] }} <i
+            class="fas fa-check-circle text-success {{ $member->status == 1 ? '' : 'd-none' }}"></i></h4>
+
 
     @if ($member->memberInfos[0]['membership_id'] != null)
         <span class="membership-id ">
@@ -18,7 +19,6 @@
             </span>
         </a>
     @endif
-
     <a href="#" id="" data-member-id="{{ $member->id }}"
         class=" {{ $member->status == 0 ? 'rejectButton' : ($member->status == 1 ? 'suspendButton' : '') }}
             btn btn-danger mr-2 {{ $member->status == 3 || $member->status == 2 ? 'disabled' : '' }}">
@@ -29,7 +29,4 @@
         </span>
     </a>
 
-    <button class="btn btn-info" onclick="window.history.back();">
-        <i class="fas fa-arrow-left"></i> Back
-    </button>
 </div>

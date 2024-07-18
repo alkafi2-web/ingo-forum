@@ -102,7 +102,7 @@
                     [5, 10, 30, 50, -1],
                     [5, 10, 30, 50, "All"]
                 ], // Add 'All' option
-                pageLength: 5, // Set default page length
+                pageLength: 10, // Set default page length
                 dom: "<'row'<'col-sm-4'l><'col-sm-4 d-flex justify-content-center'B><'col-sm-4'f>>" +
                     // Page length, buttons, and search
                     "<'row'<'col-sm-12'tr>>" + // Table rows

@@ -4,10 +4,21 @@
 @endsection
 @section('admin-content')
     <div class="card">
-        <div class="d-flex justify-content-between align-items-center py-3 px-3 border-bottom" id="view-header-container">
-            @include('admin.member.partials.view-header')
+        <div class="d-flex justify-content-between align-items-center py-3 px-3 border-bottom">
+            <div id="view-header-container" class="d-flex justify-content-between align-items-center" style="width: 92%;">
+                @include('admin.member.partials.view-header')
+
+            </div>
+            <div>
+                <a href="{{ url()->previous() }}">
+                    <button class="btn btn-info">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                </a>
+            </div>
         </div>
-        
+
+
         <div class="card-body">
             <div class="row">
                 <!-- Organisation Details Section -->
@@ -114,8 +125,8 @@
                                             Email (Personal)</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="email" name="director_email" class="form-control"
-                                            id="director_email" placeholder="Country Director Email" readonly
+                                        <input type="email" name="director_email" class="form-control" id="director_email"
+                                            placeholder="Country Director Email" readonly
                                             value="{{ $member->memberInfos[0]['director_email'] }}">
                                     </div>
                                 </div>
