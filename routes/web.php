@@ -244,7 +244,8 @@ Route::prefix('gallery')->group(function () {
     Route::get('/photo/{id}', [FrontendGalleryController::class, 'singlePhotoGallery'])->name('singleAlbum');
     Route::get('/video', [FrontendGalleryController::class, 'videoGallery'])->name('frontend.video.gallery');
 });
-//photo gallery end
 
+//photo gallery end
+Route::get('/contact/us', [IndexController::class, 'contact'])->name('frontend.contact');
 
 // frontend route end
