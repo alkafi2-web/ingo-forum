@@ -16,7 +16,8 @@ class FrontAuthController extends Controller
         if (Auth::guard('member')->check()) {
             // User is authenticated, redirect to homepage
             return redirect('/');
-        } 
+        }
+        session()->put('keep_return_url', url()->previous());
         return view('frontend.auth.login');
 
         // User is not authenticated, show the login page
@@ -35,6 +36,7 @@ class FrontAuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
         }
+
         // Attempt to log the user in
         if (Auth::guard('member')->attempt(['email' => $request->login_email, 'password' => $request->password])) {
             // Authentication was successful, now check the status
@@ -44,13 +46,18 @@ class FrontAuthController extends Controller
                 Auth::guard('member')->logout();
                 return response()->json(['errors' => ['login_email' => ['Your account is not allowed to log in.']]], 403);
             }
-            return response()->json(['success' => true, 'message' => 'Successfully Be A Member.Now Log in And Update Info', 'redirect' => route('frontend.index')], 200);
+
+            $previousUrl = session('keep_return_url');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Successfully Be A Member. Now Log in And Update Info',
+                'redirect' => $previousUrl,
+            ], 200);
         } else {
             // Authentication failed
             return response()->json(['errors' => ['login_email' => [trans('auth.failed')]]], 422);
         }
-
-        return $request->all();
     }
 
     public function oursMember()
