@@ -51,7 +51,7 @@ class FrontAuthController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Successfully Be A Member. Now Log in And Update Info',
+                'message' => 'Login Successfull',
                 'redirect' => $previousUrl,
             ], 200);
         } else {

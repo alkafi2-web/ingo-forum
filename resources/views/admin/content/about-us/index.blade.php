@@ -5,7 +5,7 @@
 @section('admin-content')
     <div class="row">
         <div class="col-md-8">
-            <div class="card" style="height: 410px;">
+            <div class="card">
                 <div class="card-header">
                     <h2 class="pt-5">About Us Content List</h2>
                 </div>

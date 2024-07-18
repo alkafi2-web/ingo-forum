@@ -13,23 +13,24 @@
                     </div>
                 </div>
                 <div class="topbar-social">
+                    @php
+                        $socialLinks = [
+                            'facebook' => 'fa-facebook',
+                            'linkedin' => 'fa-linkedin-in',
+                            'twitter' => 'fa-x-twitter',
+                            'youtube' => 'fa-youtube',
+                        ];
+                    @endphp
+
                     <ul class="d-flex">
-                        <li>
-                            <a href="{{ $global['facebook'] }}" class="text-decoration-none"><i
-                                    class="fa-brands fa-facebook"></i></a>
-                        </li>
-                        <li>
-                            <a href="{{ $global['linkedin'] }}" class="text-decoration-none"><i
-                                    class="fa-brands fa-linkedin-in"></i></a>
-                        </li>
-                        <li>
-                            <a href="{{ $global['twitter'] }}" class="text-decoration-none"><i
-                                    class="fa-brands fa-x-twitter"></i></a>
-                        </li>
-                        <li>
-                            <a href="{{ $global['youtube'] }}" class="text-decoration-none"><i
-                                    class="fa-brands fa-youtube"></i></a>
-                        </li>
+                        @foreach ($socialLinks as $key => $icon)
+                            @if (!empty($global[$key]))
+                                <li>
+                                    <a href="{{ $global[$key] }}" target="__blank" class="text-decoration-none"><i
+                                            class="fa-brands {{ $icon }}"></i></a>
+                                </li>
+                            @endif
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -74,7 +75,7 @@
                                 </a>
                             @elseif ($menu->type == 'post' && $menu->postCategory)
                                 <a class="nav-link {{ $menu->subMenus->count() ? 'dropdown-toggle' : '' }}"
-                                    href="{{ url('post/'.$menu->postCategory->slug) }}"
+                                    href="{{ url('post/' . $menu->postCategory->slug) }}"
                                     {{ $menu->subMenus->count() ? 'role=button data-bs-toggle=dropdown aria-expanded=false' : '' }}>
                                     <span>{{ $menu->name }}</span>
                                     @if ($menu->subMenus->count())
@@ -102,7 +103,9 @@
                                             <li><a class="dropdown-item"
                                                     href="{{ url($child->page->slug) }}">{{ $child->name }}</a></li>
                                         @elseif ($child->type == 'post' && $child->postCategory)
-                                            <li><a class="dropdown-item" href="{{ url('post/'.$child->postCategory->slug) }}">{{ $child->name }}</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ url('post/' . $child->postCategory->slug) }}">{{ $child->name }}</a>
+                                            </li>
                                         @elseif ($child->type == 'url')
                                             <li><a class="dropdown-item"
                                                     href="{{ $child->url }}">{{ $child->name }}</a></li>

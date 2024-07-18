@@ -264,25 +264,6 @@
                                 alt="">
                         </div>
                     @endforeach
-
-                    {{-- <div class="item">
-                    <img src="{{ asset('public/frontend/images/int.png') }}" alt="">
-                </div>
-                <div class="item">
-                    <img src="{{ asset('public/frontend/images/snv.png') }}" alt="">
-                </div>
-                <div class="item">
-                    <img src="{{ asset('public/frontend/images/pa.png') }}" alt="">
-                </div>
-                <div class="item">
-                    <img src="{{ asset('public/frontend/images/snv.png') }}" alt="">
-                </div>
-                <div class="item">
-                    <img src="{{ asset('public/frontend/images/int.png') }}" alt="">
-                </div>
-                <div class="item">
-                    <img src="{{ asset('public/frontend/images/pa.png') }}" alt="">
-                </div> --}}
                 </div>
             </div>
             <hr>
@@ -595,6 +576,25 @@
                     </div>
                     <div class="col-lg-3"></div>
                 </div>
+                {{-- <style>
+                    .gallery-img img {
+                        width: 200px;
+                        /* Set the desired width */
+                        height: 150px;
+                        /* Set the desired height */
+                        object-fit: cover;
+                        /* Ensures the image covers the area while maintaining aspect ratio */
+                        display: block;
+                        /* Ensures there are no extra spaces around images */
+                    }
+
+                    .gallery-img a {
+                        display: inline-block;
+                        /* Ensures the links display properly */
+                        margin: 5px;
+                        /* Optional: Add spacing between images */
+                    }
+                </style> --}}
                 <div class="row gy-4 pt-5 px-1">
                     @forelse ($global['albums'] as $album)
                         <div class="col-6 col-md-4">
@@ -603,7 +603,7 @@
                                     @forelse ($album->mediaGalleries->where('status', 1)->take(3) as $photo)
                                         <a href=""><img
                                                 src="{{ asset('public/frontend/images/photo-gallery/') }}/{{ $photo->media }}"
-                                                alt="" style="width: 415px; height: 415px;"></a>
+                                                alt=""></a>
                                     @empty
                                         {{-- <p>No photos available.</p> --}}
                                         <a href=""><img src="images/gallery1.png" alt=""></a>
