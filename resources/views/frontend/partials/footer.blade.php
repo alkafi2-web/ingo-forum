@@ -7,19 +7,25 @@
                         <img src="{{ asset('public/frontend/images/' . $global['logo']) }}" alt="">
                         <p class="pt-3">{{ $global['short_content'] }}</p>
                         <div class="footer-social pt-2">
+                            @php
+                                $socialLinks = [
+                                    'facebook' => 'fa-facebook-f',
+                                    'linkedin' => 'fa-linkedin-in',
+                                    'twitter' => 'fa-x-twitter',
+                                    'youtube' => 'fa-youtube',
+                                ];
+                            @endphp
+
                             <nav class="d-flex align-items-center">
-                                <a href="{{ $global['facebook'] }}" class="text-decoration-none"><i
-                                        class="fa-brands fa-facebook-f"></i></a>
-
-                                <a href="{{ $global['linkedin'] }}" class="text-decoration-none"><i
-                                        class="fa-brands fa-linkedin-in"></i></a>
-
-                                <a href="{{ $global['twitter'] }}" class="text-decoration-none"><i
-                                        class="fa-brands fa-x-twitter"></i></a>
-
-                                <a href="{{ $global['youtube'] }}" class="text-decoration-none"><i
-                                        class="fa-brands fa-youtube"></i></a>
+                                @foreach ($socialLinks as $key => $icon)
+                                    @if (!empty($global[$key]))
+                                        <a href="{{ $global[$key] }}" target="__blank" class="text-decoration-none"><i
+                                                class="fa-brands {{ $icon }}"></i></a>
+                                    @endif
+                                @endforeach
                             </nav>
+
+
                         </div>
                     </div>
                 </div>
@@ -61,7 +67,8 @@
                                             @elseif ($child->type == 'page' && $child->page)
                                                 <a href="{{ url($child->page->slug) }}">{{ $child->name }}</a>
                                             @elseif ($child->type == 'post' && $child->postCategory)
-                                                <a href="{{ url($child->postCategory->slug) }}">{{ $child->name }}</a>
+                                                <a
+                                                    href="{{ url($child->postCategory->slug) }}">{{ $child->name }}</a>
                                             @elseif ($child->type == 'url')
                                                 <a href="{{ $child->url }}">{{ $child->name }}</a>
                                             @endif
