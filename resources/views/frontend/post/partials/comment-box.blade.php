@@ -55,6 +55,14 @@
                     </ul>
                 @endif
             </li>
+            <form action="javascript:void(0)" id="reply-form" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="post_id" value="{{ $post->id }}">
+                <input type="hidden" name="parent_id" value="{{ $comment->id }}">
+                <div class="form d-flex align-items-center">
+                    <input type="text" name="comment_text" id="comment_text" class="form-control bg-white" placeholder="Write your reply here">
+                    <button class="commentBtn border-0 bg-white" type="submit"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </form>
         @endforeach        
     </ul>
 </div>
