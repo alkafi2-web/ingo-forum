@@ -26,7 +26,7 @@
 </head>
 
 <body>
-
+    
     <!-- Header Section Start  -->
     @include('frontend.partials.header')
     @include('frontend.partials.breadcum')

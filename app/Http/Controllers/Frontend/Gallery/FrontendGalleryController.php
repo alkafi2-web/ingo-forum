@@ -10,12 +10,25 @@ class FrontendGalleryController extends Controller
 {
     public function photoGallery()
     {
-        return $albums = MediaAlbum::with([
+        $albums = MediaAlbum::with([
             'mediaGalleries' => function ($query) {
                 $query->where('status', 1);
             },
             'addedBy' // Include the user relationship
         ])->where('status', 1)->paginate(9);
-        return view('frontend.gallery.photos');
+        return view('frontend.gallery.photos',compact('albums'));
+    }
+
+    public function singlePhotoGallery($id)
+    {
+        $album = MediaAlbum::with([
+            'mediaGalleries' => function ($query) {
+                $query->where('status', 1);
+            },
+            'addedBy' // Include the user relationship
+        ])
+        ->where('status', 1)
+        ->where('id', $id)->first();
+        return view('frontend.gallery.single-photo-gallery',compact('album'));
     }
 }
