@@ -6,6 +6,9 @@
                     @case('page')
                     <u>Page:</u> {{ $menu->page->title }}
                     @break
+                    @case('post')
+                    <u>Post Type:</u> {{ $menu->postCategory->name }}
+                    @break
                     @case('route')
                     <u>Route Name:</u> {{ $menu->route }}
                     @break

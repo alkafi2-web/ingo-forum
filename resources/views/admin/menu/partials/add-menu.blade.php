@@ -9,6 +9,10 @@
                     <label class="form-check-label" for="menu_type_page">Pages</label>
                 </div>
                 <div class="form-check mb-2">
+                    <input class="form-check-input menu-type" type="radio" name="menu_type" id="menu_type_post" value="post">
+                    <label class="form-check-label" for="menu_type_post">Post Type</label>
+                </div>
+                <div class="form-check mb-2">
                     <input class="form-check-input menu-type" type="radio" name="menu_type" id="menu_type_route" value="route">
                     <label class="form-check-label" for="menu_type_route">Route</label>
                 </div>
@@ -25,6 +29,17 @@
             <div class="form-group">
                 <label for="page_id" class="text-3xl required">Select Page</label>
                 <select class="form-control" id="page_id" name="page_id">
+                    <!-- Options populated dynamically -->
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3" id="post_select_div" style="display: none;">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="postCat_id" class="text-3xl required">Select Post Type</label>
+                <select class="form-control" id="postCat_id" name="postCat_id">
                     <!-- Options populated dynamically -->
                 </select>
             </div>
@@ -83,16 +98,38 @@
             });
         }
 
+        function loadPost() {
+            $.ajax({
+                url: '{{ route("menu.post.type") }}',
+                method: 'GET',
+                success: function(response) {
+                    var options = '<option value="">Select Post Type</option>';
+                    response.forEach(function(postCat) {
+                        options += `<option value="${postCat.id}">${postCat.name}</option>`;
+                    });
+                    $('#postCat_id').html(options);
+                },
+                error: function() {
+                    toastr.error('Error loading posts');
+                }
+            });
+        }
+
         $('input[name="menu_type"]').on('change', function() {
             var selectedType = $(this).val();
             $('#page_select_div').hide();
             $('#route_input_div').hide();
             $('#url_input_div').hide();
+            $('#post_select_div').hide();
 
             if (selectedType == 'page') {
                 $('#page_select_div').show();
                 $('#menutitle_input_div').hide();
                 loadPages();
+            } else if (selectedType == 'post') {
+                $('#post_select_div').show();
+                $('#menutitle_input_div').show();
+                loadPost();
             } else if (selectedType == 'route') {
                 $('#menutitle_input_div').show();
                 $('#route_input_div').show();
@@ -107,6 +144,7 @@
 
             var menuType = $('input[name="menu_type"]:checked').val();
             var pageId = $('#page_id').val();
+            var postCatId = $('#postCat_id').val();
             var menuTitle = $('#menu_title').val();
             var routeName = $('#route_name').val();
             var customUrl = $('#custom_url').val();
@@ -115,11 +153,14 @@
                 toastr.error('Menu Type is required');
                 return;
             }
-
+            
             if (menuType == 'page' && !pageId) {
                 toastr.error('Please select a page');
                 return;
-            } else if ((menuType == 'route' || menuType == 'url') && !menuTitle) {
+            } else if (menuType == 'post' && !postCatId) {
+                toastr.error('Post Type is required');
+                return;
+            } else if ((menuType == 'post' || menuType == 'route' || menuType == 'url') && !menuTitle) {
                 toastr.error('Menu Title is required');
                 return;
             } else if (menuType == 'route' && !routeName) {
@@ -145,6 +186,7 @@
                         $('#page_select_div').hide();
                         $('#route_input_div').hide();
                         $('#url_input_div').hide();
+                        $('#post_select_div').hide();
                     } else {
                         toastr.error(response.message);
                     }

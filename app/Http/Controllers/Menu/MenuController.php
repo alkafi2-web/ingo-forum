@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\Page;
+use App\Models\PostCategory;
 
 class MenuController extends Controller
 {
@@ -16,9 +17,10 @@ class MenuController extends Controller
 
     public function store(Request $request) {
         $request->validate([
-            'menu_title' => 'required_if:menu_type,route,url|nullable|string|max:255',
-            'menu_type' => 'required|in:page,route,url',
+            'menu_title' => 'required_if:menu_type,post,route,url|nullable|string|max:255',
+            'menu_type' => 'required|in:page,post,route,url',
             'page_id' => 'required_if:menu_type,page|nullable|exists:pages,id',
+            'postCat_id' => 'required_if:menu_type,post|nullable|exists:post_categories,id',
             'route_name' => 'required_if:menu_type,route|nullable|string|max:255',
             'custom_url' => 'required_if:menu_type,url|nullable|url|max:255',
         ]);
@@ -30,6 +32,10 @@ class MenuController extends Controller
             $pageTitle = Page::where('id', $request->page_id)->first()->title;
             $menu->page_id = $request->page_id;
             $menu->name = $pageTitle;
+        } elseif ($request->menu_type == 'post') {
+            $pageTitle = PostCategory::where('id', $request->postCat_id)->first()->name;
+            $menu->post_cat_id = $request->postCat_id;
+            $menu->name = $request->menu_title;
         } elseif ($request->menu_type == 'route') {
             $menu->name = $request->menu_title;
             $menu->route = $request->route_name;
@@ -112,9 +118,10 @@ class MenuController extends Controller
         $menu = Menu::findOrFail($request->menu_id);
 
         $request->validate([
-            'menu_title' => 'required_if:menu_type,route,url|nullable|string|max:255',
-            'menu_type' => 'required|in:page,route,url',
+            'menu_title' => 'required_if:menu_type,post,route,url|nullable|string|max:255',
+            'menu_type' => 'required|in:page,post,route,url',
             'page_id' => 'required_if:menu_type,page|nullable|exists:pages,id',
+            'postCat_id' => 'required_if:menu_type,post|nullable|exists:post_categories,id',
             'route_name' => 'required_if:menu_type,route|nullable|string|max:255',
             'custom_url' => 'required_if:menu_type,url|nullable|max:255',
         ]);
@@ -125,6 +132,10 @@ class MenuController extends Controller
             $pageTitle = Page::where('id', $request->page_id)->first()->title;
             $menu->page_id = $request->page_id;
             $menu->name = $pageTitle;
+        } elseif ($request->menu_type == 'post') {
+            $pageTitle = PostCategory::where('id', $request->postCat_id)->first()->name;
+            $menu->post_cat_id = $request->postCat_id;
+            $menu->name = $request->menu_title;
         } elseif ($request->menu_type == 'route') {
             $menu->name = $request->menu_title;
             $menu->route = $request->route_name;
@@ -136,5 +147,13 @@ class MenuController extends Controller
         $menu->save();
 
         return response()->json(['success' => true, 'message' => 'Menu updated successfully']);
+    }
+
+    public function getPostCat(Request $request)
+    {
+        if ($request->ajax()) {
+            $postCats = PostCategory::select('id', 'name')->get();
+            return response()->json($postCats);
+        }
     }
 }

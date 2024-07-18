@@ -52,6 +52,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/', [MenuController::class, 'index'])->name('menu.index');
             // Route for storing the menu
             Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
+            Route::get('/get/post-type', [MenuController::class, 'getPostCat'])->name('menu.post.type');
         });
 
         // page route start

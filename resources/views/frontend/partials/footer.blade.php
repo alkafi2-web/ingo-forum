@@ -35,6 +35,8 @@
                                                 <a href="{{ route($child->route) }}">{{ $child->name }}</a>
                                             @elseif ($child->type == 'page' && $child->page)
                                                 <a href="{{ url($child->page->slug) }}">{{ $child->name }}</a>
+                                            @elseif ($child->type == 'post' && $child->postCategory)
+                                                <a href="{{ url($child->postCategory->slug) }}">{{ $child->name }}</a>
                                             @elseif ($child->type == 'url')
                                                 <a href="{{ $child->url }}">{{ $child->name }}</a>
                                             @endif
@@ -58,6 +60,8 @@
                                                 <a href="{{ route($child->route) }}">{{ $child->name }}</a>
                                             @elseif ($child->type == 'page' && $child->page)
                                                 <a href="{{ url($child->page->slug) }}">{{ $child->name }}</a>
+                                            @elseif ($child->type == 'post' && $child->postCategory)
+                                                <a href="{{ url($child->postCategory->slug) }}">{{ $child->name }}</a>
                                             @elseif ($child->type == 'url')
                                                 <a href="{{ $child->url }}">{{ $child->name }}</a>
                                             @endif

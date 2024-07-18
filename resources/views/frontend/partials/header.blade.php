@@ -72,6 +72,15 @@
                                         <i class="fa-solid fa-angle-down ms-2"></i>
                                     @endif
                                 </a>
+                            @elseif ($menu->type == 'post' && $menu->postCategory)
+                                <a class="nav-link {{ $menu->subMenus->count() ? 'dropdown-toggle' : '' }}"
+                                    href="{{ url('post/'.$menu->postCategory->slug) }}"
+                                    {{ $menu->subMenus->count() ? 'role=button data-bs-toggle=dropdown aria-expanded=false' : '' }}>
+                                    <span>{{ $menu->name }}</span>
+                                    @if ($menu->subMenus->count())
+                                        <i class="fa-solid fa-angle-down ms-2"></i>
+                                    @endif
+                                </a>
                             @elseif ($menu->type == 'url')
                                 <a class="nav-link {{ $menu->subMenus->count() ? 'dropdown-toggle' : '' }}"
                                     href="{{ $menu->url }}"
@@ -92,6 +101,8 @@
                                         @elseif ($child->type == 'page' && $child->page)
                                             <li><a class="dropdown-item"
                                                     href="{{ url($child->page->slug) }}">{{ $child->name }}</a></li>
+                                        @elseif ($child->type == 'post' && $child->postCategory)
+                                            <li><a class="dropdown-item" href="{{ url('post/'.$child->postCategory->slug) }}">{{ $child->name }}</a></li>
                                         @elseif ($child->type == 'url')
                                             <li><a class="dropdown-item"
                                                     href="{{ $child->url }}">{{ $child->name }}</a></li>
