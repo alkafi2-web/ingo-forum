@@ -12,7 +12,7 @@
     <ul id="comments-list" class="comments-list"><!-- comments-container.blade.php -->
 
         @foreach($post->comments as $comment)
-            <li>
+            <li class="comment-li">
                 <div class="comment-main-level d-flex">
                     <!-- Avatar -->
                     <div class="comment-avatar"><img src="{{ asset('public/frontend/images/icons/avatar.png') }}" style="height: 38px;" alt="Avatar"></div>
@@ -54,15 +54,15 @@
                         @endforeach
                     </ul>
                 @endif
+                <form action="javascript:void(0)" id="reply-form{{ $comment->id }}" class="reply-form" method="POST" enctype="multipart/form-data" style="display: none">
+                    <input type="hidden" name="post_id" value="{{ $post->id }}">
+                    <input type="hidden" name="parent_id" value="{{ $comment->id }}">
+                    <div class="form d-flex align-items-center">
+                        <input type="text" name="comment_text" id="comment_text" class="form-control bg-white" placeholder="Write your reply here">
+                        <button class="commentBtn border-0 bg-white" name="replybtn{{ $comment->id }}" type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </form>
             </li>
-            <form action="javascript:void(0)" id="reply-form" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="post_id" value="{{ $post->id }}">
-                <input type="hidden" name="parent_id" value="{{ $comment->id }}">
-                <div class="form d-flex align-items-center">
-                    <input type="text" name="comment_text" id="comment_text" class="form-control bg-white" placeholder="Write your reply here">
-                    <button class="commentBtn border-0 bg-white" type="submit"><i class="fas fa-paper-plane"></i></button>
-                </div>
-            </form>
         @endforeach        
     </ul>
 </div>
@@ -117,6 +117,22 @@
                 }
             }
         });
+    });
+
+    //AJAX for for showing reply-form 
+    $('#comments-list').on('click', '.reply-btn', function(e) {
+        // $('.reply-form').hide();
+        var commentId = $(this).attr('data-comment-id');
+        $('#reply-form'+commentId).show();
+        if ($('#reply-form'+commentId).hasClass('active')) {
+            $('#reply-form'+commentId).removeClass('active');
+            $('.reply-form').hide();
+        }
+        else{
+            $('#reply-form'+commentId).addClass('active');
+            $('#reply-form'+commentId).show();
+        }
+        $('#reply-form'+commentId).show();
     });
 
     // AJAX for submitting a reply

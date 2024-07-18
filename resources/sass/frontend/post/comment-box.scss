@@ -12,8 +12,15 @@
        width: 41px;
        border: 1px solid #F4F0E9 !important;
     }
+    .comment-li{
+      margin-bottom: 15px;
+    }
+
    .fa-reply, .fa-heart{
       cursor: pointer;
+   }
+   .reply-form{
+      margin-left: 69px;
    }
 }
 
@@ -123,7 +130,6 @@
 }
 .comment-main-level{
     position: relative;
-    margin-bottom: 15px;
     &::after{
         content: '';
         width: 0;
