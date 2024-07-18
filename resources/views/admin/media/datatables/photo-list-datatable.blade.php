@@ -122,32 +122,7 @@
                     // Page length, buttons, and search
                     "<'row'<'col-sm-12'tr>>" + // Table rows
                     "<'row'<'col-sm-5'i><'col-sm-7'p>>", // Information and pagination
-                    buttons: [{
-                        extend: 'colvis',
-                        columns: ':not(:first-child)',
-                        text: '<i class="fas fa-columns"></i>  কলাম ভিজিবিলিটি'
-                    },
-                    {
-                        extend: 'excel',
-                        text: 'Excel',
-                        exportOptions: {
-                            columns: ':visible' // Include only visible columns
-                        }
-                    },
-                    {
-                        extend: 'print',
-                        text: 'Print',
-                        exportOptions: {
-                            columns: ':visible' // Include only visible columns
-                        }
-                    },
-                    {
-                        extend: 'copy',
-                        text: 'Copy',
-                        exportOptions: {
-                            columns: ':visible' // Include only visible columns
-                        }
-                    },
+                    buttons: [
                     {
                         extend: 'collection',
                         text: 'ডেলিভারি/এপ্রুভ',
@@ -173,7 +148,7 @@
                                         }).then((result) => {
                                             if (result.isConfirmed) {
                                                 $.ajax({
-                                                    url: "{{ route('enroll.bulk.approved') }}",
+                                                    url: "",
                                                     type: 'POST',
                                                     data: {
                                                         enrollIDs: checkedValues,
@@ -222,7 +197,7 @@
                                         }).then((result) => {
                                             if (result.isConfirmed) {
                                                 $.ajax({
-                                                    url: "{{ route('enroll.bulk.delivered') }}",
+                                                    url: "",
                                                     type: 'POST',
                                                     data: {
                                                         enrollIDs: checkedValues,
@@ -256,43 +231,6 @@
                             }
                         ]
                     },
-                    {
-                        text: '<i class="fas fa-download"></i>  প্রকল্প স্লিপ ডাউনলোড',
-                        // className: 'btn btn-success',
-                        action: function(e, dt, node, config) {
-                            var currentPageData = dt.rows({ page: 'current' }).data();
-                            var ids = $.map(currentPageData, function(row) {
-                                return row.id;
-                            });
-
-                            // Create a form dynamically
-                            var form = $('<form>', {
-                                method: 'POST',
-                                action: "{{ route('view.programslip.download') }}",
-                                style: 'display: none;' // Hide the form
-                            });
-
-                            // Add the CSRF token field
-                            form.append($('<input>', {
-                                type: 'hidden',
-                                name: '_token',
-                                value: '{{ csrf_token() }}'
-                            }));
-
-                            // Add the IDs field
-                            $.each(ids, function(index, id) {
-                                form.append($('<input>', {
-                                    type: 'hidden',
-                                    name: 'ids[]',
-                                    value: id
-                                }));
-                            });
-
-                            // Append the form to the body and submit it
-                            $('body').append(form);
-                            form.submit();
-                        }
-                    }
                 ],
                 language: {
                     search: '<div class="input-group">' +

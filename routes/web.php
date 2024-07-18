@@ -240,7 +240,8 @@ Route::post('/reactions', [FrontendPostController::class, 'storeReaction'])->nam
 
 //photo gallery start
 Route::prefix('gallery')->group(function () {
-    Route::get('/photo/kafi', [FrontendGalleryController::class, 'photoGallery'])->name('frontend.photo.gallery');
+    Route::get('/photo', [FrontendGalleryController::class, 'photoGallery'])->name('frontend.photo.gallery');
+    Route::get('/photo/{id}', [FrontendGalleryController::class, 'singlePhotoGallery'])->name('singleAlbum');
 });
 //photo gallery end
 
