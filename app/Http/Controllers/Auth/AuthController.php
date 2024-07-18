@@ -101,11 +101,8 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        Auth::guard('admin')->logout();
 
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
         // For API routes, return a JSON response
         if ($request->expectsJson()) {
             return response()->json(['message' => 'Logged out successfully']);
