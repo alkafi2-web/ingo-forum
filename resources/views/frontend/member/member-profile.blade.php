@@ -6,7 +6,8 @@
             <div class="row">
                 <div class="col-md-3 mb-3 mb-md-0">
                     <div class="members-profile-image h-100 text-center">
-                        <img src="{{ asset('public/frontend/images/member/') }}/{{ $memberinfo->logo ?? 'logo.png' }}" alt="Profile Image" class="mb-3">
+                        <img src="{{ asset('public/frontend/images/member/') }}/{{ $memberinfo->logo ?? 'logo.png' }}"
+                            alt="Profile Image" class="mb-3">
                         <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->membership_id }}</span>
                         <span
                             class="d-block w-100 text-bold">({{ $memberinfo->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
@@ -23,17 +24,25 @@
                         <div class="d-flex align-items-center">
                             <a href="" class="ct-btn btn-yellow">Download Our Profile</a>
                             <nav class="d-flex align-items-center profile-social ms-3">
-                                <a href="{{ $memberinfo->instagram }}" class="text-decoration-none" target="_blank"
-                                    rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                                @isset($memberinfo->instagram)
+                                    <a href="{{ $memberinfo->instagram }}" class="text-decoration-none" target="_blank"
+                                        rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                                @endisset
 
-                                <a href="{{ $memberinfo->linkedin }}" class="text-decoration-none" target="_blank"
-                                    rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                                @isset($memberinfo->linkedin)
+                                    <a href="{{ $memberinfo->linkedin }}" class="text-decoration-none" target="_blank"
+                                        rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                                @endisset
 
-                                <a href="{{ $memberinfo->facebook }}" class="text-decoration-none" target="_blank"
-                                    rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                                @isset($memberinfo->facebook)
+                                    <a href="{{ $memberinfo->facebook }}" class="text-decoration-none" target="_blank"
+                                        rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                                @endisset
 
-                                <a href="{{ $memberinfo->twitter }}" class="text-decoration-none" target="_blank"
-                                    rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                                @isset($memberinfo->twitter)
+                                    <a href="{{ $memberinfo->twitter }}" class="text-decoration-none" target="_blank"
+                                        rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                                @endisset
                             </nav>
                         </div>
                     </div>
@@ -59,11 +68,12 @@
                             <p class="fw-semibold">Email :</p>
                             <p>{{ $memberinfo->organisation_email }}</p>
                             <p class="fw-semibold">Phone :</p>
-                            <p>{{ $memberinfo->organisation_phone??'N/A' }}</p>
+                            <p>{{ $memberinfo->organisation_phone ?? 'N/A' }}</p>
                             <p class="fw-semibold">Address :</p>
                             <p>{{ $memberinfo->organisation_address }} </p>
                         </div>
-                        <a href="{{ $memberinfo->organisation_website }}" target="_blank" class="ct-btn btn-yellow w-100 mt-3">Visit Our Website</a>
+                        <a href="{{ $memberinfo->organisation_website }}" target="_blank"
+                            class="ct-btn btn-yellow w-100 mt-3">Visit Our Website</a>
                     </div>
                 </div>
                 <div class="col-lg-9">
@@ -111,13 +121,21 @@
     <section class="work-history bg-gray">
         <div class="container pt-3">
             <div class="row">
-                <div class="col-12 ">
-                    <h3>Our Work</h3>
-                    <p>{!! $memberinfo->work !!}</p>
-                    <h3>Our History & Heritage</h3>
-                    <p>{!! $memberinfo->history !!}</p>
-                    <h3>Our Work</h3>
-                    <p>{!! $memberinfo->other_description !!}</p>
+                <div class="col-12">
+                    @if (!empty($memberinfo->work))
+                        <h3>Our Work</h3>
+                        <p>{!! $memberinfo->work !!}</p>
+                    @endif
+
+                    @if (!empty($memberinfo->history))
+                        <h3>Our History & Heritage</h3>
+                        <p>{!! $memberinfo->history !!}</p>
+                    @endif
+
+                    @if (!empty($memberinfo->other_description))
+                        <h3>Other Description</h3>
+                        <p>{!! $memberinfo->other_description !!}</p>
+                    @endif
                 </div>
             </div>
         </div>

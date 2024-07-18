@@ -212,7 +212,7 @@ Route::get('/member/login', [FrontAuthController::class, 'login'])->name('fronte
 Route::post('/login/post', [FrontAuthController::class, 'loginPost'])->name('frontend.login.post');
 
 
-Route::prefix('/member')->group(function () {
+Route::prefix('member')->group(function () {
     Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
     Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
 
@@ -240,7 +240,7 @@ Route::post('/reactions', [FrontendPostController::class, 'storeReaction'])->nam
 
 //photo gallery start
 Route::prefix('gallery')->group(function () {
-    Route::get('/photo', [FrontendGalleryController::class, 'photoGallery'])->name('frontend.photo.gallery');
+    Route::get('/photo/kafi', [FrontendGalleryController::class, 'photoGallery'])->name('frontend.photo.gallery');
 });
 //photo gallery end
 
