@@ -17,7 +17,10 @@
                 </a>
             </div>
         </div>
-
+        <div id="profile-image-name">
+            @include('admin.member.partials.profile-image-name')
+        </div>
+        
 
         <div class="card-body">
             <div class="row">
@@ -112,8 +115,8 @@
                                             Name</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="text" name="director_name" class="form-control" id="director_name"
-                                            placeholder="Country Director Name" readonly
+                                        <input type="text" name="director_name" class="form-control"
+                                            id="director_name" placeholder="Country Director Name" readonly
                                             value="{{ $member->memberInfos[0]['director_name'] }}">
                                     </div>
                                 </div>
@@ -125,8 +128,8 @@
                                             Email (Personal)</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="email" name="director_email" class="form-control" id="director_email"
-                                            placeholder="Country Director Email" readonly
+                                        <input type="email" name="director_email" class="form-control"
+                                            id="director_email" placeholder="Country Director Email" readonly
                                             value="{{ $member->memberInfos[0]['director_email'] }}">
                                     </div>
                                 </div>
@@ -145,6 +148,73 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mt-3">
+                <div class="card-title m-3 border-bottom">
+                    <h3>Mission</h3>
+                </div>
+                <div class="card-body">
+                    {!! $member->memberInfos[0]['mission'] ?? '<span class="badge badge-warning">Not Submit</span>' !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mt-3">
+                <div class="card-title m-3 border-bottom">
+                    <h3>Vision</h3>
+                </div>
+                <div class="card-body">
+                    {!! $member->memberInfos[0]['vision'] ?? '<span class="badge badge-warning">Not Submit</span>' !!}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mt-3">
+                <div class="card-title m-3 border-bottom">
+                    <h3>Value</h3>
+                </div>
+                <div class="card-body">
+                    {!! $member->memberInfos[0]['value'] ?? '<span class="badge badge-warning">Not Submit</span>' !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mt-3">
+                <div class="card-title m-3 border-bottom">
+                    <h3>Mission</h3>
+                </div>
+                <div class="card-body">
+                    {!! $member->memberInfos[0]['mission'] ?? '<span class="badge badge-warning">Not Submit</span>' !!}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mt-3">
+                <div class="card-title m-3 border-bottom">
+                    <h3>History</h3>
+                </div>
+                <div class="card-body">
+                    {!! $member->memberInfos[0]['history'] ?? '<span class="badge badge-warning">Not Submit</span>' !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mt-3">
+                <div class="card-title m-3 border-bottom">
+                    <h3>Other Description</h3>
+                </div>
+                <div class="card-body">
+                    {!! $member->memberInfos[0]['other_description'] ?? '<span class="badge badge-warning">Not Submit</span>' !!}
                 </div>
             </div>
         </div>
@@ -240,6 +310,7 @@
                         // Swal.fire('Success!', response.success,
                         //     'success');
                         $('#view-header-container').html(response.viewHeader);
+                        $('#profile-image-name').html(response.profileImageName);
                         toastr.success(response.success);
                     },
                     error: function(xhr, status, error) {

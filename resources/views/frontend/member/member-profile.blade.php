@@ -109,9 +109,9 @@
     <!-- Mision Vision Section end here  -->
     <!-- Mision Vision Section end here  -->
     <section class="work-history bg-gray">
-        <div class="container">
+        <div class="container pt-3">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 ">
                     <h3>Our Work</h3>
                     <p>{!! $memberinfo->work !!}</p>
                     <h3>Our History & Heritage</h3>

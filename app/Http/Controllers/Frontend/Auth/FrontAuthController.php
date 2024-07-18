@@ -13,13 +13,13 @@ class FrontAuthController extends Controller
 {
     public function login()
     {
-        if (Auth::check()) {
+        if (Auth::guard('member')->check()) {
             // User is authenticated, redirect to homepage
             return redirect('/');
-        }
+        } 
+        return view('frontend.auth.login');
 
         // User is not authenticated, show the login page
-        return view('frontend.auth.login');
     }
     public function loginPost(Request $request)
     {
