@@ -16,27 +16,18 @@
                 <div class="col-md-8 photo-gallery">
                     <div id="gallery">
                         @forelse ($album->mediaGalleries as $photo)
-                            <img alt="dshbdsfbh" src="./images/gallery/n1.jpg" data-image="./images/gallery/n1.jpg"
-                                data-description="Description for Image 1">
+                            {{-- <a href="{{ asset('public/frontend/images/photo-gallery/') }}/{{ $photo->media }}"
+                                >
+                                <img src="{{ asset('public/frontend/images/photo-gallery/') }}/{{ $photo->media }}"
+                                    class="img-fluid rounded" data-fancybox="gallery">
+                            </a> --}}
+                            <img alt="" src="{{ asset('public/frontend/images/photo-gallery/') }}/{{ $photo->media }}" data-image="{{ asset('public/frontend/images/photo-gallery/') }}/{{ $photo->media }}"
+                            data-description="Description for Image 2">
                         @empty
+                        <h3>There is NO Photo In Album</h3>
                         @endforelse
 
-                        {{-- <img alt="" src="./images/gallery/n2.jpeg" data-image="./images/gallery/n2.jpeg"
-                            data-description="Description for Image 2">
-                        <img alt="" src="./images/gallery/n2.webp" data-image="./images/gallery/n2.webp"
-                            data-description="Description for Image 2">
-                        <img alt="" src="./images/gallery/n3.jpg" data-image="./images/gallery/n3.jpg"
-                            data-description="Description for Image 1">
-                        <img alt="" src="./images/gallery/n4.jpg" data-image="./images/gallery/n4.jpg"
-                            data-description="Description for Image 1">
-                        <img alt="" src="./images/gallery/n5.webp" data-image="./images/gallery/n5.webp"
-                            data-description="Description for Image 2">
-                        <img alt="" src="./images/gallery/n6.webp" data-image="./images/gallery/n6.webp"
-                            data-description="Description for Image 2">
-                        <img alt="" src="./images/gallery/n7.jpg" data-image="./images/gallery/n7.jpg"
-                            data-description="Description for Image 2">
-                        <img alt="" src="./images/gallery/n8.webp" data-image="./images/gallery/n8.webp"
-                            data-description="Description for Image 2"> --}}
+                        
                     </div>
                 </div>
             </div>
@@ -44,3 +35,20 @@
     </section>
     <!-- Single photo gallery section end here  -->
 @endsection
+
+@push('custom-js')
+    <script>
+        $('[data-fancybox="gallery"]').fancybox({
+            buttons: [
+                "slideShow",
+                "thumbs",
+                "zoom",
+                "fullScreen",
+                "share",
+                "close"
+            ],
+            loop: true,
+            protect: true
+        });
+    </script>
+@endpush

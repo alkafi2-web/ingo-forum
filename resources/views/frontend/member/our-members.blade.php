@@ -1,7 +1,7 @@
 @extends('frontend.layouts.frontend-page-layout')
 @section('page-title', 'Our Mmebers')
 @section('frontend-section')
-    
+
     <!-- Partners Area start here  -->
     <section class="ptb-70">
         <div class="container">
@@ -18,13 +18,14 @@
                 <div class="partners">
                     @forelse ($membersInfos as $member)
                         <div class="partner d-flex flex-column">
-                            <img src="{{ asset('public/frontend/images/member/') }}/{{ $member->logo ?? 'logo.png' }}" alt="" class="mb-3">
-                            <a href="{{route('frontend.member.show',['membership_id'=>$member->membership_id])}}" class="partner-btn">View Profile</a>
+                            <img src="{{ asset('public/frontend/images/member/') }}/{{ $member->logo ?? 'logo.png' }}"
+                                alt="" class="mb-3">
+                            <a href="{{ route('frontend.member.show', ['membership_id' => $member->membership_id]) }}"
+                                class="partner-btn">View Profile</a>
                         </div>
                     @empty
-                        <div class="partner d-flex flex-column">
-                            <img src="./images/partner1.png" alt="" class="mb-3">
-                            <a href="members-profile.php" class="partner-btn">View Profile</a>
+                        <div class="text-center">
+                            <h2>There is NO Member Join Yet</h2>
                         </div>
                     @endforelse
                 </div>

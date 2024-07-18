@@ -242,6 +242,7 @@ Route::post('/reactions', [FrontendPostController::class, 'storeReaction'])->nam
 Route::prefix('gallery')->group(function () {
     Route::get('/photo', [FrontendGalleryController::class, 'photoGallery'])->name('frontend.photo.gallery');
     Route::get('/photo/{id}', [FrontendGalleryController::class, 'singlePhotoGallery'])->name('singleAlbum');
+    Route::get('/video', [FrontendGalleryController::class, 'videoGallery'])->name('frontend.video.gallery');
 });
 //photo gallery end
 
