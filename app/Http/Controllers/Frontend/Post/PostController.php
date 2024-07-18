@@ -21,7 +21,7 @@ class PostController extends Controller
                         ->firstOrFail(); // Assuming the category slug is unique
 
         // Separate the paginated posts collection from the category object
-        $posts = $postCategory->posts()->paginate(9);
+        $posts = $postCategory->posts()->Where('posts.status', 1)->paginate(9);
 
         return view('frontend.post.index', compact('postCategory', 'posts'));
     }
@@ -35,20 +35,23 @@ class PostController extends Controller
      */
     public function showSinglePost($categorySlug, $postSlug)
     {
-        $post = Post::where('slug', $postSlug)
+        $post = Post::where('status', 1)
+                    ->where('slug', $postSlug)
                     ->whereHas('category', function ($query) use ($categorySlug) {
                         $query->where('slug', $categorySlug);
                     })
                     ->with('category', 'comments', 'comments.replies') // Eager load comments and their replies
                     ->firstOrFail();
 
-        $latestPosts = Post::where('category_id', $post->category_id)
+        $latestPosts = Post::where('status', 1)
+                            ->where('category_id', $post->category_id)
                             ->where('id', '<>', $post->id) // Exclude the current post
                             ->latest()
                             ->take(5)
                             ->get();
 
-        $relatedPosts = Post::where('category_id', $post->category_id)
+        $relatedPosts = Post::where('status', 1)
+                            ->where('category_id', $post->category_id)
                             ->where('id', '<>', $post->id) // Exclude the current post
                             ->inRandomOrder() // Example of random order for related posts
                             ->take(5)

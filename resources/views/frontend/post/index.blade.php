@@ -31,19 +31,19 @@
 <section class="blogs-page-content ptb-50">
     <div class="container">
         <div class="row g-3 g-md-4">
-            @foreach ($posts as $post)
+            @forelse ($posts as $post)
             <div class="col-6 col-md-4">
                 <div class="blog-card h-100">
                     <div class="blog-img" style="max-height: 230px; overflow: hidden;">
-                        <a href="{{ url("{$postCategory->slug}/{$post->slug}") }}">
+                        <a href="{{ route('single.post', ['categorySlug'=>$postCategory->slug, 'postSlug'=>$post->slug])}}">
                             <img src="{{ asset("public/frontend/images/posts/{$post->banner}") }}" alt=""
                                 style="width: 100%; height: auto; object-fit: cover;">
                         </a>
                     </div>
                     <div class="blog-content">
                         <span class="mini-title">#{{ $post->subcategory->name }}</span>
-                        <h3 class="blog-title line-clamp-2"><a
-                                href="{{ url("{$postCategory->slug}/{$post->slug}") }}">{{ $post->title }}</a></h3>
+                        <h3 class="blog-title line-clamp-2"><a href="{{ route('single.post', ['categorySlug'=>$postCategory->slug, 'postSlug'=>
+                                    $post->slug])}}">{{ $post->title }}</a></h3>
                         <div class="blog-text line-clamp-3" style="text-align: justify;">
                             {!! \Illuminate\Support\Str::limit(htmlspecialchars_decode(strip_tags($post->long_des)), 200) !!}
                         </div>
@@ -75,7 +75,9 @@
                     </div>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <h6>No {{ $postCategory->name }} Found!</h6>
+            @endforelse
         </div>
         <div class="row pt-4">
             <div class="col-12 post-pagination">

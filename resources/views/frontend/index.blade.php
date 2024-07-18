@@ -406,16 +406,16 @@
                         <div class="col-6 col-md-4">
                             <div class="blog-card h-100">
                                 <div class="blog-img">
-                                    <a href="{{ url("{$post->category->slug}/{$post->slug}") }}"><img
-                                            src="{{ asset('public/frontend/images/posts') }}/{{ $post->banner }}"
+                                    <a href="{{ route('single.post', ['categorySlug'=>$post->category->slug, 'postSlug'=>
+                                    $post->slug])}}"><img src="{{ asset('public/frontend/images/posts') }}/{{ $post->banner }}"
                                             alt=""></a>
                                     {{-- <a href=""><img src="{{ asset('public/frontend/images/blog.png')}}" alt=""></a> --}}
                                 </div>
                                 <div class="blog-content">
                                     <span class="mini-title">#{{ $post->category->name }}</span>
                                     <span class="mini-title">#{{ $post->subcategory->name }}</span>
-                                    <h3 class="blog-title line-clamp-2"><a
-                                            href="{{ url("{$post->category->slug}/{$post->slug}") }}">{{ $post->title }}</a>
+                                    <h3 class="blog-title line-clamp-2"><a href="{{ route('single.post', ['categorySlug'=>$post->category->slug, 'postSlug'=>
+                                    $post->slug])}}">{{ $post->title }}</a>
                                     </h3>
                                     <p class="line-clamp-3">{!! Str::limit($post->short_des, 50) !!}</p>
                                     <div class="blog-publice py-1">

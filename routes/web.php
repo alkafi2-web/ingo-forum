@@ -231,7 +231,7 @@ Route::prefix('/member')->group(function () {
 
 // post routes start
 Route::get('/post/{categorySlug}', [FrontendPostController::class, 'index']);
-Route::get('/{categorySlug}/{postSlug}', [FrontendPostController::class, 'showSinglePost']);
+Route::get('/post/{categorySlug}/{postSlug}', [FrontendPostController::class, 'showSinglePost'])->name('single.post');
 
 Route::post('/comments', [FrontendPostController::class, 'storeComment'])->name('comments.store');
 Route::post('/replies', [FrontendPostController::class, 'storeReply'])->name('replies.store');
