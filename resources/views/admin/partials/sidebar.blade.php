@@ -250,9 +250,11 @@
                             <!--end::Svg Icon-->
                         </span>
                         <span class="menu-title">Member</span>
-                        @if ($global['pendingMemberCount'] > 0)
-                            <span class="badge badge-light-danger">{{ $global['pendingMemberCount'] }}</span>
-                        @endif
+                        <div class="pendingMemberCount">
+                            @if ($global['pendingMemberCount'] > 0)
+                                <span class="badge badge-light-danger">{{ $global['pendingMemberCount'] }}</span>
+                            @endif
+                        </div>
                         <span class="menu-arrow"></span>
                     </span>
                     <div
@@ -273,9 +275,12 @@
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">Member Request</span>
-                                @if ($global['pendingMemberCount'] > 0)
-                                    <span class="badge badge-light-danger">{{ $global['pendingMemberCount'] }}</span>
-                                @endif
+                                <div class="pendingMemberCount">
+                                    @if ($global['pendingMemberCount'] > 0)
+                                        <span
+                                            class="badge badge-light-danger">{{ $global['pendingMemberCount'] }}</span>
+                                    @endif
+                                </div>
                             </span>
                         </a>
                     </div>
