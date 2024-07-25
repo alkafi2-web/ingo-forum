@@ -13,6 +13,7 @@
                 <label for="image" class="text-3xl required">Upload Thumnil Images</label>
                 <input type="file" class="form-control" id="image" name="image" value=""
                     oninput="pp.src=window.URL.createObjectURL(this.files[0])">
+                    <p class="text-danger">Thumnil must be 650px by 410px</p>
                 <img id="pp" width="100" class="float-end mt-3" src="">
             </div>
         </div>

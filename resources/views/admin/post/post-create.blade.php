@@ -86,16 +86,22 @@
                         </div>
 
                         <!-- Banner -->
-                        <div class="form-group mt-3">
-                            <label for="banner" class="required">Banner</label>
-                            <input type="file" id="banner" name="banner" class="form-control mt-3" required
-                                oninput="pp.src=window.URL.createObjectURL(this.files[0])">
-                            <img id="pp" width="200" class="float-start mt-3" src="">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group mt-3">
+                                    <label for="banner" class="required">Banner</label>
+                                    <input type="file" id="banner" name="banner" class="form-control mt-3" required
+                                        oninput="pp.src=window.URL.createObjectURL(this.files[0])">
+                                    <p class="text-danger">Banner must be 800px by 450px</p>
+                                    <img id="pp" width="200" class="float-start mt-3" src="">
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group mt-3">
-                                    <button type="" id="submit" class="btn btn-primary mt-4"> <i class="fas fa-upload"></i>Submit</button>
+                                    <button type="" id="submit" class="btn btn-primary mt-4"> <i
+                                            class="fas fa-upload"></i>Submit</button>
                                 </div>
                             </div>
                         </div>

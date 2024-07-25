@@ -41,7 +41,7 @@ class PostController extends Controller
                 // 'regex:/^[\p{L}a-zA-Z0-9\-]*$/u',
             ],
             'long_description' => 'required|string',
-            'banner' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
+            'banner' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:width=800,height=450', // Example file validation
         ], [
             // Custom error messages
             'category.required' => 'Category is required.',
@@ -55,6 +55,7 @@ class PostController extends Controller
             'banner.image' => 'Banner must be an image file.',
             'banner.mimes' => 'Banner must be a JPEG, PNG, JPG, or GIF image.',
             'banner.max' => 'Banner size should not exceed 2MB.',
+            'banner.dimensions' => 'Banner must be 800px by 450px.',
         ]);
         // Check validation results
         if ($validator->fails()) {
@@ -173,7 +174,7 @@ class PostController extends Controller
                 'regex:/^[a-zA-Z0-9\-]*$/u',
             ],
             'long_description' => 'required|string',
-            // 'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
+            'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:width=800,height=450', // Example file validation
         ], [
             // Custom error messages
             'category.required' => 'Category is required.',
@@ -186,6 +187,7 @@ class PostController extends Controller
             'banner.image' => 'Banner must be an image file.',
             'banner.mimes' => 'Banner must be a JPEG, PNG, JPG, or GIF image.',
             'banner.max' => 'Banner size should not exceed 2MB.',
+            'banner.dimensions' => 'Banner must be 800px by 450px.',
         ]);
 
         // Check validation results

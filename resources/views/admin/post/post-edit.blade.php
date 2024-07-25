@@ -92,12 +92,17 @@
                         </div>
 
                         <!-- Banner -->
-                        <div class="form-group mt-3">
-                            <label for="banner" class="">Banner</label>
-                            <input type="file" id="banner" name="banner" class="form-control mt-3" required
-                                oninput="pp.src=window.URL.createObjectURL(this.files[0])">
-                            <img id="pp" width="200" class="float-start mt-3"
-                                src="{{ asset('/public/frontend/images/posts/') }}/{{ $post->banner }}">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group mt-3">
+                                    <label for="banner" class="">Banner</label>
+                                    <input type="file" id="banner" name="banner" class="form-control mt-3" required
+                                        oninput="pp.src=window.URL.createObjectURL(this.files[0])">
+                                    <p class="text-danger">Banner must be 800px by 450px</p>
+                                    <img id="pp" width="200" class="float-start mt-3"
+                                        src="{{ asset('/public/frontend/images/posts/') }}/{{ $post->banner }}">
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
