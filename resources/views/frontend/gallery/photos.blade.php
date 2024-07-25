@@ -8,7 +8,7 @@
     <!-- Photo Gallery Area start here  -->
     <section class="photo-gallery-page ptb-50">
         <div class="container">
-            <div class="row gy-3 gy-md-5 gx-3 gx-md-4 px-1">
+            <div class="row gy-3 gy-md-5 gx-3 gx-md-5 px-1 mt-3">
                 @forelse ($albums as $album)
                     <div class="col-6 col-md-4">
                         <div class="gallery-card h-100">
@@ -18,10 +18,9 @@
                                             src="{{ asset('public/frontend/images/photo-gallery/') }}/{{ $photo->media }}"
                                             alt=""></a>
                                 @empty
-                                    {{-- <p>No photos available.</p> --}}
-                                    <a href=""><img src="images/gallery1.png" alt=""></a>
-                                    <a href=""><img src="images/gallery3.png" alt=""></a>
-                                    <a href=""><img src="images/gallery2.png" alt=""></a>
+                                    <a href=""><img src="{{ asset('public/frontendimages/gallery1.png')}}" alt=""></a>
+                                    <a href=""><img src="{{ asset('public/frontendimages/gallery3.png')}}" alt=""></a>
+                                    <a href=""><img src="{{ asset('public/frontendimages/gallery2.png')}}" alt=""></a>
                                 @endforelse
 
                             </div>

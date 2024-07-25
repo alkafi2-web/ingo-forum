@@ -1,6 +1,6 @@
 @extends('frontend.layouts.front-end-layout')
 @section('frontend-section')
-    
+
     @php
         use Carbon\Carbon;
         use Illuminate\Support\Str;
@@ -342,16 +342,17 @@
                         <div class="col-6 col-md-4">
                             <div class="blog-card h-100">
                                 <div class="blog-img">
-                                    <a href="{{ route('single.post', ['categorySlug'=>$post->category->slug, 'postSlug'=>
-                                    $post->slug])}}"><img src="{{ asset('public/frontend/images/posts') }}/{{ $post->banner }}"
+                                    <a
+                                        href="{{ route('single.post', ['categorySlug' => $post->category->slug, 'postSlug' => $post->slug]) }}"><img
+                                            src="{{ asset('public/frontend/images/posts') }}/{{ $post->banner }}"
                                             alt=""></a>
                                     {{-- <a href=""><img src="{{ asset('public/frontend/images/blog.png')}}" alt=""></a> --}}
                                 </div>
                                 <div class="blog-content">
                                     <span class="mini-title">#{{ $post->category->name }}</span>
                                     <span class="mini-title">#{{ $post->subcategory->name }}</span>
-                                    <h3 class="blog-title line-clamp-2"><a href="{{ route('single.post', ['categorySlug'=>$post->category->slug, 'postSlug'=>
-                                    $post->slug])}}">{{ $post->title }}</a>
+                                    <h3 class="blog-title line-clamp-2"><a
+                                            href="{{ route('single.post', ['categorySlug' => $post->category->slug, 'postSlug' => $post->slug]) }}">{{ $post->title }}</a>
                                     </h3>
                                     <p class="line-clamp-3">{!! Str::limit($post->short_des, 50) !!}</p>
                                     <div class="blog-publice py-1">
@@ -512,45 +513,28 @@
                     </div>
                     <div class="col-lg-3"></div>
                 </div>
-                {{-- <style>
-                    .gallery-img img {
-                        width: 200px;
-                        /* Set the desired width */
-                        height: 150px;
-                        /* Set the desired height */
-                        object-fit: cover;
-                        /* Ensures the image covers the area while maintaining aspect ratio */
-                        display: block;
-                        /* Ensures there are no extra spaces around images */
-                    }
 
-                    .gallery-img a {
-                        display: inline-block;
-                        /* Ensures the links display properly */
-                        margin: 5px;
-                        /* Optional: Add spacing between images */
-                    }
-                </style> --}}
-                <div class="row gy-4 pt-5 px-1">
+                <div class="row gy-4 gx-4 gx-md-5 pt-5 px-1 mt-3">
                     @forelse ($global['albums'] as $album)
                         <div class="col-6 col-md-4">
                             <div class="gallery-card h-100">
                                 <div class="gallery-img">
                                     @forelse ($album->mediaGalleries->where('status', 1)->take(3) as $photo)
-                                        <a href=""><img
-                                                src="{{ asset('public/frontend/images/photo-gallery/') }}/{{ $photo->media }}"
+                                        <a href="{{route('singleAlbum',['id'=>$album->id])}}"><img src="{{ asset('public/frontend/images/photo-gallery/') }}/{{ $photo->media }}"
                                                 alt=""></a>
                                     @empty
-                                        {{-- <p>No photos available.</p> --}}
-                                        <a href=""><img src="images/gallery1.png" alt=""></a>
-                                        <a href=""><img src="images/gallery3.png" alt=""></a>
-                                        <a href=""><img src="images/gallery2.png" alt=""></a>
+                                        <a href=""><img src="{{ asset('public/frontend/images/gallery1.png') }}"
+                                                alt=""></a>
+                                        <a href=""><img src="{{ asset('public/frontend/images/gallery3.png') }}"
+                                                alt=""></a>
+                                        <a href=""><img src="{{ asset('public/frontend/images/gallery2.png') }}"
+                                                alt=""></a>
                                     @endforelse
-
+                                    
                                 </div>
                                 <div class="blog-content">
                                     <span class="mini-title">#{{ $album->albumtype }}</span>
-                                    <h3 class="blog-title line-clamp-2"><a href="">{{ $album->title }}</a></h3>
+                                    <h3 class="blog-title line-clamp-2"><a href="{{route('singleAlbum',['id'=>$album->id])}}">{{ $album->title }}</a></h3>
                                     <p class="line-clamp-3">{{ Str::limit($album->subcontent ?? '', 150) }}</p>
                                     <div class="blog-publice py-1">
                                         <div class="row pb-1">
@@ -776,5 +760,5 @@
         </section>
     @endif
     <!-- Video Section End  -->
-    
+
 @endsection

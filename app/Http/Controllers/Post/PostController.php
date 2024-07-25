@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Stevebauman\Purify\Facades\Purify;
+use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
 {
@@ -69,7 +70,9 @@ class PostController extends Controller
                 File::makeDirectory($dir, 0755, true);
             }
             // Move new image to directory
-            $banner->move($dir, $bannerName);
+            // $banner->move($dir, $bannerName);
+            $img = Image::make($banner);
+            $img->save($dir . $bannerName);
         }
         Post::create([
             'category_id' => $request->category,
