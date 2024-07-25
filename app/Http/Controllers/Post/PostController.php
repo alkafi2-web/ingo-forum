@@ -93,6 +93,9 @@ class PostController extends Controller
                 ->addColumn('category_name', function ($post) {
                     return $post->category->name;
                 })
+                ->addColumn('category_slug', function ($post) {
+                    return $post->category->slug;
+                })
                 ->addColumn('subcategory_name', function ($post) {
                     return $post->subcategory->name;
                 })

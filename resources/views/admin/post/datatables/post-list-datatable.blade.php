@@ -125,18 +125,24 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            var editRoute = '{{ route("post.edit", ":id") }}'.replace(':id', row.id);
+                            var editRoute = '{{ route('post.edit', ':id') }}'.replace(':id', row
+                            .id);
+                            var singlePostRoute =
+                                '{{ route('single.post', ['categorySlug' => ':categorySlug', 'postSlug' => ':postSlug']) }}'
+                                .replace(':categorySlug', row.category_slug)
+                                .replace(':postSlug', row.slug);
+
                             return `<div style="display: flex; align-items: center;">
-                                        <a href="javascript:void(0)" class="view text-info mr-2 me-2" data-id="${row.id}">
-                                            <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
-                                        </a>
-                                        <a href="${editRoute}" class="edit text-primary mr-2 me-2" data-id="${row.id}" style="margin-right: 10px;">
-                                            <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}" style="margin-right: 10px;">
-                                            <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
-                                        </a>
-                                    </div>`;
+                            <a href="${singlePostRoute}" class="view text-info mr-2 me-2" data-id="${row.id}">
+                                <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
+                            </a>
+                            <a href="${editRoute}" class="edit text-primary mr-2 me-2" data-id="${row.id}" style="margin-right: 10px;">
+                                <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
+                            </a>
+                            <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}" style="margin-right: 10px;">
+                                <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
+                            </a>
+                        </div>`;
                         }
                     }
 

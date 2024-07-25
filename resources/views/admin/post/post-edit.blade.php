@@ -80,10 +80,10 @@
 
 
                         <!-- Short Description -->
-                        <div class="form-group mt-3">
+                        {{-- <div class="form-group mt-3">
                             <label for="short_description" class="mb-3">Short Description</label>
                             <textarea id="short_description" name="short_description" class="form-control mt-5" rows="1" required>{{ $post->short_des ?? '' }}</textarea>
-                        </div>
+                        </div> --}}
 
                         <!-- Long Description -->
                         <div class="form-group mt-3">
@@ -159,7 +159,7 @@
                 let title = $('#title').val();
                 let slug = $('#slug').val();
                 let long_description = CKEDITOR.instances['long_description'].getData();
-                let short_description = CKEDITOR.instances['short_description'].getData();
+                // let short_description = CKEDITOR.instances['short_description'].getData();
                 let banner = $('#banner')[0].files[0];
                 let formData = new FormData(); // Create FormData object
 
@@ -169,7 +169,7 @@
                 formData.append('title', title);
                 formData.append('slug', slug);
                 formData.append('long_description', long_description);
-                formData.append('short_description', short_description);
+                // formData.append('short_description', short_description);
                 if (banner) {
                     formData.append('banner', banner);
                 }
