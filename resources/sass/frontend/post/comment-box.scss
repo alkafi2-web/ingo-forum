@@ -42,16 +42,17 @@
 }
 
 .comments-list {
+   padding: 0;
    margin-top: 30px;
    position: relative;
    overflow: hidden;
     &::before{
     content: '';
         width: 2px;
-        height: 100%;
+        height: 83%;
         background: #c7cacb;
         position: absolute;
-        left: 33px;
+        left: 2px;
         top: 0;
     }
     &::after{
@@ -105,7 +106,7 @@
 ---------------------------*/
 .comments-list .comment-avatar {
    width: 65px;
-   height: 65px;
+   height: 56px;
    position: relative;
    z-index: 99;
    float: left;
@@ -126,7 +127,7 @@
 
 .reply-list .comment-avatar {
    width: 50px;
-   height: 50px;
+   height: 45px;
 }
 .comment-main-level{
     position: relative;
@@ -171,7 +172,7 @@
 
 .reply-list .comment-box {
    width: 100%;
-   margin-left: 64px;
+   margin-left: 11px;
 }
 .comment-box .comment-head {
    background: #FCFCFC;

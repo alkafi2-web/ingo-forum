@@ -88,13 +88,21 @@ class PostController extends Controller
 
     public function storeReply(Request $request)
     {
+        // if (!Auth::guard('member')->check()) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'msg' => 'Be a member to write reply',
+        //     ]);
+        // }
+
+        $request->validate([
+            'comment_id' => 'required|exists:comments,id',
+            'reply_text' => 'required',
+        ]);
+        
         // Get authenticated user using the 'member' guard
         $user = Auth::guard('member')->user();
         
-        $request->validate([
-            'comment_id' => 'required|exists:comments,id',
-            'reply_text' => 'required|string',
-        ]);
 
         // Create new reply
         $reply = new Reply();
