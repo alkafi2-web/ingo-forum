@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="d-flex flex-column">
                                         <h6>Phone</h6>
-                                        <a href="tel:01315256454">01315256454</a>
+                                        <a href="tel:01315256454">{{$global['phone']}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                                     </div>
                                     <div class="d-flex flex-column">
                                         <h6>Email</h6>
-                                        <a href="mailto:example@gmail.com">example@gmail.com</a>
+                                        <a href="mailto:{{$global['email']}}">{{$global['email']}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="d-flex flex-column">
                                         <h6>Address</h6>
-                                        <p>House 21, Road 03, Mohammadia Housing Society, Mohammadpur, Dhaka, Bangladesh</p>
+                                        <p>{{$global['address']}}</p>
                                     </div>
                                 </div>
                             </div>

@@ -49,6 +49,7 @@ class AppServiceProvider extends ServiceProvider
                 'twitter' => $mainContent['twitter'] ?? '',
                 'email' => $mainContent['email'] ?? '',
                 'phone' => $mainContent['phone'] ?? '',
+                'address' => $mainContent['address'] ?? '',
             ];
             // Check the current route name
             $currentRouteName = Route::currentRouteName();
