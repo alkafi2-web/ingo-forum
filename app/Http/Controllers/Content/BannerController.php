@@ -39,14 +39,6 @@ class BannerController extends Controller
         }
         $data = $request->only(['title', 'description']);
         if (isset($request->image)) {
-            // $image = $request->image;
-            // $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
-            // $dir = public_path('/frontend/images/banner/');
-            // if (!File::exists($dir)) {
-            //     File::makeDirectory($dir, 0755, true);
-            // }
-            // $image->move($dir, $imageName);
-            // $data['image'] = $imageName;
             $image = $request->file('image');
             $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
             $dir = public_path('/frontend/images/banner/');
