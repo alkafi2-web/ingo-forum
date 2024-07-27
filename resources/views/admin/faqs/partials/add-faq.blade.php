@@ -24,12 +24,15 @@
 
 @push('custom-js')
     <script>
+        CKEDITOR.replace('answer');
         $(document).ready(function() {
 
             $('#faq-submit').on('click', function(e) {
                 e.preventDefault();
                 let url = "{{ route('faqs.create') }}";
                 let formData = new FormData($('#faqForm')[0]);
+                let answer = CKEDITOR.instances['answer'].getData();
+                formData.append('answer', answer);
                 $.ajax({
                     type: 'POST',
                     url: url,
@@ -45,6 +48,9 @@
                             toastr.success(value); // Displaying each error message
                         });
                         $('#faqForm')[0].reset();
+                        var answer = CKEDITOR.instances['answer'];
+                        answer.setData('');
+                        answer.focus();
                         $('#banner-data').DataTable().ajax.reload(null, false);
                     },
                     error: function(xhr) {
@@ -63,6 +69,8 @@
                 let url = "{{ route('faqs.update') }}";
                 let id = $(this).attr('data-id');
                 let formData = new FormData($('#faqForm')[0]);
+                let answer = CKEDITOR.instances['answer'].getData();
+                formData.append('answer', answer);
                 formData.append('id', id);
                 $.ajax({
                     type: 'POST',
@@ -80,6 +88,9 @@
                         });
                         $('#add-header').text('Add FAQ Content');
                         $('#faqForm')[0].reset();
+                        var answer = CKEDITOR.instances['answer'];
+                        answer.setData('');
+                        answer.focus();
                         $('#faq-data').DataTable().ajax.reload(null, false);
                         $('#faq-submit').removeClass('d-none');
                         $('#faq-update').addClass('d-none');
@@ -102,6 +113,9 @@
             $('#page-refresh').on('click', function(e) {
                 e.preventDefault();
                 $('#faqForm')[0].reset();
+                var answer = CKEDITOR.instances['answer'];
+                answer.setData('');
+                answer.focus();
                 $('#add-header').text('Add FAQ Content');
                 $('#faq-submit').removeClass('d-none');
                 $('#faq-update').addClass('d-none');

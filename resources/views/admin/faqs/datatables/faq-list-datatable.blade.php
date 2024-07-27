@@ -46,11 +46,21 @@
                         data: 'question',
                         name: 'question'
                     },
+                    // {
+                    //     orderable: true,
+                    //     sortable: false,
+                    //     data: 'answer',
+                    //     name: 'answer'
+                    // },
                     {
                         orderable: true,
                         sortable: false,
                         data: 'answer',
-                        name: 'answer'
+                        name: 'answer',
+                        render: function(data, type, row, meta) {
+                            console.log("Render Function Data: ", data);
+                            return $('<div/>').html(data).text();
+                        }
                     },
                     {
                         data: 'status',
@@ -141,8 +151,11 @@
                     $('#add-header').text('Update FAQ Content');
                     $('#question').val(faq.question);
                     $('#answer').val(faq.answer);
+                    var answer = CKEDITOR.instances['answer'];
+                    answer.setData(faq.answer);
+                    answer.focus();
                     $('#faq-update').removeClass('d-none');
-                    $('#faq-update').attr('data-id',faq.id);
+                    $('#faq-update').attr('data-id', faq.id);
                     $('#faq-submit').addClass('d-none');
                     $('#page-refresh').removeClass('d-none');
                 },
@@ -230,6 +243,5 @@
                 }
             });
         }
-
     </script>
 @endpush
