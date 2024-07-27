@@ -19,13 +19,14 @@
                     <!-- Contenedor del Comentario -->
                     <div class="comment-box">
                         <div class="comment-head d-flex align-items-center">
-                            div
-                            <h6 class="comment-name {{ Auth::guard('member')->check()?$comment->member->id === Auth::guard('member')->user()->id??'' ?'by-author':'':'' }}"><a href="#">{{ $comment->member->info->organisation_name }}</a></h6>
-                            <span>{{ $comment->created_at->diffForHumans() }}</span>&nbsp;
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-reply reply-btn" data-comment-id="{{ $comment->id }}"></i>&nbsp;
-                                <i class="fas fa-heart reaction-btn {{ $comment->userHasReacted() ? 'text-danger' : '' }}" data-comment-id="{{ $comment->id }}"></i>&nbsp;
-                                <small style="color: #999">{{ $comment->reactions->count()??'' }}</small>
+                            <div class="w-100 d-flex align-items-center">
+                                <h6 class="comment-name {{ Auth::guard('member')->check()?$comment->member->id === Auth::guard('member')->user()->id??'' ?'by-author':'':'' }}"><a href="#">{{ $comment->member->info->organisation_name }}</a></h6>
+                                <span>{{ $comment->created_at->diffForHumans() }}</span>&nbsp;
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-reply reply-btn" data-comment-id="{{ $comment->id }}"></i>&nbsp;
+                                    <i class="fas fa-heart reaction-btn {{ $comment->userHasReacted() ? 'text-danger' : '' }}" data-comment-id="{{ $comment->id }}"></i>&nbsp;
+                                    <small style="color: #999">{{ $comment->reactions->count()??'' }}</small>
+                                </div>
                             </div>
                             <i class="fas fa-trash-alt comment-delete-btn text-danger {{ $comment->userHasReacted() ? 'text-danger' : '' }}" data-comment-id="{{ $comment->id }}"></i>&nbsp;
                         </div>
@@ -44,9 +45,12 @@
                                     <div class="comment-avatar"><img src="{{ asset('public/frontend/images/icons/avatar.png') }}" alt="Avatar"></div>
                                     <!-- Contenedor del Comentario -->
                                     <div class="comment-box">
-                                        <div class="comment-head">
-                                            <h6 class="comment-name {{ Auth::guard('member')->check()?$comment->member->id === Auth::guard('member')->user()->id??'' ?'by-author':'':'' }}"><a href="#">{{ $reply->member->info->organisation_name }}</a></h6>
-                                            <span>{{ $reply->created_at->diffForHumans() }}</span>&nbsp;
+                                        <div class="comment-head d-flex align-items-center">
+                                            <div class="w-100 d-flex align-items-center">
+                                                <h6 class="comment-name {{ Auth::guard('member')->check()?$comment->member->id === Auth::guard('member')->user()->id??'' ?'by-author':'':'' }}"><a href="#">{{ $reply->member->info->organisation_name }}</a></h6>
+                                                <span>{{ $reply->created_at->diffForHumans() }}</span>&nbsp;
+                                            </div>
+                                            <i class="fas fa-trash-alt comment-delete-btn text-danger {{ $comment->userHasReacted() ? 'text-danger' : '' }}" data-comment-id="{{ $comment->id }}"></i>&nbsp;
                                         </div>
                                         <div class="comment-content">
                                             {{ $reply->reply_text }}
