@@ -17,19 +17,19 @@ class adminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check()) {
+        if (!Auth::guard('admin')->check()) {
             return redirect()->route('login');
         }
 
         // Get the authenticated user
-        $user = Auth::user();
+        $user = Auth::guard('admin')->user();
 
         // Check the user in the custom table
         $admin_user = User::where('id', $user->id)->first();
 
         if (!$admin_user) {
             // If the user is not found in the custom table, logout and redirect to login
-            Auth::logout();
+            Auth::guard('admin')->logout();
             return redirect()->route('login')->withErrors(['message' => 'User not authorized.']);
         }
 

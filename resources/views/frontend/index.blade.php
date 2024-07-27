@@ -1,70 +1,6 @@
 @extends('frontend.layouts.front-end-layout')
-@section('fontend-section')
-    <style>
-        .ekko-lightbox.modal .modal-header {
-            flex-direction: row-reverse !important;
-        }
+@section('frontend-section')
 
-        .modal-header .close {
-            padding: 1rem 1.25rem;
-            margin: -1rem -1.25rem -1rem auto;
-            /* display: none; */
-        }
-
-        .modal-header {
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-align: start;
-            align-items: flex-start;
-            -ms-flex-pack: justify;
-            justify-content: space-between;
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid #e3e9ef;
-            border-top-left-radius: calc(.4375rem - 1px);
-            border-top-right-radius: calc(.4375rem - 1px);
-        }
-
-        .modal-content {
-            position: relative;
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-direction: column;
-            flex-direction: column;
-            width: 100%;
-            pointer-events: auto;
-            background-color: #fff;
-            background-clip: padding-box;
-            border: 1px solid #e3e9ef;
-            border-radius: .4375rem;
-            box-shadow: 0 0.3rem 1.525rem -0.375rem rgba(0, 0, 0, 0.1);
-            outline: 0;
-        }
-
-        .modal-header {
-            -ms-flex-align: center;
-            align-items: center;
-        }
-
-        button:not(:disabled),
-        [type="button"]:not(:disabled),
-        [type="reset"]:not(:disabled),
-        [type="submit"]:not(:disabled) {
-            cursor: pointer;
-        }
-
-        button.close {
-            padding: 0;
-            background-color: transparent;
-            border: 0;
-        }
-
-        .modal-body {
-            position: relative;
-            -ms-flex: 1 1 auto;
-            flex: 1 1 auto;
-            padding: 1.25rem;
-        }
-    </style>
     @php
         use Carbon\Carbon;
         use Illuminate\Support\Str;
@@ -83,7 +19,8 @@
                                     <a href="" class="ct-btn btn-yellow">Be a Member</a>
                                 </div>
                                 <div class="col-lg-6 hero-right">
-                                    <img src="{{ asset('public/frontend/images/banner/') }}/{{$banner->image}}" alt="">
+                                    <img src="{{ asset('public/frontend/images/banner/') }}/{{ $banner->image }}"
+                                        alt="">
                                     {{-- <img src="{{ asset('public/frontend/images/hero-img.png') }}" alt=""> --}}
                                 </div>
                             </div>
@@ -129,7 +66,7 @@
                                 <div class="col-6">
                                     <div class="fixtures-item fx{{ ($index % 4) + 1 }}">
                                         <div class="fixture-icon">
-                                            <img src="{{ asset('public/frontend/images/icons/') }}/{{ $feature['icon'] }}"
+                                            <img src="{{ asset('public/frontend/images/icons/fx' . (($index % 4) + 1) . '.png') }}"
                                                 alt="">
                                             {{-- <img src="{{ asset('public/frontend/images/icons/fx1.png') }}" alt=""> --}}
                                         </div>
@@ -208,28 +145,28 @@
                 <div class="row">
                     <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
                         <div class="counter border-right">
-                            <img src="{{ asset('public/frontend/images/member-badge.png')}}" alt="">
+                            <img src="{{ asset('public/frontend/images/member-badge.png') }}" alt="">
                             <h3 class="text-white count-number" data-count="150">0</h3>
                             <p class="text-white">Total Members</p>
                         </div>
                     </div>
                     <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
                         <div class="counter border-right mobile-border-none">
-                            <img src="{{ asset('public/frontend/images/member-badge.png')}}" alt="">
+                            <img src="{{ asset('public/frontend/images/member-badge.png') }}" alt="">
                             <h3 class="text-white count-number" data-count="120">0</h3>
                             <p class="text-white">Total Members</p>
                         </div>
                     </div>
                     <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
                         <div class="counter border-right">
-                            <img src="{{ asset('public/frontend/images/member-badge.png')}}" alt="">
+                            <img src="{{ asset('public/frontend/images/member-badge.png') }}" alt="">
                             <h3 class="text-white count-number" data-count="170">0</h3>
                             <p class="text-white">Total Members</p>
                         </div>
                     </div>
                     <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
                         <div class="counter">
-                            <img src="{{ asset('public/frontend/images/member-badge.png')}}" alt="">
+                            <img src="{{ asset('public/frontend/images/member-badge.png') }}" alt="">
                             <h3 class="text-white count-number" data-count="100">0</h3>
                             <p class="text-white">Total Members</p>
                         </div>
@@ -240,47 +177,34 @@
     </section>
     <!-- About Us Section End  -->
     <!-- Member Section Start  -->
-    <section class="member-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3"></div>
-                <div class="col-lg-6">
-                    <div class="text-center">
-                        <h5 class="sub-title">Our Members</h5>
-                        <h2 class="section-title">Hands in Together, Hearts in Unison</h2>
+    @if ($global['membersInfos']->count() > 0)
+        <section class="member-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
+                        <div class="text-center">
+                            <h5 class="sub-title">Our Members</h5>
+                            <h2 class="section-title">Hands in Together, Hearts in Unison</h2>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-3"></div>
-            </div>
-        </div>
-        <hr>
-        <div class="container">
-            <div class="owl-carousel owl-theme members-logo py-2">
-                <div class="item">
-                    <img src="{{ asset('public/frontend/images/wateraid.png')}}" alt="">
-                </div>
-                <div class="item">
-                    <img src="{{ asset('public/frontend/images/int.png')}}" alt="">
-                </div>
-                <div class="item">
-                    <img src="{{ asset('public/frontend/images/snv.png')}}" alt="">
-                </div>
-                <div class="item">
-                    <img src="{{ asset('public/frontend/images/pa.png')}}" alt="">
-                </div>
-                <div class="item">
-                    <img src="{{ asset('public/frontend/images/snv.png')}}" alt="">
-                </div>
-                <div class="item">
-                    <img src="{{ asset('public/frontend/images/int.png')}}" alt="">
-                </div>
-                <div class="item">
-                    <img src="{{ asset('public/frontend/images/pa.png')}}" alt="">
+                    <div class="col-lg-3"></div>
                 </div>
             </div>
-        </div>
-        <hr>
-    </section>
+            <hr>
+            <div class="container">
+                <div class="owl-carousel owl-theme members-logo py-2">
+                    @foreach ($global['membersInfos'] as $membersInfos)
+                        <div class="item">
+                            <img src="{{ asset('public/frontend/images/member') }}/{{ $membersInfos->logo }}"
+                                alt="">
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <hr>
+        </section>
+    @endif
     <!-- Member Section End  -->
     <!-- Events Section Start  -->
     @if ($global['events']->count() > 0)
@@ -390,7 +314,6 @@
                                     </div>
                                 </div>
                             @empty
-                                
                             @endforelse
 
                         </div>
@@ -419,15 +342,18 @@
                         <div class="col-6 col-md-4">
                             <div class="blog-card h-100">
                                 <div class="blog-img">
-                                    <a href=""><img
+                                    <a
+                                        href="{{ route('single.post', ['categorySlug' => $post->category->slug, 'postSlug' => $post->slug]) }}"><img
                                             src="{{ asset('public/frontend/images/posts') }}/{{ $post->banner }}"
                                             alt=""></a>
                                     {{-- <a href=""><img src="{{ asset('public/frontend/images/blog.png')}}" alt=""></a> --}}
                                 </div>
                                 <div class="blog-content">
                                     <span class="mini-title">#{{ $post->category->name }}</span>
-                                    <span class="mini-title">#{{ $post->subcategory->name }}</span>
-                                    <h3 class="blog-title line-clamp-2"><a href="">{{ $post->title }}</a></h3>
+                                    <span class="mini-title">> {{ $post->subcategory->name }}</span>
+                                    <h3 class="blog-title line-clamp-2"><a
+                                            href="{{ route('single.post', ['categorySlug' => $post->category->slug, 'postSlug' => $post->slug]) }}">{{ $post->title }}</a>
+                                    </h3>
                                     <p class="line-clamp-3">{!! Str::limit($post->short_des, 50) !!}</p>
                                     <div class="blog-publice py-1">
                                         <div class="row pb-1">
@@ -587,26 +513,28 @@
                     </div>
                     <div class="col-lg-3"></div>
                 </div>
-                <div class="row gy-4 pt-5 px-1">
+
+                <div class="row gy-4 gx-4 gx-md-5 pt-5 px-1 mt-3">
                     @forelse ($global['albums'] as $album)
                         <div class="col-6 col-md-4">
                             <div class="gallery-card h-100">
                                 <div class="gallery-img">
                                     @forelse ($album->mediaGalleries->where('status', 1)->take(3) as $photo)
-                                        <a href=""><img
-                                                src="{{ asset('public/frontend/images/photo-gallery/') }}/{{ $photo->media }}"
-                                                alt="" style="width: 415px; height: 415px;"></a>
+                                        <a href="{{route('singleAlbum',['id'=>$album->id])}}"><img src="{{ asset('public/frontend/images/photo-gallery/') }}/{{ $photo->media }}"
+                                                alt=""></a>
                                     @empty
-                                        {{-- <p>No photos available.</p> --}}
-                                        <a href=""><img src="images/gallery1.png" alt=""></a>
-                                        <a href=""><img src="images/gallery3.png" alt=""></a>
-                                        <a href=""><img src="images/gallery2.png" alt=""></a>
+                                        <a href=""><img src="{{ asset('public/frontend/images/gallery1.png') }}"
+                                                alt=""></a>
+                                        <a href=""><img src="{{ asset('public/frontend/images/gallery3.png') }}"
+                                                alt=""></a>
+                                        <a href=""><img src="{{ asset('public/frontend/images/gallery2.png') }}"
+                                                alt=""></a>
                                     @endforelse
-
+                                    
                                 </div>
                                 <div class="blog-content">
                                     <span class="mini-title">#{{ $album->albumtype }}</span>
-                                    <h3 class="blog-title line-clamp-2"><a href="">{{ $album->title }}</a></h3>
+                                    <h3 class="blog-title line-clamp-2"><a href="{{route('singleAlbum',['id'=>$album->id])}}">{{ $album->title }}</a></h3>
                                     <p class="line-clamp-3">{{ Str::limit($album->subcontent ?? '', 150) }}</p>
                                     <div class="blog-publice py-1">
                                         <div class="row pb-1">
@@ -627,7 +555,8 @@
                                                         alt="">
                                                     <div class="ms-2">
                                                         <span class="d-block fw-semibold">By:</span>
-                                                        <span class="blog-date-admin">{{ ucfirst($album->addedBy->name) }}</span>
+                                                        <span
+                                                            class="blog-date-admin">{{ ucfirst($album->addedBy->name) }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -645,61 +574,63 @@
     @endif
     <!-- Photo Gallery Section End  -->
     <!-- Video Section start  -->
-    <section class="video-gallery ptb-70 bg-gray">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3"></div>
-                <div class="col-lg-6">
-                    <div class="text-center">
-                        <h5 class="sub-title">Video Gallery</h5>
-                        <h2 class="section-title">Showcasing Our Best Moments</h2>
+    @if ($global['videos']->count() > 0)
+        <section class="video-gallery ptb-70 bg-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
+                        <div class="text-center">
+                            <h5 class="sub-title">Video Gallery</h5>
+                            <h2 class="section-title">Showcasing Our Best Moments</h2>
+                        </div>
                     </div>
+                    <div class="col-lg-3"></div>
                 </div>
-                <div class="col-lg-3"></div>
-            </div>
-            <div class="row pt-2">
-                <div class="video-slider">
-                    @forelse ($global['videos'] as $video)
-                        <div class="item">
-                            <div class="blog-card h-100">
-                                <div class="blog-img">
-                                    <a href="{{ $video->url }}" data-toggle="lightbox"
-                                        data-gallery="video-gallery"
-                                        data-title="{{ $video->name }}"><img
-                                            src="{{ asset('public/frontend/images/video-thumbnail/') }}/{{ $video->media }}"
-                                            alt=""></a>
-                                    {{-- {{ asset('public/frontend/images/video-thumbnail.png') }} --}}
-                                </div>
-                                <div class="blog-content">
-                                    <span class="mini-title">#{{ $video->type }}</span>
-                                    <h3 class="blog-title line-clamp-2">
+                <div class="row pt-2">
+                    <div class="video-slider">
+                        @forelse ($global['videos'] as $video)
+                            <div class="item">
+                                <div class="blog-card h-100">
+                                    <div class="blog-img">
                                         <a href="{{ $video->url }}" data-toggle="lightbox"
-                                            data-gallery="video-gallery"
-                                            data-title="{{ $video->name }}">{{ $video->name }}</a>
+                                            data-gallery="video-gallery" data-title="{{ $video->name }}"><img
+                                                src="{{ asset('public/frontend/images/video-thumbnail/') }}/{{ $video->media }}"
+                                                alt=""></a>
+                                        {{-- {{ asset('public/frontend/images/video-thumbnail.png') }} --}}
+                                    </div>
+                                    <div class="blog-content">
+                                        <span class="mini-title">#{{ $video->type }}</span>
+                                        <h3 class="blog-title line-clamp-2">
+                                            <a href="{{ $video->url }}" data-toggle="lightbox"
+                                                data-gallery="video-gallery"
+                                                data-title="{{ $video->name }}">{{ $video->name }}</a>
 
-                                    </h3>
-                                    <p class="line-clamp-3">{{ $video->content }}
-                                    </p>
-                                    <div class="blog-publice py-1">
-                                        <div class="row pb-1">
-                                            <div class="col-6 border-right">
-                                                <div class="d-flex align-items-center">
-                                                    <img src="{{ asset('public/frontend/images/icons/calender.png') }}"
-                                                        alt="">
-                                                    <div class="ms-2">
-                                                        <span class="d-block fw-semibold">Date:</span>
-                                                        <span
-                                                            class="blog-date-admin">{{ Carbon::parse($video->created_at)->format('d M') }}</span>
+                                        </h3>
+                                        <p class="line-clamp-3">{{ $video->content }}
+                                        </p>
+                                        <div class="blog-publice py-1">
+                                            <div class="row pb-1">
+                                                <div class="col-6 border-right">
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="{{ asset('public/frontend/images/icons/calender.png') }}"
+                                                            alt="">
+                                                        <div class="ms-2">
+                                                            <span class="d-block fw-semibold">Date:</span>
+                                                            <span
+                                                                class="blog-date-admin">{{ Carbon::parse($video->created_at)->format('d M') }}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="d-flex d-flex align-items-center">
-                                                    <img src="{{ asset('public/frontend/images/icons/profile.png') }}"
-                                                        alt="">
-                                                    <div class="ms-2">
-                                                        <span class="d-block fw-semibold">By:</span>
-                                                        <span class="blog-date-admin">{{ucfirst($video->addedBy->name)}}</span>
+                                                <div class="col-6">
+                                                    <div class="d-flex d-flex align-items-center">
+                                                        <img src="{{ asset('public/frontend/images/icons/profile.png') }}"
+                                                            alt="">
+                                                        <div class="ms-2">
+                                                            <span class="d-block fw-semibold">By:</span>
+                                                            <span
+                                                                class="blog-date-admin">{{ ucfirst($video->addedBy->name) }}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -707,11 +638,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @empty
-                    @endforelse
+                        @empty
+                        @endforelse
 
-                    {{-- <div class="item">
+                        {{-- <div class="item">
                         <div class="blog-card h-100">
                             <div class="blog-img">
                                 <a href="javascript:void(0)" data-bs-target="#exampleModalToggle"
@@ -825,22 +755,10 @@
                             </div>
                         </div>
                     </div> --}}
+                    </div>
                 </div>
-            </div>
-    </section>
+        </section>
+    @endif
     <!-- Video Section End  -->
-    <!-- Video Modal  -->
-    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-        tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <iframe src="https://www.youtube.com/embed/Q-Fr04F19G8" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
+
 @endsection

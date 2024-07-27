@@ -12,11 +12,16 @@ use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\Post\SubCategoryController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Content\PageController;
+use App\Http\Controllers\Frontend\Auth\FrontAuthController;
+use App\Http\Controllers\Frontend\Gallery\FrontendGalleryController;
+use App\Http\Controllers\Frontend\Member\MemberController;
 use App\Http\Middleware\adminMiddleware;
 use Illuminate\Support\Facades\Route;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 use App\Http\Controllers\Frontend\Page\PageController as FrontendPageController;
+use App\Http\Controllers\Member\MemberController as AdminMemberController;
 use App\Http\Controllers\Menu\MenuController;
+use App\Http\Controllers\Frontend\Post\PostController as FrontendPostController;
 
 Route::prefix('admin')->group(function () {
     Route::get('/', [AuthController::class, 'login'])->name('login');
@@ -48,24 +53,27 @@ Route::prefix('admin')->group(function () {
             Route::get('/', [MenuController::class, 'index'])->name('menu.index');
             // Route for storing the menu
             Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
+            Route::get('/get/post-type', [MenuController::class, 'getPostCat'])->name('menu.post.type');
         });
 
-            // page route start
-            Route::prefix('page')->group(function () {
-                Route::get('/', [PageController::class, 'index'])->name('admin.page');
-                Route::get('/slug-verify', [PageController::class, 'verifySlug'])->name('slug.verify');
-                Route::get('/edit/{id}', [PageController::class, 'edit'])->name('page.edit');
-                Route::post('/storeOrupdate-page', [PageController::class, 'storeOrUpdate'])->name('page.storeOrUpdate');
-                Route::post('page/toggle-visibility', [PageController::class, 'toggleVisibility'])->name('page.toggleVisibility');
-                Route::delete('/admin/content/page', [PageController::class, 'destroy'])->name('page.destroy');
-                // Route for getting the page list
-                Route::get('/menu/pages', [PageController::class, 'getPages'])->name('menu.pages');
-                Route::post('menu/update-order', [MenuController::class, 'updateOrder'])->name('menu.updateOrder');
-                Route::post('menu/create-or-remove-submenu', [MenuController::class, 'createOrRemoveSubmenu'])->name('menu.createOrRemoveSubmenu');
-                Route::post('menu/update-has-submenu', [MenuController::class, 'updateHasSubMenu'])->name('menu.updateHasSubMenu');
-                
-            });
-            // page route end
+        // page route start
+        Route::prefix('page')->group(function () {
+            Route::get('/', [PageController::class, 'index'])->name('admin.page');
+            Route::get('/slug-verify', [PageController::class, 'verifySlug'])->name('slug.verify');
+            Route::get('/edit/{id}', [PageController::class, 'edit'])->name('page.edit');
+            Route::post('/storeOrupdate-page', [PageController::class, 'storeOrUpdate'])->name('page.storeOrUpdate');
+            Route::post('page/toggle-visibility', [PageController::class, 'toggleVisibility'])->name('page.toggleVisibility');
+            Route::delete('/admin/content/page', [PageController::class, 'destroy'])->name('page.destroy');
+            // Route for getting the page list
+            Route::get('/menu/pages', [PageController::class, 'getPages'])->name('menu.pages');
+            Route::post('menu/update-order', [MenuController::class, 'updateOrder'])->name('menu.updateOrder');
+            Route::post('menu/create-or-remove-submenu', [MenuController::class, 'createOrRemoveSubmenu'])->name('menu.createOrRemoveSubmenu');
+            Route::post('menu/toggle-visibility', [MenuController::class, 'toggleVisibility'])->name('menu.toggleVisibility');
+            Route::post('menu/delete', [MenuController::class, 'delete'])->name('menu.delete');
+            Route::get('menu/edit', [MenuController::class, 'edit'])->name('menu.edit');
+            Route::post('menu/update', [MenuController::class, 'update'])->name('menu.update');
+        });
+        // page route end
 
         // banner route start
         Route::prefix('banner')->group(function () {
@@ -178,7 +186,67 @@ Route::prefix('admin')->group(function () {
             });
         });
         // media route end
+
+        // member route star
+        Route::prefix('member')->group(function () {
+            Route::get('/', [AdminMemberController::class, 'memberlist'])->name('member.list');
+            Route::get('/request', [AdminMemberController::class, 'memberRequest'])->name('member.request');
+            Route::get('/members/{id}/view', [AdminMemberController::class, 'view'])->name('member.view');
+            Route::post('/members/approved', [AdminMemberController::class, 'approved'])->name('member.approved');
+            Route::post('/members/suspend', [AdminMemberController::class, 'suspend'])->name('member.suspend');
+            Route::post('/members/reject', [AdminMemberController::class, 'reject'])->name('member.reject');
+
+            // Route::post('/view', [AdminMemberController::class, 'memberView'])->name('member.view');
+        });
+        // member route end
     });
 });
+
+// frontend route start
+
 Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
+
 Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('frontend.static.page');
+
+Route::get('/member/login', [FrontAuthController::class, 'login'])->name('frontend.login');
+Route::post('/login/post', [FrontAuthController::class, 'loginPost'])->name('frontend.login.post');
+
+
+Route::prefix('member')->group(function () {
+    Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
+    Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
+
+    Route::middleware(['auth.member'])->group(function () {
+        Route::get('/profile', [MemberController::class, 'memberProfile'])->name('member.profile');
+        Route::post('/profile', [MemberController::class, 'profileUpdate'])->name('member.profile.update');
+        Route::post('/profile/summary', [MemberController::class, 'profileUpdateSummary'])->name('member.profile.update.summary');
+        Route::post('/profile/social', [MemberController::class, 'profileUpdateSocial'])->name('member.profile.update.social');
+        Route::post('/profile/image', [MemberController::class, 'uploadProfileImage'])->name('upload.profile.image');
+        Route::get('/logout', [MemberController::class, 'logout'])->name('member.logout');
+    });
+
+    Route::get('/ours/member', [FrontAuthController::class, 'oursMember'])->name('frontend.ours.member');
+    Route::get('/{membership_id}', [FrontAuthController::class, 'profileShow'])->name('frontend.member.show');
+});
+
+// post routes start
+Route::get('/post/{categorySlug}', [FrontendPostController::class, 'index']);
+Route::get('/post/{categorySlug}/{postSlug}', [FrontendPostController::class, 'showSinglePost'])->name('single.post');
+
+Route::post('/comments', [FrontendPostController::class, 'storeComment'])->name('comments.store');
+Route::post('/replies', [FrontendPostController::class, 'storeReply'])->name('replies.store');
+Route::post('/reactions', [FrontendPostController::class, 'storeReaction'])->name('reactions.react');
+Route::post('/delete', [FrontendPostController::class, 'deleteCommentOrReply'])->name('commentOrReply.delete');
+// post routes end
+
+//photo gallery start
+Route::prefix('gallery')->group(function () {
+    Route::get('/photo', [FrontendGalleryController::class, 'photoGallery'])->name('frontend.photo.gallery');
+    Route::get('/photo/{id}', [FrontendGalleryController::class, 'singlePhotoGallery'])->name('singleAlbum');
+    Route::get('/video', [FrontendGalleryController::class, 'videoGallery'])->name('frontend.video.gallery');
+});
+
+//photo gallery end
+Route::get('/contact/us', [IndexController::class, 'contact'])->name('frontend.contact');
+
+// frontend route end

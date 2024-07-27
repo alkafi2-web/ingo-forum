@@ -24,6 +24,7 @@ class SystemController extends Controller
             'short_content' => 'required|string',
             'email' => 'nullable|string|email', // Added email validation
             'phone' => 'nullable|string', // Added phone validation (adjust as per your validation rules)
+            'address' => 'nullable|string', // Added phone validation (adjust as per your validation rules)
             'facebook' => ['nullable', 'string', 'url'],
             'linkedin' => ['nullable', 'string', 'url'],
             'youtube' => ['nullable', 'string', 'url'],
@@ -34,6 +35,7 @@ class SystemController extends Controller
             'name.string' => 'The name must be a string.',
             'short_content.required' => 'The short content field is required.',
             'short_content.string' => 'The short content must be a string.',
+            'address.string' => 'Address must be a string.',
             'email.string' => 'The email must be a string.',
             'email.email' => 'The email must be a valid email address.',
             'phone.string' => 'The phone must be a string.', // Adjust as per specific phone validation rules
@@ -62,6 +64,7 @@ class SystemController extends Controller
         $data = [
             'name' => $request->input('name'),
             'short_content' => $request->input('short_content'),
+            'address' => $request->input('address'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
             'facebook' => $request->input('facebook'),

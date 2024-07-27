@@ -1,0 +1,26 @@
+
+/* Custom CSS for pagination */
+.post-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    a{
+        color: green;
+        text-decoration: none;
+        font-style: normal;
+
+        &:hover {
+          background-color: #45a049!important;
+          color:#fff!important;
+        }
+    }
+    svg {
+      width: 20px;
+    }
+    nav {
+      div.flex-1.sm\:hidden {
+        display: none;
+      }
+    } 
+}
+/* end of pagination */

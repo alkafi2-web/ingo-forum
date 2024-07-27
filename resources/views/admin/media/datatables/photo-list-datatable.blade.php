@@ -5,6 +5,9 @@
         <!--begin::Table head-->
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
+                <th class="min-w-20px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                    <input type="checkbox" class="select-all">
+                </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Album Title') }}
                 </th>
@@ -30,6 +33,13 @@
 @push('custom-js')
     <script>
         $(document).ready(function() {
+            $('#photo-data').on('click', '.select-all', function() {
+                // Get the checked status of the select all checkbox
+                var isChecked = $(this).prop('checked');
+
+                // Update the checked status of all checkboxes in the table body
+                $('.selected-single').prop('checked', isChecked);
+            });
             var table = $('#photo-data').DataTable({
                 processing: true,
                 serverSide: true,
@@ -46,6 +56,20 @@
                     }
                 },
                 columns: [{
+                        orderable: false,
+                        searchable: false,
+                        data: null,
+                        render: function(data, type, row) {
+                            var checkboxHTML =
+                                '<input type="checkbox" name="enrollID[]" class="selected-single" value="' +
+                                row.id + '">';
+
+                            return checkboxHTML;
+                        },
+                        className: 'text-center',
+                        name: 'serial_number'
+                    },
+                    {
                         orderable: true,
                         sortable: false,
                         data: 'album_name',
@@ -98,11 +122,115 @@
                     // Page length, buttons, and search
                     "<'row'<'col-sm-12'tr>>" + // Table rows
                     "<'row'<'col-sm-5'i><'col-sm-7'p>>", // Information and pagination
-                buttons: [{
-                        extend: 'colvis',
-                        columns: ':not(:first-child)' // Exclude first column (serial)
+                    buttons: [
+                    {
+                        extend: 'collection',
+                        text: 'ডেলিভারি/এপ্রুভ',
+                        buttons: [{
+                                text: 'এপ্রুভ করুন',
+                                action: function(e, dt, node, config) {
+                                    var checkedValues = $('.selected-single:checked').map(
+                                        function() {
+                                            return this.value;
+                                        }).get();
+                                    console.log(checkedValues);
+                                    if (checkedValues.length === 0) {
+                                        toastr.error('কোন তথ্য সিলেক্ট করা নেই');
+                                    } else {
+                                        Swal.fire({
+                                            title: 'আপনি কি নিশ্চিত?',
+                                            text: 'সিলেক্টেড সকল নাগরিকদের উক্ত প্রোগ্রামের জন্য এপ্রুভ করুন!',
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'হ্যা, সাবমিট করছি!'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                $.ajax({
+                                                    url: "",
+                                                    type: 'POST',
+                                                    data: {
+                                                        enrollIDs: checkedValues,
+                                                        _token: '{{ csrf_token() }}'
+                                                    },
+                                                    success: function(
+                                                        response) {
+                                                        $('#enroll-req-datatable')
+                                                            .DataTable()
+                                                            .ajax.reload(
+                                                                null, true);
+                                                    },
+                                                    error: function(xhr, status,
+                                                        error) {
+                                                        toastr.error(xhr
+                                                            .responseText
+                                                        );
+                                                        // console.error(xhr.responseText);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                }
+                            },
+                            {
+                                text: 'ডেলিভারি করুন',
+                                action: function(e, dt, node, config) {
+                                    var checkedValues = $('.selected-single:checked').map(
+                                        function() {
+                                            return this.value;
+                                        }).get();
+
+                                    if (checkedValues.length === 0) {
+                                        toastr.error('কোন তথ্য সিলেক্ট করা নেই');
+                                    } else {
+
+                                        Swal.fire({
+                                            title: 'আপনি কি নিশ্চিত?',
+                                            text: 'আপনি সিলেক্টেড সকল নাগরিকদের বরাদ্দকৃত অনুদান প্রদান করছেন!',
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'হ্যা, সাবমিট করছি!'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                $.ajax({
+                                                    url: "",
+                                                    type: 'POST',
+                                                    data: {
+                                                        enrollIDs: checkedValues,
+                                                        _token: '{{ csrf_token() }}'
+                                                    },
+                                                    success: function(
+                                                        response) {
+                                                        console.log(
+                                                            response
+                                                        )
+                                                        $('#enroll-req-datatable')
+                                                            .DataTable()
+                                                            .ajax
+                                                            .reload(
+                                                                null,
+                                                                true);
+                                                    },
+                                                    error: function(xhr,
+                                                        status,
+                                                        error) {
+                                                        toastr.error(xhr
+                                                            .responseText
+                                                        );
+                                                        // console.error(xhr.responseText);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                },
+                            }
+                        ]
                     },
-                    // 'excel', 'print', 'copy'
                 ],
                 language: {
                     search: '<div class="input-group">' +

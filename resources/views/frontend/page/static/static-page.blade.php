@@ -1,5 +1,5 @@
 @extends('frontend.layouts.front-end-layout')
-@section('fontend-section')
+@section('frontend-section')
     <!-- Title Area start here  -->
     <section class="page-title-section">
         <div class="container">

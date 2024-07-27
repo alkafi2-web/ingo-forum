@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('parent_id')->default(0); // Position for ordering the menu items
             $table->string('type')->nullable(); // Type of menu item (e.g., page, route, URL, etc.)
             $table->unsignedBigInteger('page_id')->nullable(); // References the page associated with the menu item
+            $table->unsignedBigInteger('post_cat_id')->nullable(); // References post associated with the menu item
             $table->string('route')->nullable(); // Route name if the type is route
             $table->string('url')->nullable(); // URL if the type is URL
             $table->string('media')->nullable(); // Media associated with the menu item

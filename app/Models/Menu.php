@@ -30,6 +30,14 @@ class Menu extends Model
     {
         return $this->hasOne(Page::class, 'id', 'page_id');
     }
+
+    /**
+     * Get the page associated with the menu.
+     */
+    public function postCategory()
+    {
+        return $this->hasOne(PostCategory::class, 'id', 'post_cat_id');
+    }
     
     /**
      * Check if the page has a menu.

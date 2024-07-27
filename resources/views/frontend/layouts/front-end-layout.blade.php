@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>INGO Forum Bangladesh</title>
     <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
     <link
@@ -18,20 +19,21 @@
     <link rel="stylesheet" href="{{ asset('public/frontend/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/bootstrap.min.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/app.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body>
 
     <!-- Header Section Start  -->
     @include('frontend.partials.header')
+    {{-- @include('frontend.partials.breadcum') --}}
     <!-- Header Section end  -->
-    @yield('fontend-section')
+    @yield('frontend-section')
     <!-- footer Section Start  -->
     @include('frontend.partials.footer')
     <!-- footer Section End  -->
-
-
 
     <script src="{{ asset('public/frontend/js/jquery.min.js') }}"></script>
     <script src="{{ asset('public/frontend/js/bootstrap.bundle.min.js') }}"></script>
@@ -45,7 +47,12 @@
     <script src="{{ asset('public/frontend/js/slick-slider/slick.min.js') }}"></script>
     <script src="{{ asset('public/admin/js/ekko-lightbox.js') }}"></script>
     <script src="{{ asset('public/frontend/js/main.js') }}"></script>
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('public/js/share.js') }}"></script>
     <script>
+        
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
             event.preventDefault();
             $(this).ekkoLightbox({
@@ -56,6 +63,53 @@
             });
         });
     </script>
+    @stack('custom-js')
+    {!! Toastr::message() !!}
+    @if (session('success'))
+        <script>
+            toastr.success('{{ session('success') }}');
+        </script>
+    @endif
+
+    @if (session('info'))
+        <script>
+            toastr.info('{{ session('info') }}');
+        </script>
+    @endif
+
+    @if (session('warning'))
+        <script>
+            toastr.warning('{{ session('warning') }}');
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            toastr.error('{{ session('error') }}');
+        </script>
+    @endif
+
+    @if (session('failed'))
+        <script>
+            toastr.error('{{ session('failed') }}');
+        </script>
+    @endif
+
+    @if (session('errors'))
+        @foreach (session('errors') as $error)
+            <script>
+                toastr.error('{{ $error }}');
+            </script>
+        @endforeach
+    @endif
+
+    @if ($errors->any())
+        <script>
+            @foreach ($errors->all() as $error)
+                toastr.error('{{ $error }}');
+            @endforeach
+        </script>
+    @endif
 
 </body>
 

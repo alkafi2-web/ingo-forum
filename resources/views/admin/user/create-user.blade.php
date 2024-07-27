@@ -33,10 +33,7 @@
             </div>
         </div>
     </div>
-    
-@endsection
-
-@push('custom-js')
+    @push('custom-js')
     <script>
         $(document).ready(function() {
 
@@ -75,3 +72,6 @@
         });
     </script>
 @endpush
+@endsection
+
+

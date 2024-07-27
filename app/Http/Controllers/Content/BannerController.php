@@ -53,7 +53,7 @@ class BannerController extends Controller
 
             if (!File::exists($dir)) {
                 File::makeDirectory($dir, 0755, true);
-            }
+            } 
 
             // Resize the image to 415x415
             $img = Image::make($image)->fit(638, 549);
@@ -61,7 +61,7 @@ class BannerController extends Controller
 
             $data['image'] = $imageName;
         }
-        $data['added_by'] = Auth::user()->id;
+        $data['added_by'] = Auth::guard('admin')->user()->id;
         Banner::updateOrCreate(
             ['title' => $data['title']], // Adjust the condition as needed
             $data
@@ -147,7 +147,7 @@ class BannerController extends Controller
         }
 
         // Update banner data
-        $data['added_by'] = Auth::user()->id;
+        $data['added_by'] = Auth::guard('admin')->user()->id;
         $banner->update($data);
 
         return response()->json(['success' => ['success' => 'Banner updated successfully']]);

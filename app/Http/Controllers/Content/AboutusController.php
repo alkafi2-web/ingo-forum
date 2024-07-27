@@ -86,11 +86,10 @@ class AboutusController extends Controller
     public function aboutusFeatureCreate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'icon' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'subtitle' => 'required|string|max:255',
             'title' => 'required|string|max:255',
         ], [
-            'icon.required' => 'The feature icon is required.',
             'icon.image' => 'The feature icon must be an image file.',
             'icon.mimes' => 'The feature icon must be a file of type: jpeg, png, jpg, gif, svg.',
             'icon.max' => 'The feature icon must not be greater than 2MB.',
@@ -108,15 +107,15 @@ class AboutusController extends Controller
             ], 422);
         }
 
-        if ($request->hasFile('icon')) {
-            $image = $request->icon;
-            $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
-            $dir = public_path('/frontend/images/icons/');
-            if (!File::exists($dir)) {
-                File::makeDirectory($dir, 0755, true);
-            }
-            $image->move($dir, $imageName);
-        }
+        // if ($request->hasFile('icon')) {
+        //     $image = $request->icon;
+        //     $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
+        //     $dir = public_path('/frontend/images/icons/');
+        //     if (!File::exists($dir)) {
+        //         File::makeDirectory($dir, 0755, true);
+        //     }
+        //     $image->move($dir, $imageName);
+        // }
 
         // Fetch existing aboutus-feature content
         $aboutus = MainContent::where('name', 'aboutus-feature')->first();
@@ -128,7 +127,7 @@ class AboutusController extends Controller
 
         // Add new feature to the features array
         $newFeature = [
-            'icon_name' => $imageName ?? null,
+            // 'icon_name' => $imageName ?? null,
             'subtitle' => $request->input('subtitle'),
             'title' => $request->input('title'),
             'status' => 0,
@@ -158,7 +157,7 @@ class AboutusController extends Controller
                     $featuresArray[] = [
                         'title' => $feature['title'],
                         'subtitle' => $feature['subtitle'],
-                        'icon' => $feature['icon_name'],
+                        // 'icon' => $feature['icon_name'],
                         'status' => $feature['status'],
                     ];
                 }
@@ -186,11 +185,11 @@ class AboutusController extends Controller
                     if ($feature['title'] === $title) {
                         $found = true;
 
-                        // Delete the icon file
-                        $iconPath = public_path('/frontend/images/icons/') . $feature['icon_name'];
-                        if (File::exists($iconPath)) {
-                            File::delete($iconPath);
-                        }
+                        // // Delete the icon file
+                        // $iconPath = public_path('/frontend/images/icons/') . $feature['icon_name'];
+                        // if (File::exists($iconPath)) {
+                        //     File::delete($iconPath);
+                        // }
 
                         // Return false to remove this feature from the array
                         return false;
@@ -312,23 +311,23 @@ class AboutusController extends Controller
                         $feature['subtitle'] = $subtitle;
 
                         // Check if there's a new icon file
-                        if ($request->hasFile('icon')) {
-                            // Delete the old icon file
-                            if ($feature['icon_name']) {
-                                $oldIconPath = public_path('/frontend/images/icons/') . $feature['icon_name'];
-                                if (File::exists($oldIconPath)) {
-                                    File::delete($oldIconPath);
-                                }
-                            }
+                        // if ($request->hasFile('icon')) {
+                        //     // Delete the old icon file
+                        //     if ($feature['icon_name']) {
+                        //         $oldIconPath = public_path('/frontend/images/icons/') . $feature['icon_name'];
+                        //         if (File::exists($oldIconPath)) {
+                        //             File::delete($oldIconPath);
+                        //         }
+                        //     }
 
-                            // Upload and store the new icon file
-                            $icon = $request->file('icon');
-                            $imageName = Str::uuid() . '.' . $icon->getClientOriginalExtension();
-                            $dir = public_path('/frontend/images/icons/');
-                            $icon->move($dir, $imageName);
+                        //     // Upload and store the new icon file
+                        //     $icon = $request->file('icon');
+                        //     $imageName = Str::uuid() . '.' . $icon->getClientOriginalExtension();
+                        //     $dir = public_path('/frontend/images/icons/');
+                        //     $icon->move($dir, $imageName);
 
-                            $feature['icon_name'] = $imageName;
-                        }
+                        //     $feature['icon_name'] = $imageName;
+                        // }
 
                         break;
                     }

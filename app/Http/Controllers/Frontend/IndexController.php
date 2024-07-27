@@ -12,4 +12,12 @@ class IndexController extends Controller
         return view('frontend.index');
         // return view('frontend.page.static.static-layout');
     }
+    
+    public function contact()
+    {
+        return view('frontend.contact');
+    }
+    
+
+
 }

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Stevebauman\Purify\Facades\Purify;
+use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
 {
@@ -32,7 +33,7 @@ class PostController extends Controller
             'subcategory' => 'required',
             'title' => 'required|string|max:255',
             'slug' => [
-                'nullable',
+                'required',
                 'string',
                 'max:255',
                 'unique:posts',
@@ -54,6 +55,7 @@ class PostController extends Controller
             'banner.image' => 'Banner must be an image file.',
             'banner.mimes' => 'Banner must be a JPEG, PNG, JPG, or GIF image.',
             'banner.max' => 'Banner size should not exceed 2MB.',
+            'banner.dimensions' => 'Banner must be 800px by 450px.',
         ]);
         // Check validation results
         if ($validator->fails()) {
@@ -69,17 +71,19 @@ class PostController extends Controller
                 File::makeDirectory($dir, 0755, true);
             }
             // Move new image to directory
-            $banner->move($dir, $bannerName);
+            // $banner->move($dir, $bannerName);
+            $img = Image::make($banner);
+            $img->save($dir . $bannerName);
         }
         Post::create([
             'category_id' => $request->category,
             'sub_category_id' => $request->subcategory,
             'title' => $request->title,
             'slug' => $request->slug ?? Str::slug($request->title, '-'),
-            'short_des' => $request->short_description,
+            // 'short_des' => $request->short_description,
             'long_des' => $request->long_description,
             'banner' => $bannerName,
-            'added_by' => Auth::user()->id,
+            'added_by' => Auth::guard('admin')->user()->id,
         ]);
         return response()->json(['success' => ['success' => 'Post Added Successfully']]);
     }
@@ -92,6 +96,9 @@ class PostController extends Controller
             return DataTables::of($posts)
                 ->addColumn('category_name', function ($post) {
                     return $post->category->name;
+                })
+                ->addColumn('category_slug', function ($post) {
+                    return $post->category->slug;
                 })
                 ->addColumn('subcategory_name', function ($post) {
                     return $post->subcategory->name;
@@ -167,7 +174,7 @@ class PostController extends Controller
                 'regex:/^[a-zA-Z0-9\-]*$/u',
             ],
             'long_description' => 'required|string',
-            // 'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
+            'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
         ], [
             // Custom error messages
             'category.required' => 'Category is required.',
@@ -180,6 +187,7 @@ class PostController extends Controller
             'banner.image' => 'Banner must be an image file.',
             'banner.mimes' => 'Banner must be a JPEG, PNG, JPG, or GIF image.',
             'banner.max' => 'Banner size should not exceed 2MB.',
+            'banner.dimensions' => 'Banner must be 800px by 450px.',
         ]);
 
         // Check validation results
@@ -210,7 +218,7 @@ class PostController extends Controller
         $post->sub_category_id = $request->subcategory;
         $post->title = $request->title;
         $post->slug = $request->slug ?? Str::slug($request->title, '-');
-        $post->short_des = $request->short_description;
+        // $post->short_des = $request->short_description;
         $post->long_des = $request->long_description;
         if ($bannerName) {
             $post->banner = $bannerName;

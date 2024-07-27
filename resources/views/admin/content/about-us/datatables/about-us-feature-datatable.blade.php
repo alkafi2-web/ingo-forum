@@ -5,9 +5,9 @@
         <!--begin::Table head-->
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                {{-- <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Feature Icon') }}
-                </th>
+                </th> --}}
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Feature Sub Title') }}
                 </th>
@@ -43,16 +43,16 @@
                     }
                 },
                 columns: [
-                    {
-                        data: 'icon',
-                        name: 'icon',
-                        orderable: true,
-                        sortable: false,
-                        render: function(data, type, row) {
-                            let basePath = '{{ asset('public/frontend/images/icons/') }}/'
-                            return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
-                        }
-                    },
+                    // {
+                    //     data: 'icon',
+                    //     name: 'icon',
+                    //     orderable: true,
+                    //     sortable: false,
+                    //     render: function(data, type, row) {
+                    //         let basePath = '{{ asset('public/frontend/images/icons/') }}/'
+                    //         return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
+                    //     }
+                    // },
                     {
                         orderable: true,
                         sortable: false,

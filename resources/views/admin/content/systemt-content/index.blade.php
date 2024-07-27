@@ -34,6 +34,14 @@
                             </div>
                         </div>
                         <div class="row mb-3">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="address" class="text-3xl required">Address </label>
+                                    <input type="text" class="form-control" id="address" name="address" value="{{ old('address') ?? $global['address']  }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="email" class="text-3xl">Email</label>
