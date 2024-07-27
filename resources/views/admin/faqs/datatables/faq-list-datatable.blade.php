@@ -40,18 +40,13 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 },
-                columns: [{
+                columns: [
+                    {
                         orderable: true,
                         sortable: false,
                         data: 'question',
                         name: 'question'
                     },
-                    // {
-                    //     orderable: true,
-                    //     sortable: false,
-                    //     data: 'answer',
-                    //     name: 'answer'
-                    // },
                     {
                         orderable: true,
                         sortable: false,
@@ -68,7 +63,6 @@
                         orderable: true,
                         sortable: false,
                         render: function(data, type, row) {
-
                             return `<span class="status badge badge-light-${data == 1 ? 'success' : 'danger'}" data-status="${data}" data-id="${row.id}">${data == 1 ? 'Active' : 'Deactive'}</span>`;
                         }
                     },

@@ -51,7 +51,7 @@
                         var answer = CKEDITOR.instances['answer'];
                         answer.setData('');
                         answer.focus();
-                        $('#banner-data').DataTable().ajax.reload(null, false);
+                        $('#faq-data').DataTable().ajax.reload(null, false);
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;

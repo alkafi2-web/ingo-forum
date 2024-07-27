@@ -19,6 +19,10 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             MenuSeeder::class,
             FaqsTableSeeder::class,
+            MainContentsTableSeeder::class,
+            PostSeeder::class,
+            MediaGallerySeeder::class,
+            BannerSeeder::class,
         ]);
     }
 }

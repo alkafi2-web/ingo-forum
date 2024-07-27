@@ -16,12 +16,11 @@
                                 <div class="col-lg-6 hero-left mb-2 lg-mb-0">
                                     <h1>{{ $banner->title }}</h1>
                                     <p class="pb-3">{{ $banner->description }}</p>
-                                    <a href="" class="ct-btn btn-yellow">Be a Member</a>
+                                    <a href="{{route('member')}}" class="ct-btn btn-yellow">Be a Member</a>
                                 </div>
                                 <div class="col-lg-6 hero-right">
                                     <img src="{{ asset('public/frontend/images/banner/') }}/{{ $banner->image }}"
                                         alt="">
-                                    {{-- <img src="{{ asset('public/frontend/images/hero-img.png') }}" alt=""> --}}
                                 </div>
                             </div>
                         </div>
@@ -135,7 +134,7 @@
                         </h2>
                         <h4>{{ $global['aboutus_content']->slogan ?? 'Please Upload It From Admin' }}</h4>
                         <p>
-                            {{ $global['aboutus_content']->description ?? 'Please Upload It From Admin' }}
+                            {!! $global['aboutus_content']->description ?? 'Please Upload It From Admin' !!}
                         </p>
                         <a href="" class="ct-btn btn-yellow">Be a Member</a>
                     </div>

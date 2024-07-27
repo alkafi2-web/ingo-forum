@@ -63,7 +63,6 @@
                             var checkboxHTML =
                                 '<input type="checkbox" name="enrollID[]" class="selected-single" value="' +
                                 row.id + '">';
-
                             return checkboxHTML;
                         },
                         className: 'text-center',
@@ -81,7 +80,7 @@
                         orderable: true,
                         sortable: false,
                         render: function(data, type, row) {
-                            let basePath = '{{ asset('public/frontend/images/photo-gallery/') }}/'
+                            let basePath = '{{ asset('public/frontend/images/photo-gallery/') }}/';
                             return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
                         }
                     },
@@ -91,7 +90,6 @@
                         orderable: true,
                         sortable: false,
                         render: function(data, type, row) {
-
                             return `<span class="status badge badge-light-${data == 1 ? 'success' : 'danger'}" data-status="${data}" data-id="${row.id}">${data == 1 ? 'Active' : 'Deactive'}</span>`;
                         }
                     },
@@ -102,136 +100,128 @@
                         searchable: false,
                         render: function(data, type, row) {
                             return `
-                            <a href="javascript:void(0)" class="edit text-primary mr-2 me-2 " data-id="${row.id}">
-                                <i class="fas fa-edit text-primary" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
-                            </a>
-                            <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}">
-                                <i class="fas fa-trash text-danger" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
-                            </a>`;
+                    <a href="javascript:void(0)" class="edit text-primary mr-2 me-2 " data-id="${row.id}">
+                        <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
+                    </a>
+                    <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}">
+                        <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
+                    </a>`;
                         }
                     }
-
-
                 ],
                 lengthMenu: [
                     [5, 10, 30, 50, -1],
                     [5, 10, 30, 50, "All"]
-                ], // Add 'All' option
-                pageLength: 5, // Set default page length
-                dom: "<'row'<'col-sm-4'l><'col-sm-4 d-flex justify-content-center'B><'col-sm-4'f>>" +
-                    // Page length, buttons, and search
-                    "<'row'<'col-sm-12'tr>>" + // Table rows
-                    "<'row'<'col-sm-5'i><'col-sm-7'p>>", // Information and pagination
-                    buttons: [
-                    {
-                        extend: 'collection',
-                        text: 'ডেলিভারি/এপ্রুভ',
-                        buttons: [{
-                                text: 'এপ্রুভ করুন',
-                                action: function(e, dt, node, config) {
-                                    var checkedValues = $('.selected-single:checked').map(
-                                        function() {
-                                            return this.value;
-                                        }).get();
-                                    console.log(checkedValues);
-                                    if (checkedValues.length === 0) {
-                                        toastr.error('কোন তথ্য সিলেক্ট করা নেই');
-                                    } else {
-                                        Swal.fire({
-                                            title: 'আপনি কি নিশ্চিত?',
-                                            text: 'সিলেক্টেড সকল নাগরিকদের উক্ত প্রোগ্রামের জন্য এপ্রুভ করুন!',
-                                            icon: 'warning',
-                                            showCancelButton: true,
-                                            confirmButtonColor: '#3085d6',
-                                            cancelButtonColor: '#d33',
-                                            confirmButtonText: 'হ্যা, সাবমিট করছি!'
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                $.ajax({
-                                                    url: "",
-                                                    type: 'POST',
-                                                    data: {
-                                                        enrollIDs: checkedValues,
-                                                        _token: '{{ csrf_token() }}'
-                                                    },
-                                                    success: function(
-                                                        response) {
-                                                        $('#enroll-req-datatable')
-                                                            .DataTable()
-                                                            .ajax.reload(
-                                                                null, true);
-                                                    },
-                                                    error: function(xhr, status,
-                                                        error) {
-                                                        toastr.error(xhr
-                                                            .responseText
-                                                        );
-                                                        // console.error(xhr.responseText);
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                }
-                            },
-                            {
-                                text: 'ডেলিভারি করুন',
-                                action: function(e, dt, node, config) {
-                                    var checkedValues = $('.selected-single:checked').map(
-                                        function() {
-                                            return this.value;
-                                        }).get();
-
-                                    if (checkedValues.length === 0) {
-                                        toastr.error('কোন তথ্য সিলেক্ট করা নেই');
-                                    } else {
-
-                                        Swal.fire({
-                                            title: 'আপনি কি নিশ্চিত?',
-                                            text: 'আপনি সিলেক্টেড সকল নাগরিকদের বরাদ্দকৃত অনুদান প্রদান করছেন!',
-                                            icon: 'warning',
-                                            showCancelButton: true,
-                                            confirmButtonColor: '#3085d6',
-                                            cancelButtonColor: '#d33',
-                                            confirmButtonText: 'হ্যা, সাবমিট করছি!'
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                $.ajax({
-                                                    url: "",
-                                                    type: 'POST',
-                                                    data: {
-                                                        enrollIDs: checkedValues,
-                                                        _token: '{{ csrf_token() }}'
-                                                    },
-                                                    success: function(
-                                                        response) {
-                                                        console.log(
-                                                            response
-                                                        )
-                                                        $('#enroll-req-datatable')
-                                                            .DataTable()
-                                                            .ajax
-                                                            .reload(
-                                                                null,
-                                                                true);
-                                                    },
-                                                    error: function(xhr,
-                                                        status,
-                                                        error) {
-                                                        toastr.error(xhr
-                                                            .responseText
-                                                        );
-                                                        // console.error(xhr.responseText);
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                },
-                            }
-                        ]
-                    },
                 ],
+                pageLength: 5,
+                dom: "<'row'<'col-sm-4'l><'col-sm-4 d-flex justify-content-center'B><'col-sm-4'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                buttons: [{
+                    extend: 'collection',
+                    text: 'Actions',
+                    buttons: [{
+                            text: 'Approve Selected',
+                            action: function(e, dt, node, config) {
+                                var checkedValues = $('.selected-single:checked').map(
+                                    function() {
+                                        return this.value;
+                                    }).get();
+
+                                if (checkedValues.length === 0) {
+                                    toastr.error('No items selected.');
+                                } else {
+                                    Swal.fire({
+                                        title: 'Are you sure?',
+                                        text: 'Approve selected items!',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Yes, approve!'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            $.ajax({
+                                                url: "",
+                                                type: 'POST',
+                                                data: {
+                                                    ids: checkedValues,
+                                                    _token: '{{ csrf_token() }}'
+                                                },
+                                                success: function(
+                                                response) {
+                                                    table.ajax.reload(
+                                                        null, false);
+                                                    toastr.success(
+                                                        'Items approved successfully.'
+                                                        );
+                                                },
+                                                error: function(xhr, status,
+                                                    error) {
+                                                    toastr.error(
+                                                        'Error: ' +
+                                                        xhr
+                                                        .responseText
+                                                        );
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        },
+                        {
+                            text: 'Deliver Selected',
+                            action: function(e, dt, node, config) {
+                                var checkedValues = $('.selected-single:checked').map(
+                                    function() {
+                                        return this.value;
+                                    }).get();
+
+                                if (checkedValues.length === 0) {
+                                    toastr.error('No items selected.');
+                                } else {
+                                    Swal.fire({
+                                        title: 'Are you sure?',
+                                        text: 'Deliver selected items!',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Yes, deliver!'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            $.ajax({
+                                                url: "",
+                                                type: 'POST',
+                                                data: {
+                                                    ids: checkedValues,
+                                                    _token: '{{ csrf_token() }}'
+                                                },
+                                                success: function(
+                                                response) {
+                                                    table.ajax.reload(
+                                                        null, false);
+                                                    toastr.success(
+                                                        'Items delivered successfully.'
+                                                        );
+                                                },
+                                                error: function(xhr, status,
+                                                    error) {
+                                                    toastr.error(
+                                                        'Error: ' +
+                                                        xhr
+                                                        .responseText
+                                                        );
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    ]
+                }],
                 language: {
                     search: '<div class="input-group">' +
                         '<span class="input-group-text">' +
@@ -245,18 +235,12 @@
                         searchable: true
                     },
                     {
-                        targets: -1, // Target the last column (actions column)
-                        className: 'text-center', // Optional: Center align the content in this column
-                    },
-                    {
-                        targets: '_all',
-                        searchable: true,
-                        orderable: true
+                        targets: -1,
+                        className: 'text-center'
                     }
-                ],
-                // responsive: true,
-
+                ]
             });
+
             $('#album_filter, #status_filter').on('change', function() {
                 table.ajax.reload(null, false);
             });
