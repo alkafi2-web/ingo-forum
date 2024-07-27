@@ -1,11 +1,11 @@
 <!-- Contenedor Principal -->
 <div class="comments-container">
-    <h1>Comment <a href="javascript:void(0)">INGO Forum</a></h1>
+    <h5><i class="fas fa-share"></i>&nbsp;Share your thought</h5>
     <form action="javascript:void(0)" id="comment-form" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="post_id" value="{{ $post->id }}">
         <div class="form d-flex align-items-center">
             <img src="{{ asset('public/frontend/images/icons/avatar.png') }}" style="height: 38px;" alt="Your avatar" class="form__avatar">
-            <input type="text" name="comment_text" id="comment_text" class="form-control bg-white" placeholder="Write your comment here">
+            <input type="text" name="comment_text" id="comment_text" class="form-control bg-white" placeholder="Write your opinion here">
             <button class="commentBtn border-0 bg-white" type="submit"><i class="fas fa-paper-plane"></i></button>
         </div>
     </form>

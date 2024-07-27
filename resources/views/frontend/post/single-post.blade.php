@@ -33,7 +33,7 @@
 
 <!-- main section start here -->
 <section class="bg-gray ptb-50">
-  <div class="container">
+  <div class="container single-post-container">
     <div class="row">
       <div class="col-lg-8">
         <div class="single-blog-content">
@@ -41,21 +41,23 @@
                 <img src="{{ asset("public/frontend/images/posts/{$post->banner}") }}" alt="" class="w-100">
             </div>
             <div class="single-blog-details pt-4">
-                <h2 class="single-post-title pb-1">{{ $post->title }}</h2>
+                <h2 class="single-post-title pb-1 fw-bold">{{ $post->title }}</h2>
+                <h5 class="text-dark fw-bold author-name"><i class="fas fa-pen-nib"></i>&nbsp;{{ $post->addedBy->name }}</h5>
+                <div class="w-100 d-flex justify-content-between">
+                  <h6 class="m-0 publish-title d-flex align-items-center"><i class="fas fa-globe-asia"></i>&nbsp; {{ $post->created_at->format('d F Y h:i A') }}</h6>
+                  <div class="social-link-wrapper d-flex align-items-center justify-content-end">
+                    {!! Share::page(url()->current(), $post->title)
+                        ->facebook()
+                        ->twitter()
+                        ->linkedin()
+                        ->whatsapp(); !!}
+                  </div>
+                </div>
+                <hr class="mt-1">
                 <div style="text-align: justify;">
                     {!! $post->long_des !!}
                 </div>
             </div>
-            <h4>Share this post:</h4>
-            <div class="social-share-links pt-4">
-              <h4>Share this post:</h4>
-              {!! Share::page(url()->current(), $post->title)
-                  ->facebook('<i class="fab fa-facebook"></i>')
-                  ->twitter('<i class="fab fa-twitter"></i>')
-                  ->linkedin('<i class="fab fa-linkedin"></i>')
-                  ->whatsapp('<i class="fab fa-whatsapp"></i>'); !!}
-          </div>
-          
             <div class="comment-wrapper w-100">
                 @include('frontend.post.partials.comment-box')
             </div>
