@@ -29,8 +29,8 @@ class MediaGallerySeeder extends Seeder
             [
                 'id' => 2,
                 'title' => 'Demo 2',
-                'content' => 'Demo 2',
-                'subcontent' => 'Demo 2',
+                'content' => 'Demo Album 2',
+                'subcontent' => 'Demo Album 2',
                 'albumtype' => 'photo',
                 'status' => 1,
                 'added_by' => 1,
@@ -40,8 +40,8 @@ class MediaGallerySeeder extends Seeder
             [
                 'id' => 3,
                 'title' => 'Demo 3',
-                'content' => 'Demo 3',
-                'subcontent' => 'Demo 3',
+                'content' => 'Demo Album 3',
+                'subcontent' => 'Demo Album 3',
                 'albumtype' => 'photo',
                 'status' => 1,
                 'added_by' => 1,
@@ -54,7 +54,7 @@ class MediaGallerySeeder extends Seeder
             [
                 'id' => 1,
                 'type' => 'photo',
-                'album_id' => rand(1, 3),
+                'album_id' => 1,
                 'name' => null,
                 'media' => 'gallery1.png',
                 'mob_media' => null,
@@ -71,7 +71,7 @@ class MediaGallerySeeder extends Seeder
             [
                 'id' => 2,
                 'type' => 'photo',
-                'album_id' => rand(1, 3),
+                'album_id' => 2,
                 'name' => null,
                 'media' => 'gallery2.png',
                 'mob_media' => null,
@@ -88,7 +88,7 @@ class MediaGallerySeeder extends Seeder
             [
                 'id' => 3,
                 'type' => 'photo',
-                'album_id' => rand(1, 3),
+                'album_id' => 3,
                 'name' => null,
                 'media' => 'gallery3.png',
                 'mob_media' => null,
@@ -105,7 +105,7 @@ class MediaGallerySeeder extends Seeder
             [
                 'id' => 4,
                 'type' => 'photo',
-                'album_id' => rand(1, 3),
+                'album_id' => 1,
                 'name' => null,
                 'media' => 'gallery1.png',
                 'mob_media' => null,
@@ -122,7 +122,7 @@ class MediaGallerySeeder extends Seeder
             [
                 'id' => 5,
                 'type' => 'photo',
-                'album_id' => rand(1, 3),
+                'album_id' => 2,
                 'name' => null,
                 'media' => 'gallery2.png',
                 'mob_media' => null,
@@ -139,7 +139,7 @@ class MediaGallerySeeder extends Seeder
             [
                 'id' => 6,
                 'type' => 'photo',
-                'album_id' => rand(1, 3),
+                'album_id' => 3,
                 'name' => null,
                 'media' => 'gallery3.png',
                 'mob_media' => null,
@@ -156,7 +156,7 @@ class MediaGallerySeeder extends Seeder
             [
                 'id' => 7,
                 'type' => 'photo',
-                'album_id' => rand(1, 3),
+                'album_id' => 1,
                 'name' => null,
                 'media' => 'gallery3.png',
                 'mob_media' => null,
@@ -173,7 +173,7 @@ class MediaGallerySeeder extends Seeder
             [
                 'id' => 8,
                 'type' => 'photo',
-                'album_id' => rand(1, 3),
+                'album_id' => 2,
                 'name' => null,
                 'media' => 'gallery2.png',
                 'mob_media' => null,
@@ -190,7 +190,7 @@ class MediaGallerySeeder extends Seeder
             [
                 'id' => 9,
                 'type' => 'photo',
-                'album_id' => rand(1, 3),
+                'album_id' => 3,
                 'name' => null,
                 'media' => 'gallery1.png',
                 'mob_media' => null,
