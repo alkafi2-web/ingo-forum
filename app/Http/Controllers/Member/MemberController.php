@@ -14,7 +14,20 @@ class MemberController extends Controller
     {
         // return $members = Member::where('status', 0)->with('memberInfos')->get();
         if ($request->ajax()) {
+            $organizationType = $request->organization;
+            $statusFilter = $request->status_filter;
             $members = Member::with('memberInfos')->get();
+            // If organization type is provided, filter the members
+            if (!empty($organizationType)) {
+                $members = $members->filter(function($member) use ($organizationType) {
+                    return $member->memberInfos->first() && $member->memberInfos->first()->organisation_type == $organizationType;
+                });
+            }
+            if ($statusFilter !== null && $statusFilter !== '') {
+                $members = $members->filter(function($member) use ($statusFilter) {
+                    return $member->status == $statusFilter;
+                });
+            }
             return DataTables::of($members)
                 ->addColumn('organisation_name', function ($member) {
                     return optional($member->memberInfos->first())->organisation_name ?? 'N/A';

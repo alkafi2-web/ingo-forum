@@ -29,15 +29,17 @@
 </form>
 @push('custom-js')
     <script>
+        CKEDITOR.replace('ab_des');
         $(document).ready(function() {
             $('#about-us-submit').on('click', function(e) {
                 e.preventDefault();
                 let url = "{{ route('aboutus.create') }}";
                 let title = $('#title').val();
                 let slogan = $('#slogan').val();
-                let description = $('#ab_des').val();
+                // let description = $('#ab_des').val();
                 let formData = new FormData(); // Create FormData object
-
+                let description = CKEDITOR.instances['ab_des'].getData();
+                formData.append('description', description);
                 formData.append('title', title);
                 formData.append('slogan', slogan);
                 formData.append('description', description);

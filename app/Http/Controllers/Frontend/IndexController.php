@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Faqs;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
@@ -17,6 +18,12 @@ class IndexController extends Controller
     {
         return view('frontend.contact');
     }
+    public function faqs()
+    {
+        $faqs = Faqs::where('status',1)->get();
+        return view('frontend.faqs.faqs',compact('faqs'));
+    }
+
     
 
 

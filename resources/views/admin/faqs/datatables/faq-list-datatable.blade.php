@@ -1,21 +1,21 @@
 <div class="table-responsive table-container">
     <!--begin::Table-->
     <table class="table election-datatable align-middle table-bordered fs-6 gy-5 m-auto display responsive"
-        id="about-us-data">
+        id="faq-data">
         <!--begin::Table head-->
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('About Us Title') }}
-                </th>
-                <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
-                    {{ __('About Us Slogan') }}
+                    {{ __('Question') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('About Us Description') }}
+                    {{ __('Answer') }}
                 </th>
-                {{-- <th class="text-end min-w-140px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
-                    {{ __('Action') }}</th> --}}
+                <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                    {{ __('Status') }}
+                </th>
+                <th class="text-end min-w-140px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
+                    {{ __('Action') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -30,38 +30,59 @@
 @push('custom-js')
     <script>
         $(document).ready(function() {
-            var table = $('#about-us-data').DataTable({
+            var table = $('#faq-data').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('aboutus') }}",
+                    url: "{{ route('faqs') }}",
                     type: 'GET',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 },
-                columns: [{
+                columns: [
+                    {
                         orderable: true,
                         sortable: false,
-                        data: 'title',
-                        name: 'title'
+                        data: 'question',
+                        name: 'question'
                     },
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'slogan',
-                        name: 'slogan'
-                    },
-                    {
-                        orderable: true,
-                        sortable: false,
-                        data: 'description',
-                        name: 'description',
+                        data: 'answer',
+                        name: 'answer',
                         render: function(data, type, row, meta) {
                             console.log("Render Function Data: ", data);
                             return $('<div/>').html(data).text();
                         }
                     },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: true,
+                        sortable: false,
+                        render: function(data, type, row) {
+                            return `<span class="status badge badge-light-${data == 1 ? 'success' : 'danger'}" data-status="${data}" data-id="${row.id}">${data == 1 ? 'Active' : 'Deactive'}</span>`;
+                        }
+                    },
+                    {
+                        data: null,
+                        name: 'actions',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            return `
+                            <a href="javascript:void(0)" class="edit text-primary mr-2 me-2 " data-id="${row.id}">
+                                <i class="fas fa-edit text-primary" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
+                            </a>
+                            <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}">
+                                <i class="fas fa-trash text-danger" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
+                            </a>`;
+                        }
+                    }
+
+
                 ],
                 lengthMenu: [
                     [5, 10, 30, 50, -1],
@@ -103,44 +124,12 @@
                 // responsive: true,
 
             });
-
-            function updateCustomInputFields() {
-                // Get all data from the DataTable
-                var data = table.rows().data();
-
-                // Example: Update your custom input fields with the first row's data
-                if (data.length > 0) {
-                    var firstRowData = data[0]; // Access the first row's data
-
-                    // Example: Update your custom input fields
-                    $('#title').val(firstRowData.title);
-                    $('#slogan').val(firstRowData.slogan);
-
-                    // Clean and set CKEditor content
-                    if (CKEDITOR.instances['ab_des']) {
-                        // Decode HTML entities if needed
-                        var cleanData = $('<div/>').html(firstRowData.description).text();
-
-                        CKEDITOR.instances['ab_des'].setData(cleanData);
-                    }
-
-                    $('#add-header').text('Update About us Content');
-                }
-            }
-
-            // Call the function to update input fields initially
-            updateCustomInputFields();
-
-            // Optionally, you might want to update input fields whenever the table redraws (e.g., after sorting or pagination)
-            table.on('draw', function() {
-                updateCustomInputFields();
-            });
         });
         $(document).on('click', '.edit', function(e) {
             e.preventDefault(); // Prevent default link behavior
 
-
-            var url = "{{ route('aboutuscontent.edit') }}";
+            var id = $(this).attr('data-id');
+            var url = "{{ route('faqs.edit') }}";
             $.ajax({
                 url: url,
                 type: 'POST', // or 'GET' depending on your server endpoint
@@ -148,21 +137,21 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data: {
-                    name: 'aboutus'
+                    id: id
                 }, // You can send additional data if needed
                 success: function(response) {
-                    console.log(response);
-                    // console.log(response.banner);
-                    // var banner = response.banner;
-                    // $('#add-header').text('Update Banner Content');
-                    // $('#title').val(banner.title);
-                    // $('#b_des').val(banner.description);
-                    // let basePath = '{{ asset('public/frontend/images/banner/') }}/'
-                    // var imagePath = basePath + banner.image;
-                    // $('#pp').attr('src', imagePath);
-                    // $('#banner-update').removeClass('d-none');
-                    // $('#banner-update').attr('data-id',banner.id);
-                    // $('#banner-submit').addClass('d-none');
+                    console.log(response.faq);
+                    var faq = response.faq;
+                    $('#add-header').text('Update FAQ Content');
+                    $('#question').val(faq.question);
+                    $('#answer').val(faq.answer);
+                    var answer = CKEDITOR.instances['answer'];
+                    answer.setData(faq.answer);
+                    answer.focus();
+                    $('#faq-update').removeClass('d-none');
+                    $('#faq-update').attr('data-id', faq.id);
+                    $('#faq-submit').addClass('d-none');
+                    $('#page-refresh').removeClass('d-none');
                 },
                 error: function(xhr, status, error) {
                     // Handle AJAX error
@@ -174,7 +163,7 @@
             e.preventDefault(); // Prevent default link behavior
 
             var id = $(this).attr('data-id');
-            var url = "{{ route('banner.delete') }}";
+            var url = "{{ route('faqs.delete') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
@@ -198,7 +187,7 @@
 
             var id = $(this).attr('data-id'); // Get the URL from the href attribute
             var status = $(this).attr('data-status');
-            var url = "{{ route('banner.status') }}";
+            var url = "{{ route('faqs.status') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
@@ -237,7 +226,7 @@
                 data: requestData, // You can send additional data if needed
                 success: function(response) {
 
-                    $('#banner-data').DataTable().ajax.reload(null, false);
+                    $('#faq-data').DataTable().ajax.reload(null, false);
                     // Swal.fire('Success!', response.success,
                     //     'success');
                     toastr.success(response.success);
