@@ -148,6 +148,10 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
             'Laravel\\Sail\\' => 13,
             'Laravel\\Prompts\\' => 16,
         ),
+        'J' => 
+        array (
+            'Jorenvh\\Share\\' => 14,
+        ),
         'I' => 
         array (
             'Intervention\\Image\\' => 19,
@@ -474,6 +478,10 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         array (
             0 => __DIR__ . '/..' . '/laravel/prompts/src',
         ),
+        'Jorenvh\\Share\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jorenvanhocht/laravel-share/src',
+        ),
         'Intervention\\Image\\' => 
         array (
             0 => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image',
@@ -600,13 +608,22 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'App\\Http\\Controllers\\Content\\SystemController' => __DIR__ . '/../..' . '/app/Http/Controllers/Content/SystemController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\Event\\EventController' => __DIR__ . '/../..' . '/app/Http/Controllers/Event/EventController.php',
+        'App\\Http\\Controllers\\Frontend\\Auth\\FrontAuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/Auth/FrontAuthController.php',
+        'App\\Http\\Controllers\\Frontend\\Gallery\\FrontendGalleryController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/Gallery/FrontendGalleryController.php',
         'App\\Http\\Controllers\\Frontend\\IndexController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/IndexController.php',
+        'App\\Http\\Controllers\\Frontend\\Member\\MemberController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/Member/MemberController.php',
+        'App\\Http\\Controllers\\Frontend\\Page\\PageController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/Page/PageController.php',
+        'App\\Http\\Controllers\\Frontend\\Post\\PostController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/Post/PostController.php',
+        'App\\Http\\Controllers\\Member\\MemberController' => __DIR__ . '/../..' . '/app/Http/Controllers/Member/MemberController.php',
+        'App\\Http\\Controllers\\Menu\\MenuController' => __DIR__ . '/../..' . '/app/Http/Controllers/Menu/MenuController.php',
         'App\\Http\\Controllers\\Post\\CategoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/Post/CategoryController.php',
         'App\\Http\\Controllers\\Post\\PostController' => __DIR__ . '/../..' . '/app/Http/Controllers/Post/PostController.php',
         'App\\Http\\Controllers\\Post\\SubCategoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/Post/SubCategoryController.php',
         'App\\Http\\Controllers\\Role\\RoleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Role/RoleController.php',
+        'App\\Http\\Middleware\\MemberMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/MemberMiddleware.php',
         'App\\Http\\Middleware\\adminMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/adminMiddleware.php',
         'App\\Models\\Banner' => __DIR__ . '/../..' . '/app/Models/Banner.php',
+        'App\\Models\\Comment' => __DIR__ . '/../..' . '/app/Models/Comment.php',
         'App\\Models\\Event' => __DIR__ . '/../..' . '/app/Models/Event.php',
         'App\\Models\\EventRegistration' => __DIR__ . '/../..' . '/app/Models/EventRegistration.php',
         'App\\Models\\MainContent' => __DIR__ . '/../..' . '/app/Models/MainContent.php',
@@ -620,7 +637,8 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'App\\Models\\PostCategory' => __DIR__ . '/../..' . '/app/Models/PostCategory.php',
         'App\\Models\\PostComment' => __DIR__ . '/../..' . '/app/Models/PostComment.php',
         'App\\Models\\PostSubCategory' => __DIR__ . '/../..' . '/app/Models/PostSubCategory.php',
-        'App\\Models\\SubMenu' => __DIR__ . '/../..' . '/app/Models/SubMenu.php',
+        'App\\Models\\Reaction' => __DIR__ . '/../..' . '/app/Models/Reaction.php',
+        'App\\Models\\Reply' => __DIR__ . '/../..' . '/app/Models/Reply.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
@@ -751,6 +769,7 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
+        'Database\\Seeders\\MenuSeeder' => __DIR__ . '/../..' . '/database/seeders/MenuSeeder.php',
         'Database\\Seeders\\PermissionSeeder' => __DIR__ . '/../..' . '/database/seeders/PermissionSeeder.php',
         'Database\\Seeders\\UserSeeder' => __DIR__ . '/../..' . '/database/seeders/UserSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
@@ -3267,6 +3286,9 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'Intervention\\Image\\Point' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Point.php',
         'Intervention\\Image\\Response' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Response.php',
         'Intervention\\Image\\Size' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Size.php',
+        'Jorenvh\\Share\\Providers\\ShareServiceProvider' => __DIR__ . '/..' . '/jorenvanhocht/laravel-share/src/Providers/ShareServiceProvider.php',
+        'Jorenvh\\Share\\Share' => __DIR__ . '/..' . '/jorenvanhocht/laravel-share/src/Share.php',
+        'Jorenvh\\Share\\ShareFacade' => __DIR__ . '/..' . '/jorenvanhocht/laravel-share/src/ShareFacade.php',
         'Laravel\\Prompts\\Concerns\\Colors' => __DIR__ . '/..' . '/laravel/prompts/src/Concerns/Colors.php',
         'Laravel\\Prompts\\Concerns\\Cursor' => __DIR__ . '/..' . '/laravel/prompts/src/Concerns/Cursor.php',
         'Laravel\\Prompts\\Concerns\\Erase' => __DIR__ . '/..' . '/laravel/prompts/src/Concerns/Erase.php',
@@ -7774,7 +7796,7 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'Termwind\\ValueObjects\\Node' => __DIR__ . '/..' . '/nunomaduro/termwind/src/ValueObjects/Node.php',
         'Termwind\\ValueObjects\\Style' => __DIR__ . '/..' . '/nunomaduro/termwind/src/ValueObjects/Style.php',
         'Termwind\\ValueObjects\\Styles' => __DIR__ . '/..' . '/nunomaduro/termwind/src/ValueObjects/Styles.php',
-        'Tests\\Feature\\ExampleTest' => __DIR__ . '/../..' . '/tests/Feature/ExampleTest.php',
+        'Tests\\Feature\\PageControllerTest' => __DIR__ . '/../..' . '/tests/Feature/PageControllerTest.php',
         'Tests\\TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'Tests\\Unit\\ExampleTest' => __DIR__ . '/../..' . '/tests/Unit/ExampleTest.php',
         'TheSeer\\Tokenizer\\Exception' => __DIR__ . '/..' . '/theseer/tokenizer/src/Exception.php',

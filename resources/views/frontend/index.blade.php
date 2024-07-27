@@ -349,7 +349,7 @@
                                 </div>
                                 <div class="blog-content">
                                     <span class="mini-title">#{{ $post->category->name }}</span>
-                                    <span class="mini-title">#{{ $post->subcategory->name }}</span>
+                                    <span class="mini-title">> {{ $post->subcategory->name }}</span>
                                     <h3 class="blog-title line-clamp-2"><a
                                             href="{{ route('single.post', ['categorySlug' => $post->category->slug, 'postSlug' => $post->slug]) }}">{{ $post->title }}</a>
                                     </h3>

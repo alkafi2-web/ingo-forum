@@ -21,6 +21,35 @@
 }
 
 /* end of pagination */
+.single-post-container .publish-title {
+  color: rgba(0, 0, 0, 0.6784313725);
+  font-size: 14px;
+}
+.single-post-container .author-name {
+  font-size: 17px;
+}
+.single-post-container #social-links ul {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+.single-post-container #social-links ul li {
+  margin-left: 8px;
+}
+.single-post-container #social-links ul li a svg {
+  font-size: 20px;
+}
+.single-post-container .fa-whatsapp {
+  color: green;
+}
+.single-post-container .fa-twitter {
+  color: #1C96E8;
+}
+.single-post-container .fa-linkedin {
+  color: #0073B1;
+}
+
 .comment-wrapper a {
   color: #6BA98A;
   text-decoration: none;
