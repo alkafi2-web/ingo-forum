@@ -53,7 +53,7 @@ class BannerController extends Controller
 
             if (!File::exists($dir)) {
                 File::makeDirectory($dir, 0755, true);
-            }
+            } 
 
             // Resize the image to 415x415
             $img = Image::make($image)->fit(638, 549);

@@ -574,6 +574,8 @@ a {
 }
 
 .blog-card .blog-img img {
+  max-height: 275px;
+  object-fit: contain;
   width: 100%;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -637,9 +639,12 @@ a {
   width: 100%;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  height: 300px;
+  object-fit: cover;
 }
 
 .gallery-card .blog-content {
+  margin-top: 30px;
   padding: 20px;
   background-color: var(--white);
   border-bottom-left-radius: 5px;
@@ -1345,6 +1350,9 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
   .partners {
     grid-template-columns: repeat(4, 1fr);
   }
+  .gallery-card .gallery-img img {
+    height: 275px;
+  }
 }
 
 @media screen and (max-width: 992px) {
@@ -1499,6 +1507,9 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
   .all-profile-tabs .nav-link {
     font-size: 15px;
     padding: 8px;
+  }
+  .gallery-card .gallery-img img {
+    height: 180px;
   }
 }
 

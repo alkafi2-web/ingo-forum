@@ -99,7 +99,7 @@ class MemberController extends Controller
 
     public function profileUpdate(Request $request)
     {
-        return $request->all();
+        // return $request->all();
         // Define validation rules
         $rules = [
             'org_name' => 'required|string|max:255',
@@ -196,7 +196,7 @@ class MemberController extends Controller
             }
 
             // Resize the image to fit within 244x243 pixels
-            $img = Image::make($image)->fit(244, 243);
+            $img = Image::make($image);
             $img->save($directory . $imageName);
 
             // Get the authenticated member

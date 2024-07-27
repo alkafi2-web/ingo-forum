@@ -331,7 +331,7 @@ class MediaController extends Controller
             'title' => 'required|string|max:255',
             'url' => 'required|string|max:255',
             'content' => 'required|string|max:255',
-            'image' => 'required|mimes:jpeg,jpg,png|max:2048' // Ensure image is required and validate type and size
+            'image' => 'required|mimes:jpeg,jpg,png|max:2048|dimensions:width=650,height=410' // Ensure image is required and validate type and size
         ];
 
         // Define custom error messages
@@ -345,9 +345,10 @@ class MediaController extends Controller
             'content.required' => 'The content field is required.',
             'content.string' => 'The content must be a string.',
             'content.max' => 'The content may not be greater than 255 characters.',
-            'image.required' => 'The image field is required.',
-            'image.mimes' => 'The image must be a file of type: jpeg, jpg, png.',
-            'image.max' => 'The image may not be greater than 2048 kilobytes.',
+            'image.required' => 'The Thumnil field is required.',
+            'image.mimes' => 'The Thumnil must be a file of type: jpeg, jpg, png.',
+            'image.max' => 'The Thumnil may not be greater than 2048 kilobytes.',
+            'image.dimensions' => 'The Thumnil must be 650px by 410px.',
         ];
 
         // Validate the request
@@ -426,7 +427,7 @@ class MediaController extends Controller
             'title' => 'required|string|max:255',
             'url' => 'required|string|max:255',
             'content' => 'required|string|max:255',
-            'image' => 'nullable|mimes:jpeg,jpg,png|max:2048' // Ensure image is required and validate type and size
+            'image' => 'nullable|mimes:jpeg,jpg,png|max:2048|dimensions:width=650,height=410' // Ensure image is required and validate type and size
         ];
 
         // Define custom error messages
@@ -442,6 +443,7 @@ class MediaController extends Controller
             'content.max' => 'The content may not be greater than 255 characters.',
             'image.mimes' => 'The image must be a file of type: jpeg, jpg, png.',
             'image.max' => 'The image may not be greater than 2048 kilobytes.',
+            'image.dimensions' => 'The Thumnil must be 650px by 410px.',
         ];
 
         // Validate the request

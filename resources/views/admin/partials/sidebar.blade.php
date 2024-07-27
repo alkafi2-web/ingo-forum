@@ -6,7 +6,8 @@
     <div class="aside-logo flex-column-auto" id="kt_aside_logo">
         <!--begin::Logo-->
         <a href="">
-            <img alt="Logo" src="{{ asset('public/frontend/images/' . $global['logo']??'logo.png') }}" class="h-25px logo" />
+            <img alt="Logo" src="{{ asset('public/frontend/images/' . $global['logo'] ?? 'logo.png') }}"
+                class="h-25px logo" />
         </a>
         <!--end::Logo-->
         <!--begin::Aside toggler-->
@@ -225,6 +226,7 @@
                 <div class="menu-item">
                     <div class="menu-content pt-8 pb-2">
                         <span class="menu-section text-muted text-uppercase fs-8 ls-1">Member Management</span>
+
                     </div>
                 </div>
                 <div data-kt-menu-trigger="click"
@@ -248,6 +250,11 @@
                             <!--end::Svg Icon-->
                         </span>
                         <span class="menu-title">Member</span>
+                        <div class="pendingMemberCount">
+                            @if ($global['pendingMemberCount'] > 0)
+                                <span class="badge badge-light-danger">{{ $global['pendingMemberCount'] }}</span>
+                            @endif
+                        </div>
                         <span class="menu-arrow"></span>
                     </span>
                     <div
@@ -258,14 +265,22 @@
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">Member List</span>
+
                             </span>
                         </a>
                         <a class="menu-item menu-accordion" href="{{ route('member.request') }}">
-                            <span class="menu-link {{ Route::currentRouteName() == 'member.request' ? 'active' : '' }}">
+                            <span
+                                class="menu-link {{ Route::currentRouteName() == 'member.request' ? 'active' : '' }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">Member Request</span>
+                                <div class="pendingMemberCount">
+                                    @if ($global['pendingMemberCount'] > 0)
+                                        <span
+                                            class="badge badge-light-danger">{{ $global['pendingMemberCount'] }}</span>
+                                    @endif
+                                </div>
                             </span>
                         </a>
                     </div>
@@ -320,7 +335,7 @@
                     </div>
                 </div>
                 <div data-kt-menu-trigger="click"
-                    class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'subcategory' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' ? 'hover show' : '' }}">
+                    class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'subcategory' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'post.edit' ? 'hover show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->

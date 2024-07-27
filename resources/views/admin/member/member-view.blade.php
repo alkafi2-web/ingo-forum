@@ -20,7 +20,7 @@
         <div id="profile-image-name">
             @include('admin.member.partials.profile-image-name')
         </div>
-        
+
 
         <div class="card-body">
             <div class="row">
@@ -115,8 +115,8 @@
                                             Name</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="text" name="director_name" class="form-control"
-                                            id="director_name" placeholder="Country Director Name" readonly
+                                        <input type="text" name="director_name" class="form-control" id="director_name"
+                                            placeholder="Country Director Name" readonly
                                             value="{{ $member->memberInfos[0]['director_name'] }}">
                                     </div>
                                 </div>
@@ -128,8 +128,8 @@
                                             Email (Personal)</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="email" name="director_email" class="form-control"
-                                            id="director_email" placeholder="Country Director Email" readonly
+                                        <input type="email" name="director_email" class="form-control" id="director_email"
+                                            placeholder="Country Director Email" readonly
                                             value="{{ $member->memberInfos[0]['director_email'] }}">
                                     </div>
                                 </div>
@@ -311,6 +311,10 @@
                         //     'success');
                         $('#view-header-container').html(response.viewHeader);
                         $('#profile-image-name').html(response.profileImageName);
+                        $.get(window.location.href, function(data) {
+                            var pendingMemberCount = $(data).find('.pendingMemberCount').html();
+                            $('.pendingMemberCount').html(pendingMemberCount);
+                        });
                         toastr.success(response.success);
                     },
                     error: function(xhr, status, error) {

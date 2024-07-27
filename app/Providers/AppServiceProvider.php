@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\MainContent;
 use App\Models\MediaAlbum;
 use App\Models\MediaGallery;
+use App\Models\Member;
 use App\Models\MemberInfo;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
@@ -125,11 +126,13 @@ class AppServiceProvider extends ServiceProvider
                     ->whereHas('member', function ($query) {
                         $query->where('status', 1);
                     })
+                    ->whereNotNull('logo')
                     ->select('member_id', 'membership_id', 'logo')
                     ->get();
                 $global['membersInfos'] = $membersInfos;
             }
-
+            $pendingMemberCount = Member::where('status', 0)->with('memberInfos')->count();
+            $global['pendingMemberCount'] = $pendingMemberCount;
             $view->with(compact('global', 'menus'));
         });
     }
