@@ -238,7 +238,7 @@ Route::prefix('member')->group(function () {
     });
 
     Route::get('/ours/member', [FrontAuthController::class, 'oursMember'])->name('frontend.ours.member');
-    Route::get('/{membership_id}/show', [FrontAuthController::class, 'profileShow'])->name('frontend.member.show');
+    Route::get('/{membership_id}', [FrontAuthController::class, 'profileShow'])->name('frontend.member.show');
 });
 
 // post routes start
@@ -248,6 +248,7 @@ Route::get('/post/{categorySlug}/{postSlug}', [FrontendPostController::class, 's
 Route::post('/comments', [FrontendPostController::class, 'storeComment'])->name('comments.store');
 Route::post('/replies', [FrontendPostController::class, 'storeReply'])->name('replies.store');
 Route::post('/reactions', [FrontendPostController::class, 'storeReaction'])->name('reactions.react');
+Route::post('/delete', [FrontendPostController::class, 'deleteCommentOrReply'])->name('commentOrReply.delete');
 // post routes end
 
 //photo gallery start
