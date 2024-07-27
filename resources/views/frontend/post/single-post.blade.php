@@ -46,6 +46,16 @@
                     {!! $post->long_des !!}
                 </div>
             </div>
+            <h4>Share this post:</h4>
+            <div class="social-share-links pt-4">
+              <h4>Share this post:</h4>
+              {!! Share::page(url()->current(), $post->title)
+                  ->facebook('<i class="fab fa-facebook"></i>')
+                  ->twitter('<i class="fab fa-twitter"></i>')
+                  ->linkedin('<i class="fab fa-linkedin"></i>')
+                  ->whatsapp('<i class="fab fa-whatsapp"></i>'); !!}
+          </div>
+          
             <div class="comment-wrapper w-100">
                 @include('frontend.post.partials.comment-box')
             </div>
