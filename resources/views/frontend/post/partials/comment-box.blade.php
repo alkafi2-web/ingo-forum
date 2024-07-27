@@ -78,169 +78,167 @@
 </div>
 @push('custom-js')
   <script>
-    var routes = {
-        commentStore: '{{ route("comments.store") }}',
-        replyStore: '{{ route("replies.store") }}',
-        reactionStore: '{{ route("reactions.react") }}',
-        delete: '{{ route("commentOrReply.delete") }}'
-    };
-    
-    // Function to get CSRF token
-    function getCsrfToken() {
-        return '{{ csrf_token() }}';
-    }
-    
-    // AJAX setup to include CSRF token in headers
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': getCsrfToken()
-        }
-    });
-
-    // AJAX for submitting a comment
-    $('#comment-form').submit(function(e) {
-        e.preventDefault();
-        var formData = new FormData(this);
-        $.ajax({
-            url: routes.commentStore,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                if (response.success) {
-                    // refreshComment();
-                    toastr.success('Comment added successful');
-                }
-                else{
-                    // refreshComment();
-                    toastr.error(response.msg);
-                }
-            },
-            error: function(xhr, status, error) {
-                if (xhr.responseJSON && xhr.responseJSON.errors) {
-                    $.each(xhr.responseJSON.errors, function(key, value) {
-                        toastr.error(value);
-                    });
-                } else {
-                    toastr.error('Failed to add comment');
-                }
-            }
-        });
-    });
-
-    //AJAX for for showing reply-form 
-    $('#comments-list').on('click', '.reply-btn', function(e) {
-        // $('.reply-form').hide();
-        var commentId = $(this).attr('data-comment-id');
-        $('#reply-form'+commentId).toggle();
-    });
-
-    // AJAX for submitting a reply
-    $('#comments-list').on('submit', '.reply-form', function(e) {
-        e.preventDefault();
-        var commentId = $(this).data('comment-id');
-        var formElement = $('#reply-form' + commentId); // Get the form element by ID
-        var formData = formElement.serializeArray(); // Serialize form data
-        formData.push({ name: 'comment_id', value: commentId });
-
-        $.ajax({
-            url: routes.replyStore, // Assuming routes.replyStore is defined and points to the correct route
-            method: 'POST',
-            data: formData, // Send the serialized form data
-            success: function(response) {
-                // refreshComment();
-                if (response.success) {
-                    toastr.success('Reply added successful');
-                }
-                else{
-                    toastr.error(response.msg);
-                }
-            },
-            error: function(xhr, status, error) {
-                if (xhr.responseJSON && xhr.responseJSON.errors) {
-                    $.each(xhr.responseJSON.errors, function(key, value) {
-                        toastr.error(value);
-                    });
-                } else {
-                    toastr.error('Failed to add reoly');
-                }
-            }
-        });
-    });
-
-    // AJAX for reacting to a comment
-    $('#comments-list').on('click', '.reaction-btn', function(e) {
-        e.preventDefault();
-        var commentId = $(this).data('comment-id');
-        $.ajax({
-            url: routes.reactionStore,
-            method: 'POST',
-            data: { comment_id: commentId },
-            success: function(response) {
-                refreshComment();
-                toastr.success('Reaction added successfully');
-                // Update UI to reflect reaction status
-            },
-            error: function(xhr, status, error) {
-                if (xhr.responseJSON && xhr.responseJSON.errors) {
-                    $.each(xhr.responseJSON.errors, function(key, value) {
-                        toastr.error(value);
-                    });
-                } else {
-                    toastr.error('Failed to add reaction');
-                }
-            }
-        });
-    });
-
-    // AJAX for reacting to a comment
-    $('#comments-list').on('click', '.comment-delete-btn', function(e) {
-        e.preventDefault();
-        var commentId = $(this).data('comment-id');
-        var replyId = $(this).data('reply-id');
-        swal({
-            title: 'Are you sure?',
-            text: 'Do you want to delete this comment/reply?',
-            icon: 'warning',
-            buttons: ["Cancel", true],
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                $.ajax({
-                    url: routes.delete,
-                    method: 'POST',
-                    data: { 
-                        comment_id: commentId,
-                        reply_id: replyId
-                     },
-                    success: function(response) {
-                        if (response.success) {
-                            toastr.success(response.msg);
-                        }
-                        else{
-                            toastr.error(response.msg);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        if (xhr.responseJSON && xhr.responseJSON.errors) {
-                            $.each(xhr.responseJSON.errors, function(key, value) {
-                                toastr.error(value);
-                            });
-                        } else {
-                            toastr.error('Failed to delete');
-                        }
-                    }
-                });
-            }
-        });
-    });
 
     function refreshComment() {
         $.get(window.location.href, function(data) {
             var commentBox = $(data).find('.comment-wrapper').html();
             $('.comment-wrapper').html(commentBox);
+            // Reinitialize event listeners after refreshing comments
+            reinitializeEvents();
         });
     }
+
+    function reinitializeEvents() {
+        var routes = {
+            commentStore: '{{ route("comments.store") }}',
+            replyStore: '{{ route("replies.store") }}',
+            reactionStore: '{{ route("reactions.react") }}',
+            delete: '{{ route("commentOrReply.delete") }}'
+        };
+        
+        // Function to get CSRF token
+        function getCsrfToken() {
+            return '{{ csrf_token() }}';
+        }
+        
+        // AJAX setup to include CSRF token in headers
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': getCsrfToken()
+            }
+        });
+
+        $('#comment-form').off('submit').on('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: routes.commentStore,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    refreshComment();
+                    if (response.success) {
+                        toastr.success('Comment added successfully');
+                    } else {
+                        toastr.error(response.msg);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        $.each(xhr.responseJSON.errors, function(key, value) {
+                            toastr.error(value);
+                        });
+                    } else {
+                        toastr.error('Failed to add comment');
+                    }
+                }
+            });
+        });
+
+        $('#comments-list').off('click', '.reply-btn').on('click', '.reply-btn', function(e) {
+            var commentId = $(this).attr('data-comment-id');
+            $('#reply-form' + commentId).toggle();
+        });
+
+        $('#comments-list').off('submit', '.reply-form').on('submit', '.reply-form', function(e) {
+            e.preventDefault();
+            var commentId = $(this).data('comment-id');
+            var formElement = $('#reply-form' + commentId);
+            var formData = formElement.serializeArray();
+            formData.push({ name: 'comment_id', value: commentId });
+
+            $.ajax({
+                url: routes.replyStore,
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    refreshComment();
+                    if (response.success) {
+                        toastr.success('Reply added successfully');
+                    } else {
+                        toastr.error(response.msg);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        $.each(xhr.responseJSON.errors, function(key, value) {
+                            toastr.error(value);
+                        });
+                    } else {
+                        toastr.error('Failed to add reply');
+                    }
+                }
+            });
+        });
+
+        $('#comments-list').off('click', '.reaction-btn').on('click', '.reaction-btn', function(e) {
+            e.preventDefault();
+            var commentId = $(this).data('comment-id');
+            $.ajax({
+                url: routes.reactionStore,
+                method: 'POST',
+                data: { comment_id: commentId },
+                success: function(response) {
+                    refreshComment();
+                    toastr.success('Reaction added successfully');
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        $.each(xhr.responseJSON.errors, function(key, value) {
+                            toastr.error(value);
+                        });
+                    } else {
+                        toastr.error('Failed to add reaction');
+                    }
+                }
+            });
+        });
+
+        $('#comments-list').off('click', '.comment-delete-btn').on('click', '.comment-delete-btn', function(e) {
+            e.preventDefault();
+            var commentId = $(this).data('comment-id');
+            var replyId = $(this).data('reply-id');
+            swal({
+                title: 'Are you sure?',
+                text: 'Do you want to delete this comment/reply?',
+                icon: 'warning',
+                buttons: ["Cancel", true],
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: routes.delete,
+                        method: 'POST',
+                        data: { 
+                            comment_id: commentId,
+                            reply_id: replyId
+                        },
+                        success: function(response) {
+                            refreshComment();
+                            if (response.success) {
+                                toastr.success(response.msg);
+                            } else {
+                                toastr.error(response.msg);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                                $.each(xhr.responseJSON.errors, function(key, value) {
+                                    toastr.error(value);
+                                });
+                            } else {
+                                toastr.error('Failed to delete');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    // Initial event binding
+    reinitializeEvents();
   </script>
 @endpush
