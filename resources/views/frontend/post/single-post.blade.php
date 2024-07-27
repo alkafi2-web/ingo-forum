@@ -77,7 +77,7 @@
               <div class="latest-post d-flex align-items-center">
                 <img src="{{ asset("public/frontend/images/posts/{$latestPost->banner}") }}" alt="">
                 <div class="ms-2">
-                  <h5><a href="{{ url("{$post->category->slug}/{$latestPost->slug}") }}">{{ $latestPost->title }}</a></h5>
+                  <h5><a href="{{ route('single.post',['categorySlug'=>$post->category->slug, 'postSlug'=>$latestPost->slug])}}">{{ $latestPost->title }}</a></h5>
                   <span>Date: {{ $latestPost->created_at->format('d M Y') }}</span>
                 </div>
               </div>
@@ -99,7 +99,7 @@
               <div class="latest-post d-flex align-items-center">
                 <img src="{{ asset("public/frontend/images/posts/{$relatedPost->banner}") }}" alt="">
                 <div class="ms-2">
-                  <h5><a href="{{ url("{$post->category->slug}/{$relatedPost->slug}") }}">{{ $relatedPost->title }}</a></h5>
+                  <h5><a href="{{ route('single.post',['categorySlug'=>$post->category->slug, 'postSlug'=>$relatedPost->slug])}}">{{ $relatedPost->title }}</a></h5>
                   <span>Date: {{ $relatedPost->created_at->format('d M Y') }}</span>
                 </div>
               </div>
