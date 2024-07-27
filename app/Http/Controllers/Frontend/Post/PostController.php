@@ -139,5 +139,23 @@ class PostController extends Controller
 
         return response()->json(['success' => true]);
     }
+    
+    public function deleteCommentOrReply(Request $request)
+    {
+        if ($request->has('comment_id')) {
+            Comment::where('id', $request->comment_id)->delete();
+            return response()->json([
+                'success' => true,
+                'msg' => 'Comment has been deleted'
+            ]);
+        }
+        if ($request->has('reply_id')) {
+            Reply::where('id', $request->reply_id)->delete();
+            return response()->json([
+                'success' => true,
+                'msg' => 'Reply has been deleted'
+            ]);
+        }
+    }
 
 }

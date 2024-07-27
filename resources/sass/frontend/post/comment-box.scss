@@ -16,11 +16,15 @@
       margin-bottom: 15px;
     }
 
-   .fa-reply, .fa-heart{
+   .fa-reply, .fa-heart, .fa-trash-alt{
       cursor: pointer;
    }
    .reply-form{
       margin-left: 69px;
+   }
+   code{
+      font-size: 11px;
+      color: #999;
    }
 }
 
@@ -49,20 +53,20 @@
     &::before{
     content: '';
         width: 2px;
-        height: 83%;
+        height: 100%;
         background: #c7cacb;
         position: absolute;
-        left: 2px;
+        left: 9px;
         top: 0;
     }
     &::after{
         content: '';
         position: absolute;
         background: #c7cacb;
-        bottom: 0;
-        left: 27px;
-        width: 7px;
-        height: 7px;
+        bottom: 0px;
+        left: 5px;
+        width: 10px;
+        height: 10px;
         border: 3px solid #dee1e3;
         -webkit-border-radius: 50%;
         -moz-border-radius: 50%;
@@ -71,7 +75,7 @@
 }
 
 .reply-list {
-    padding-left: 88px;
+    padding-left: 70px;
     clear: both;
     margin-top: 5px;
      li {
@@ -84,12 +88,12 @@
 .reply-list:before, .reply-list:after {display: none;}
 .reply-list li:before {
    content: '';
-   width: 85px;
+   width: 70px;
    height: 2px;
    background: #c7cacb;
    position: absolute;
    top: 25px;
-   left: -85px;
+   left: -68px;
 }
 
 
@@ -190,7 +194,7 @@
    position: relative;
    top: 2px;
    color: #A6A6A6;
-   cursor: pointer;
+   cursor: pointer!important;
    -webkit-transition: color 0.3s ease;
    -o-transition: color 0.3s ease;
    transition: color 0.3s ease;

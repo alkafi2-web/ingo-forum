@@ -41,7 +41,7 @@ class PostController extends Controller
                 // 'regex:/^[\p{L}a-zA-Z0-9\-]*$/u',
             ],
             'long_description' => 'required|string',
-            'banner' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:width=800,height=450', // Example file validation
+            'banner' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
         ], [
             // Custom error messages
             'category.required' => 'Category is required.',
@@ -174,7 +174,7 @@ class PostController extends Controller
                 'regex:/^[a-zA-Z0-9\-]*$/u',
             ],
             'long_description' => 'required|string',
-            'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:width=800,height=450', // Example file validation
+            'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
         ], [
             // Custom error messages
             'category.required' => 'Category is required.',

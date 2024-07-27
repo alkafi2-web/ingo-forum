@@ -1,6 +1,6 @@
 <!-- Contenedor Principal -->
 <div class="comments-container">
-    <h1>Comment <a href="http://creaticode.com">INGO Forum</a></h1>
+    <h1>Comment <a href="javascript:void(0)">INGO Forum</a></h1>
     <form action="javascript:void(0)" id="comment-form" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="post_id" value="{{ $post->id }}">
         <div class="form d-flex align-items-center">
@@ -9,7 +9,7 @@
             <button class="commentBtn border-0 bg-white" type="submit"><i class="fas fa-paper-plane"></i></button>
         </div>
     </form>
-    <ul id="comments-list" class="comments-list"><!-- comments-container.blade.php -->
+    <ul id="comments-list" class="comments-list ps-2"><!-- comments-container.blade.php -->
 
         @foreach($post->comments as $comment)
             <li class="comment-li">
@@ -20,15 +20,17 @@
                     <div class="comment-box">
                         <div class="comment-head d-flex align-items-center">
                             <div class="w-100 d-flex align-items-center">
-                                <h6 class="comment-name {{ Auth::guard('member')->check()?$comment->member->id === Auth::guard('member')->user()->id??'' ?'by-author':'':'' }}"><a href="#">{{ $comment->member->info->organisation_name }}</a></h6>
-                                <span>{{ $comment->created_at->diffForHumans() }}</span>&nbsp;
+                                <h6 class="comment-name mb-0 {{ Auth::guard('member')->check()?$comment->member->id === Auth::guard('member')->user()->id??'' ?'by-author':'':'' }}"><a href="#">{{ $comment->member->info->organisation_name }}</a></h6>
+                                <code>{{ $comment->created_at->diffForHumans() }}</code>&nbsp;
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-reply reply-btn" data-comment-id="{{ $comment->id }}"></i>&nbsp;
                                     <i class="fas fa-heart reaction-btn {{ $comment->userHasReacted() ? 'text-danger' : '' }}" data-comment-id="{{ $comment->id }}"></i>&nbsp;
                                     <small style="color: #999">{{ $comment->reactions->count()??'' }}</small>
                                 </div>
                             </div>
-                            <i class="fas fa-trash-alt comment-delete-btn text-danger {{ $comment->userHasReacted() ? 'text-danger' : '' }}" data-comment-id="{{ $comment->id }}"></i>&nbsp;
+                            @if (Auth::guard('member')->check() && $comment->member->id === Auth::guard('member')->user()->id)
+                                <i class="fas fa-trash-alt comment-delete-btn text-danger" style="cursor: pointer" data-comment-id="{{ $comment->id }}"></i>&nbsp;
+                            @endif
                         </div>
                         <div class="comment-content">
                             {{ $comment->comment_text }}
@@ -47,10 +49,12 @@
                                     <div class="comment-box">
                                         <div class="comment-head d-flex align-items-center">
                                             <div class="w-100 d-flex align-items-center">
-                                                <h6 class="comment-name {{ Auth::guard('member')->check()?$comment->member->id === Auth::guard('member')->user()->id??'' ?'by-author':'':'' }}"><a href="#">{{ $reply->member->info->organisation_name }}</a></h6>
-                                                <span>{{ $reply->created_at->diffForHumans() }}</span>&nbsp;
+                                                <h6 class="comment-name mb-0 {{ Auth::guard('member')->check()?$reply->member->id === Auth::guard('member')->user()->id??'' ?'by-author':'':'' }}"><a href="#">{{ $reply->member->info->organisation_name }}</a></h6>
+                                                <code>{{ $reply->created_at->diffForHumans() }}</code>&nbsp;
                                             </div>
-                                            <i class="fas fa-trash-alt comment-delete-btn text-danger {{ $comment->userHasReacted() ? 'text-danger' : '' }}" data-comment-id="{{ $comment->id }}"></i>&nbsp;
+                                            @if (Auth::guard('member')->check() && $reply->member->id === Auth::guard('member')->user()->id)
+                                                <i class="fas fa-trash-alt comment-delete-btn text-danger" style="cursor: pointer" data-reply-id="{{ $reply->id }}"></i>&nbsp;
+                                            @endif
                                         </div>
                                         <div class="comment-content">
                                             {{ $reply->reply_text }}
@@ -77,7 +81,8 @@
     var routes = {
         commentStore: '{{ route("comments.store") }}',
         replyStore: '{{ route("replies.store") }}',
-        reactionStore: '{{ route("reactions.react") }}'
+        reactionStore: '{{ route("reactions.react") }}',
+        delete: '{{ route("commentOrReply.delete") }}'
     };
     
     // Function to get CSRF token
@@ -188,6 +193,49 @@
             }
         });
     });
+
+    // AJAX for reacting to a comment
+    $('#comments-list').on('click', '.comment-delete-btn', function(e) {
+        e.preventDefault();
+        var commentId = $(this).data('comment-id');
+        var replyId = $(this).data('reply-id');
+        swal({
+            title: 'Are you sure?',
+            text: 'Do you want to delete this comment/reply?',
+            icon: 'warning',
+            buttons: ["Cancel", true],
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: routes.delete,
+                    method: 'POST',
+                    data: { 
+                        comment_id: commentId,
+                        reply_id: replyId
+                     },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.msg);
+                        }
+                        else{
+                            toastr.error(response.msg);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value);
+                            });
+                        } else {
+                            toastr.error('Failed to delete');
+                        }
+                    }
+                });
+            }
+        });
+    });
+
     function refreshComment() {
         $.get(window.location.href, function(data) {
             var commentBox = $(data).find('.comment-wrapper').html();
