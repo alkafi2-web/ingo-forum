@@ -126,6 +126,7 @@ class AppServiceProvider extends ServiceProvider
                     ->whereHas('member', function ($query) {
                         $query->where('status', 1);
                     })
+                    ->whereNotNull('logo')
                     ->select('member_id', 'membership_id', 'logo')
                     ->get();
                 $global['membersInfos'] = $membersInfos;

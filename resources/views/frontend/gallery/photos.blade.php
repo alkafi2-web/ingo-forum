@@ -58,6 +58,9 @@
                         </div>
                     </div>
                 @empty
+                <div class="mx-auto">
+                    <h3>There Is No Photo Album</h3>
+                </div>
                 @endforelse
             </div>
             <div class="row pt-4">
