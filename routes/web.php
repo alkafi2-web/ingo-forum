@@ -259,7 +259,11 @@ Route::prefix('gallery')->group(function () {
 });
 
 //photo gallery end
-Route::get('/contact/us', [IndexController::class, 'contact'])->name('frontend.contact');
+Route::prefix('contact')->group(function () {
+    Route::get('/us', [IndexController::class, 'contact'])->name('frontend.contact');
+    Route::post('/us/info', [IndexController::class, 'contactInfo'])->name('frontend.contact.info');
+});
+
 
 Route::get('/question/answer', [IndexController::class, 'faqs'])->name('frontend.faqs');
 // frontend route end
