@@ -41,7 +41,7 @@ class PostController extends Controller
                     ->whereHas('category', function ($query) use ($categorySlug) {
                         $query->where('slug', $categorySlug);
                     })
-                    ->with('category', 'comments', 'comments.replies') // Eager load comments and their replies
+                    ->with('category', 'comments', 'comments.replies', 'totalRead') // Eager load comments and their replies
                     ->firstOrFail();
 
         $latestPosts = Post::where('status', 1)
@@ -65,7 +65,7 @@ class PostController extends Controller
         );
 
         // Get the total reads for this post
-        $readCount = PostRead::where('post_id', $post->id)->count();
+        $readCount = $post->totalRead->count();
 
         return view('frontend.post.single-post', compact('post', 'latestPosts', 'relatedPosts', 'readCount'));
 
