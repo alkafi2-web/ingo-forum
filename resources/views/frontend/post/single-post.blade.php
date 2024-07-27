@@ -44,7 +44,9 @@
                 <h2 class="single-post-title pb-1 fw-bold">{{ $post->title }}</h2>
                 <h5 class="text-dark fw-bold author-name"><i class="fas fa-pen-nib"></i>&nbsp;{{ $post->addedBy->name }}</h5>
                 <div class="w-100 d-flex justify-content-between">
-                  <h6 class="m-0 publish-title d-flex align-items-center"><i class="fas fa-globe-asia"></i>&nbsp; {{ $post->created_at->format('d F Y h:i A') }}</h6>
+                  <h6 class="m-0 publish-title d-flex align-items-center"><i class="fas fa-globe-asia"></i>&nbsp;{{ $post->created_at->format('d F Y h:i A') }}&nbsp;&nbsp; 
+                    <i class="fas fa-book-reader"></i> &nbsp;{{ $readCount }} reads
+                  </h6>
                   <div class="social-link-wrapper d-flex align-items-center justify-content-end">
                     {!! Share::page(url()->current(), $post->title)
                         ->facebook()

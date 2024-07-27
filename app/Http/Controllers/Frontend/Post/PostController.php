@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\Reply;
 use App\Models\Reaction;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PostRead;
 
 class PostController extends Controller
 {
@@ -33,7 +34,7 @@ class PostController extends Controller
      * @param  string  $postSlug
      * @return \Illuminate\View\View
      */
-    public function showSinglePost($categorySlug, $postSlug)
+    public function showSinglePost(Request $request, $categorySlug, $postSlug)
     {
         $post = Post::where('status', 1)
                     ->where('slug', $postSlug)
@@ -57,7 +58,17 @@ class PostController extends Controller
                             ->take(5)
                             ->get();
 
-        return view('frontend.post.single-post', compact('post', 'latestPosts', 'relatedPosts'));
+        // Track the read
+        $ipAddress = $request->ip();
+        PostRead::firstOrCreate(
+            ['post_id' => $post->id, 'ip_address' => $ipAddress]
+        );
+
+        // Get the total reads for this post
+        $readCount = PostRead::where('post_id', $post->id)->count();
+
+        return view('frontend.post.single-post', compact('post', 'latestPosts', 'relatedPosts', 'readCount'));
+
     }
 
     public function storeComment(Request $request)
