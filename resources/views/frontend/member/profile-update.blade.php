@@ -39,7 +39,11 @@
                                 <div class="row">
                                     <form id="member-profile-update" action="" method="post">
                                         <div class="col-lg-12 mb-3 mb-lg-0">
-                                            <h4 class="form-title border-bottom pb-2 pt-3">Your Organisation Details</h4>
+                                            <a href="{{ route('member.own.profile') }}" class="ct-btn btn-yellow">Back To Profile</a>
+                                            <div class="d-flex align-item-center justify-content-between border-bottom">
+                                                <h4 class="form-title  pb-2 pt-3">Your Organisation Details</h4>
+                                                
+                                            </div>
                                             <div class="row mobile-border-none pt-2">
                                                 <div class="col-12 mb-3">
                                                     <div class="row align-items-center">

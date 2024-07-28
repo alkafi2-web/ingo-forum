@@ -35,6 +35,23 @@
                 <!--begin::Toolbar wrapper-->
                 <div class="d-flex align-items-stretch flex-shrink-0">
 
+                    <!--begin::Quick links-->
+                    <div class="d-flex align-items-center ms-1 ms-lg-3">
+                        <!--begin::Menu wrapper-->
+                        <div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px"
+                            data-kt-menu-trigger="click" data-kt-menu-attach="parent"
+                            data-kt-menu-placement="bottom-end">
+                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                            <a href="{{ route('frontend.index') }}" target="__blank">
+                                <span class="svg-icon svg-icon-1">
+                                    <i class="fas fa-globe " style="font-size: 18px;"></i>
+                                </span>
+                            </a>
+                            
+                            <!--end::Svg Icon-->
+                        </div>
+                    </div>
+                    <!--end::website links-->
 
                     <!--begin::Notifications-->
                     <div class="d-flex align-items-center ms-1 ms-lg-3">

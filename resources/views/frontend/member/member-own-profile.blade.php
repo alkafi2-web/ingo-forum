@@ -20,8 +20,8 @@
                             <a href="{{ route('member.profile') }}" class="ct-btn btn-yellow">Edit Profile</a>
                         </div>
                         
-                        <h4>{{ $memberinfo->sub_title }}</h4>
-                        <p>{{$memberinfo->short_description}}</p>
+                        <h4>{{ $memberinfo->info->sub_title }}</h4>
+                        <p>{{$memberinfo->info->short_description}}</p>
                         <div class="d-flex align-items-center">
                             <a href="{{ route('profile.download',['membership_id'=>$memberinfo->info->membership_id]) }}" class="ct-btn btn-yellow">Download Our Profile</a>
                             <nav class="d-flex align-items-center profile-social ms-3">

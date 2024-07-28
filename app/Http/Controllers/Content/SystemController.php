@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Content;
 
 use App\Http\Controllers\Controller;
+use App\Models\ContactInfo;
 use App\Models\MainContent;
 use Brian2694\Toastr\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class SystemController extends Controller
 {
@@ -100,5 +102,23 @@ class SystemController extends Controller
 
         // Redirect back with success message
         return redirect()->route('system')->with('success', 'Successfully updated system information!');
+    }
+
+    public function contactList(Request $request)
+    {
+        if ($request->ajax()) {
+            $contactLists = ContactInfo::latest();
+
+            return DataTables::of($contactLists)
+                ->make(true);
+        }
+        return view('admin.contact.contact-list');
+    }
+
+    public function contactListDelete(Request $request)
+    {
+       $contacInfo = ContactInfo::findOrFail($request->id);
+       $contacInfo->delete();
+       return response()->json(['success' => ['success' => 'You have successfully delete contact info!']]);
     }
 }
