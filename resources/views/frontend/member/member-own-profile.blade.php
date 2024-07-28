@@ -6,42 +6,42 @@
             <div class="row">
                 <div class="col-md-3 mb-3 mb-md-0">
                     <div class="members-profile-image h-100 text-center">
-                        <img src="{{ asset('public/frontend/images/member/') }}/{{ $memberinfo->logo ?? 'logo.png' }}"
+                        <img src="{{ asset('public/frontend/images/member/') }}/{{ $memberinfo->info->logo ?? 'logo.png' }}"
                             alt="Profile Image" class="mb-3">
-                        <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->membership_id }}</span>
+                        <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->info->membership_id }}</span>
                         <span
-                            class="d-block w-100 text-bold">({{ $memberinfo->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
+                            class="d-block w-100 text-bold">({{ $memberinfo->info->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
                     </div>
                 </div>
                 <div class="col-md-9">
                     <div class="profile-content text-white pb-3">
                         <div class="d-flex align-item-center justify-content-between">
-                            <h2 class="section-title">{{ $memberinfo->title }}</h2>
+                            <h2 class="section-title">{{ $memberinfo->info->title }}</h2>
                             <a href="{{ route('member.profile') }}" class="ct-btn btn-yellow">Edit Profile</a>
                         </div>
                         
                         <h4>{{ $memberinfo->sub_title }}</h4>
                         <p>{{$memberinfo->short_description}}</p>
                         <div class="d-flex align-items-center">
-                            <a href="{{ route('profile.download',['membership_id'=>$memberinfo->memberInfos[0]->membership_id]) }}" class="ct-btn btn-yellow">Download Our Profile</a>
+                            <a href="{{ route('profile.download',['membership_id'=>$memberinfo->info->membership_id]) }}" class="ct-btn btn-yellow">Download Our Profile</a>
                             <nav class="d-flex align-items-center profile-social ms-3">
                                 @isset($memberinfo->instagram)
-                                    <a href="{{ $memberinfo->instagram }}" class="text-decoration-none" target="_blank"
+                                    <a href="{{ $memberinfo->info->instagram }}" class="text-decoration-none" target="_blank"
                                         rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
                                 @endisset
 
                                 @isset($memberinfo->linkedin)
-                                    <a href="{{ $memberinfo->linkedin }}" class="text-decoration-none" target="_blank"
+                                    <a href="{{ $memberinfo->info->linkedin }}" class="text-decoration-none" target="_blank"
                                         rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
                                 @endisset
 
                                 @isset($memberinfo->facebook)
-                                    <a href="{{ $memberinfo->facebook }}" class="text-decoration-none" target="_blank"
+                                    <a href="{{ $memberinfo->info->facebook }}" class="text-decoration-none" target="_blank"
                                         rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
                                 @endisset
 
                                 @isset($memberinfo->twitter)
-                                    <a href="{{ $memberinfo->twitter }}" class="text-decoration-none" target="_blank"
+                                    <a href="{{ $memberinfo->info->twitter }}" class="text-decoration-none" target="_blank"
                                         rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
                                 @endisset
                             </nav>
@@ -59,7 +59,7 @@
                 <div class="col-lg-3">
                     <div class="member-single-info">
                         <p class="fw-semibold">Member Since :</p>
-                        <p>{{ $memberinfo->created_at->format('M d, Y') }}</p>
+                        <p>{{ $memberinfo->info->created_at->format('M d, Y') }}</p>
                         {{-- <p class="fw-semibold">Last Renew :</p>
                         <p>Jan 01, 2024</p>
                         <p class="fw-semibold">Valid Till :</p>
@@ -67,13 +67,13 @@
                         <div class="member-contact-info pt-3 pb-3">
                             <h6 class="text-orange fw-semibold text-decoration-underline">Contact Us</h6>
                             <p class="fw-semibold">Email :</p>
-                            <p>{{ $memberinfo->organisation_email }}</p>
+                            <p>{{ $memberinfo->info->organisation_email }}</p>
                             <p class="fw-semibold">Phone :</p>
-                            <p>{{ $memberinfo->organisation_phone ?? 'N/A' }}</p>
+                            <p>{{ $memberinfo->info->organisation_phone ?? 'N/A' }}</p>
                             <p class="fw-semibold">Address :</p>
-                            <p>{{ $memberinfo->organisation_address }} </p>
+                            <p>{{ $memberinfo->info->organisation_address }} </p>
                         </div>
-                        <a href="{{ $memberinfo->organisation_website }}" target="_blank"
+                        <a href="{{ $memberinfo->info->organisation_website }}" target="_blank"
                             class="ct-btn btn-yellow w-100 mt-3">Visit Our Website</a>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                                     <img src="{{ asset('public/frontend/images/icons/mission.png') }}" alt="">
                                 </div>
                                 <div class="msv-content">
-                                    <p>{!! $memberinfo->mission !!}</p>
+                                    <p>{!! $memberinfo->info->mission !!}</p>
                                 </div>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                                     <img src="{{ asset('public/frontend/images/icons/vision.png') }}" alt="">
                                 </div>
                                 <div class="msv-content">
-                                    <p>{!! $memberinfo->vision !!}</p>
+                                    <p>{!! $memberinfo->info->vision !!}</p>
                                 </div>
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                                     <img src="{{ asset('public/frontend/images/icons/values.png') }}" alt="">
                                 </div>
                                 <div class="msv-content">
-                                    {!! $memberinfo->value !!}
+                                    {!! $memberinfo->info->value !!}
                                 </div>
                             </div>
                         </div>
@@ -123,19 +123,19 @@
         <div class="container pt-3">
             <div class="row">
                 <div class="col-12">
-                    @if (!empty($memberinfo->work))
+                    @if (!empty($memberinfo->info->work))
                         <h3>Our Work</h3>
-                        <p>{!! $memberinfo->work !!}</p>
+                        <p>{!! $memberinfo->info->work !!}</p>
                     @endif
 
-                    @if (!empty($memberinfo->history))
+                    @if (!empty($memberinfo->info->history))
                         <h3>Our History & Heritage</h3>
-                        <p>{!! $memberinfo->history !!}</p>
+                        <p>{!! $memberinfo->info->history !!}</p>
                     @endif
 
-                    @if (!empty($memberinfo->other_description))
+                    @if (!empty($memberinfo->info->other_description))
                         <h3>Other Description</h3>
-                        <p>{!! $memberinfo->other_description !!}</p>
+                        <p>{!! $memberinfo->info->other_description !!}</p>
                     @endif
                 </div>
             </div>

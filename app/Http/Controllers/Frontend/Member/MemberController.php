@@ -29,7 +29,7 @@ class MemberController extends Controller
         // Define validation rules
         $rules = [
             'org_name' => 'required|string|max:255',
-            'org_website' => 'required|url|string|max:255',
+            'org_website' => 'required|string|max:255',
             'org_email' => 'required|email|max:255',
             'org_type' => ['required', Rule::in(['1', '2'])],
             'org_address' => 'required|string|max:255',
@@ -89,7 +89,7 @@ class MemberController extends Controller
     }
     public function memberOwnProfile()
     {
-        $memberinfo = Auth::guard('member')->user()->load('memberInfos');
+        $memberinfo = Auth::guard('member')->user()->load('info');
         return view('frontend.member.member-own-profile', compact('memberinfo'));
     }
     public function memberProfile()

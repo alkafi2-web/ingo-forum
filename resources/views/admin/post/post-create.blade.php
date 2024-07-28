@@ -115,7 +115,6 @@
 @endsection
 @push('custom-js')
     <script>
-        // Initialize CKEditor on the textareas
         // CKEDITOR.replace('short_description');
         CKEDITOR.replace('long_description');
         $(document).ready(function() {

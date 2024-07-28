@@ -350,6 +350,7 @@
 
 @push('custom-js')
     <script>
+        alert()
         // Initialize CKEditor on the textareas
         CKEDITOR.replace('description');
         CKEDITOR.replace('mission');
@@ -359,9 +360,10 @@
         CKEDITOR.replace('values');
         CKEDITOR.replace('other_description');
 
-
         $(document).ready(function() {
+            alert()
             $('#member-submit').on('click', function(e) {
+                alert();
                 e.preventDefault();
                 let url = "{{ route('member.profile.update') }}";
                 let form = $('#member-profile-update')[0];
@@ -555,61 +557,6 @@
                     }
                 });
             });
-
-            // $('#organization_document').on('change', function() {
-            //     var file = this.files[0];
-            //     var $previewContainer = $('#file-preview');
-
-            //     // Clear any previous preview
-            //     $previewContainer.empty();
-
-            //     if (file) {
-            //         var reader = new FileReader();
-
-            //         reader.onload = function(e) {
-            //             var blob = new Blob([e.target.result], {
-            //                 type: file.type
-            //             });
-            //             var url = URL.createObjectURL(blob);
-
-            //             if (file.type.startsWith('image/')) {
-            //                 var $img = $('<img>').attr('src', url).css('max-width', '100%');
-            //                 $previewContainer.append($img);
-            //             } else if (file.type === 'application/pdf') {
-            //                 var $iframe = $('<iframe>').attr({
-            //                     src: url,
-            //                     type: 'application/pdf',
-            //                     width: '100%',
-            //                     height: '300px' // Adjust the height as needed
-            //                 });
-            //                 $previewContainer.append($iframe);
-            //             } else if (file.type ===
-            //                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-            //                 file.type ===
-            //                 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-            //             ) {
-            //                 // For DOCX and PPT files, provide a link to open the file in a new tab
-            //                 var $link = $('<a>').attr({
-            //                     href: url,
-            //                     target: '_blank'
-            //                 }).text('Open file: ' + file.name);
-            //                 $previewContainer.append($link);
-            //             } else {
-            //                 // For other file types, provide a link to open the file in a new tab
-            //                 var $link = $('<a>').attr({
-            //                     href: url,
-            //                     target: '_blank'
-            //                 }).text('Open file: ' + file.name);
-            //                 $previewContainer.append($link);
-            //             }
-            //         };
-
-            //         reader.readAsArrayBuffer(file);
-            //     }
-            // });
-
-
-
         });
 
         $(document).ready(function() {
