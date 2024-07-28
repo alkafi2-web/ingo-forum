@@ -12,6 +12,7 @@ use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\Post\SubCategoryController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Content\PageController;
+use App\Http\Controllers\FAQs\FAQsController;
 use App\Http\Controllers\Frontend\Auth\FrontAuthController;
 use App\Http\Controllers\Frontend\Gallery\FrontendGalleryController;
 use App\Http\Controllers\Frontend\Member\MemberController;
@@ -106,6 +107,17 @@ Route::prefix('admin')->group(function () {
             Route::post('/feature-update', [AboutusController::class, 'featureUpdate'])->name('feature.update');
         });
         // about us-content route end
+        Route::prefix('faqs')->group(function () {
+            Route::get('/', [FAQsController::class, 'index'])->name('faqs');
+            Route::post('/create', [FAQsController::class, 'create'])->name('faqs.create');
+            Route::post('/edit', [FAQsController::class, 'edit'])->name('faqs.edit');
+            Route::post('/delete', [FAQsController::class, 'delete'])->name('faqs.delete');
+            Route::post('/status', [FAQsController::class, 'status'])->name('faqs.status');
+            Route::post('/update', [FAQsController::class, 'update'])->name('faqs.update');
+        });
+        // FAQs Route start
+
+        // FAQs Route end
 
         // post menagement route start
         Route::prefix('post')->group(function () {
@@ -249,4 +261,5 @@ Route::prefix('gallery')->group(function () {
 //photo gallery end
 Route::get('/contact/us', [IndexController::class, 'contact'])->name('frontend.contact');
 
+Route::get('/question/answer', [IndexController::class, 'faqs'])->name('frontend.faqs');
 // frontend route end

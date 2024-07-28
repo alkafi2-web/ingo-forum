@@ -39,6 +39,11 @@
                 ajax: {
                     url: "{{ route('member.list') }}",
                     type: 'GET',
+                    data: function(data) {
+                        data.organization = $('#organization').val();
+                        data.status_filter = $('#status_filter').val();
+                        return data;
+                    },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
@@ -71,13 +76,28 @@
                         sortable: false,
                         render: function(data, type, row) {
                             const statusMap = {
-                                0: { text: 'Pending', class: 'warning' },
-                                1: { text: 'Approved', class: 'success' },
-                                2: { text: 'Suspended', class: 'info' },
-                                3: { text: 'Rejected', class: 'danger' }
+                                0: {
+                                    text: 'Pending',
+                                    class: 'warning'
+                                },
+                                1: {
+                                    text: 'Approved',
+                                    class: 'success'
+                                },
+                                2: {
+                                    text: 'Suspended',
+                                    class: 'info'
+                                },
+                                3: {
+                                    text: 'Rejected',
+                                    class: 'danger'
+                                }
                             };
 
-                            const status = statusMap[data] || { text: '', class: 'secondary' };
+                            const status = statusMap[data] || {
+                                text: '',
+                                class: 'secondary'
+                            };
 
                             return `<span class="badge badge-${status.class}" data-status="${data}" data-id="${row.id}">${status.text}</span>`;
                         }
@@ -137,6 +157,9 @@
                 ],
                 // responsive: true,
 
+            });
+            $('#organization, #status_filter').on('change', function() {
+                table.ajax.reload(null, false);
             });
         });
         $(document).on('click', '.view', function(e) {

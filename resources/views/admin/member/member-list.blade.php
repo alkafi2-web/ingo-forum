@@ -16,7 +16,7 @@
                                 <label for="organization" class="mr-2">Filter by Organization Name:</label>
                                 <select id="organization" class="custom-select form-control"
                                    >
-                                    <option  selected>Organisation Type</option>
+                                    <option value="">All Organization</option>
                                     <option value="1">Registered with NGO Affairs Bureau (NGOAB) as an
                                         INGO</option>
                                     <option value="2">Possess international governance structures
@@ -29,11 +29,11 @@
                                 <label for="status_filter" class="mr-2">Filter by Status:</label>
                                 <select id="status_filter" class="custom-select form-control"
                                     >
-                                    <option value="">All Statuses</option>
+                                    <option value="">All Status</option>
                                     <option value="1">Active</option>
-                                    <option value="0">
-                                        
-                                    </option>
+                                    <option value="2">Suspend</option>
+                                    <option value="0">Pending</option>
+                                    <option value="3">Reject</option>
                                 </select>
                             </div>
                         </div>

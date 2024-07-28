@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id'); // Foreign key referencing postcategories table
             $table->string('name')->nullable(false); // Required field for the subcategory name
-            $table->string('slug')->unique()->nullable(false); // Required and unique field for the slug
+            $table->string('slug')->nullable(false); // Required and unique field for the slug
             $table->integer('status')->default(0); // Status of the subcategory
 
             // Foreign key constraint

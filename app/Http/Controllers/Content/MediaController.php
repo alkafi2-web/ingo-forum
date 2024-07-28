@@ -331,7 +331,8 @@ class MediaController extends Controller
             'title' => 'required|string|max:255',
             'url' => 'required|string|max:255',
             'content' => 'required|string|max:255',
-            'image' => 'required|mimes:jpeg,jpg,png|max:2048|dimensions:width=650,height=410' // Ensure image is required and validate type and size
+            'image' => 'required|mimes:jpeg,jpg,png|max:2048' // Ensure image is required and validate type and size
+            // 'image' => 'required|mimes:jpeg,jpg,png|max:2048|dimensions:width=650,height=410' // Ensure image is required and validate type and size
         ];
 
         // Define custom error messages
@@ -427,7 +428,8 @@ class MediaController extends Controller
             'title' => 'required|string|max:255',
             'url' => 'required|string|max:255',
             'content' => 'required|string|max:255',
-            'image' => 'nullable|mimes:jpeg,jpg,png|max:2048|dimensions:width=650,height=410' // Ensure image is required and validate type and size
+            'image' => 'nullable|mimes:jpeg,jpg,png|max:2048' // Ensure image is required and validate type and size
+            // 'image' => 'nullable|mimes:jpeg,jpg,png|max:2048|dimensions:width=650,height=410' // Ensure image is required and validate type and size
         ];
 
         // Define custom error messages

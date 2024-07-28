@@ -8,6 +8,7 @@ use App\Models\PostSubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class SubCategoryController extends Controller
@@ -31,17 +32,17 @@ class SubCategoryController extends Controller
 
     public function subcategoryCreate(Request $request)
     {
+        $categoryId = $request->input('category');
         $validator = Validator::make($request->all(), [
             'category' => 'required|exists:post_categories,id',
             'name' => [
                 'required',
                 'string',
                 'max:255',
-                function ($attribute, $value, $fail) {
-                    if (PostSubCategory::where('name', $value)->exists() || PostCategory::where('name', $value)->exists()) {
-                        $fail('The subcategory name must be unique and not exist in the categories.');
-                    }
-                }
+                Rule::unique('post_sub_categories', 'name')
+                    ->where(function ($query) use ($categoryId) {
+                        return $query->where('category_id', $categoryId);
+                    }),
             ],
         ], [
             'category.required' => 'The category field is required.',
@@ -49,6 +50,7 @@ class SubCategoryController extends Controller
             'name.required' => 'The subcategory name is required.',
             'name.string' => 'The subcategory name must be a string.',
             'name.max' => 'The subcategory name must not be greater than 255 characters.',
+            'name.unique' => 'The subcategory name has already been taken in this category.',
         ]);
 
         if ($validator->fails()) {
@@ -95,8 +97,5 @@ class SubCategoryController extends Controller
         return response()->json(['subcategory' => $subcategory]);
     }
 
-    public function subcategoryUpdate(Request $request)
-    {
-        
-    }
+    public function subcategoryUpdate(Request $request) {}
 }

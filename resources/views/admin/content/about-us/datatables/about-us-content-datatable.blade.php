@@ -56,7 +56,11 @@
                         orderable: true,
                         sortable: false,
                         data: 'description',
-                        name: 'description'
+                        name: 'description',
+                        render: function(data, type, row, meta) {
+                            console.log("Render Function Data: ", data);
+                            return $('<div/>').html(data).text();
+                        }
                     },
                 ],
                 lengthMenu: [
@@ -111,7 +115,15 @@
                     // Example: Update your custom input fields
                     $('#title').val(firstRowData.title);
                     $('#slogan').val(firstRowData.slogan);
-                    $('#ab_des').val(firstRowData.description);
+
+                    // Clean and set CKEditor content
+                    if (CKEDITOR.instances['ab_des']) {
+                        // Decode HTML entities if needed
+                        var cleanData = $('<div/>').html(firstRowData.description).text();
+
+                        CKEDITOR.instances['ab_des'].setData(cleanData);
+                    }
+
                     $('#add-header').text('Update About us Content');
                 }
             }
