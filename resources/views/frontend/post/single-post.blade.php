@@ -1,36 +1,8 @@
-@extends('frontend.layouts.front-end-layout')
-
+@extends('frontend.layouts.frontend-page-layout')
 @section('frontend-section')
-<!-- Title Area start here -->
-<section class="page-title-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-2"></div>
-            <div class="col-lg-8 p-mobile">
-                <div class="text-center page-title-area">
-                    <div class="page-title">
-                        <h2>
-                        @if ($post->category)
-                          <h2>{{ $post->category->name }}</h2>
-                      @endif
-                        </h2>
-                    </div>
-                    <div class="page-border">
-                        <div class="top-bottom-img">
-                            <img src="{{ asset('public/frontend/images/top-right.png')}}" alt=""
-                                class="page-top-right">
-                            <img src="{{ asset('public/frontend/images/bottom-left.png')}}" alt=""
-                                class="page-bottom-left">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2"></div>
-        </div>
-    </div>
-</section>
-<!-- Title Area end here -->
-
+@if($post->category)
+    @section('page-title', $post->category->name)
+@endif
 <!-- main section start here -->
 <section class="bg-gray ptb-50">
   <div class="container single-post-container">

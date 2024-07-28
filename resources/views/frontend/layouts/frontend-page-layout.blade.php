@@ -30,7 +30,9 @@
     
     <!-- Header Section Start  -->
     @include('frontend.partials.header')
+    @if (\Route::currentRouteName() != 'frontend.index' && \Route::currentRouteName() != 'frontend.member.show')
     @include('frontend.partials.breadcum')
+    @endif
     <!-- Header Section end  -->
     @yield('frontend-section')
     <!-- footer Section Start  -->

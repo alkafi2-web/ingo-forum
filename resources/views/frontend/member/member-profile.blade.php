@@ -1,4 +1,4 @@
-@extends('frontend.layouts.front-end-layout')
+@extends('frontend.layouts.frontend-page-layout')
 @section('frontend-section')
     <!-- Profile Content Section start here  -->
     <section class="members-profile-content bg-green">

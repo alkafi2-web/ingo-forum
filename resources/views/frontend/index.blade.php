@@ -1,4 +1,4 @@
-@extends('frontend.layouts.front-end-layout')
+@extends('frontend.layouts.frontend-page-layout')
 @section('frontend-section')
 
     @php
