@@ -11,7 +11,7 @@
                             aria-orientation="vertical">
                             <div class="edit-profile-img bg-white py-4 px-3 text-center">
                                 <div class="preview-img mb-3">
-                                    <img src="{{ asset('public/frontend/images/member/') }}/{{ $member->memberInfos[0]['logo'] ?? 'logo.png' }}"
+                                    <img src="{{ asset('public/frontend/images/member/') }}/{{ $member->memberInfos[0]['logo'] ?? 'placeholder.jpg' }}"
                                         alt="" id="preview-img">
                                     <i class="fa-solid fa-camera" id="upload-icon"></i>
                                     <input type="file" name="" id="profile-input" class="d-none">
@@ -187,7 +187,7 @@
                                                         <div class="col-md-8">
                                                             <input type="email" name="login_email" class="form-control"
                                                                 id="login_email" placeholder="Email"
-                                                                value="{{ $member->email }}">
+                                                                value="{{ $member->email }}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>

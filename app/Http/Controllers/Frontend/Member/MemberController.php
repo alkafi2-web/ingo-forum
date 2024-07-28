@@ -117,7 +117,7 @@ class MemberController extends Controller
             'director_name' => 'required|string|max:255',
             'director_email' => 'required|email|max:255',
             'director_phone' => 'nullable|string|max:20',
-            'login_email' => 'required|email|max:255',
+            // 'login_email' => 'required|email|max:255',
             'login_phone' => 'nullable|string|max:20',
             'password' => 'nullable|string|min:8|confirmed',
         ];
@@ -151,7 +151,7 @@ class MemberController extends Controller
         $member = Auth::guard('member')->user();
 
         // Update member information
-        $member->email = $request->login_email;
+        // $member->email = $request->login_email;
         $member->phone = $request->login_phone;
         if ($request->filled('password')) {
             $member->password = Hash::make($request->password);

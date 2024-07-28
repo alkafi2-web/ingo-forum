@@ -18,7 +18,7 @@
                 <div class="partners">
                     @forelse ($membersInfos as $member)
                         <div class="partner d-flex flex-column">
-                            <img src="{{ asset('public/frontend/images/member/') }}/{{ $member->logo ?? 'logo.png' }}"
+                            <img src="{{ asset('public/frontend/images/member/') }}/{{ $member->logo ?? 'placeholder.jpg' }}"
                                 alt="" class="mb-3">
                             <a href="{{ route('frontend.member.show', ['membership_id' => $member->membership_id]) }}"
                                 class="partner-btn">View Profile</a>
