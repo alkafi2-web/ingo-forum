@@ -33,7 +33,7 @@
     
     <!-- Header Section Start  -->
     @include('frontend.partials.header')
-    @if (\Route::currentRouteName() != 'frontend.index' && \Route::currentRouteName() != 'frontend.member.show')
+    @if (\Route::currentRouteName() != 'frontend.index' && \Route::currentRouteName() != 'frontend.member.show' && \Route::currentRouteName() != 'member.own.profile')
     @include('frontend.partials.breadcum')
     @endif
     <!-- Header Section end  -->

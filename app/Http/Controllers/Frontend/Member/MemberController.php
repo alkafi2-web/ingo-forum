@@ -89,8 +89,8 @@ class MemberController extends Controller
     }
     public function memberOwnProfile()
     {
-        $member = Auth::guard('member')->user()->load('memberInfos');
-        return view('frontend.member.member-own-profile', compact('member'));
+        $memberinfo = Auth::guard('member')->user()->load('memberInfos');
+        return view('frontend.member.member-own-profile', compact('memberinfo'));
     }
     public function memberProfile()
     {

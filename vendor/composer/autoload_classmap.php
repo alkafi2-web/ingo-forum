@@ -28,6 +28,7 @@ return array(
     'App\\Http\\Controllers\\Post\\SubCategoryController' => $baseDir . '/app/Http/Controllers/Post/SubCategoryController.php',
     'App\\Http\\Controllers\\RobotsController' => $baseDir . '/app/Http/Controllers/RobotsController.php',
     'App\\Http\\Controllers\\Role\\RoleController' => $baseDir . '/app/Http/Controllers/Role/RoleController.php',
+    'App\\Http\\Controllers\\SitemapController' => $baseDir . '/app/Http/Controllers/SitemapController.php',
     'App\\Http\\Middleware\\MemberMiddleware' => $baseDir . '/app/Http/Middleware/MemberMiddleware.php',
     'App\\Http\\Middleware\\adminMiddleware' => $baseDir . '/app/Http/Middleware/adminMiddleware.php',
     'App\\Models\\Banner' => $baseDir . '/app/Models/Banner.php',
