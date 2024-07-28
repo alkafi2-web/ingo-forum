@@ -174,3 +174,11 @@ table tbody tr:last-child td {
   }
 }
 /* Modal Design end Here  */
+.das_board .card .card-header {
+  min-height: auto;
+  border-bottom: none;
+}
+
+.user-activity i {
+  font-size: 30px;
+}
