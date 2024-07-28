@@ -87,7 +87,11 @@ class MemberController extends Controller
         ]);
         return response()->json(['success' => true, 'message' => 'Successfully Be A Member.Now Log in And Update Info', 'redirect' => route('frontend.login')], 200);
     }
-
+    public function memberOwnProfile()
+    {
+        $member = Auth::guard('member')->user()->load('memberInfos');
+        return view('frontend.member.member-own-profile', compact('member'));
+    }
     public function memberProfile()
     {
         $member = Auth::guard('member')->user()->load('memberInfos');
@@ -271,19 +275,22 @@ class MemberController extends Controller
             }
             // Move the file to the specified directory
             $organization_document->move($dir, $organization_document_name);
+            $memberInfo->update([
+                'profile_attachment' => $organization_document_name,
+            ]);
         }
 
         // Update member information
         $memberInfo->update([
             'title' => $request->title,
             'sub_title' => $request->sub_title,
+            'short_description' => $request->short_description,
             'mission' => $request->mission,
             'vision' => $request->vision,
             'value' => $request->value,
             'work' => $request->work,
             'history' => $request->history,
             'other_description' => $request->other_description,
-            'profile_attachment' => $organization_document_name,
         ]);
 
         // Save the updated member information

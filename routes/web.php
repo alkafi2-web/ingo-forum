@@ -229,7 +229,8 @@ Route::prefix('member')->group(function () {
     Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
 
     Route::middleware(['auth.member'])->group(function () {
-        Route::get('/profile', [MemberController::class, 'memberProfile'])->name('member.profile');
+        Route::get('/profile-own', [MemberController::class, 'memberOwnProfile'])->name('member.own.profile');
+        Route::get('/profile-edit', [MemberController::class, 'memberProfile'])->name('member.profile');
         Route::post('/profile', [MemberController::class, 'profileUpdate'])->name('member.profile.update');
         Route::post('/profile/summary', [MemberController::class, 'profileUpdateSummary'])->name('member.profile.update.summary');
         Route::post('/profile/social', [MemberController::class, 'profileUpdateSocial'])->name('member.profile.update.social');
@@ -239,6 +240,7 @@ Route::prefix('member')->group(function () {
 
     Route::get('/ours/member', [FrontAuthController::class, 'oursMember'])->name('frontend.ours.member');
     Route::get('/{membership_id}', [FrontAuthController::class, 'profileShow'])->name('frontend.member.show');
+    Route::get('profile/download/{membership_id}', [FrontAuthController::class, 'profileDownload'])->name('profile.download');
 });
 
 // post routes start

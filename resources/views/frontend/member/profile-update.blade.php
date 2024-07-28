@@ -255,6 +255,10 @@
                                                 value="{{ $member->memberInfos[0]['sub_title'] ?? '' }}">
                                         </div>
                                         <div class="col-12 mb-3">
+                                            <label for="short_description" class="form-label">Short Descrition</label>
+                                            <textarea class="form-control" id="short_description" name="short_description" rows="3">{{ $member->memberInfos[0]['short_description'] ?? '' }}</textarea>
+                                        </div>
+                                        <div class="col-12 mb-3">
                                             <label for="organization_document" class="form-label">Organization
                                                 Document</label>
                                             <input type="file" class="form-control" id="organization_document"
@@ -422,6 +426,7 @@
                 let url = "{{ route('member.profile.update.summary') }}";
                 let title = $('#title').val();
                 let subTitle = $('#sub_title').val();
+                let short_description = $('#short_description').val();
                 let mission = CKEDITOR.instances['mission'].getData();
                 let vision = CKEDITOR.instances['vision'].getData();
                 let value = CKEDITOR.instances['values'].getData();
@@ -435,6 +440,7 @@
                 // Append form data to FormData object
                 formData.append('title', title);
                 formData.append('sub_title', subTitle);
+                formData.append('short_description', short_description);
                 formData.append('mission', mission);
                 formData.append('vision', vision);
                 formData.append('value', value);
