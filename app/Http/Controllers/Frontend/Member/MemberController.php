@@ -288,9 +288,9 @@ class MemberController extends Controller
 
         // Save the updated member information
         $memberInfo->save();
-
+        $fileUrl = $memberInfo->profile_attachment ? asset('public/frontend/images/member/' . $memberInfo->profile_attachment) : null;
         // Return success response
-        return response()->json(['success' => true, 'message' => 'Data successfully updated.'], 200);
+        return response()->json(['success' => true, 'message' => 'Data successfully updated.', 'fileUrl' => $fileUrl], 200);
     }
 
 

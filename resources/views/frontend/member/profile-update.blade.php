@@ -258,9 +258,14 @@
                                             <label for="organization_document" class="form-label">Organization
                                                 Document</label>
                                             <input type="file" class="form-control" id="organization_document"
-                                                name="organization_document" placeholder="Sub Title" value="">
+                                                name="organization_document">
                                             <!-- Container to display the file preview -->
-                                            <div id="file-preview" class="mt-3"></div>
+                                            <div id="file-preview" class="mt-3">
+                                                @if (!empty($member->memberInfos[0]['profile_attachment']))
+                                                    <a href="{{ asset('public/frontend/images/member/' . $member->memberInfos[0]['profile_attachment']) }}"
+                                                        target="_blank">Open uploaded file</a>
+                                                @endif
+                                            </div>
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="mission" class="form-label">Mission</label>
@@ -343,9 +348,6 @@
 @endsection
 
 @push('custom-js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js"></script>
-
     <script>
         // Initialize CKEditor on the textareas
         CKEDITOR.replace('description');
@@ -457,6 +459,46 @@
                     },
                     success: function(response) {
                         toastr.success(response.message);
+                        // Display the uploaded file in the preview section
+                        var fileUrl = response.fileUrl;
+                        var $previewContainer = $('#file-preview');
+                        $previewContainer.empty(); // Clear previous preview
+
+                        if (fileUrl) {
+                            var fileType = organizationDocument.type;
+
+                            if (fileType.startsWith('image/')) {
+                                var $img = $('<img>').attr('src', fileUrl).css('max-width',
+                                    '100%');
+                                $previewContainer.append($img);
+                            } else if (fileType === 'application/pdf') {
+                                var $iframe = $('<iframe>').attr({
+                                    src: fileUrl,
+                                    type: 'application/pdf',
+                                    width: '100%',
+                                    height: '300px' // Adjust the height as needed
+                                });
+                                $previewContainer.append($iframe);
+                            } else if (fileType ===
+                                'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                                fileType ===
+                                'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+                            ) {
+                                // For DOCX and PPT files, provide a link to open the file in a new tab
+                                var $link = $('<a>').attr({
+                                    href: fileUrl,
+                                    target: '_blank'
+                                }).text('Open file: ' + organizationDocument.name);
+                                $previewContainer.append($link);
+                            } else {
+                                // For other file types, provide a link to open the file in a new tab
+                                var $link = $('<a>').attr({
+                                    href: fileUrl,
+                                    target: '_blank'
+                                }).text('Open file: ' + organizationDocument.name);
+                                $previewContainer.append($link);
+                            }
+                        }
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
@@ -555,6 +597,7 @@
             //         }
             //     }
             // });
+
             $('#organization_document').on('change', function() {
                 var file = this.files[0];
                 var $previewContainer = $('#file-preview');
@@ -563,44 +606,21 @@
                 $previewContainer.empty();
 
                 if (file) {
-                    if (file.type.startsWith('image/')) {
-                        var reader = new FileReader();
+                    var reader = new FileReader();
 
-                        reader.onload = function(e) {
-                            var $img = $('<img>').attr('src', e.target.result).css('max-width', '100%');
-                            $previewContainer.append($img);
-                        }
+                    reader.onload = function(e) {
+                        var $anchor = $('<a>')
+                            .attr('href', e.target.result)
+                            .attr('download', file.name) // Optional: Allows downloading the file
+                            .attr('target', '_blank')
+                            .text('Open ' + file.name + ' in New Tab');
 
-                        reader.readAsDataURL(file);
-                    } else if (file.type === 'application/pdf') {
-                        var reader = new FileReader();
-
-                        reader.onload = function(e) {
-                            var $iframe = $('<iframe>').attr({
-                                src: e.target.result,
-                                type: 'application/pdf',
-                                width: '100%',
-                                height: '500px' // Adjust the height as needed
-                            });
-                            $previewContainer.append($iframe);
-                        }
-
-                        reader.readAsDataURL(file);
-                    } else if (file.type ===
-                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-                        file.type ===
-                        'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
-                        // For DOCX and PPT files, display the file name
-                        var $text = $('<p>').text('Selected file: ' + file.name);
-                        $previewContainer.append($text);
-                    } else {
-                        // For other file types, just display the file name
-                        var $text = $('<p>').text('Selected file: ' + file.name);
-                        $previewContainer.append($text);
+                        $previewContainer.append($anchor);
                     }
+
+                    reader.readAsDataURL(file);
                 }
             });
-
 
 
         });
