@@ -23,6 +23,14 @@ use App\Http\Controllers\Frontend\Page\PageController as FrontendPageController;
 use App\Http\Controllers\Member\MemberController as AdminMemberController;
 use App\Http\Controllers\Menu\MenuController;
 use App\Http\Controllers\Frontend\Post\PostController as FrontendPostController;
+use App\Http\Controllers\RobotsController;
+use App\Http\Controllers\SitemapController;
+
+
+
+// robot & sitemap 
+Route::get('/robots.txt', [RobotsController::class, 'index']);
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 Route::prefix('admin')->group(function () {
     Route::get('/', [AuthController::class, 'login'])->name('login');

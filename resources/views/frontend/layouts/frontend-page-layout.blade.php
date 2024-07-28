@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>INGO Forum Bangladesh</title>
+    {!! SEOMeta::generate() !!}
+    {!! OpenGraph::generate() !!}
+    {{-- {!! TwitterCard::generate() !!} --}}
+    {!! JsonLd::generate() !!}
     <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
