@@ -219,6 +219,13 @@ Route::prefix('admin')->group(function () {
             // Route::post('/view', [AdminMemberController::class, 'memberView'])->name('member.view');
         });
         // member route end
+
+        // contact list route start
+        // Route::prefix('member')->group(function () {
+            Route::get('/contact/list', [SystemController::class, 'contactList'])->name('contact.list');
+            Route::post('/contact/list/delete', [SystemController::class, 'contactListDelete'])->name('contact.list.delete');
+        // });
+        // contact list route end
     });
 });
 
