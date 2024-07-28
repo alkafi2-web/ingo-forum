@@ -24,6 +24,7 @@ class SystemController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'short_content' => 'required|string',
+            'address_embaded' => 'nullable|string',
             'email' => 'nullable|string|email', // Added email validation
             'phone' => 'nullable|string', // Added phone validation (adjust as per your validation rules)
             'address' => 'nullable|string', // Added phone validation (adjust as per your validation rules)
@@ -66,6 +67,7 @@ class SystemController extends Controller
         $data = [
             'name' => $request->input('name'),
             'short_content' => $request->input('short_content'),
+            'address_embaded' => $request->input('address_embaded'),
             'address' => $request->input('address'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),

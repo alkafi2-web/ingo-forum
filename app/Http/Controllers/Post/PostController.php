@@ -129,6 +129,24 @@ class PostController extends Controller
 
         return response()->json(['success' => 'Post deleted successfully']);
     }
+    public function postComment(Request $request)
+    {
+        // Find the banner by ID or throw an exception if not found
+        $post = Post::findOrFail($request->id);
+        if ($post->comment_permission  == 0) {
+            $post->comment_permission = 1;
+            // Save the changes to the database
+            $post->save();
+
+            return response()->json(['success' => 'Post Comment Enable successfully!']);
+        } else {
+            $post->comment_permission = 0;
+            // Save the changes to the database
+            $post->save();
+
+            return response()->json(['success' => 'Post Comment Disable successfully!']);
+        }
+    }
 
     public function postStatus(Request $request)
     {

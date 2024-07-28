@@ -132,7 +132,17 @@
                                 .replace(':categorySlug', row.category_slug)
                                 .replace(':postSlug', row.slug);
 
+                            // Determine the comment icon based on comment_permission
+                            var commentIcon = row.comment_permission ? 'fa-comments text-success' :
+                                'fa-comment-slash text-mute';
+                            var commentTitle = row.comment_permission ? 'Comments Enabled' :
+                                'Comments Disabled';
+
                             return `<div style="display: flex; align-items: center;">
+
+                            <a href="javascript:void(0)" class="text-danger comment" data-id="${row.id}" style="margin-right: 10px;">
+                                <i class="fas ${commentIcon}" title="${commentTitle}" style="font-size: 16px;"></i>
+                            </a>
                             <a href="${singlePostRoute}" class="view text-info mr-2 me-2" data-id="${row.id}">
                                 <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
                             </a>
@@ -145,8 +155,6 @@
                         </div>`;
                         }
                     }
-
-
                 ],
                 lengthMenu: [
                     [5, 10, 30, 50, -1],
@@ -201,6 +209,29 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Send AJAX request
+                    // sendAjaxRequest(url, row);
+
+                    sendAjaxReq(id, status = null, url);
+                }
+            });
+        });
+        $(document).on('click', '.comment', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+
+            var id = $(this).attr('data-id');
+            var url = "{{ route('post.comment') }}";
+            // Show SweetAlert confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This action will be change comment permission this Post!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, change it!',
                 cancelButtonText: 'No, cancel!',
                 reverseButtons: true
             }).then((result) => {
