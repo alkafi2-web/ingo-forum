@@ -41,57 +41,27 @@ Dashboard
       </div>
       <div class="col-12">
         <div class="card">
-          <div class="card-header pt-5">
-            <h3 class="card-label fw-bold text-gray-900">Newest Members</h3>
-          </div>
-          <div class="card-body pt-5">
-            <div class="d-flex align-items-center mb-4">
-              <div class="symbol symbol-50px me-5">
-                <img src="{{ asset('public/admin/media/avatars/150-26.jpg') }}" alt="user" />
-              </div>
-              <div class="flex-grow-1">
-                <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-6">Emma Smith</a>
-                <span class="text-muted d-block fw-bold">12/07/2023</span>
-              </div>
+            <div class="card-header pt-5">
+                <h3 class="card-label fw-bold text-gray-900">Newest Members</h3>
             </div>
-            <div class="d-flex align-items-center mb-4">
-              <div class="symbol symbol-50px me-5">
-                <img src="{{ asset('public/admin/media/avatars/150-26.jpg') }}" alt="user" />
-              </div>
-              <div class="flex-grow-1">
-                <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-6">Sean Bean</a>
-                <span class="text-muted d-block fw-bold">01/03/2023</span>
-              </div>
+            <div class="card-body pt-5">
+                @forelse($latestMembers as $member)
+                <div class="d-flex align-items-center mb-4">
+                    <div class="symbol symbol-50px me-5">
+                      <img src="{{ asset('public/frontend/images/member/' . ($member->info->logo ?? 'placeholder.jpg')) }}" alt="user" />
+                    </div>
+                    <div class="flex-grow-1">
+                        <a href="{{ route('member.view', ['id' => $member->id]) }}" class="text-gray-900 fw-bold text-hover-primary fs-6">{{ $member->info->organisation_name }}</a>
+                        <span class="text-muted d-block fw-bold">
+                            <i class="fas fa-calendar-day"></i> {{ $member->created_at->format('d/m/Y') }} &nbsp; 
+                            <i class="fas fa-id-card"></i> {{ $member->info->membership_id }}
+                        </span>
+                    </div>
+                </div>
+                @empty
+                <p class="text-center">No members available</p>
+                @endforelse
             </div>
-            <div class="d-flex align-items-center mb-4">
-              <div class="symbol symbol-50px me-5">
-                <img src="{{ asset('public/admin/media/avatars/150-26.jpg') }}" alt="user" />
-              </div>
-              <div class="flex-grow-1">
-                <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-6">Brian Cox</a>
-                <span class="text-muted d-block fw-bold">12/07/2023</span>
-              </div>
-            </div>
-            <div class="d-flex align-items-center mb-4">
-              <div class="symbol symbol-50px me-5">
-                <img src="{{ asset('public/admin/media/avatars/150-26.jpg') }}" alt="user" />
-              </div>
-              <div class="flex-grow-1">
-                <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-6">Francis Mitcham</a>
-
-                <span class="text-muted d-block fw-bold">01/03/2023</span>
-              </div>
-            </div>
-            <div class="d-flex align-items-center">
-              <div class="symbol symbol-50px me-5">
-                <img src="{{ asset('public/admin/media/avatars/150-26.jpg') }}" alt="user" />
-              </div>
-              <div class="flex-grow-1">
-                <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-6">Dan Wilson</a>
-                <span class="text-muted d-block fw-bold">12/072023</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <div class="col-12">
@@ -261,29 +231,22 @@ Dashboard
       <div class="col-12">
         <div class="card">
           <div class="card-header pt-5">
-            <h3 class="card-label fw-bold text-gray-900">Quick Setting</h3>
+            <h3 class="card-label fw-bold text-gray-900">Contact Request</h3>
           </div>
           <div class="card-body pt-5">
             <div class="row gx-3">
-              <div class="col-4">
+              <div class="col-6">
                 <div class="d-flex flex-column bg-light-primary px-6 py-8 rounded-2 h-lg-100">
-                  <i class="fas fa-hand-holding-medical fs-2x text-primary my-2"></i>
+                  <i class="fas fa-address-book fs-2x text-primary my-2"></i>
                   <span class="text-primary fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">25</span>
-                  <a href="#" class="text-primary fw-semibold fs-5">Total</a>
+                  <a href="#" class="text-primary fw-semibold fs-5">Total Request</a>
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-6">
                 <div class="d-flex flex-column bg-light-success px-6 py-8 rounded-2 h-lg-100">
-                  <i class="fas fa-user-check fs-2x text-success my-2"></i>
+                  <i class="fas fa-calendar-day fs-2x text-success my-2"></i>
                   <span class="text-success fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">8</span>
-                  <a href="#" class="text-success fw-semibold fs-5">Active</a>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class=" d-flex flex-column bg-light-danger px-6 py-8 rounded-2 h-lg-100">
-                  <i class="fas fa-exclamation-circle fs-2x text-danger my-2"></i>
-                  <span class="text-danger fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">5</span>
-                  <a href="#" class="text-danger fw-semibold fs-5">Request</a>
+                  <a href="#" class="text-success fw-semibold fs-5">Today Request</a>
                 </div>
               </div>
             </div>
@@ -291,63 +254,35 @@ Dashboard
         </div>
       </div>
       <div class="col-12">
-        <div class="card">
-          <div class="card-header pt-5 align-items-center">
-            <h3 class="card-label fw-bold text-gray-900 mb-0">Latest Post</h3>
-            <a href="" class="btn btn-sm fw-bold btn-primary">
-              Add New</a>
+          <div class="card">
+              <div class="card-header pt-5 align-items-center">
+                  <h3 class="card-label fw-bold text-gray-900 mb-0">Latest Post</h3>
+                  <a href="{{ route('post.create') }}" class="btn btn-sm fw-bold btn-primary">Add New</a>
+              </div>
+              <div class="card-body pt-5">
+                  @forelse($latestPosts as $post)
+                  <div class="d-flex align-items-center mb-5">
+                      <span class="bullet bullet-vertical h-40px bg-primary"></span>
+                      <div class="flex-grow-1 mx-3">
+                          <a href="{{ route('single.post', ['categorySlug' => $post->category->slug, 'postSlug' => $post->slug]) }}" class="text-gray-800 text-hover-primary fw-bold fs-6">{{ $post->title }}</a>
+                          <span class="text-muted fw-semibold d-block">
+                              <div class="post-overview">
+                                  <i class="fas fa-comments text-primary"></i>&nbsp;
+                                  <small style="color: #999">
+                                      {{ $post->total_comments_and_replies }}
+                                  </small> &nbsp;&nbsp;
+                                  <i class="fas fa-book-reader text-success"></i> &nbsp;
+                                  <small style="color: #999">{{ $post->total_reads }}</small> &nbsp;
+                              </div>
+                          </span>
+                      </div>
+                      <a href="{{ route('single.post', ['categorySlug' => $post->category->slug, 'postSlug' => $post->slug]) }}" class="badge badge-light-primary fs-8 fw-bold"><i class="fas fa-external-link-alt text-primary"></i></a>
+                  </div>
+                  @empty
+                  <p class="text-center">No posts available</p>
+                  @endforelse
+              </div>
           </div>
-          <div class="card-body pt-5">
-            <div class="d-flex align-items-center mb-5">
-              <span class="bullet bullet-vertical h-40px bg-primary"></span>
-              <div class="flex-grow-1 mx-3">
-                <a href="#" class="text-gray-800 text-hover-primary fw-bold fs-6">Stakeholder Meeting</a>
-                <span class="text-muted fw-semibold d-block">Due in 3 Days</span>
-              </div>
-              <span class="badge badge-light-primary fs-8 fw-bold"><i class="fas fa-external-link-alt text-primary"></i></span>
-            </div>
-            <div class="d-flex align-items-center mb-5">
-              <span class="bullet bullet-vertical h-40px bg-primary"></span>
-              <div class="flex-grow-1 mx-3">
-                <a href="#" class="text-gray-800 text-hover-primary fw-bold fs-6">Stakeholder Meeting</a>
-                <span class="text-muted fw-semibold d-block">Due in 3 Days</span>
-              </div>
-              <span class="badge badge-light-primary fs-8 fw-bold"><i class="fas fa-external-link-alt text-primary"></i></span>
-            </div>
-            <div class="d-flex align-items-center mb-5">
-              <span class="bullet bullet-vertical h-40px bg-primary"></span>
-              <div class="flex-grow-1 mx-3">
-                <a href="#" class="text-gray-800 text-hover-primary fw-bold fs-6">Stakeholder Meeting</a>
-                <span class="text-muted fw-semibold d-block">Due in 3 Days</span>
-              </div>
-              <span class="badge badge-light-primary fs-8 fw-bold"><i class="fas fa-external-link-alt text-primary"></i></span>
-            </div>
-            <div class="d-flex align-items-center mb-5">
-              <span class="bullet bullet-vertical h-40px bg-primary"></span>
-              <div class="flex-grow-1 mx-3">
-                <a href="#" class="text-gray-800 text-hover-primary fw-bold fs-6">Stakeholder Meeting</a>
-                <span class="text-muted fw-semibold d-block">Due in 3 Days</span>
-              </div>
-              <span class="badge badge-light-primary fs-8 fw-bold"><i class="fas fa-external-link-alt text-primary"></i></span>
-            </div>
-            <div class="d-flex align-items-center mb-5">
-              <span class="bullet bullet-vertical h-40px bg-primary"></span>
-              <div class="flex-grow-1 mx-3">
-                <a href="#" class="text-gray-800 text-hover-primary fw-bold fs-6">Stakeholder Meeting</a>
-                <span class="text-muted fw-semibold d-block">Due in 3 Days</span>
-              </div>
-              <span class="badge badge-light-primary fs-8 fw-bold"><i class="fas fa-external-link-alt text-primary"></i></span>
-            </div>
-            <div class="d-flex align-items-center">
-              <span class="bullet bullet-vertical h-40px bg-primary"></span>
-              <div class="flex-grow-1 mx-3">
-                <a href="#" class="text-gray-800 text-hover-primary fw-bold fs-6">Stakeholder Meeting</a>
-                <span class="text-muted fw-semibold d-block">Due in 3 Days</span>
-              </div>
-              <span class="badge badge-light-primary fs-8 fw-bold"><i class="fas fa-external-link-alt text-primary"></i></span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>

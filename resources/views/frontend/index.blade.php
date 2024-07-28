@@ -225,7 +225,7 @@
                             <div class="event-info">
                                 <img src="{{ asset('public/frontend/images/' . $global['logo']) }}" alt="logo">
                                 <h4>{{ $global['aboutus_content']->title ?? 'Please Upload It From Admin' }}</h4>
-                                <p>{{ $global['aboutus_content']->description ?? 'Please Upload It From Admin' }}</p>
+                                <p>{!! $global['aboutus_content']->description ?? 'Please Upload It From Admin' !!}</p>
                             </div>
                             <div class="single-event">
                                 <span
