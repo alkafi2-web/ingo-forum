@@ -348,8 +348,18 @@
                                     {{-- <a href=""><img src="{{ asset('public/frontend/images/blog.png')}}" alt=""></a> --}}
                                 </div>
                                 <div class="blog-content">
-                                    <span class="mini-title">#{{ $post->category->name }}</span>
-                                    <span class="mini-title">> {{ $post->subcategory->name }}</span>
+                                    <div class="w-100 row">
+                                        <div class="col-sm-12 col-md-6 postcat-initials">
+                                            <span class="mini-title">#{{ $post->category->name }}</span>
+                                            <span class="mini-title">> {{ $post->subcategory->name }}</span>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 text-end post-overview">
+                                            <i class="fas fa-comments text-secondary"></i>&nbsp;
+                                            <small style="color: #999">{{ $post->total_comments_and_replies }}</small> &nbsp;&nbsp;
+                                            <i class="fas fa-book-reader text-success"></i> &nbsp;
+                                            <small style="color: #999">{{ $post->total_reads }}</small> &nbsp;
+                                        </div>
+                                    </div>
                                     <h3 class="blog-title line-clamp-2"><a
                                             href="{{ route('single.post', ['categorySlug' => $post->category->slug, 'postSlug' => $post->slug]) }}">{{ $post->title }}</a>
                                     </h3>

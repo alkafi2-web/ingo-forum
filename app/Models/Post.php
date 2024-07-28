@@ -36,4 +36,9 @@ class Post extends Model
     {
         return $this->hasMany(PostRead::class);
     }
+
+    public function replies()
+    {
+        return $this->hasManyThrough(Reply::class, Comment::class, 'post_id', 'comment_id', 'id', 'id');
+    }
 }

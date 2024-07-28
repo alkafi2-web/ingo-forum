@@ -99,13 +99,12 @@ class PostController extends Controller
 
     public function storeReply(Request $request)
     {
-        // if (!Auth::guard('member')->check()) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'msg' => 'Be a member to write reply',
-        //     ]);
-        // }
-
+        if (!Auth::guard('member')->check()) {
+            return response()->json([
+                'success' => false,
+                'msg' => 'Be a member to reply comment',
+            ]);
+        }
         $request->validate([
             'comment_id' => 'required|exists:comments,id',
             'reply_text' => 'required',
@@ -127,6 +126,12 @@ class PostController extends Controller
 
     public function storeReaction(Request $request)
     {
+        if (!Auth::guard('member')->check()) {
+            return response()->json([
+                'success' => false,
+                'msg' => 'Be a member to react comment',
+            ]);
+        }
         // Get authenticated user using the 'member' guard
         $user = Auth::guard('member')->user();
         
@@ -148,7 +153,10 @@ class PostController extends Controller
             $reaction->save();
         }
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'msg' => 'Reaction has been added'
+        ]);
     }
     
     public function deleteCommentOrReply(Request $request)

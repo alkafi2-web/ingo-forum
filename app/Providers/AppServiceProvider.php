@@ -99,7 +99,17 @@ class AppServiceProvider extends ServiceProvider
                 $events = Event::where('status', 1)->latest()->take(3)->get();
                 $global['events'] = $events;
 
-                $posts = Post::with(['category', 'subcategory', 'addedBy'])->where('status', 1)->latest()->get();
+                $posts = Post::with(['category', 'subcategory', 'addedBy', 'comments', 'replies', 'totalRead'])
+                ->where('status', 1)
+                ->latest()
+                ->get();
+            
+                foreach ($posts as $post) {
+                    // Summing up the counts of comments and replies
+                    $post->total_comments_and_replies = $post->comments->count() + $post->replies->count();
+                    $post->total_reads = $post->totalRead->count();
+                }
+
                 $global['posts'] = $posts;
 
                 // $photos = MediaGallery::where('type', 'photo')

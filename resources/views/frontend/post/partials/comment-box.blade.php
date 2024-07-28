@@ -182,7 +182,11 @@
                 data: { comment_id: commentId },
                 success: function(response) {
                     refreshComment();
-                    toastr.success('Reaction added successfully');
+                    if (response.success) {
+                        toastr.success(response.msg);
+                    } else {
+                        toastr.error(response.msg);
+                    }
                 },
                 error: function(xhr, status, error) {
                     if (xhr.responseJSON && xhr.responseJSON.errors) {
