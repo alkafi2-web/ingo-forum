@@ -368,6 +368,24 @@
                     </span>
                     <div
                         class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'subcategory' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' ? 'hover show' : '' }}">
+                        
+
+                        <a class="menu-item menu-accordion" href="{{ route('post.create') }}">
+                            <span class="menu-link {{ Route::currentRouteName() == 'post.create' ? 'active' : '' }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Add Post</span>
+                            </span>
+                        </a>
+                        <a class="menu-item menu-accordion" href="{{ route('post.list') }}">
+                            <span class="menu-link {{ Route::currentRouteName() == 'post.list' ? 'active' : '' }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">All Post</span>
+                            </span>
+                        </a>
                         <a class="menu-item menu-accordion" href="{{ route('category') }}">
                             <span class="menu-link {{ Route::currentRouteName() == 'category' ? 'active' : '' }}">
                                 <span class="menu-bullet">
@@ -382,23 +400,6 @@
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">Sub Category</span>
-                            </span>
-                        </a>
-
-                        <a class="menu-item menu-accordion" href="{{ route('post.create') }}">
-                            <span class="menu-link {{ Route::currentRouteName() == 'post.create' ? 'active' : '' }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Post Create</span>
-                            </span>
-                        </a>
-                        <a class="menu-item menu-accordion" href="{{ route('post.list') }}">
-                            <span class="menu-link {{ Route::currentRouteName() == 'post.list' ? 'active' : '' }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Post List</span>
                             </span>
                         </a>
                     </div>

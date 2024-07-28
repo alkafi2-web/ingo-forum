@@ -729,7 +729,7 @@
                                 <h3 class="text-white fw-bold mb-3">Quick Links</h3>
                                 <!--end::Title-->
                                 <!--begin::Status-->
-                                <span class="badge bg-primary py-2 px-3">25 pending tasks</span>
+                                <span class="badge bg-primary py-2 px-3">Easy To Access</span>
                                 <!--end::Status-->
                             </div>
                             <!--end::Heading-->
@@ -737,7 +737,7 @@
                             <div class="row g-0">
                                 <!--begin:Item-->
                                 <div class="col-6">
-                                    <a href="../../demo1/dist/pages/projects/budget.html"
+                                    <a href="{{route('post.create')}}"
                                         class="d-flex flex-column flex-center h-100 p-6 bg-hover-light border-end border-bottom">
                                         <!--begin::Svg Icon | path: icons/duotune/finance/fin009.svg-->
                                         <span class="svg-icon svg-icon-3x svg-icon-primary mb-2">
@@ -752,14 +752,13 @@
                                             </svg>
                                         </span>
                                         <!--end::Svg Icon-->
-                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Accounting</span>
-                                        <span class="fs-7 text-gray-400">eCommerce</span>
+                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Add Post</span>
                                     </a>
                                 </div>
                                 <!--end:Item-->
                                 <!--begin:Item-->
                                 <div class="col-6">
-                                    <a href="../../demo1/dist/pages/projects/settings.html"
+                                    <a href="{{route('member.request')}}"
                                         class="d-flex flex-column flex-center h-100 p-6 bg-hover-light border-bottom">
                                         <!--begin::Svg Icon | path: icons/duotune/communication/com010.svg-->
                                         <span class="svg-icon svg-icon-3x svg-icon-primary mb-2">
@@ -774,14 +773,13 @@
                                             </svg>
                                         </span>
                                         <!--end::Svg Icon-->
-                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Administration</span>
-                                        <span class="fs-7 text-gray-400">Console</span>
+                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Member Request</span>
                                     </a>
                                 </div>
                                 <!--end:Item-->
                                 <!--begin:Item-->
                                 <div class="col-6">
-                                    <a href="../../demo1/dist/pages/projects/list.html"
+                                    <a href="{{route('banner.create')}}"
                                         class="d-flex flex-column flex-center h-100 p-6 bg-hover-light border-end">
                                         <!--begin::Svg Icon | path: icons/duotune/abstract/abs042.svg-->
                                         <span class="svg-icon svg-icon-3x svg-icon-primary mb-2">
@@ -796,14 +794,13 @@
                                             </svg>
                                         </span>
                                         <!--end::Svg Icon-->
-                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Projects</span>
-                                        <span class="fs-7 text-gray-400">Pending Tasks</span>
+                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Add Banner</span>
                                     </a>
                                 </div>
                                 <!--end:Item-->
                                 <!--begin:Item-->
                                 <div class="col-6">
-                                    <a href="../../demo1/dist/pages/projects/users.html"
+                                    <a href="{{route('system')}}"
                                         class="d-flex flex-column flex-center h-100 p-6 bg-hover-light">
                                         <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
                                         <span class="svg-icon svg-icon-3x svg-icon-primary mb-2">
@@ -818,31 +815,13 @@
                                             </svg>
                                         </span>
                                         <!--end::Svg Icon-->
-                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Customers</span>
-                                        <span class="fs-7 text-gray-400">Latest cases</span>
+                                        <span class="fs-5 fw-bold text-gray-800 mb-0">System Setting</span>
                                     </a>
                                 </div>
                                 <!--end:Item-->
                             </div>
                             <!--end:Nav-->
-                            <!--begin::View more-->
-                            <div class="py-2 text-center border-top">
-                                <a href="../../demo1/dist/pages/profile/activity.html"
-                                    class="btn btn-color-gray-600 btn-active-color-primary">View All
-                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
-                                    <span class="svg-icon svg-icon-5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none">
-                                            <rect opacity="0.5" x="18" y="13" width="13" height="2"
-                                                rx="1" transform="rotate(-180 18 13)" fill="black" />
-                                            <path
-                                                d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
-                                                fill="black" />
-                                        </svg>
-                                    </span>
-                                    <!--end::Svg Icon--></a>
-                            </div>
-                            <!--end::View more-->
+                            
                         </div>
                         <!--end::Menu-->
                         <!--end::Menu wrapper-->
