@@ -37,11 +37,11 @@ return [
          */
         'defaults' => [
             'title'       => 'INGO Forum Bangladesh', // set false to total remove
-            'description' => 'The INGO Forum is a platform for International Non-Governmental Organizations (INGOs) working in Bangladesh.', // set false to total remove
+            'description' => 'The INGO Forum is a platform for International Non-Governmental Organizations (INGOs) working in Bangladesh. ', // set false to total remove
             'url'         => false, // Set null for using Url::current(), set false to total remove
             'type'        => false,
             'site_name'   => false,
-            'images'      => [url('public/frontend/images/logo.png')],
+            'images'      => [],
         ],
     ],
     'twitter' => [
@@ -62,7 +62,7 @@ return [
             'description' => 'The INGO Forum is a platform for International Non-Governmental Organizations (INGOs) working in Bangladesh. Established in response to the evolving needs of the development sector', // set false to total remove
             'url'         => 'full', // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
             'type'        => 'WebPage',
-            'images'      => [url('public/frontend/images/logo.png')],
+            'images'      => [],
         ],
     ],
 ];
