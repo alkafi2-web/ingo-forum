@@ -16,23 +16,23 @@ Dashboard
             <div class="row gx-3">
               <div class="col-4">
                 <div class="d-flex flex-column bg-light-primary px-6 py-8 rounded-2 h-lg-100">
-                  <i class="fas fa-hand-holding-medical fs-2x text-primary my-2"></i>
+                  <i class="fas fa-users fs-2x text-primary my-2"></i>
                   <span class="text-primary fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">25</span>
-                  <a href="#" class="text-primary fw-semibold fs-5">Total</a>
+                  <a href="#" class="text-primary fw-semibold fs-5">Total Member</a>
                 </div>
               </div>
               <div class="col-4">
                 <div class="d-flex flex-column bg-light-success px-6 py-8 rounded-2 h-lg-100">
                   <i class="fas fa-user-check fs-2x text-success my-2"></i>
                   <span class="text-success fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">8</span>
-                  <a href="#" class="text-success fw-semibold fs-5">Active</a>
+                  <a href="#" class="text-success fw-semibold fs-5">Active Member</a>
                 </div>
               </div>
               <div class="col-4">
                 <div class=" d-flex flex-column bg-light-danger px-6 py-8 rounded-2 h-lg-100">
                   <i class="fas fa-exclamation-circle fs-2x text-danger my-2"></i>
                   <span class="text-danger fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">5</span>
-                  <a href="#" class="text-danger fw-semibold fs-5">Request</a>
+                  <a href="#" class="text-danger fw-semibold fs-5">Member Request</a>
                 </div>
               </div>
             </div>
@@ -51,7 +51,7 @@ Dashboard
               </div>
               <div class="flex-grow-1">
                 <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-6">Emma Smith</a>
-                <span class="text-muted d-block fw-bold">12/072023</span>
+                <span class="text-muted d-block fw-bold">12/07/2023</span>
               </div>
             </div>
             <div class="d-flex align-items-center mb-4">
@@ -69,7 +69,7 @@ Dashboard
               </div>
               <div class="flex-grow-1">
                 <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-6">Brian Cox</a>
-                <span class="text-muted d-block fw-bold">12/072023</span>
+                <span class="text-muted d-block fw-bold">12/07/2023</span>
               </div>
             </div>
             <div class="d-flex align-items-center mb-4">
@@ -298,7 +298,7 @@ Dashboard
               Add New</a>
           </div>
           <div class="card-body pt-5">
-            <div class="d-flex align-items-center mb-8">
+            <div class="d-flex align-items-center mb-5">
               <span class="bullet bullet-vertical h-40px bg-primary"></span>
               <div class="flex-grow-1 mx-3">
                 <a href="#" class="text-gray-800 text-hover-primary fw-bold fs-6">Stakeholder Meeting</a>
@@ -306,7 +306,7 @@ Dashboard
               </div>
               <span class="badge badge-light-primary fs-8 fw-bold"><i class="fas fa-external-link-alt text-primary"></i></span>
             </div>
-            <div class="d-flex align-items-center mb-8">
+            <div class="d-flex align-items-center mb-5">
               <span class="bullet bullet-vertical h-40px bg-primary"></span>
               <div class="flex-grow-1 mx-3">
                 <a href="#" class="text-gray-800 text-hover-primary fw-bold fs-6">Stakeholder Meeting</a>
@@ -314,7 +314,7 @@ Dashboard
               </div>
               <span class="badge badge-light-primary fs-8 fw-bold"><i class="fas fa-external-link-alt text-primary"></i></span>
             </div>
-            <div class="d-flex align-items-center mb-8">
+            <div class="d-flex align-items-center mb-5">
               <span class="bullet bullet-vertical h-40px bg-primary"></span>
               <div class="flex-grow-1 mx-3">
                 <a href="#" class="text-gray-800 text-hover-primary fw-bold fs-6">Stakeholder Meeting</a>
@@ -322,7 +322,7 @@ Dashboard
               </div>
               <span class="badge badge-light-primary fs-8 fw-bold"><i class="fas fa-external-link-alt text-primary"></i></span>
             </div>
-            <div class="d-flex align-items-center mb-8">
+            <div class="d-flex align-items-center mb-5">
               <span class="bullet bullet-vertical h-40px bg-primary"></span>
               <div class="flex-grow-1 mx-3">
                 <a href="#" class="text-gray-800 text-hover-primary fw-bold fs-6">Stakeholder Meeting</a>
@@ -330,7 +330,7 @@ Dashboard
               </div>
               <span class="badge badge-light-primary fs-8 fw-bold"><i class="fas fa-external-link-alt text-primary"></i></span>
             </div>
-            <div class="d-flex align-items-center mb-8">
+            <div class="d-flex align-items-center mb-5">
               <span class="bullet bullet-vertical h-40px bg-primary"></span>
               <div class="flex-grow-1 mx-3">
                 <a href="#" class="text-gray-800 text-hover-primary fw-bold fs-6">Stakeholder Meeting</a>
@@ -338,7 +338,7 @@ Dashboard
               </div>
               <span class="badge badge-light-primary fs-8 fw-bold"><i class="fas fa-external-link-alt text-primary"></i></span>
             </div>
-            <div class="d-flex align-items-center mb-8">
+            <div class="d-flex align-items-center">
               <span class="bullet bullet-vertical h-40px bg-primary"></span>
               <div class="flex-grow-1 mx-3">
                 <a href="#" class="text-gray-800 text-hover-primary fw-bold fs-6">Stakeholder Meeting</a>

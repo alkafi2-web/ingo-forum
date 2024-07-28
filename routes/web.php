@@ -25,6 +25,7 @@ use App\Http\Controllers\Menu\MenuController;
 use App\Http\Controllers\Frontend\Post\PostController as FrontendPostController;
 use App\Http\Controllers\RobotsController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\Dashboard\DashboardController;
 
 
 
@@ -40,7 +41,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/register', [AuthController::class, 'register'])->name('register');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-        Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
         // Other routes that require authentication
 
         //user managment start

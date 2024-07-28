@@ -69,11 +69,6 @@ class AuthController extends Controller
             return view('admin.authenication.login');
         }
     }
-    public function dashboard()
-    {
-        
-        return view('admin.dashboard.dashborad');
-    }
     public function loginPost(Request $request)
     {
         // Validate the request
