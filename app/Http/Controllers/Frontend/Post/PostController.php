@@ -11,6 +11,12 @@ use App\Models\Reply;
 use App\Models\Reaction;
 use Illuminate\Support\Facades\Auth;
 use App\Models\PostRead;
+use Illuminate\Support\Str;
+// seo 
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\TwitterCard;
+use Artesaos\SEOTools\Facades\JsonLd;
 
 class PostController extends Controller
 {
@@ -67,8 +73,33 @@ class PostController extends Controller
         // Get the total reads for this post
         $readCount = $post->totalRead->count();
 
-        return view('frontend.post.single-post', compact('post', 'latestPosts', 'relatedPosts', 'readCount'));
+        // Generate keywords from the description
+        $description = Str::limit(htmlspecialchars_decode(strip_tags($post->long_des)), 500);
+        $keywords = $this->generateKeywords($description);
 
+        // Set SEO meta tags
+        SEOMeta::setTitle($post->title);
+        SEOMeta::setDescription(Str::limit(htmlspecialchars_decode(strip_tags($post->long_des)), 200));
+        SEOMeta::addMeta('article:published_time', $post->created_at->toW3CString(), 'property');
+        SEOMeta::addKeyword($keywords);
+
+        OpenGraph::setDescription(Str::limit(htmlspecialchars_decode(strip_tags($post->long_des)), 200));
+        OpenGraph::setTitle($post->title);
+        OpenGraph::setUrl(route('single.post', ['categorySlug' => $categorySlug, 'postSlug' => $postSlug]));
+        OpenGraph::addProperty('type', 'article');
+        OpenGraph::addImage(asset("public/frontend/images/posts/{$post->banner}"));
+
+        TwitterCard::setTitle($post->title);
+        TwitterCard::setSite('@your_twitter_handle');
+        TwitterCard::setDescription(Str::limit(htmlspecialchars_decode(strip_tags($post->long_des)), 200));
+        TwitterCard::setImage(asset("public/frontend/images/posts/{$post->banner}"));
+
+        JsonLd::setTitle($post->title);
+        JsonLd::setDescription(Str::limit(htmlspecialchars_decode(strip_tags($post->long_des)), 200));
+        JsonLd::setType('Article');
+        JsonLd::addImage(asset("public/frontend/images/posts/{$post->banner}"));
+
+        return view('frontend.post.single-post', compact('post', 'latestPosts', 'relatedPosts', 'readCount'));
     }
 
     public function storeComment(Request $request)
@@ -177,4 +208,29 @@ class PostController extends Controller
         }
     }
 
+    private function generateKeywords($text)
+    {
+        // Define a list of common stop words
+        $stopWords = [
+            'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself', 'yourselves',
+            'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'they', 'them', 'their',
+            'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 
+            'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 
+            'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 
+            'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 
+            'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 
+            'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 
+            'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 
+            'should', 'now'
+        ];
+
+        // Convert the description to lowercase and split into words
+        $words = explode(' ', strtolower($text));
+
+        // Filter out the stop words
+        $keywords = array_diff($words, $stopWords);
+
+        // Return the first 10 keywords
+        return array_slice($keywords, 0, 10);
+    }
 }
