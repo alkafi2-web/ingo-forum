@@ -116,7 +116,7 @@
                         sortable: false,
                         render: function(data, type, row) {
 
-                            return `<span class="status badge badge-light-${data == 1 ? 'success' : 'danger'}" data-status="${data}" data-id="${row.id}">${data == 1 ? 'Active' : 'Deactive'}</span>`;
+                            return `<span class="status badge badge-light-${data == 1 ? 'success' : 'danger'}" data-status="${data}" data-id="${row.id}">${data == 1 ? 'Published' : 'Unpublished'}</span>`;
                         }
                     },
                     {

@@ -246,12 +246,21 @@
                                         <div class="col-12 mb-3">
                                             <label for="title" class="form-label">Title</label>
                                             <input type="text" class="form-control" id="title" name="title"
-                                                   placeholder="Title" value="{{ $member->memberInfos[0]['title'] ?? '' }}">
+                                                placeholder="Title" value="{{ $member->memberInfos[0]['title'] ?? '' }}">
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="sub_title" class="form-label">Sub Title</label>
                                             <input type="text" class="form-control" id="sub_title" name="sub_title"
-                                                   placeholder="Sub Title" value="{{ $member->memberInfos[0]['sub_title'] ?? '' }}">
+                                                placeholder="Sub Title"
+                                                value="{{ $member->memberInfos[0]['sub_title'] ?? '' }}">
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label for="organization_document" class="form-label">Organization
+                                                Document</label>
+                                            <input type="file" class="form-control" id="organization_document"
+                                                name="organization_document" placeholder="Sub Title" value="">
+                                            <!-- Container to display the file preview -->
+                                            <div id="file-preview" class="mt-3"></div>
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="mission" class="form-label">Mission</label>
@@ -282,9 +291,6 @@
                                         </div>
                                     </div>
                                 </form>
-                                
-
-
                             </div>
                             <div class="tab-pane fade" id="v-pills-disabled" role="tabpanel"
                                 aria-labelledby="v-pills-disabled-tab" tabindex="0">
@@ -337,6 +343,9 @@
 @endsection
 
 @push('custom-js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js"></script>
+
     <script>
         // Initialize CKEditor on the textareas
         CKEDITOR.replace('description');
@@ -365,6 +374,7 @@
                             'content')
                     },
                     success: function(response) {
+                        console.log(response);
                         toastr.success(response.message);
                     },
                     error: function(xhr) {
@@ -419,6 +429,7 @@
                 let work = CKEDITOR.instances['work'].getData();
                 let history = CKEDITOR.instances['history'].getData();
                 let otherDescription = CKEDITOR.instances['other_description'].getData();
+                let organizationDocument = $('#organization_document')[0].files[0];
 
                 let formData = new FormData(); // Create FormData object
 
@@ -431,6 +442,9 @@
                 formData.append('work', work);
                 formData.append('history', history);
                 formData.append('other_description', otherDescription);
+                if (organizationDocument) {
+                    formData.append('organization_document', organizationDocument);
+                }
                 $.ajax({
                     type: 'POST',
                     url: url,
@@ -495,6 +509,99 @@
                     }
                 });
             });
+
+            // $('#organization_document').on('change', function() {
+            //     var file = this.files[0];
+            //     var $previewContainer = $('#file-preview');
+
+            //     // Clear any previous preview
+            //     $previewContainer.empty();
+
+            //     if (file) {
+            //         if (file.type.startsWith('image/')) {
+            //             var reader = new FileReader();
+
+            //             reader.onload = function(e) {
+            //                 var $img = $('<img>').attr('src', e.target.result).css('max-width', '100%');
+            //                 $previewContainer.append($img);
+            //             }
+
+            //             reader.readAsDataURL(file);
+            //         } else if (file.type === 'application/pdf') {
+            //             var reader = new FileReader();
+
+            //             reader.onload = function(e) {
+            //                 var $embed = $('<embed>').attr({
+            //                     src: e.target.result,
+            //                     type: 'application/pdf',
+            //                     width: '100%',
+            //                     height: '300px' // Adjust the height as needed
+            //                 });
+            //                 $previewContainer.append($embed);
+            //             }
+
+            //             reader.readAsDataURL(file);
+            //         } else if (file.type ===
+            //             'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+            //             file.type ===
+            //             'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+            //             // For DOCX and PPT files, display the file name
+            //             var $text = $('<p>').text('Selected file: ' + file.name);
+            //             $previewContainer.append($text);
+            //         } else {
+            //             // For other file types, just display the file name
+            //             var $text = $('<p>').text('Selected file: ' + file.name);
+            //             $previewContainer.append($text);
+            //         }
+            //     }
+            // });
+            $('#organization_document').on('change', function() {
+                var file = this.files[0];
+                var $previewContainer = $('#file-preview');
+
+                // Clear any previous preview
+                $previewContainer.empty();
+
+                if (file) {
+                    if (file.type.startsWith('image/')) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            var $img = $('<img>').attr('src', e.target.result).css('max-width', '100%');
+                            $previewContainer.append($img);
+                        }
+
+                        reader.readAsDataURL(file);
+                    } else if (file.type === 'application/pdf') {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            var $iframe = $('<iframe>').attr({
+                                src: e.target.result,
+                                type: 'application/pdf',
+                                width: '100%',
+                                height: '500px' // Adjust the height as needed
+                            });
+                            $previewContainer.append($iframe);
+                        }
+
+                        reader.readAsDataURL(file);
+                    } else if (file.type ===
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                        file.type ===
+                        'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+                        // For DOCX and PPT files, display the file name
+                        var $text = $('<p>').text('Selected file: ' + file.name);
+                        $previewContainer.append($text);
+                    } else {
+                        // For other file types, just display the file name
+                        var $text = $('<p>').text('Selected file: ' + file.name);
+                        $previewContainer.append($text);
+                    }
+                }
+            });
+
+
 
         });
     </script>
