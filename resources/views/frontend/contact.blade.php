@@ -10,19 +10,23 @@
                         <form id="contactForm" class="row g-2">
                             <div class="col-12">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Your Name">
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Your Name">
                             </div>
                             <div class="col-md-6">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Your Email">
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="Your Email">
                             </div>
                             <div class="col-md-6">
                                 <label for="phone" class="form-label">Phone</label>
-                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Your Phone">
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                    placeholder="Your Phone">
                             </div>
                             <div class="col-12">
                                 <label for="subject" class="form-label">Subject</label>
-                                <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject">
+                                <input type="text" class="form-control" id="subject" name="subject"
+                                    placeholder="Subject">
                             </div>
                             <div class="col-12">
                                 <label for="message" class="form-label">Message</label>
@@ -72,11 +76,18 @@
                                 </div>
                             </div>
                         </div>
+                        @php
+                            $embeddedAddress = $global['address_embaded'];
+                            $src = '';
+                            if (preg_match('/src="([^"]+)"/', $embeddedAddress, $match)) {
+                                $src = $match[1];
+                            }
+                        @endphp
+
                         <div class="map mt-3">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8684.678039702163!2d90.36168459766252!3d23.766724173655497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c09f9ba3d447%3A0x1babce9f1c6c95a3!2sMohammadpur%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1719827661161!5m2!1sen!2sbd"
-                                width="100%" height="290" style="border:0;" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            {{-- {{ $global['address_embaded'] }} --}}
+                            <iframe src="{{ $src }}" width="100%" height="290" style="border:0;"
+                                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                 </div>

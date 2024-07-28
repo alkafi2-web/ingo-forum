@@ -729,7 +729,7 @@
                                 <h3 class="text-white fw-bold mb-3">Quick Links</h3>
                                 <!--end::Title-->
                                 <!--begin::Status-->
-                                <span class="badge bg-primary py-2 px-3">25 pending tasks</span>
+                                <span class="badge bg-primary py-2 px-3">Easy To Access</span>
                                 <!--end::Status-->
                             </div>
                             <!--end::Heading-->
@@ -737,7 +737,7 @@
                             <div class="row g-0">
                                 <!--begin:Item-->
                                 <div class="col-6">
-                                    <a href="../../demo1/dist/pages/projects/budget.html"
+                                    <a href="{{route('post.create')}}"
                                         class="d-flex flex-column flex-center h-100 p-6 bg-hover-light border-end border-bottom">
                                         <!--begin::Svg Icon | path: icons/duotune/finance/fin009.svg-->
                                         <span class="svg-icon svg-icon-3x svg-icon-primary mb-2">
@@ -752,14 +752,13 @@
                                             </svg>
                                         </span>
                                         <!--end::Svg Icon-->
-                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Accounting</span>
-                                        <span class="fs-7 text-gray-400">eCommerce</span>
+                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Add Post</span>
                                     </a>
                                 </div>
                                 <!--end:Item-->
                                 <!--begin:Item-->
                                 <div class="col-6">
-                                    <a href="../../demo1/dist/pages/projects/settings.html"
+                                    <a href="{{route('member.request')}}"
                                         class="d-flex flex-column flex-center h-100 p-6 bg-hover-light border-bottom">
                                         <!--begin::Svg Icon | path: icons/duotune/communication/com010.svg-->
                                         <span class="svg-icon svg-icon-3x svg-icon-primary mb-2">
@@ -774,14 +773,13 @@
                                             </svg>
                                         </span>
                                         <!--end::Svg Icon-->
-                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Administration</span>
-                                        <span class="fs-7 text-gray-400">Console</span>
+                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Member Request</span>
                                     </a>
                                 </div>
                                 <!--end:Item-->
                                 <!--begin:Item-->
                                 <div class="col-6">
-                                    <a href="../../demo1/dist/pages/projects/list.html"
+                                    <a href="{{route('banner')}}"
                                         class="d-flex flex-column flex-center h-100 p-6 bg-hover-light border-end">
                                         <!--begin::Svg Icon | path: icons/duotune/abstract/abs042.svg-->
                                         <span class="svg-icon svg-icon-3x svg-icon-primary mb-2">
@@ -796,14 +794,13 @@
                                             </svg>
                                         </span>
                                         <!--end::Svg Icon-->
-                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Projects</span>
-                                        <span class="fs-7 text-gray-400">Pending Tasks</span>
+                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Add Banner</span>
                                     </a>
                                 </div>
                                 <!--end:Item-->
                                 <!--begin:Item-->
                                 <div class="col-6">
-                                    <a href="../../demo1/dist/pages/projects/users.html"
+                                    <a href="{{route('system')}}"
                                         class="d-flex flex-column flex-center h-100 p-6 bg-hover-light">
                                         <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
                                         <span class="svg-icon svg-icon-3x svg-icon-primary mb-2">
@@ -818,31 +815,13 @@
                                             </svg>
                                         </span>
                                         <!--end::Svg Icon-->
-                                        <span class="fs-5 fw-bold text-gray-800 mb-0">Customers</span>
-                                        <span class="fs-7 text-gray-400">Latest cases</span>
+                                        <span class="fs-5 fw-bold text-gray-800 mb-0">System Setting</span>
                                     </a>
                                 </div>
                                 <!--end:Item-->
                             </div>
                             <!--end:Nav-->
-                            <!--begin::View more-->
-                            <div class="py-2 text-center border-top">
-                                <a href="../../demo1/dist/pages/profile/activity.html"
-                                    class="btn btn-color-gray-600 btn-active-color-primary">View All
-                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
-                                    <span class="svg-icon svg-icon-5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none">
-                                            <rect opacity="0.5" x="18" y="13" width="13" height="2"
-                                                rx="1" transform="rotate(-180 18 13)" fill="black" />
-                                            <path
-                                                d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
-                                                fill="black" />
-                                        </svg>
-                                    </span>
-                                    <!--end::Svg Icon--></a>
-                            </div>
-                            <!--end::View more-->
+                            
                         </div>
                         <!--end::Menu-->
                         <!--end::Menu wrapper-->
@@ -869,12 +848,13 @@
                                     <!--end::Avatar-->
                                     <!--begin::Username-->
                                     <div class="d-flex flex-column">
-                                        <div class="fw-bolder d-flex align-items-center fs-5">Max Smith
+                                        <div class="fw-bolder d-flex align-items-center fs-5">{{ ucwords(Auth::guard('admin')->user()->name) }}
                                             <span
-                                                class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">Pro</span>
+                                                class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">{{ ucwords(Auth::guard('admin')->user()->roles->pluck('name')->first()) }}
+                                            </span>
                                         </div>
                                         <a href="#"
-                                            class="fw-bold text-muted text-hover-primary fs-7">max@kt.com</a>
+                                            class="fw-bold text-muted text-hover-primary fs-7">{{Auth::guard('admin')->user()->email}}</a>
                                     </div>
                                     <!--end::Username-->
                                 </div>
@@ -885,114 +865,15 @@
                             <!--end::Menu separator-->
                             <!--begin::Menu item-->
                             <div class="menu-item px-5">
-                                <a href="../../demo1/dist/account/overview.html" class="menu-link px-5">My Profile</a>
+                                <a href="#" class="menu-link px-5">My Profile</a>
                             </div>
                             <!--end::Menu item-->
-                            <!--begin::Menu item-->
-                            <div class="menu-item px-5">
-                                <a href="../../demo1/dist/pages/projects/list.html" class="menu-link px-5">
-                                    <span class="menu-text">My Projects</span>
-                                    <span class="menu-badge">
-                                        <span class="badge badge-light-danger badge-circle fw-bolder fs-7">3</span>
-                                    </span>
-                                </a>
-                            </div>
-                            <!--end::Menu item-->
-                            <!--begin::Menu item-->
-                            <div class="menu-item px-5" data-kt-menu-trigger="hover"
-                                data-kt-menu-placement="left-start">
-                                <a href="#" class="menu-link px-5">
-                                    <span class="menu-title">My Subscription</span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <!--begin::Menu sub-->
-                                <div class="menu-sub menu-sub-dropdown w-175px py-4">
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="../../demo1/dist/account/referrals.html"
-                                            class="menu-link px-5">Referrals</a>
-                                    </div>
-                                    <!--end::Menu item-->
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="../../demo1/dist/account/billing.html"
-                                            class="menu-link px-5">Billing</a>
-                                    </div>
-                                    <!--end::Menu item-->
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="../../demo1/dist/account/statements.html"
-                                            class="menu-link px-5">Payments</a>
-                                    </div>
-                                    <!--end::Menu item-->
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="../../demo1/dist/account/statements.html"
-                                            class="menu-link d-flex flex-stack px-5">Statements
-                                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
-                                                title="View your statements"></i></a>
-                                    </div>
-                                    <!--end::Menu item-->
-                                    <!--begin::Menu separator-->
-                                    <div class="separator my-2"></div>
-                                    <!--end::Menu separator-->
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <div class="menu-content px-3">
-                                            <label class="form-check form-switch form-check-custom form-check-solid">
-                                                <input class="form-check-input w-30px h-20px" type="checkbox"
-                                                    value="1" checked="checked" name="notifications" />
-                                                <span class="form-check-label text-muted fs-7">Notifications</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <!--end::Menu item-->
-                                </div>
-                                <!--end::Menu sub-->
-                            </div>
-                            <!--end::Menu item-->
-                            <!--begin::Menu item-->
-                            <div class="menu-item px-5">
-                                <a href="../../demo1/dist/account/statements.html" class="menu-link px-5">My
-                                    Statements</a>
-                            </div>
-                            <!--end::Menu item-->
-                            <!--begin::Menu separator-->
-                            <div class="separator my-2"></div>
+                            
                             <!--end::Menu separator-->
                             <!--begin::Menu item-->
-                            <div class="menu-item px-5" data-kt-menu-trigger="hover"
-                                data-kt-menu-placement="left-start">
-                                <a href="#" class="menu-link px-5">
-                                    <span class="menu-title position-relative">Language
-                                        <span
-                                            class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">English
-                                            <img class="w-15px h-15px rounded-1 ms-2"
-                                                src="{{ asset('public/admin/media/flags/united-states.svg') }}"
-                                                alt="" /></span></span>
-                                </a>
-                                <!--begin::Menu sub-->
-                                <div class="menu-sub menu-sub-dropdown w-175px py-4">
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="../../demo1/dist/account/settings.html"
-                                            class="menu-link d-flex px-5 active">
-                                            <span class="symbol symbol-20px me-4">
-                                                <img class="rounded-1"
-                                                    src="{{ asset('public/admin/media/flags/united-states.svg') }}"
-                                                    alt="" />
-                                            </span>English</a>
-                                    </div>
-                                    <!--end::Menu item-->
-
-                                </div>
-                                <!--end::Menu sub-->
-                            </div>
-                            <!--end::Menu item-->
-                            <!--begin::Menu item-->
-                            <div class="menu-item px-5 my-1">
+                            {{-- <div class="menu-item px-5 my-1">
                                 <a href="#" class="menu-link px-5">Account Settings</a>
-                            </div>
+                            </div> --}}
                             <!--end::Menu item-->
                             <!--begin::Menu item-->
                             <div class="menu-item px-5">
@@ -1034,24 +915,6 @@
                                         });
                                     </script>
                                 @endpush
-                            </div>
-                            <!--end::Menu item-->
-                            <!--begin::Menu separator-->
-                            <div class="separator my-2"></div>
-                            <!--end::Menu separator-->
-                            <!--begin::Menu item-->
-                            <div class="menu-item px-5">
-                                <div class="menu-content px-5">
-                                    <label
-                                        class="form-check form-switch form-check-custom form-check-solid pulse pulse-success"
-                                        for="kt_user_menu_dark_mode_toggle">
-                                        <input class="form-check-input w-30px h-20px" type="checkbox" value="1"
-                                            name="mode" id="kt_user_menu_dark_mode_toggle"
-                                            data-kt-url="../../demo1/dist/index.html" />
-                                        <span class="pulse-ring ms-n1"></span>
-                                        <span class="form-check-label text-gray-600 fs-7">Dark Mode</span>
-                                    </label>
-                                </div>
                             </div>
                             <!--end::Menu item-->
                         </div>
