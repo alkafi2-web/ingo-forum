@@ -246,12 +246,27 @@
                                         <div class="col-12 mb-3">
                                             <label for="title" class="form-label">Title</label>
                                             <input type="text" class="form-control" id="title" name="title"
-                                                   placeholder="Title" value="{{ $member->memberInfos[0]['title'] ?? '' }}">
+                                                placeholder="Title" value="{{ $member->memberInfos[0]['title'] ?? '' }}">
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="sub_title" class="form-label">Sub Title</label>
                                             <input type="text" class="form-control" id="sub_title" name="sub_title"
-                                                   placeholder="Sub Title" value="{{ $member->memberInfos[0]['sub_title'] ?? '' }}">
+                                                placeholder="Sub Title"
+                                                value="{{ $member->memberInfos[0]['sub_title'] ?? '' }}">
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label for="short_description" class="form-label">Short Descrition</label>
+                                            <textarea class="form-control" id="short_description" name="short_description" rows="3">{{ $member->memberInfos[0]['short_description'] ?? '' }}</textarea>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label for="organization_document" class="form-label">Organization
+                                                Document</label>
+                                            <input type="file" class="form-control" id="organization_document"
+                                                name="organization_document">
+                                            <!-- Container to display the file preview -->
+                                            <div id="file-preview" class="mt-3">
+
+                                            </div>
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label for="mission" class="form-label">Mission</label>
@@ -282,9 +297,6 @@
                                         </div>
                                     </div>
                                 </form>
-                                
-
-
                             </div>
                             <div class="tab-pane fade" id="v-pills-disabled" role="tabpanel"
                                 aria-labelledby="v-pills-disabled-tab" tabindex="0">
@@ -365,6 +377,7 @@
                             'content')
                     },
                     success: function(response) {
+                        console.log(response);
                         toastr.success(response.message);
                     },
                     error: function(xhr) {
@@ -413,24 +426,30 @@
                 let url = "{{ route('member.profile.update.summary') }}";
                 let title = $('#title').val();
                 let subTitle = $('#sub_title').val();
+                let short_description = $('#short_description').val();
                 let mission = CKEDITOR.instances['mission'].getData();
                 let vision = CKEDITOR.instances['vision'].getData();
                 let value = CKEDITOR.instances['values'].getData();
                 let work = CKEDITOR.instances['work'].getData();
                 let history = CKEDITOR.instances['history'].getData();
                 let otherDescription = CKEDITOR.instances['other_description'].getData();
+                let organizationDocument = $('#organization_document')[0].files[0];
 
                 let formData = new FormData(); // Create FormData object
 
                 // Append form data to FormData object
                 formData.append('title', title);
                 formData.append('sub_title', subTitle);
+                formData.append('short_description', short_description);
                 formData.append('mission', mission);
                 formData.append('vision', vision);
                 formData.append('value', value);
                 formData.append('work', work);
                 formData.append('history', history);
                 formData.append('other_description', otherDescription);
+                if (organizationDocument) {
+                    formData.append('organization_document', organizationDocument);
+                }
                 $.ajax({
                     type: 'POST',
                     url: url,
@@ -443,6 +462,47 @@
                     },
                     success: function(response) {
                         toastr.success(response.message);
+                        $('#organization_document').val('');
+                        // Display the uploaded file in the preview section
+                        var fileUrl = response.fileUrl;
+                        var $previewContainer = $('#file-preview');
+                        $previewContainer.empty(); // Clear previous preview
+
+                        if (fileUrl) {
+                            var fileType = organizationDocument.type;
+
+                            if (fileType.startsWith('image/')) {
+                                var $img = $('<img>').attr('src', fileUrl).css('max-width',
+                                    '100%');
+                                $previewContainer.append($img);
+                            } else if (fileType === 'application/pdf') {
+                                var $iframe = $('<iframe>').attr({
+                                    src: fileUrl,
+                                    type: 'application/pdf',
+                                    width: '100%',
+                                    height: '300px' // Adjust the height as needed
+                                });
+                                $previewContainer.append($iframe);
+                            } else if (fileType ===
+                                'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                                fileType ===
+                                'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+                            ) {
+                                // For DOCX and PPT files, provide a link to open the file in a new tab
+                                var $link = $('<a>').attr({
+                                    href: fileUrl,
+                                    target: '_blank'
+                                }).text('Open file: ' + organizationDocument.name);
+                                $previewContainer.append($link);
+                            } else {
+                                // For other file types, provide a link to open the file in a new tab
+                                var $link = $('<a>').attr({
+                                    href: fileUrl,
+                                    target: '_blank'
+                                }).text('Open file: ' + organizationDocument.name);
+                                $previewContainer.append($link);
+                            }
+                        }
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
@@ -496,6 +556,144 @@
                 });
             });
 
+            // $('#organization_document').on('change', function() {
+            //     var file = this.files[0];
+            //     var $previewContainer = $('#file-preview');
+
+            //     // Clear any previous preview
+            //     $previewContainer.empty();
+
+            //     if (file) {
+            //         var reader = new FileReader();
+
+            //         reader.onload = function(e) {
+            //             var blob = new Blob([e.target.result], {
+            //                 type: file.type
+            //             });
+            //             var url = URL.createObjectURL(blob);
+
+            //             if (file.type.startsWith('image/')) {
+            //                 var $img = $('<img>').attr('src', url).css('max-width', '100%');
+            //                 $previewContainer.append($img);
+            //             } else if (file.type === 'application/pdf') {
+            //                 var $iframe = $('<iframe>').attr({
+            //                     src: url,
+            //                     type: 'application/pdf',
+            //                     width: '100%',
+            //                     height: '300px' // Adjust the height as needed
+            //                 });
+            //                 $previewContainer.append($iframe);
+            //             } else if (file.type ===
+            //                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+            //                 file.type ===
+            //                 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+            //             ) {
+            //                 // For DOCX and PPT files, provide a link to open the file in a new tab
+            //                 var $link = $('<a>').attr({
+            //                     href: url,
+            //                     target: '_blank'
+            //                 }).text('Open file: ' + file.name);
+            //                 $previewContainer.append($link);
+            //             } else {
+            //                 // For other file types, provide a link to open the file in a new tab
+            //                 var $link = $('<a>').attr({
+            //                     href: url,
+            //                     target: '_blank'
+            //                 }).text('Open file: ' + file.name);
+            //                 $previewContainer.append($link);
+            //             }
+            //         };
+
+            //         reader.readAsArrayBuffer(file);
+            //     }
+            // });
+
+
+
+        });
+
+        $(document).ready(function() {
+            var existingFileUrl =
+                "{{ asset('public/frontend/images/member/' . ($member->memberInfos[0]['profile_attachment'] ?? '')) }}";
+            var $previewContainer = $('#file-preview');
+
+            // Function to preview a file
+            function previewFile(fileUrl, fileType, fileName) {
+                $previewContainer.empty();
+
+                if (fileType.startsWith('image/')) {
+                    var $img = $('<img>').attr('src', fileUrl).css('max-width', '100%');
+                    $previewContainer.append($img);
+                } else if (fileType === 'application/pdf') {
+                    var $iframe = $('<iframe>').attr({
+                        src: fileUrl,
+                        type: 'application/pdf',
+                        width: '100%',
+                        height: '300px' // Adjust the height as needed
+                    });
+                    $previewContainer.append($iframe);
+                } else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                    fileType === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+                    // For DOCX and PPT files, provide a link to open the file in a new tab
+                    var $link = $('<a>').attr({
+                        href: fileUrl,
+                        target: '_blank'
+                    }).text('Open file: ' + fileName);
+                    $previewContainer.append($link);
+                } else {
+                    // For other file types, provide a link to open the file in a new tab
+                    var $link = $('<a>').attr({
+                        href: fileUrl,
+                        target: '_blank'
+                    }).text('Open file: ' + fileName);
+                    $previewContainer.append($link);
+                }
+            }
+
+            // Preview existing file if it exists
+            if (existingFileUrl) {
+                var existingFileName = "{{ $member->memberInfos[0]['profile_attachment'] ?? '' }}";
+                var fileExtension = existingFileName.split('.').pop().toLowerCase();
+                var fileType;
+
+                switch (fileExtension) {
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                    case 'gif':
+                        fileType = 'image/' + fileExtension;
+                        break;
+                    case 'pdf':
+                        fileType = 'application/pdf';
+                        break;
+                    case 'docx':
+                        fileType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                        break;
+                    case 'pptx':
+                        fileType = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+                        break;
+                    default:
+                        fileType = 'application/octet-stream';
+                }
+
+                previewFile(existingFileUrl, fileType, existingFileName);
+            }
+
+            // Set up event listener for file input change
+            $('#organization_document').on('change', function() {
+                var file = this.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        var blob = new Blob([e.target.result], {
+                            type: file.type
+                        });
+                        var url = URL.createObjectURL(blob);
+                        previewFile(url, file.type, file.name);
+                    };
+                    reader.readAsArrayBuffer(file);
+                }
+            });
         });
     </script>
 @endpush

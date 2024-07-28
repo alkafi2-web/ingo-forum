@@ -48,7 +48,7 @@ class BannerController extends Controller
             } 
 
             // Resize the image to 415x415
-            $img = Image::make($image)->fit(638, 549);
+            $img = Image::make($image);
             $img->save($dir . $imageName);
 
             $data['image'] = $imageName;

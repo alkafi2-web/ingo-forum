@@ -17,7 +17,7 @@
                     <div class="profile-content text-white pb-3">
                         <div class="d-flex align-item-center justify-content-between">
                             <h2 class="section-title">{{ $memberinfo->title }}</h2>
-                            {{-- <a href="{{ route('member.profile') }}" class="ct-btn btn-yellow">Edit Profile</a> --}}
+                            <a href="{{ route('member.profile') }}" class="ct-btn btn-yellow">Edit Profile</a>
                         </div>
                         
                         <h4>{{ $memberinfo->sub_title }}</h4>
