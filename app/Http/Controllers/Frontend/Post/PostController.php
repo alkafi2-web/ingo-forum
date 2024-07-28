@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\Reply;
 use App\Models\Reaction;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PostRead;
 
 class PostController extends Controller
 {
@@ -33,14 +34,14 @@ class PostController extends Controller
      * @param  string  $postSlug
      * @return \Illuminate\View\View
      */
-    public function showSinglePost($categorySlug, $postSlug)
+    public function showSinglePost(Request $request, $categorySlug, $postSlug)
     {
         $post = Post::where('status', 1)
                     ->where('slug', $postSlug)
                     ->whereHas('category', function ($query) use ($categorySlug) {
                         $query->where('slug', $categorySlug);
                     })
-                    ->with('category', 'comments', 'comments.replies') // Eager load comments and their replies
+                    ->with('category', 'comments', 'comments.replies', 'totalRead') // Eager load comments and their replies
                     ->firstOrFail();
 
         $latestPosts = Post::where('status', 1)
@@ -57,7 +58,17 @@ class PostController extends Controller
                             ->take(5)
                             ->get();
 
-        return view('frontend.post.single-post', compact('post', 'latestPosts', 'relatedPosts'));
+        // Track the read
+        $ipAddress = $request->ip();
+        PostRead::firstOrCreate(
+            ['post_id' => $post->id, 'ip_address' => $ipAddress]
+        );
+
+        // Get the total reads for this post
+        $readCount = $post->totalRead->count();
+
+        return view('frontend.post.single-post', compact('post', 'latestPosts', 'relatedPosts', 'readCount'));
+
     }
 
     public function storeComment(Request $request)
@@ -88,13 +99,12 @@ class PostController extends Controller
 
     public function storeReply(Request $request)
     {
-        // if (!Auth::guard('member')->check()) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'msg' => 'Be a member to write reply',
-        //     ]);
-        // }
-
+        if (!Auth::guard('member')->check()) {
+            return response()->json([
+                'success' => false,
+                'msg' => 'Be a member to reply comment',
+            ]);
+        }
         $request->validate([
             'comment_id' => 'required|exists:comments,id',
             'reply_text' => 'required',
@@ -116,6 +126,12 @@ class PostController extends Controller
 
     public function storeReaction(Request $request)
     {
+        if (!Auth::guard('member')->check()) {
+            return response()->json([
+                'success' => false,
+                'msg' => 'Be a member to react comment',
+            ]);
+        }
         // Get authenticated user using the 'member' guard
         $user = Auth::guard('member')->user();
         
@@ -137,7 +153,10 @@ class PostController extends Controller
             $reaction->save();
         }
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'msg' => 'Reaction has been added'
+        ]);
     }
     
     public function deleteCommentOrReply(Request $request)
