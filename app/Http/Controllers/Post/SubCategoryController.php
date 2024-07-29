@@ -99,7 +99,57 @@ class SubCategoryController extends Controller
         return response()->json(['subcategory' => $subcategory]);
     }
 
-    public function subcategoryUpdate(Request $request) {
-        
+    // public function subcategoryUpdate(Request $request)
+    // {
+    //     return $request->all();
+    // }
+    public function subcategoryUpdate(Request $request, $id)
+    {
+        // Find the subcategory by ID or throw an exception if not found
+        $subcategory = PostSubCategory::findOrFail($id);
+
+        // Retrieve the category ID from the request
+        $categoryId = $request->input('category');
+
+        // Validate the input data
+        $validator = Validator::make($request->all(), [
+            'category' => 'required|exists:post_categories,id',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('post_sub_categories', 'name')
+                    ->ignore($subcategory->id) // Ignore the current subcategory's ID to allow updating the same name
+                    ->where(function ($query) use ($categoryId) {
+                        return $query->where('category_id', $categoryId);
+                    }),
+            ],
+        ], [
+            'category.required' => 'The category field is required.',
+            'category.exists' => 'The selected category does not exist.',
+            'name.required' => 'The subcategory name is required.',
+            'name.string' => 'The subcategory name must be a string.',
+            'name.max' => 'The subcategory name must not be greater than 255 characters.',
+            'name.unique' => 'The subcategory name has already been taken in this category.',
+        ]);
+
+        // If validation fails, return errors in JSON format
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Update the subcategory with new data
+        $subcategory->category_id = $request->category;
+        $subcategory->name = $request->name;
+        $subcategory->slug = Str::slug($request->name, '-');
+        $subcategory->save();
+
+        // Log the update action
+        Helper::log("Updated post subcategory $subcategory->name");
+
+        // Return a JSON response indicating success
+        return response()->json(['success' => 'Sub Category updated successfully!']);
     }
 }

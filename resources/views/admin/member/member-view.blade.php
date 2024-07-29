@@ -7,7 +7,6 @@
         <div class="d-flex justify-content-between align-items-center py-3 px-3 border-bottom">
             <div id="view-header-container" class="d-flex justify-content-between align-items-center" style="width: 92%;">
                 @include('admin.member.partials.view-header')
-
             </div>
             <div>
                 <a href="{{ url()->previous() }}">
@@ -310,7 +309,7 @@
                         // Swal.fire('Success!', response.success,
                         //     'success');
                         $('#view-header-container').html(response.viewHeader);
-                        $('#profile-image-name').html(response.profileImageName);
+                        // $('#profile-image-name').html(response.profileImageName);
                         $.get(window.location.href, function(data) {
                             var pendingMemberCount = $(data).find('.pendingMemberCount').html();
                             $('.pendingMemberCount').html(pendingMemberCount);
