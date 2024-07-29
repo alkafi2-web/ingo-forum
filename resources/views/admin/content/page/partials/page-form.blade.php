@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="page_slug" class="text-3xl required">Page Slug</label>
-                <input type="text" class="form-control" id="page_slug" name="page_slug" value="{{ $page->slug??old('page_slug') }}">
+                <input type="text" class="form-control" id="page_slug" name="page_slug" value="{{ $page->slug??old('page_slug') }}" data-page-id="{{ $page->id??'' }}">
                 <i id="slug-exist" class="text-danger d-none">Slug already exists, try a different one</i>
             </div>
         </div>
@@ -47,24 +47,29 @@
         $('#page_title').on('input', function() {
             let title = $(this).val();
             let slug = generateSlug(title);
+            let page_id = $('#page_id').val();
             $('#page_slug').val(slug);
-            checkSlug(slug);
+            checkSlug(slug, page_id);
         });
 
         // Event listener for slug input
         $('#page_slug').on('input', function() {
             let slug = generateSlug($(this).val());
-            $(this).val(slug);
-            checkSlug(slug);
+            let page_id = $('#page_id').val();
+            checkSlug(slug, page_id);
         });
 
         // Function to check slug
-        function checkSlug(slug) {
+        function checkSlug(slug, page_id) {
             $.ajax({
                 url: '{{ route('slug.verify') }}',
                 method: 'GET',
-                data: { slug: slug },
+                data: { 
+                    slug: slug,
+                    page_id: page_id
+                },
                 success: function(response) {
+                    console.log(response);
                     if(response.exists) {
                         $('#slug-exist').removeClass('d-none');
                         $('#page-submit').prop('disabled', true);
@@ -78,31 +83,6 @@
                 }
             });
         }
-
-        // Update button click event
-        $('#page-update').on('click', function(e) {
-            e.preventDefault();
-            let pageId = $('#page_id').val();
-            let isValid = true;
-
-            // Check for required fields
-            if (!$('#page_title').val()) {
-                toastr.error('Page title is required');
-                isValid = false;
-            }
-            if (!$('#page_slug').val()) {
-                toastr.error('Page slug is required');
-                isValid = false;
-            }
-            if (CKEDITOR.instances['page_details'].getData().trim() === '') {
-                toastr.error('Page details are required');
-                isValid = false;
-            }
-
-            if (isValid) {
-                $('#pageForm').submit();
-            }
-        });
 
         // Form submit handler
         $('#pageForm').on('submit', function(e) {
@@ -136,7 +116,7 @@
                     processData: false,
                     success: function(response) {
                         toastr.success(response.message);
-                        resetForm();
+                        location.reload();
                     },
                     error: function(response) {
                         if (response.responseJSON && response.responseJSON.errors) {

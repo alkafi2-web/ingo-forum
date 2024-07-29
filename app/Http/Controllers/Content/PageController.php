@@ -95,8 +95,15 @@ class PageController extends Controller
     public function verifySlug(Request $request)
     {
         $slug = $request->input('slug');
-        $exists = Page::where('slug', $slug)->exists();
-        return response()->json(['exists' => $exists]);
+        
+        if ($request->page_id) {
+            $exists = Page::where('slug', $slug)->where('id', '!=', $request->page_id)->exists();
+            return response()->json(['exists' => $exists]);
+        }
+        else{
+            $exists = Page::where('slug', $slug)->exists();
+            return response()->json(['exists' => $exists]);
+        }
     }
     
     public function toggleVisibility(Request $request)
