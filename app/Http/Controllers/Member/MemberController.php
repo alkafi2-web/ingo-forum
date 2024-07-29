@@ -104,7 +104,7 @@ class MemberController extends Controller
 
         // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
         $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
-        Helper::log("$memberInfo->organisation_name organization approved");
+        Helper::log("$member->memberInfos[0]['organisation_name'] organization approved");
         // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',
