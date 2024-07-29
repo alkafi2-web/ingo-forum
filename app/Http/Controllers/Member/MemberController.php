@@ -104,7 +104,7 @@ class MemberController extends Controller
 
         // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
         $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
-        Helper::log($member->info->organisation_name . " organization approved");
+        Helper::log("Approved " . $member->info->organisation_name);
         // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',
@@ -128,7 +128,7 @@ class MemberController extends Controller
         // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
         $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
         $memberInfo = $member->memberInfos[0];
-        Helper::log("$memberInfo->organisation_name organization suspended");
+        Helper::log("Suspended ". $memberInfo->organisation_name);
         // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',
@@ -153,7 +153,7 @@ class MemberController extends Controller
         // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
         $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
         $memberInfo = $member->memberInfos[0];
-        Helper::log("$memberInfo->organisation_name organization rejected");
+        Helper::log("Rejected " . $memberInfo->organisation_name);
         // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',
