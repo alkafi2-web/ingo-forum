@@ -28,14 +28,15 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h2 class="mt-5">Publication Add</h2>
-                    <a href="{{ route('post.list') }}" class="btn btn-primary"><span><i class="fas fa-list"></i></span>All Publication</a>
+                    <a href="{{ route('post.list') }}" class="btn btn-primary"><span><i class="fas fa-list"></i></span>All
+                        Publication</a>
                 </div>
                 <div class="card-body">
-                    <form action="/submit-form" id="postForm" method="POST" enctype="multipart/form-data">
+                    <form action="/submit-form" id="publicationForm" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-6">
                                 <!-- Category -->
-                                <div class="form-group">
+                                <div class="form-group ">
                                     <label for="category" class="required">Category</label>
                                     <select id="category" name="category" class="form-control mt-3" required>
                                         <option value="">-- Select Category --</option>
@@ -48,50 +49,51 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <!-- Subcategory -->
-                                <div class="form-group">
-                                    <label for="subcategory" class="required">Subcategory</label>
-                                    <select id="subcategory" name="subcategory" class="form-control mt-3" required>
-                                        <option value="">-- Select Category First --</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
                                 <!-- Title -->
-                                <div class="form-group mt-3">
+                                <div class="form-group ">
                                     <label for="title" class="required">Title</label>
                                     <input type="text" id="title" name="title" class="form-control mt-3" required>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group mt-3">
-                                    <label for="slug" class="required">Slug</label>
-                                    <input type="text" id="slug" name="slug" class="form-control mt-3" required>
-                                </div>
-                            </div>
+
                         </div>
 
-                        {{-- <!-- Short Description -->
-                        <div class="form-group mt-3">
-                            <label for="short_description" class="mb-3 required">Short Description</label>
-                            <textarea id="short_description" name="short_description" class="form-control mt-5" rows="1" required></textarea>
-                        </div> --}}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mt-3">
+                                    <label for="author" class="required">Author</label>
+                                    <input type="text" id="author" name="author" class="form-control mt-3" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <!-- Subcategory -->
+                                <div class="form-group mt-3">
+                                    <label for="publisher" class="required">Publisher</label>
+                                    <input type="text" id="publisher" name="publisher" class="form-control mt-3"
+                                        required>
+                                </div>
+                            </div>
+
+                        </div>
 
                         <!-- Long Description -->
                         <div class="form-group mt-3">
-                            <label for="long_description" class="mb-3 required">Long Description</label>
-                            <textarea id="long_description" name="long_description" class="form-control mt-5" rows="7" required></textarea>
+                            <label for="short_description" class="mb-3 required">Short Description</label>
+                            <textarea id="short_description" name="short_description" class="form-control mt-5" rows="7" required></textarea>
                         </div>
 
                         <!-- Banner -->
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group mt-3">
-                                    <label for="banner" class="required">Banner</label>
-                                    <input type="file" id="banner" name="banner" class="form-control mt-3" required
+                                    <label for="file" class="required">Publication File</label>
+                                    <input type="file" id="file" name="file" class="form-control mt-3" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mt-3">
+                                    <label for="image" class="required">Image</label>
+                                    <input type="file" id="image" name="image" class="form-control mt-3" required
                                         oninput="pp.src=window.URL.createObjectURL(this.files[0])">
                                     <p class="text-danger">Banner must be 800px by 450px</p>
                                     <img id="pp" width="200" class="float-start mt-3" src="">
@@ -117,45 +119,16 @@
 @push('custom-js')
     <script>
         // CKEDITOR.replace('short_description');
-        CKEDITOR.replace('long_description');
-        $(document).ready(function() {
-            var categories = @json($categories);
+        // CKEDITOR.replace('long_description');
 
-            $('#category').on('change', function() {
-                var categoryId = $(this).val();
-                var subcategories = categories.find(category => category.id == categoryId).subcategories;
-
-                $('#subcategory').empty().append('<option value="">-- Select Subcategory --</option>');
-
-                subcategories.forEach(function(subcategory) {
-                    $('#subcategory').append(
-                        `<option value="${subcategory.id}">${subcategory.name}</option>`);
-                });
-            });
-        });
 
         $(document).ready(function() {
 
             $('#submit').on('click', function(e) {
                 e.preventDefault();
-                let url = "{{ route('post.store') }}";
-                let category = $('#category').val();
-                let subcategory = $('#subcategory').val();
-                let title = $('#title').val();
-                let slug = $('#slug').val();
-                let long_description = CKEDITOR.instances['long_description'].getData();
-                // let short_description = CKEDITOR.instances['short_description'].getData();
-                let banner = $('#banner')[0].files[0];
-                let formData = new FormData(); // Create FormData object
-
-                // Append form data to FormData object
-                formData.append('category', category);
-                formData.append('subcategory', subcategory);
-                formData.append('title', title);
-                formData.append('slug', slug);
-                formData.append('long_description', long_description);
-                // formData.append('short_description', short_description);
-                formData.append('banner', banner);
+                let url = "{{ route('publication.store') }}";
+                let form = $('#publicationForm')[0];
+                let formData = new FormData(form);
                 $.ajax({
                     type: 'POST',
                     url: url,
@@ -171,13 +144,7 @@
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
                         });
-                        $('#postForm')[0].reset();
-                        var long_description = CKEDITOR.instances['long_description'];
-                        long_description.setData('');
-                        long_description.focus();
-                        // var short_description = CKEDITOR.instances['short_description'];
-                        // short_description.setData('');
-                        // short_description.focus();
+                        $('#publicationForm')[0].reset();
                         $('#pp').attr('src', '');
                     },
                     error: function(xhr) {

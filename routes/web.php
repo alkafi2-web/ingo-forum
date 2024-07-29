@@ -174,9 +174,9 @@ Route::prefix('admin')->group(function () {
             });
             
             Route::prefix('/')->group(function () {
-                Route::get('/', [PostController::class, 'postCreate'])->name('post.create');
-                Route::post('/store', [PostController::class, 'postStore'])->name('post.store');
-                Route::get('/list', [PostController::class, 'postList'])->name('post.list');
+                Route::get('/', [PublicationController::class, 'publicationCreate'])->name('publication.create');
+                Route::post('/store', [PublicationController::class, 'publicationStore'])->name('publication.store');
+                Route::get('/list', [PublicationController::class, 'postList'])->name('publication.list');
                 Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
                 Route::post('/comment', [PostController::class, 'postComment'])->name('post.comment');
                 Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');
