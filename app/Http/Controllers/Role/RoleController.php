@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Role;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -62,13 +63,15 @@ class RoleController extends Controller
 
         // Synchronize the role's permissions with the selected permission names
         $role->syncPermissions($selectedPermissionNames);
+        Helper::log("Create $role->name role");
         return response()->json(['success' => ['success' => 'Role Create successfully!']]);
     }
 
     public function roleDelete(Request $request)
     {
-        $perm = Role::where('id', $request->id)->where('name', '!=', 'admin')->where('name', '!=', 'super-admin');
+        $perm = Role::where('id', $request->id)->where('name', '!=', 'admin')->where('name', '!=', 'super-admin')->first();
         $perm->delete();
+        Helper::log("Delete $perm->name role");
         return response()->json(['success' => 'Role deleted successfully']);
     }
 
@@ -120,7 +123,7 @@ class RoleController extends Controller
 
         // Synchronize the role's permissions with the selected permission names
         $role->syncPermissions($selectedPermissionNames);
-
+        Helper::log("Update $role->name role");
         return response()->json(['success' => ['success' => 'Role updated successfully!']]);
     }
 }
