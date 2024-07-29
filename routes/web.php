@@ -26,6 +26,7 @@ use App\Http\Controllers\Frontend\Post\PostController as FrontendPostController;
 use App\Http\Controllers\RobotsController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\User\UserController;
 
 
 
@@ -56,6 +57,9 @@ Route::prefix('admin')->group(function () {
         Route::post('/user-restore', [AuthController::class, 'userRestore'])->name('user.restore');
         Route::post('/user-per-delete', [AuthController::class, 'userParDelete'])->name('user.par.delete');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+        
+        Route::get('/user-activity', [UserController::class, 'activityList'])->name('activity.list');
+        
         //user managment end
 
         // menu route start
