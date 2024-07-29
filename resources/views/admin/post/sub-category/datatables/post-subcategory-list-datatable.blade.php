@@ -145,12 +145,13 @@
                     id: id
                 }, // You can send additional data if needed
                 success: function(response) {
+
                     var subcategory = response.subcategory;
                     $('#add-header').text('Update Post Sub Category');
                     $('#name').val(subcategory.name);
                     $('#category').val(subcategory.category_id).trigger('change');
                     $('#subcategory-update').removeClass('d-none');
-                    $('#subcategory-update').attr('data-id',category.id);
+                    $('#subcategory-update').attr('data-id',subcategory.id);
                     $('#subcategory-submit').addClass('d-none');
                     $('#page-refresh ').removeClass('d-none');
                 },

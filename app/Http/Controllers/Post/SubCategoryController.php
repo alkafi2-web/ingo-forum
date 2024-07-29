@@ -33,6 +33,7 @@ class SubCategoryController extends Controller
 
     public function subcategoryCreate(Request $request)
     {
+        return $request->all();
         $categoryId = $request->input('category');
         $validator = Validator::make($request->all(), [
             'category' => 'required|exists:post_categories,id',
@@ -103,8 +104,9 @@ class SubCategoryController extends Controller
     // {
     //     return $request->all();
     // }
-    public function subcategoryUpdate(Request $request, $id)
+    public function subcategoryUpdate(Request $request)
     {
+        return $request->all();
         // Find the subcategory by ID or throw an exception if not found
         $subcategory = PostSubCategory::findOrFail($id);
 
