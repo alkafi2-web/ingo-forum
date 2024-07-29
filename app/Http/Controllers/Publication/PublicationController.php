@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Post;
+namespace App\Http\Controllers\Publication;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
-use App\Models\PostCategory;
+use App\Models\PublicationCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
 
-class CategoryController extends Controller
+class PublicationController extends Controller
 {
     public function category(Request $request)
     {
         if ($request->ajax()) {
-            $categoryies = PostCategory::latest();;
+            $categoryies = PublicationCategory::latest();;
 
             return DataTables::of($categoryies)
                 ->make(true);
         }
-        return view('admin.post.category.index');
+        return view('admin.publication.category.index');
     }
 
     public function categoryCreate(Request $request)
@@ -30,8 +30,8 @@ class CategoryController extends Controller
 
         // Validate the form data
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:post_categories,name',
-            'slug' => 'unique:post_categories,slug', // Add slug uniqueness validation
+            'name' => 'required|string|max:255|unique:publication_categories,name',
+            'slug' => 'unique:publication_categories,slug', // Add slug uniqueness validation
         ], [
             'name.required' => 'The category name is required.',
             'name.string' => 'The category name must be a string.',
@@ -45,7 +45,7 @@ class CategoryController extends Controller
         }
 
         // Create a new category with slug
-        $category = new PostCategory();
+        $category = new PublicationCategory();
         $category->name = $request->name;
         $category->slug = $slug;
         $category->status = 1;
@@ -54,20 +54,19 @@ class CategoryController extends Controller
         Helper::log("Create post category $category->name");
         return response()->json(['success' => ['success' => 'Category saved successfully!']]);
     }
-
     public function categoryDelete(Request $request)
     {
-        $category = PostCategory::findOrFail($request->id);
+        $category = PublicationCategory::findOrFail($request->id);
         // Delete the banner record
         $category->delete();
-        Helper::log("Delete post category $category->name");
-        return response()->json(['success' => 'Post category deleted successfully']);
+        Helper::log("Delete publication category $category->name");
+        return response()->json(['success' => 'Publication category deleted successfully']);
     }
 
     public function categoryStatus(Request $request)
     {
         // Find the banner by ID or throw an exception if not found
-        $category = PostCategory::findOrFail($request->id);
+        $category = PublicationCategory::findOrFail($request->id);
 
         // Toggle the status
         $newStatus = $request->status == 0 ? 1 : 0;
@@ -78,15 +77,15 @@ class CategoryController extends Controller
         // Save the changes to the database
         $category->save();
         $statusMessage = $newStatus == 0
-            ? "$category->name category deactive"
-            : "$category->name category active";
+            ? "$category->name publication category deactive"
+            : "$category->name publication category active";
         Helper::log($statusMessage);
-        return response()->json(['success' => 'Post Category status updated successfully']);
+        return response()->json(['success' => 'Publication Category status updated successfully']);
     }
 
     public function categoryEdit(Request $request)
     {
-        $category = PostCategory::findOrFail($request->id);
+        $category = PublicationCategory::findOrFail($request->id);
 
         return response()->json(['category' => $category]);
     }
@@ -94,15 +93,15 @@ class CategoryController extends Controller
     public function categoryUpdate(Request $request)
     {
         // Find the category by ID
-        $category = PostCategory::find($request->id);
+        $category = PublicationCategory::find($request->id);
 
         if (!$category) {
-            return response()->json(['success' => false, 'errors' => ['Category not found']], 404);
+            return response()->json(['success' => false, 'errors' => ['Publication Category not found']], 404);
         }
 
         // Validate the form data, ensuring unique name except for the current category
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:post_categories,name,' . $category->id,
+            'name' => 'required|string|max:255|unique:publication_categories,name,' . $category->id,
         ], [
             'name.required' => 'The category name is required.',
             'name.string' => 'The category name must be a string.',
@@ -118,7 +117,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->slug = Str::slug($request->name, '-');
         $category->save();
-        Helper::log("Update post category $category->name");
-        return response()->json(['success' => ['success' => 'Post category updated successfully']]);
+        Helper::log("Update publication category $category->name");
+        return response()->json(['success' => ['success' => 'Publication category updated successfully']]);
     }
 }
