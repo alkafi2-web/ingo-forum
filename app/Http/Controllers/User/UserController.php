@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
 use App\Models\Activity;
+use Jenssegers\Agent\Agent;
 
 class UserController extends Controller
 {
@@ -29,10 +30,18 @@ class UserController extends Controller
                     return $activity->activity;
                 })
                 ->addColumn('device_browser', function ($activity) {
-                    return $activity->user_agent;
+                    $agent = new Agent();
+                    $agent->setUserAgent($activity->user_agent);
+
+                    $deviceName = $agent->device();
+                    $devicePlatform = $agent->platform();
+                    $browserName = $agent->browser();
+                    $browserVersion = $agent->version($browserName);
+
+                    return "{$deviceName}/{$devicePlatform} - {$browserName}: {$browserVersion}";
                 })
                 ->addColumn('datetime', function ($activity) {
-                    return $activity->created_at->format('d M Y H:i:s');
+                    return $activity->created_at->format('d M Y H:i A');
                 })
                 ->make(true);
         }
