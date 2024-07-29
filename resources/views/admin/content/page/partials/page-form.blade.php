@@ -1,11 +1,11 @@
 <form id="pageForm" action="" method="POST" enctype="multipart/form-data">
     @csrf
-    <input type="hidden" id="page_id" name="page_id" value="">
+    <input type="hidden" id="page_id" name="page_id" value="{{ $page->id??'' }}">
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
                 <label for="page_title" class="text-3xl required">Page Title</label>
-                <input type="text" class="form-control" id="page_title" name="page_title" value="{{ old('page_title') }}">
+                <input type="text" class="form-control" id="page_title" name="page_title" value="{{ $page->title??old('page_title') }}">
             </div>
         </div>
     </div>
@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="page_slug" class="text-3xl required">Page Slug</label>
-                <input type="text" class="form-control" id="page_slug" name="page_slug" value="{{ old('page_slug') }}">
+                <input type="text" class="form-control" id="page_slug" name="page_slug" value="{{ $page->slug??old('page_slug') }}">
                 <i id="slug-exist" class="text-danger d-none">Slug already exists, try a different one</i>
             </div>
         </div>
@@ -22,7 +22,7 @@
         <div class="col-md-12">
             <div class="form-group mt-3">
                 <label for="page_details" class="mb-3 required">Page Details</label>
-                <textarea id="page_details" name="page_details" class="form-control mt-5" rows="7" required></textarea>
+                <textarea id="page_details" name="page_details" class="form-control mt-5" rows="7" required>{{ $page->details??old('page_details') }}</textarea>
             </div>
         </div>
     </div>
@@ -137,7 +137,6 @@
                     success: function(response) {
                         toastr.success(response.message);
                         resetForm();
-                        $('#pagelist-datatable').DataTable().ajax.reload();
                     },
                     error: function(response) {
                         if (response.responseJSON && response.responseJSON.errors) {
