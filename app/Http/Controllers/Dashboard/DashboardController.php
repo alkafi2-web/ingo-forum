@@ -9,6 +9,7 @@ use App\Models\Member;
 use App\Models\ContactInfo;
 use App\Models\Event; 
 use App\Models\User;
+use App\Models\Activity;
 use Carbon\Carbon; 
 
 
@@ -58,6 +59,12 @@ class DashboardController extends Controller
             ->where('last_activity', '>', Carbon::now()->subMinutes(5))
             ->count();
   
+        // Fetch the latest activities
+        $latestActivities = Activity::with('user')
+            ->latest()
+            ->limit(5)
+            ->get();
+
         return view('admin.dashboard.dashborad', compact(
             'latestPosts', 
             'latestMembers', 
@@ -69,7 +76,8 @@ class DashboardController extends Controller
             'currentMonthContactRequests',
             'latestEvents', 
             'activeUsers', 
-            'onlineUsers'
+            'onlineUsers', 
+            'latestActivities'
         ));
     }
 }

@@ -138,41 +138,17 @@ Dashboard
                   </div>
               </div>
             </div>
+            @forelse($latestActivities as $activity)
             <div class="d-flex align-items-center bg-light-success rounded p-3 mb-3">
-              <div class="flex-grow-1 me-2">
-                <a href="#" class="fw-bold text-gray-800 text-hover-primary fs-6"><i class="fas fa-hand-point-right fw-bold text-gray-800 "></i>&nbsp;activity</a>
-                  <span class="text-muted fw-semibold d-block"><i class="fas fa-user"></i>&nbsp;activity->user's name &nbsp;&nbsp; <i class="fab fa-chrome"></i>&nbsp; ip address</span>
-              </div>
-              <span class="fw-bold text-success py-1">22 Minutes ago</span>
+                <div class="flex-grow-1 me-2">
+                    <a href="javascript:void(0)" class="fw-bold text-gray-800 text-hover-primary fs-6"><i class="fas fa-hand-point-right fw-bold text-gray-800"></i>&nbsp;{{ $activity->activity }}</a>
+                    <span class="text-muted fw-semibold d-block"><i class="fas fa-user"></i>&nbsp;{{ $activity->user->name }} &nbsp;&nbsp; <i class="fab fa-chrome"></i>&nbsp;{{ $activity->ip_address }}</span>
+                </div>
+                <span class="fw-bold text-success py-1">{{ $activity->created_at->diffForHumans() }}</span>
             </div>
-            <div class="d-flex align-items-center bg-light-success rounded p-3 mb-3">
-              <div class="flex-grow-1 me-2">
-                <a href="#" class="fw-bold text-gray-800 text-hover-primary fs-6">Navigation optimization</a>
-                  <span class="text-muted fw-semibold d-block">Due in 2 Days</span>
-              </div>
-              <span class="fw-bold text-success py-1">22 Minutes ago</span>
-            </div>
-            <div class="d-flex align-items-center bg-light-success rounded p-3 mb-3">
-              <div class="flex-grow-1 me-2">
-                <a href="#" class="fw-bold text-gray-800 text-hover-primary fs-6">Navigation optimization</a>
-                  <span class="text-muted fw-semibold d-block">Due in 2 Days</span>
-              </div>
-              <span class="fw-bold text-success py-1">22 Minutes ago</span>
-            </div>
-            <div class="d-flex align-items-center bg-light-success rounded p-3 mb-3">
-              <div class="flex-grow-1 me-2">
-                <a href="#" class="fw-bold text-gray-800 text-hover-primary fs-6">Navigation optimization</a>
-                  <span class="text-muted fw-semibold d-block">Due in 2 Days</span>
-              </div>
-              <span class="fw-bold text-success py-1">22 Minutes ago</span>
-            </div>
-            <div class="d-flex align-items-center bg-light-success rounded p-3 mb-3">
-              <div class="flex-grow-1 me-2">
-                <a href="#" class="fw-bold text-gray-800 text-hover-primary fs-6">Navigation optimization</a>
-                  <span class="text-muted fw-semibold d-block">Due in 2 Days</span>
-              </div>
-              <span class="fw-bold text-success py-1">22 Minutes ago</span>
-            </div>
+            @empty
+            <p class="text-center">No activity yet</p>
+            @endforelse
           </div>
         </div>
       </div>
