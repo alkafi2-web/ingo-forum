@@ -33,7 +33,7 @@ class SubCategoryController extends Controller
 
     public function subcategoryCreate(Request $request)
     {
-        return $request->all();
+        // return $request->all();
         $categoryId = $request->input('category');
         $validator = Validator::make($request->all(), [
             'category' => 'required|exists:post_categories,id',
@@ -100,15 +100,11 @@ class SubCategoryController extends Controller
         return response()->json(['subcategory' => $subcategory]);
     }
 
-    // public function subcategoryUpdate(Request $request)
-    // {
-    //     return $request->all();
-    // }
     public function subcategoryUpdate(Request $request)
     {
-        return $request->all();
+        
         // Find the subcategory by ID or throw an exception if not found
-        $subcategory = PostSubCategory::findOrFail($id);
+        $subcategory = PostSubCategory::findOrFail($request->id);
 
         // Retrieve the category ID from the request
         $categoryId = $request->input('category');
@@ -147,11 +143,9 @@ class SubCategoryController extends Controller
         $subcategory->name = $request->name;
         $subcategory->slug = Str::slug($request->name, '-');
         $subcategory->save();
-
         // Log the update action
         Helper::log("Updated post subcategory $subcategory->name");
-
         // Return a JSON response indicating success
-        return response()->json(['success' => 'Sub Category updated successfully!']);
+        return response()->json(['success' => ['success' => 'Sub Category saved successfully!']]);
     }
 }
