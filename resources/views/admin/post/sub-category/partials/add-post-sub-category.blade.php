@@ -97,11 +97,11 @@
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
                         });
-                        $('#add-header').text('Add Post Category');
+                        $('#add-header').text('Add Post Sub Category');
                         $('#subcategoryForm')[0].reset();
-                        $('#post-category-data').DataTable().ajax.reload(null, false);
+                        $('#post-subcategory-data').DataTable().ajax.reload(null, false);
                         $('#subcategory-submit').removeClass('d-none');
-                        $('#category-update ').addClass('d-none');
+                        $('#subcategory-update ').addClass('d-none');
                         $('#page-refresh ').addClass('d-none');
                     },
                     error: function(xhr) {

@@ -39,7 +39,7 @@
                                         itaque
                                         maxime. Molestiae
                                         vel enim ab dolor.</p>
-                                    <a href="" class="ct-btn btn-yellow">Be a Member</a>
+                                    <a href="{{route('member')}}" class="ct-btn btn-yellow">Be a Member</a>
                                 </div>
                                 <div class="col-lg-6 hero-right">
                                     <img src="{{ asset('public/frontend/images/hero-img.png') }}" alt="">
@@ -136,7 +136,7 @@
                         <p>
                             {!! $global['aboutus_content']->description ?? 'Please Upload It From Admin' !!}
                         </p>
-                        <a href="" class="ct-btn btn-yellow">Be a Member</a>
+                        <a href="{{route('member')}}" class="ct-btn btn-yellow">Be a Member</a>
                     </div>
                 </div>
             </div>

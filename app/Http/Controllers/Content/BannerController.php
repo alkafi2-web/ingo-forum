@@ -33,7 +33,9 @@ class BannerController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'required|image|max:2048',
+            'image' => 'required|image|max:2048|dimensions:width=640,height=550',
+        ], [
+            'image.dimensions' => 'The image must be exactly 640x550 pixels.',
         ]);
         if ($validator->fails()) {
             return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
@@ -107,9 +109,11 @@ class BannerController extends Controller
     public function bannerUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id' => 'required|exists:banners,id',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'image' => 'nullable|image|max:2048|dimensions:width=640,height=550',
+        ], [
+            'image.dimensions' => 'The image must be exactly 640x550 pixels.',
         ]);
 
         if ($validator->fails()) {
