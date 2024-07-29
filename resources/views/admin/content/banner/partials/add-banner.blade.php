@@ -21,6 +21,7 @@
                 <label for="image" class="text-3xl required">Banner Image</label>
                 <input type="file" class="form-control" id="image" name="image" value=""
                     oninput="pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
+                    <p class="text-danger">The banner image must be exactly 640x550 pixels.</p>
                 <img id="pp" width="100" class="float-start mt-3" src="">
             </div>
         </div>

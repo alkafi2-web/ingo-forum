@@ -19,9 +19,9 @@
         <div id="profile-image-name">
             @include('admin.member.partials.profile-image-name')
         </div>
-
-
-        <div class="card-body">
+    </div>
+    <div class="card">
+        <div class="card-body border-bottom">
             <div class="row">
                 <!-- Organisation Details Section -->
                 <div class="col-lg-6 mb-3 mb-lg-0">
@@ -150,7 +150,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -309,7 +308,7 @@
                         // Swal.fire('Success!', response.success,
                         //     'success');
                         $('#view-header-container').html(response.viewHeader);
-                        // $('#profile-image-name').html(response.profileImageName);
+                        $('#profile-image-name').html(response.profileImageName);
                         $.get(window.location.href, function(data) {
                             var pendingMemberCount = $(data).find('.pendingMemberCount').html();
                             $('.pendingMemberCount').html(pendingMemberCount);

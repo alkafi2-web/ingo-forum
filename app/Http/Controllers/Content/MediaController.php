@@ -16,13 +16,7 @@ class MediaController extends Controller
 {
     public function mediaAlbum(Request $request)
     {
-        // return $albums = MediaAlbum::with(['mediaGalleries' => function ($query) {
-        //     $query->where('status', 1);
-        // }])
-        //     ->where('status', 1)
-        //     ->take(3)
-        //     ->get();
-        //  $albums->media_galleries;
+        
         $albums = MediaAlbum::with([
             'mediaGalleries' => function ($query) {
                 $query->where('status', 1);
@@ -187,7 +181,7 @@ class MediaController extends Controller
     public function photoCreate(Request $request)
     {
         $messages = [
-            'album_id.required' => 'The album ID is required.',
+            'album_id.required' => 'The album  is required.',
             'album_id.exists' => 'The selected album does not exist.',
             'images.required' => 'At least one image is required.',
             'images.max' => 'You may not upload more than 10 images.',
@@ -200,7 +194,7 @@ class MediaController extends Controller
         $validator = Validator::make($request->all(), [
             'album_id' => 'required|exists:media_albums,id',
             'images' => 'required|array|max:10',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ], $messages);
 
         // Check if validation fails
