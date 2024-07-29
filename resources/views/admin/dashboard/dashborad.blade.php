@@ -14,27 +14,27 @@ Dashboard
           </div>
           <div class="card-body pt-5">
             <div class="row gx-3">
-              <div class="col-4">
-                <div class="d-flex flex-column bg-light-primary px-6 py-8 rounded-2 h-lg-100">
-                  <i class="fas fa-users fs-2x text-primary my-2"></i>
-                  <span class="text-primary fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">25</span>
-                  <a href="#" class="text-primary fw-semibold fs-5">Total Member</a>
+                <div class="col-4">
+                    <div class="d-flex flex-column bg-light-primary px-6 py-8 rounded-2 h-lg-100">
+                        <i class="fas fa-users fs-2x text-primary my-2"></i>
+                        <span class="text-primary fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $totalMembers }}</span>
+                        <a href="#" class="text-primary fw-semibold fs-5">Total Members</a>
+                    </div>
                 </div>
-              </div>
-              <div class="col-4">
-                <div class="d-flex flex-column bg-light-success px-6 py-8 rounded-2 h-lg-100">
-                  <i class="fas fa-user-check fs-2x text-success my-2"></i>
-                  <span class="text-success fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">8</span>
-                  <a href="#" class="text-success fw-semibold fs-5">Active Member</a>
+                <div class="col-4">
+                    <div class="d-flex flex-column bg-light-success px-6 py-8 rounded-2 h-lg-100">
+                        <i class="fas fa-user-check fs-2x text-success my-2"></i>
+                        <span class="text-success fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $activeMembers }}</span>
+                        <a href="#" class="text-success fw-semibold fs-5">Active Members</a>
+                    </div>
                 </div>
-              </div>
-              <div class="col-4">
-                <div class=" d-flex flex-column bg-light-danger px-6 py-8 rounded-2 h-lg-100">
-                  <i class="fas fa-exclamation-circle fs-2x text-danger my-2"></i>
-                  <span class="text-danger fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">5</span>
-                  <a href="#" class="text-danger fw-semibold fs-5">Member Request</a>
+                <div class="col-4">
+                    <div class="d-flex flex-column bg-light-danger px-6 py-8 rounded-2 h-lg-100">
+                        <i class="fas fa-exclamation-circle fs-2x text-danger my-2"></i>
+                        <span class="text-danger fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $memberRequests }}</span>
+                        <a href="#" class="text-danger fw-semibold fs-5">Member Requests</a>
+                    </div>
                 </div>
-              </div>
             </div>
           </div>
         </div>
@@ -230,27 +230,34 @@ Dashboard
     <div class="row g-5">
       <div class="col-12">
         <div class="card">
-          <div class="card-header pt-5">
-            <h3 class="card-label fw-bold text-gray-900">Contact Request</h3>
-          </div>
-          <div class="card-body pt-5">
-            <div class="row gx-3">
-              <div class="col-6">
-                <div class="d-flex flex-column bg-light-primary px-6 py-8 rounded-2 h-lg-100">
-                  <i class="fas fa-address-book fs-2x text-primary my-2"></i>
-                  <span class="text-primary fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">25</span>
-                  <a href="#" class="text-primary fw-semibold fs-5">Total Request</a>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="d-flex flex-column bg-light-success px-6 py-8 rounded-2 h-lg-100">
-                  <i class="fas fa-calendar-day fs-2x text-success my-2"></i>
-                  <span class="text-success fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">8</span>
-                  <a href="#" class="text-success fw-semibold fs-5">Today Request</a>
-                </div>
-              </div>
+            <div class="card-header pt-5">
+                <h3 class="card-label fw-bold text-gray-900">Contact Request</h3>
             </div>
-          </div>
+            <div class="card-body pt-5">
+                <div class="row gx-3">
+                    <div class="col-4">
+                        <div class="d-flex flex-column bg-light-info px-6 py-8 rounded-2 h-lg-100">
+                            <i class="fas fa-address-book fs-2x text-info my-2"></i>
+                            <span class="text-info fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $totalContactRequests }}</span>
+                            <a href="#" class="text-info fw-semibold fs-5">Total Requests</a>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="d-flex flex-column bg-light-dark px-6 py-8 rounded-2 h-lg-100">
+                            <i class="fas fa-calendar-day fs-2x text-dark my-2"></i>
+                            <span class="text-dark fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $todayContactRequests }}</span>
+                            <a href="#" class="text-dark fw-semibold fs-5">Today Requests</a>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="d-flex flex-column bg-light-warning px-6 py-8 rounded-2 h-lg-100">
+                            <i class="fas fa-calendar-day fs-2x text-warning my-2"></i>
+                            <span class="text-warning fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $currentMonthContactRequests }}</span>
+                            <a href="#" class="text-warning fw-semibold fs-5">Current Month Requests</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
       </div>
       <div class="col-12">

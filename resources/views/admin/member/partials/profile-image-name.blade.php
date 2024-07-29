@@ -6,7 +6,7 @@
         <div class="me-7 mb-4">
             <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
                 <img src="{{ asset('public/frontend/images/member/' . ($member->memberInfos[0]['logo'] ?? 'placeholder.jpg')) }}" alt="member" />
-                {{-- <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px"></div> --}}
+                {{-- <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border-4 border-white h-20px w-20px"></div> --}}
             </div>
         </div>
         {{-- @endif --}}
@@ -52,7 +52,7 @@
                         
                         <div class="mt-2">
                             @if ($member->memberInfos[0]['org_type'] == 1)
-                            span class="badge badge-secondary"><i class="fas fa-info-circle fa-lg text-mute mt-1"></i>&nbsp; Registered with NGO Affairs Bureau (NGOAB) as an INGO</span>
+                            <span class="badge badge-secondary"><i class="fas fa-info-circle fa-lg text-mute mt-1"></i>&nbsp; Registered with NGO Affairs Bureau (NGOAB) as an INGO</span>
                             @else
                             <span class="badge badge-secondary"><i class="fas fa-info-circle fa-lg text-mute mt-1"></i>&nbsp; Possess international governance
                                     structures</span>
