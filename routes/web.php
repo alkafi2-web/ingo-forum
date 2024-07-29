@@ -96,6 +96,8 @@ Route::prefix('admin')->group(function () {
         // banner route start
         Route::prefix('banner')->group(function () {
             Route::get('/', [BannerController::class, 'index'])->name('banner');
+            Route::post('/create-or-update', [BannerController::class, 'bannerCreateOrUpdate'])->name('banner.createOrUpdate');
+
             Route::post('/create', [BannerController::class, 'bannerCreate'])->name('banner.create');
             Route::post('/delete', [BannerController::class, 'bannerDelete'])->name('banner.delete');
             Route::post('/status', [BannerController::class, 'bannerStatus'])->name('banner.status');

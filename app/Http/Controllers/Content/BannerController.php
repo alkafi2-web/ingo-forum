@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
@@ -27,6 +28,69 @@ class BannerController extends Controller
         return view('admin.content.banner.index');
     }
 
+    public function bannerCreateOrUpdate(Request $request)
+    {
+        $request->validate([
+            'title' => 'nullable|string|max:255',
+            'title_color' => 'nullable|string|max:7',
+            'b_des' => 'nullable|string',
+            'description_color' => 'nullable|string|max:7',
+            'background_type' => 'required|string',
+            'background_color' => 'nullable|string|max:7',
+            'overlay_color' => 'nullable|string|max:7',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'button_text' => 'nullable|string|max:255',
+            'button_bg_color' => 'nullable|string|max:7',
+            'button_color' => 'nullable|string|max:7',
+            'button_url' => 'nullable|url|max:255',
+        ]);
+
+        if ($request->has('id')) {
+            $banner = Banner::find($request->id);
+            if (!$banner) {
+                return response()->json(['error' => 'Banner not found'], 404);
+            }
+        } else {
+            $banner = new Banner();
+        }
+
+        $banner->title = $request->title;
+        $banner->title_color = $request->title_color;
+        $banner->description = $request->b_des;
+        $banner->description_color = $request->description_color;
+        $banner->background_color = $request->background_color;
+        $banner->overlay_color = $request->overlay_color;
+
+        if ($request->background_type === 'image' && $request->hasFile('image')) {
+            if ($banner->image) {
+                Storage::delete('public/frontend/images/banner/' . $banner->image);
+            }
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('frontend/images/banner'), $imageName);
+            $banner->image = $imageName;
+        } else {
+            $banner->image = null;
+        }
+
+        if ($request->add_button) {
+            $banner->button = json_encode([
+                'button_text' => $request->button_text,
+                'bg_color' => $request->button_bg_color,
+                'color' => $request->button_color,
+                'url' => $request->button_url,
+            ]);
+        } else {
+            $banner->button = null;
+        }
+
+        $banner->status = 1; // Assuming the banner is active by default
+        $banner->added_by = auth()->user()->id;
+
+        $banner->save();
+
+        return response()->json(['success' => 'Banner saved successfully']);
+    }
+    
     public function bannerCreate(Request $request)
     {
 

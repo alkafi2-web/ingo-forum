@@ -82,7 +82,7 @@
                         searchable: false,
                         render: function(data, type, row) {
                             return `
-                            <a href="javascript:void(0)" class="edit text-primary mr-2 me-2 " data-id="${row.id}">
+                            <a href="javascript:void(0)" class="edit text-primary mr-2 me-2 " id="editButton" data-id="${row.id}">
                                 <i class="fas fa-edit text-primary" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
                             </a>
                             <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}">
@@ -134,6 +134,7 @@
 
             });
         });
+        
         $(document).on('click', '.edit', function(e) {
             e.preventDefault(); // Prevent default link behavior
 

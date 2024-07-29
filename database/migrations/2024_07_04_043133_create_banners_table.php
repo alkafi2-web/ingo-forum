@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('background_color')->nullable()->default('#D7E8E0');
             $table->string('overlay_color')->nullable()->default('rgba(0, 0, 0, 0.5)');
             $table->string('title_color')->default('#0ca65b');
