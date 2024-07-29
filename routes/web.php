@@ -27,8 +27,7 @@ use App\Http\Controllers\RobotsController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\User\UserController;
-
-
+use App\Http\Controllers\Publication\PublicationController;
 
 // robot & sitemap 
 Route::get('/robots.txt', [RobotsController::class, 'index']);
@@ -168,6 +167,30 @@ Route::prefix('admin')->group(function () {
             });
         });
         // post menagement route end
+
+        // Publication menagement route start
+        Route::prefix('publication')->group(function () {
+            Route::prefix('category')->group(function () {
+                Route::get('/', [PublicationController::class, 'category'])->name('publication.category');
+                Route::post('/category-create', [PublicationController::class, 'categoryCreate'])->name('publication.category.create');
+                Route::post('/category-delete', [PublicationController::class, 'categoryDelete'])->name('publication.category.delete');
+                Route::post('/category-status', [PublicationController::class, 'categoryStatus'])->name('publication.category.status');
+                Route::post('/category-edit', [PublicationController::class, 'categoryEdit'])->name('publication.category.edit');
+                Route::post('/category-update', [PublicationController::class, 'categoryUpdate'])->name('publication.category.update');
+            });
+            
+            Route::prefix('/')->group(function () {
+                Route::get('/', [PublicationController::class, 'publicationCreate'])->name('publication.create');
+                Route::post('/store', [PublicationController::class, 'publicationStore'])->name('publication.store');
+                Route::get('/list', [PublicationController::class, 'postList'])->name('publication.list');
+                Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
+                Route::post('/comment', [PostController::class, 'postComment'])->name('post.comment');
+                Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');
+                Route::get('/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
+                Route::post('/update', [PostController::class, 'postUpdate'])->name('post.update');
+            });
+        });
+        // Publication menagement route end
 
         // event managment route start
         Route::prefix('event')->group(function () {

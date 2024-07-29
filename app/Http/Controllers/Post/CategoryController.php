@@ -25,14 +25,19 @@ class CategoryController extends Controller
 
     public function categoryCreate(Request $request)
     {
+        // Generate slug from the name
+        $slug = Str::slug($request->name, '-');
+
         // Validate the form data
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:post_categories,name',
+            'slug' => 'unique:post_categories,slug', // Add slug uniqueness validation
         ], [
             'name.required' => 'The category name is required.',
             'name.string' => 'The category name must be a string.',
             'name.max' => 'The category name may not be greater than 255 characters.',
             'name.unique' => 'The category name has already been taken.',
+            'slug.unique' => 'The category slug has already been taken.', // Custom error message for slug
         ]);
 
         if ($validator->fails()) {
@@ -42,9 +47,10 @@ class CategoryController extends Controller
         // Create a new category with slug
         $category = new PostCategory();
         $category->name = $request->name;
-        $category->slug = Str::slug($request->name, '-');
+        $category->slug = $slug;
         $category->status = 1;
         $category->save();
+
         Helper::log("Create post category $category->name");
         return response()->json(['success' => ['success' => 'Category saved successfully!']]);
     }
