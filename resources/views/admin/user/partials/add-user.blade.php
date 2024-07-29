@@ -4,7 +4,7 @@
     <div class="row fv-row mb-7 fv-plugins-icon-container">
         <!--begin::Col-->
         <div class="col-xl-12">
-            <label class="form-label fw-bolder text-dark fs-6">Name</label>
+            <label class="form-label fw-bolder text-dark fs-6 required">Name</label>
             <input class="form-control form-control-lg form-control-solid" type="text" placeholder="" name="first-name"
                 id="name" autocomplete="off">
             <div class="fv-plugins-message-container invalid-feedback"></div>
@@ -14,7 +14,7 @@
     <!--end::Input group-->
     <!--begin::Input group-->
     <div class="fv-row mb-7 fv-plugins-icon-container">
-        <label class="form-label fw-bolder text-dark fs-6">Email</label>
+        <label class="form-label fw-bolder text-dark fs-6 required">Email</label>
         <input class="form-control form-control-lg form-control-solid" type="email" placeholder="" name="email"
             id="email" autocomplete="off">
         <div class="fv-plugins-message-container invalid-feedback"></div>
@@ -25,7 +25,7 @@
         <!--begin::Wrapper-->
         <div class="mb-1">
             <!--begin::Label-->
-            <label class="form-label fw-bolder text-dark fs-6">Password</label>
+            <label class="form-label fw-bolder text-dark fs-6 required">Password</label>
             <!--end::Label-->
             <!--begin::Input wrapper-->
             <div class="position-relative">
@@ -47,7 +47,7 @@
         <!--begin::Wrapper-->
         <div class="mb-1">
             <!--begin::Label-->
-            <label class="form-label fw-bolder text-dark fs-6">Your Password</label>
+            <label class="form-label fw-bolder text-dark fs-6 required">Your Password</label>
             <!--end::Label-->
             <!--begin::Input wrapper-->
             <div class="position-relative">
@@ -66,7 +66,7 @@
     <!--end::Input group-->
     <!--begin::Input group-->
     <div class="fv-row mb-7 fv-plugins-icon-container">
-        <label class="form-label fw-bolder text-dark fs-6">Role</label>
+        <label class="form-label fw-bolder text-dark fs-6 required">Role</label>
         <select class="form-control form-control-lg form-control-solid" name="role" id="role">
             <option value="" disabled selected>Select Role</option>
             @forelse ($roles as $role)

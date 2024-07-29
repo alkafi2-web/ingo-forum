@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Post;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ class CategoryController extends Controller
         $category->slug = Str::slug($request->name, '-');
         $category->status = 1;
         $category->save();
+        Helper::log("Create post category $category->name");
         return response()->json(['success' => ['success' => 'Category saved successfully!']]);
     }
 
@@ -52,7 +54,7 @@ class CategoryController extends Controller
         $category = PostCategory::findOrFail($request->id);
         // Delete the banner record
         $category->delete();
-
+        Helper::log("Delete post category $category->name");
         return response()->json(['success' => 'Post category deleted successfully']);
     }
 
@@ -69,7 +71,10 @@ class CategoryController extends Controller
 
         // Save the changes to the database
         $category->save();
-
+        $statusMessage = $newStatus == 0
+            ? "$category->name category deactive"
+            : "$category->name category active";
+        Helper::log($statusMessage);
         return response()->json(['success' => 'Post Category status updated successfully']);
     }
 
@@ -107,7 +112,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->slug = Str::slug($request->name, '-');
         $category->save();
-
+        Helper::log("Update post category $category->name");
         return response()->json(['success' => ['success' => 'Post category updated successfully']]);
     }
 }
