@@ -5,63 +5,11 @@
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 @endphp
-<!-- Hero Section Start  -->
-<style>
-  .hero-section {
-    position: relative;
-    background-image: url({{asset('public/frontend/images/banner/banner.jpg')}});
-    background-color: #D7E8E0;
-  }
-  .hero-section::before {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-</style>
-<section>
-  <div class="owl-carousel owl-theme hero-slider">
-    @forelse ($global['banner'] as $banner)
-    <div class="item">
-      <div class="hero-section ptb-70">
-        <div class="container">
-          <div class="row d-flex align-items-center">
-            <div class="col-lg-6 hero-left mb-2 lg-mb-0">
-              <h1 style="color: #0ca65b">{{ $banner->title }}</h1>
-              <p class="pb-3" style="color: #d4d6d8">{{ $banner->description }}</p>
-              <a href="{{route('member')}}" class="ct-btn" style="background-color: #F99E1F; color:#fff">Be a Member</a>
-            </div>
-            <div class="col-lg-6 hero-right">
-              <img src="{{ asset('public/frontend/images/banner/') }}/{{ $banner->image }}" alt="">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    @empty
-    <div class="item">
-      <div class="hero-section ptb-70">
-        <div class="container">
-          <div class="row d-flex align-items-center">
-            <div class="col-lg-6 hero-left mb-2 lg-mb-0">
-              <h1>Lorem ipsum is placeholder text commonly used in the graphic, print, mockups.</h1>
-              <p class="pb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda rem
-                iure, quidem neque quae
-                dolorem consequatur dolorum corrupti perspiciatis vero unde, doloribus temporibus
-                itaque
-                maxime. Molestiae
-                vel enim ab dolor.</p>
-              <a href="{{route('member')}}" class="ct-btn btn-yellow">Be a Member</a>
-            </div>
-            <div class="col-lg-6 hero-right">
-              <img src="{{ asset('public/frontend/images/hero-img.png') }}" alt="">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    @endforelse
 
-  </div>
-</section>
-<!-- Hero Section End  -->
+<!-- Hero slider Section Start  -->
+@include('frontend.partials.home-slider')
+<!-- Hero slider Section End  -->
+
 <!-- About Us Section Start  -->
 <section class="about-us-section">
   <div class="container">

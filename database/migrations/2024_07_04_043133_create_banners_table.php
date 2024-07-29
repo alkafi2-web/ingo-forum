@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable(false); // Required field for the title
-            $table->longText('description')->nullable(); // Description of the banner
-            $table->string('image')->nullable(); // URL or path to the banner image
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->string('image');
+            $table->string('background_color')->nullable()->default('#D7E8E0');
+            $table->string('overlay_color')->nullable()->default('rgba(0, 0, 0, 0.5)');
+            $table->string('title_color')->default('#0ca65b');
+            $table->string('description_color')->default('#d4d6d8');
+            $table->json('button')->nullable(); // JSON field for button details
             $table->integer('status')->default(0); // Status of the banner
             $table->unsignedBigInteger('added_by'); // Foreign key referencing users table
-            $table->timestamps(); // Created at and updated at timestamps
+            $table->timestamps();
 
             // Foreign key constraint
             $table->foreign('added_by')->references('id')->on('users')->onDelete('cascade');
