@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Menu;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Menu;
@@ -10,12 +11,14 @@ use App\Models\PostCategory;
 
 class MenuController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $menus = Menu::with('subMenus', 'page')->where('parent_id', 0)->orderBy('position')->get();
         return view('admin.menu.index', compact('menus'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'menu_title' => 'required_if:menu_type,post,route,url|nullable|string|max:255',
             'menu_type' => 'required|in:page,post,route,url',
@@ -45,11 +48,12 @@ class MenuController extends Controller
         }
 
         $menu->save();
-
+        Helper::log("$menu->name save menu");
         return response()->json(['success' => true, 'message' => 'Menu added successfully']);
     }
 
-    public function updateOrder(Request $request) {
+    public function updateOrder(Request $request)
+    {
         $order = $request->input('order');
         if (!$order) {
             return response()->json(['status' => 'error', 'message' => 'Invalid data'], 400);
@@ -63,11 +67,12 @@ class MenuController extends Controller
             $parentId = isset($item['parent_id']) && $item['parent_id'] ? str_replace('menu-', '', $item['parent_id']) : 0;
             Menu::where('id', $id)->update(['position' => $index, 'parent_id' => $parentId]);
         }
-
+        Helper::log("Menu position reorder");
         return response()->json(['status' => 'success']);
     }
 
-    public function createOrRemoveSubmenu(Request $request) {
+    public function createOrRemoveSubmenu(Request $request)
+    {
         $submenu = $request->input('submenu');
         if (!$submenu) {
             return response()->json(['status' => 'error', 'message' => 'Invalid data'], 400);
@@ -89,32 +94,39 @@ class MenuController extends Controller
         } else {
             Menu::where('id', $parentId)->update(['has_sub_menu' => 1]);
         }
-
+        Helper::log("Submenu create or update");
         return response()->json(['status' => 'success']);
     }
 
-    public function toggleVisibility(Request $request) {
+    public function toggleVisibility(Request $request)
+    {
         $menu = Menu::findOrFail($request->menu_id);
         $menu->visibility = $request->visibility;
         $menu->save();
-
+        $visibilityMessage = $request->visibility == 0
+            ? "Menu Invisible"
+            : "Menu Visible";
+        Helper::log($visibilityMessage);
         return response()->json(['status' => 'success']);
     }
 
-    public function delete(Request $request) {
+    public function delete(Request $request)
+    {
         $menu = Menu::findOrFail($request->menu_id);
         $menu->delete();
-
+        Helper::log("Menu delete");
         return response()->json(['status' => 'success']);
     }
 
-    public function edit(Request $request) {
+    public function edit(Request $request)
+    {
         $menu = Menu::findOrFail($request->menu_id);
 
         return response()->json(['menu' => $menu]);
     }
 
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
         $menu = Menu::findOrFail($request->menu_id);
 
         $request->validate([
@@ -143,9 +155,8 @@ class MenuController extends Controller
             $menu->name = $request->menu_title;
             $menu->url = $request->custom_url;
         }
-
         $menu->save();
-
+        Helper::log("$menu->name menu update");
         return response()->json(['success' => true, 'message' => 'Menu updated successfully']);
     }
 

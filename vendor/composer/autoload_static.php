@@ -42,6 +42,7 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'a1cfe24d14977df6878b9bf804af2d1c' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '377b22b161c09ed6e5152de788ca020a' => __DIR__ . '/..' . '/spatie/laravel-permission/src/helpers.php',
+        '8fde5feda9697fe0ee53a3938c839fb0' => __DIR__ . '/../..' . '/app/Helpers/Helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -650,6 +651,7 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
     );
 
     public static $classMap = array (
+        'App\\Helpers\\Helper' => __DIR__ . '/../..' . '/app/Helpers/Helper.php',
         'App\\Http\\Controllers\\Auth\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/AuthController.php',
         'App\\Http\\Controllers\\Content\\AboutusController' => __DIR__ . '/../..' . '/app/Http/Controllers/Content/AboutusController.php',
         'App\\Http\\Controllers\\Content\\BannerController' => __DIR__ . '/../..' . '/app/Http/Controllers/Content/BannerController.php',
@@ -657,6 +659,7 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'App\\Http\\Controllers\\Content\\PageController' => __DIR__ . '/../..' . '/app/Http/Controllers/Content/PageController.php',
         'App\\Http\\Controllers\\Content\\SystemController' => __DIR__ . '/../..' . '/app/Http/Controllers/Content/SystemController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\Dashboard\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Dashboard/DashboardController.php',
         'App\\Http\\Controllers\\Event\\EventController' => __DIR__ . '/../..' . '/app/Http/Controllers/Event/EventController.php',
         'App\\Http\\Controllers\\FAQs\\FAQsController' => __DIR__ . '/../..' . '/app/Http/Controllers/FAQs/FAQsController.php',
         'App\\Http\\Controllers\\Frontend\\Auth\\FrontAuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/Auth/FrontAuthController.php',
@@ -675,6 +678,7 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'App\\Http\\Controllers\\SitemapController' => __DIR__ . '/../..' . '/app/Http/Controllers/SitemapController.php',
         'App\\Http\\Middleware\\MemberMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/MemberMiddleware.php',
         'App\\Http\\Middleware\\adminMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/adminMiddleware.php',
+        'App\\Models\\Activity' => __DIR__ . '/../..' . '/app/Models/Activity.php',
         'App\\Models\\Banner' => __DIR__ . '/../..' . '/app/Models/Banner.php',
         'App\\Models\\Comment' => __DIR__ . '/../..' . '/app/Models/Comment.php',
         'App\\Models\\ContactInfo' => __DIR__ . '/../..' . '/app/Models/ContactInfo.php',

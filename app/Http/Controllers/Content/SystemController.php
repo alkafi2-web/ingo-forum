@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Content;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\ContactInfo;
 use App\Models\MainContent;
@@ -101,7 +102,7 @@ class SystemController extends Controller
                 ['content' => $value]
             );
         }
-
+        Helper::log("Update or create system content");
         // Redirect back with success message
         return redirect()->route('system')->with('success', 'Successfully updated system information!');
     }
@@ -121,6 +122,7 @@ class SystemController extends Controller
     {
        $contacInfo = ContactInfo::findOrFail($request->id);
        $contacInfo->delete();
+       Helper::log("Delete contact info");
        return response()->json(['success' => ['success' => 'You have successfully delete contact info!']]);
     }
 }

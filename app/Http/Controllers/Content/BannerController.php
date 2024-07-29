@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Content;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use Brian2694\Toastr\Toastr;
@@ -58,6 +59,7 @@ class BannerController extends Controller
             ['title' => $data['title']], // Adjust the condition as needed
             $data
         );
+        Helper::log('Banner create');
         // Toastr::success('You have successfully Create Banner!', 'success');
         return response()->json(['success' => ['success' => 'You have successfully Create Banner!']]);
     }
@@ -73,7 +75,7 @@ class BannerController extends Controller
 
         // Delete the banner record
         $banner->delete();
-
+        Helper::log('Banner delete');
         return response()->json(['success' => 'Banner deleted successfully']);
     }
     public function bannerStatus(Request $request)
@@ -89,7 +91,8 @@ class BannerController extends Controller
 
         // Save the changes to the database
         $banner->save();
-
+        $statusMessage = $newStatus == 0 ? 'Banner Deactive' : 'Banner Active';
+        Helper::log($statusMessage);
         return response()->json(['success' => 'Banner status updated successfully']);
     }
     public function bannerEdit(Request $request)
@@ -141,7 +144,7 @@ class BannerController extends Controller
         // Update banner data
         $data['added_by'] = Auth::guard('admin')->user()->id;
         $banner->update($data);
-
+        Helper::log('Banner update');
         return response()->json(['success' => ['success' => 'Banner updated successfully']]);
     }
 }

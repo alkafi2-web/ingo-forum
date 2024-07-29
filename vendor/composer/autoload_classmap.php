@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Helpers\\Helper' => $baseDir . '/app/Helpers/Helper.php',
     'App\\Http\\Controllers\\Auth\\AuthController' => $baseDir . '/app/Http/Controllers/Auth/AuthController.php',
     'App\\Http\\Controllers\\Content\\AboutusController' => $baseDir . '/app/Http/Controllers/Content/AboutusController.php',
     'App\\Http\\Controllers\\Content\\BannerController' => $baseDir . '/app/Http/Controllers/Content/BannerController.php',
@@ -13,6 +14,7 @@ return array(
     'App\\Http\\Controllers\\Content\\PageController' => $baseDir . '/app/Http/Controllers/Content/PageController.php',
     'App\\Http\\Controllers\\Content\\SystemController' => $baseDir . '/app/Http/Controllers/Content/SystemController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Http\\Controllers\\Dashboard\\DashboardController' => $baseDir . '/app/Http/Controllers/Dashboard/DashboardController.php',
     'App\\Http\\Controllers\\Event\\EventController' => $baseDir . '/app/Http/Controllers/Event/EventController.php',
     'App\\Http\\Controllers\\FAQs\\FAQsController' => $baseDir . '/app/Http/Controllers/FAQs/FAQsController.php',
     'App\\Http\\Controllers\\Frontend\\Auth\\FrontAuthController' => $baseDir . '/app/Http/Controllers/Frontend/Auth/FrontAuthController.php',
@@ -31,6 +33,7 @@ return array(
     'App\\Http\\Controllers\\SitemapController' => $baseDir . '/app/Http/Controllers/SitemapController.php',
     'App\\Http\\Middleware\\MemberMiddleware' => $baseDir . '/app/Http/Middleware/MemberMiddleware.php',
     'App\\Http\\Middleware\\adminMiddleware' => $baseDir . '/app/Http/Middleware/adminMiddleware.php',
+    'App\\Models\\Activity' => $baseDir . '/app/Models/Activity.php',
     'App\\Models\\Banner' => $baseDir . '/app/Models/Banner.php',
     'App\\Models\\Comment' => $baseDir . '/app/Models/Comment.php',
     'App\\Models\\ContactInfo' => $baseDir . '/app/Models/ContactInfo.php',

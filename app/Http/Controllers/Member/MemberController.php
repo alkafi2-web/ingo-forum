@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Member;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\MemberInfo;
@@ -103,7 +104,7 @@ class MemberController extends Controller
 
         // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
         $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
-
+        Helper::log("$memberInfo->organisation_name organization approved");
         // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',
@@ -114,7 +115,7 @@ class MemberController extends Controller
     public function suspend(Request $request)
     {
         // Find the member by ID
-        $member = Member::findOrFail($request->id);
+        $member = Member::with('memberInfos')->findOrFail($request->id);
 
         // Update the status to 1 (or any appropriate value for "suspended")
         $member->status = 2; // Assuming 1 means suspended status
@@ -126,7 +127,8 @@ class MemberController extends Controller
 
         // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
         $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
-
+        $memberInfo = $member->memberInfos[0];
+        Helper::log("$memberInfo->organisation_name organization suspend");
         // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',
@@ -138,7 +140,7 @@ class MemberController extends Controller
     public function reject(Request $request)
     {
         // Find the member by ID
-        $member = Member::findOrFail($request->id);
+        $member = Member::with('memberInfos')->findOrFail($request->id);
 
         // Update the status to 1 (or any appropriate value for "suspended")
         $member->status = 3; // Assuming 1 means suspended status
@@ -150,7 +152,8 @@ class MemberController extends Controller
 
         // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
         $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
-
+        $memberInfo = $member->memberInfos[0];
+        Helper::log("$memberInfo->organisation_name organization reject");
         // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',

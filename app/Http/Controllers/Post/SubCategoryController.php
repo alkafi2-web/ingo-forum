@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Post;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
 use App\Models\PostSubCategory;
@@ -58,11 +59,12 @@ class SubCategoryController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-        PostSubCategory::create([
+        $subcategory = PostSubCategory::create([
             'category_id' => $request->category,
             'name' => $request->name,
             'slug' => Str::slug($request->name, '-'),
         ]);
+        Helper::log("Create post subcategory $subcategory->name");
         return response()->json(['success' => ['success' => 'Sub Category saved successfully!']]);
     }
 
@@ -71,7 +73,7 @@ class SubCategoryController extends Controller
         $subcategory = PostSubCategory::findOrFail($request->id);
         // Delete the banner record
         $subcategory->delete();
-
+        Helper::log("Delete post subcategory $subcategory->name");
         return response()->json(['success' => 'Post sub category deleted successfully']);
     }
 
@@ -97,5 +99,7 @@ class SubCategoryController extends Controller
         return response()->json(['subcategory' => $subcategory]);
     }
 
-    public function subcategoryUpdate(Request $request) {}
+    public function subcategoryUpdate(Request $request) {
+        
+    }
 }
