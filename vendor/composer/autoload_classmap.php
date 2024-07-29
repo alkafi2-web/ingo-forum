@@ -32,6 +32,7 @@ return array(
     'App\\Http\\Controllers\\Role\\RoleController' => $baseDir . '/app/Http/Controllers/Role/RoleController.php',
     'App\\Http\\Controllers\\SitemapController' => $baseDir . '/app/Http/Controllers/SitemapController.php',
     'App\\Http\\Middleware\\MemberMiddleware' => $baseDir . '/app/Http/Middleware/MemberMiddleware.php',
+    'App\\Http\\Middleware\\UpdateLastActivity' => $baseDir . '/app/Http/Middleware/UpdateLastActivity.php',
     'App\\Http\\Middleware\\adminMiddleware' => $baseDir . '/app/Http/Middleware/adminMiddleware.php',
     'App\\Models\\Activity' => $baseDir . '/app/Models/Activity.php',
     'App\\Models\\Banner' => $baseDir . '/app/Models/Banner.php',

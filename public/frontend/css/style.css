@@ -269,18 +269,30 @@ a {
 /* Scroll to top  end */
 /* Hero Section Design Start Here  */
 .hero-section {
-  background-color: var(--light);
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
-.hero-left h1 {
-  color: var(--primary);
-  text-transform: uppercase;
-  font-weight: 700;
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-section > * {
+  position: relative;
+  z-index: 8888;
+  opacity: 1;
 }
 
 .hero-left h1 {
   font-size: 45px;
-  color: var(--primary);
   text-transform: uppercase;
   font-weight: 700;
 }
