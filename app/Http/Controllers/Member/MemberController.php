@@ -20,12 +20,12 @@ class MemberController extends Controller
             $members = Member::with('memberInfos')->get();
             // If organization type is provided, filter the members
             if (!empty($organizationType)) {
-                $members = $members->filter(function($member) use ($organizationType) {
+                $members = $members->filter(function ($member) use ($organizationType) {
                     return $member->memberInfos->first() && $member->memberInfos->first()->organisation_type == $organizationType;
                 });
             }
             if ($statusFilter !== null && $statusFilter !== '') {
-                $members = $members->filter(function($member) use ($statusFilter) {
+                $members = $members->filter(function ($member) use ($statusFilter) {
                     return $member->status == $statusFilter;
                 });
             }
@@ -72,7 +72,7 @@ class MemberController extends Controller
     public function approved(Request $request)
     {
         // Find the member by ID
-        $member = Member::with('memberInfos')->findOrFail($request->id);
+        $member = Member::with('memberInfos', 'info')->findOrFail($request->id);
         $member->status = 1;
         if ($member->memberInfos[0]['membership_id'] == null) {
             // Get the latest membership_id and generate a new one
@@ -104,7 +104,7 @@ class MemberController extends Controller
 
         // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
         $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
-        Helper::log("$member->memberInfos[0]['organisation_name'] organization approved");
+        Helper::log($member->info->organisation_name . " organization approved");
         // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',
