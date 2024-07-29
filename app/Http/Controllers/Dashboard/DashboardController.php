@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Member;
-use App\Models\ContactInfo; 
+use App\Models\ContactInfo;
+use App\Models\Event; 
+use App\Models\User;
 use Carbon\Carbon; 
 
 
@@ -43,6 +45,19 @@ class DashboardController extends Controller
         $todayContactRequests = ContactInfo::whereDate('created_at', Carbon::today())->count();
         $currentMonthContactRequests = ContactInfo::whereMonth('created_at', Carbon::now()->month)->count();
 
+        // Fetch the latest 5 events
+        $latestEvents = Event::where('status', 1)
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        // Count active and online users
+        $activeUsers = User::where('status', 1)->count();
+        $onlineUsers = User::where('status', 1)
+            ->whereNotNull('last_activity')
+            ->where('last_activity', '>', Carbon::now()->subMinutes(5))
+            ->count();
+  
         return view('admin.dashboard.dashborad', compact(
             'latestPosts', 
             'latestMembers', 
@@ -51,7 +66,10 @@ class DashboardController extends Controller
             'memberRequests', 
             'totalContactRequests',
             'todayContactRequests', 
-            'currentMonthContactRequests'
+            'currentMonthContactRequests',
+            'latestEvents', 
+            'activeUsers', 
+            'onlineUsers'
         ));
     }
 }

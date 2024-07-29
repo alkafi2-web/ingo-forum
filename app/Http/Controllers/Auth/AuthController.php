@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
+use Carbon\Carbon;
 
 use function Ramsey\Uuid\v1;
 
@@ -85,6 +86,10 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::guard('admin')->attempt($credentials)) {
             // Authentication passed for the 'admin' guard
+            $user = Auth::guard('admin')->user();
+            $user->last_activity = Carbon::now();
+            $user->save();
+
             Toastr::success('You have successfully logged in!', 'Success');
             return response()->json(['redirect' => route('dashboard')], 200);
         }
@@ -96,6 +101,10 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $user = Auth::guard('admin')->user();
+        $user->last_activity = null;
+        $user->save();
+        
         Auth::guard('admin')->logout();
 
         // For API routes, return a JSON response

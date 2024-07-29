@@ -1,6 +1,6 @@
 @extends('frontend.layouts.frontend-page-layout')
-@section('page-title', {{ $postCategory->name }})
 @section('frontend-section')
+@section('page-title', $postCategory->name)
 <!-- Blogs Area start here -->
 <section class="blogs-page-content ptb-50">
     <div class="container">

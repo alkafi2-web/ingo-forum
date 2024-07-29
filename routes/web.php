@@ -36,7 +36,7 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 Route::prefix('admin')->group(function () {
     Route::get('/', [AuthController::class, 'login'])->name('login');
     Route::post('/', [AuthController::class, 'loginPost']);
-    Route::middleware(['admin'])->group(function () {
+    Route::middleware(['admin','updateLastActivity'])->group(function () {
 
         Route::post('/register', [AuthController::class, 'register'])->name('register');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

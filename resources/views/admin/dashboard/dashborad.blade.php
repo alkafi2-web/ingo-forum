@@ -66,129 +66,82 @@ Dashboard
       </div>
       <div class="col-12">
         <div class="card">
-          <div class="card-header pt-5 align-items-center">
-            <h3 class="card-label fw-bold text-gray-900 mb-0">Latest Event</h3>
-            <a href="" class="btn btn-sm fw-bold btn-primary">
-              Add New</a>
-          </div>
-          <div class="card-body pt-5">
-            <div class="d-flex flex-stack">
-              <div class="d-flex align-items-center me-3">
-                <div class="symbol symbol-50px me-5">
-                  <img src="{{ asset('public/admin/media/avatars/150-26.jpg') }}" alt="user" />
-                </div>
-                <div class="flex-grow-1">
-                  <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">Laravel</a>
-                  <span class="text-gray-500 fw-semibold d-block fs-6">02/03/2020</span>
-                </div>
-              </div>
-              <a href=""
-                class="btn btn-icon btn-sm h-auto btn-color-gray-500 btn-active-color-primary justify-content-end">
-                <i class="fas fa-external-link-alt"></i></a>
+            <div class="card-header pt-5 align-items-center">
+                <h3 class="card-label fw-bold text-gray-900 mb-0">Latest Events</h3>
+                <a href="{{ route('event') }}" class="btn btn-sm fw-bold btn-primary">
+                  <i class="fas fa-plus"></i> &nbsp;Add New Event</a>
             </div>
-            <div class="separator separator-dashed my-2"></div>
-            <div class="d-flex flex-stack">
-              <div class="d-flex align-items-center me-3">
-                <div class="symbol symbol-50px me-5">
-                  <img src="{{ asset('public/admin/media/avatars/150-26.jpg') }}" alt="user" />
+            <div class="card-body pt-5">
+                @forelse($latestEvents as $event)
+                <div class="d-flex flex-stack">
+                    <div class="d-flex align-items-center me-3">
+                        <div class="symbol symbol-50px me-5">
+                            <img src="{{ asset('public/frontend/images/events/' . ($event->media ?? 'placeholder.jpg')) }}" alt="event" />
+                        </div>
+                        <div class="flex-grow-1">
+                            <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">{{ $event->title }}</a>
+                            <span class="text-gray-500 fw-semibold d-block fs-6">
+                              <i class="fas fa-calendar-alt"></i>&nbsp;{{ \Carbon\Carbon::parse($event->start_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($event->end_date)->format('d M Y') }} &nbsp; 
+                              <i class="fas fa-map-marker-alt"></i>&nbsp;{{ $event->location }}
+                          </span>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0)" class="btn btn-icon btn-sm h-auto btn-color-gray-500 btn-active-color-primary justify-content-end" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
                 </div>
-                <div class="flex-grow-1">
-                  <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">Laravel</a>
-                  <span class="text-gray-500 fw-semibold d-block fs-6">02/03/2020</span>
-                </div>
-              </div>
-              <a href=""
-                class="btn btn-icon btn-sm h-auto btn-color-gray-500 btn-active-color-primary justify-content-end">
-                <i class="fas fa-external-link-alt"></i></a>
+                @if (!$loop->last)
+                <div class="separator separator-dashed my-2"></div>
+                @endif
+                @empty
+                <p class="text-center">No events available</p>
+                @endforelse
             </div>
-            <div class="separator separator-dashed my-2"></div>
-            <div class="d-flex flex-stack">
-              <div class="d-flex align-items-center me-3">
-                <div class="symbol symbol-50px me-5">
-                  <img src="{{ asset('public/admin/media/avatars/150-26.jpg') }}" alt="user" />
-                </div>
-                <div class="flex-grow-1">
-                  <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">Laravel</a>
-                  <span class="text-gray-500 fw-semibold d-block fs-6">02/03/2020</span>
-                </div>
-              </div>
-              <a href=""
-                class="btn btn-icon btn-sm h-auto btn-color-gray-500 btn-active-color-primary justify-content-end">
-                <i class="fas fa-external-link-alt"></i></a>
-            </div>
-            <div class="separator separator-dashed my-2"></div>
-            <div class="d-flex flex-stack">
-              <div class="d-flex align-items-center me-3">
-                <div class="symbol symbol-50px me-5">
-                  <img src="{{ asset('public/admin/media/avatars/150-26.jpg') }}" alt="user" />
-                </div>
-                <div class="flex-grow-1">
-                  <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">Laravel</a>
-                  <span class="text-gray-500 fw-semibold d-block fs-6">02/03/2020</span>
-                </div>
-              </div>
-              <a href=""
-                class="btn btn-icon btn-sm h-auto btn-color-gray-500 btn-active-color-primary justify-content-end">
-                <i class="fas fa-external-link-alt"></i></a>
-            </div>
-            <div class="separator separator-dashed my-2"></div>
-            <div class="d-flex flex-stack">
-              <div class="d-flex align-items-center me-3">
-                <div class="symbol symbol-50px me-5">
-                  <img src="{{ asset('public/admin/media/avatars/150-26.jpg') }}" alt="user" />
-                </div>
-                <div class="flex-grow-1">
-                  <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">Laravel</a>
-                  <span class="text-gray-500 fw-semibold d-block fs-6">02/03/2020</span>
-                </div>
-              </div>
-              <a href=""
-                class="btn btn-icon btn-sm h-auto btn-color-gray-500 btn-active-color-primary justify-content-end">
-                <i class="fas fa-external-link-alt"></i></a>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
       <div class="col-12">
         <div class="card">
           <div class="card-header pt-5 align-items-center">
             <h3 class="card-label fw-bold text-gray-900 mb-0">User Activity</h3>
-            <a href="" class="btn btn-sm fw-bold btn-primary">
-              Add New</a>
+            <a href="" class="btn btn-sm fw-bold btn-primary"><i class="fas fa-plus"></i> &nbsp;Add New</a>
           </div>
           <div class="card-body pt-5">
             <div class="row mb-3">
               <div class="col-md-6 mb-3 mb-md-0">
-                <div class="d-flex flex-stack">
-                  <div class="d-flex align-items-center me-3">
-                    <div class="user-activity me-5">
-                      <i class="fas fa-user usr-active text-primary"></i>
-                    </div>
-                    <div class="flex-grow-1">
-                      <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">Active Clients</a>
-                      <span class="text-gray-500 fw-semibold d-block fs-6"><span class="fs-2 text-primary">3</span> Active</span>
-                    </div>
+                  <div class="d-flex flex-stack">
+                      <div class="d-flex align-items-center me-3">
+                          <div class="user-activity me-5">
+                              <i class="fas fa-user usr-active text-primary"></i>
+                          </div>
+                          <div class="flex-grow-1">
+                              <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">Active Users</a>
+                              <span class="text-gray-500 fw-semibold d-block fs-6">
+                                  <span class="fs-2 text-primary">{{ $activeUsers }}</span> Active
+                              </span>
+                          </div>
+                      </div>
                   </div>
-                </div>
               </div>
               <div class="col-md-6">
-                <div class="d-flex flex-stack">
-                  <div class="d-flex align-items-center me-3">
-                    <div class="user-activity me-5 usr-online">
-                      <i class="fas fa-user-check text-success"></i>
-                    </div>
-                    <div class="flex-grow-1">
-                      <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">Users Online</a>
-                      <span class="text-gray-500 fw-semibold d-block fs-6"><span class="fs-2 text-success">3</span> Last Hour</span>
-                    </div>
+                  <div class="d-flex flex-stack">
+                      <div class="d-flex align-items-center me-3">
+                          <div class="user-activity me-5 usr-online">
+                              <i class="fas fa-user-check text-success"></i>
+                          </div>
+                          <div class="flex-grow-1">
+                              <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">Users Online</a>
+                              <span class="text-gray-500 fw-semibold d-block fs-6">
+                                  <span class="fs-2 text-success">{{ $onlineUsers }}</span> Online
+                              </span>
+                          </div>
+                      </div>
                   </div>
-                </div>
               </div>
             </div>
             <div class="d-flex align-items-center bg-light-success rounded p-3 mb-3">
               <div class="flex-grow-1 me-2">
-                <a href="#" class="fw-bold text-gray-800 text-hover-primary fs-6">Navigation optimization</a>
-                  <span class="text-muted fw-semibold d-block">Due in 2 Days</span>
+                <a href="#" class="fw-bold text-gray-800 text-hover-primary fs-6"><i class="fas fa-hand-point-right fw-bold text-gray-800 "></i>&nbsp;activity</a>
+                  <span class="text-muted fw-semibold d-block"><i class="fas fa-user"></i>&nbsp;activity->user's name &nbsp;&nbsp; <i class="fab fa-chrome"></i>&nbsp; ip address</span>
               </div>
               <span class="fw-bold text-success py-1">22 Minutes ago</span>
             </div>
@@ -264,7 +217,7 @@ Dashboard
           <div class="card">
               <div class="card-header pt-5 align-items-center">
                   <h3 class="card-label fw-bold text-gray-900 mb-0">Latest Post</h3>
-                  <a href="{{ route('post.create') }}" class="btn btn-sm fw-bold btn-primary">Add New</a>
+                  <a href="{{ route('post.create') }}" class="btn btn-sm fw-bold btn-primary"><i class="fas fa-plus"></i> &nbsp;Add New</a>
               </div>
               <div class="card-body pt-5">
                   @forelse($latestPosts as $post)
