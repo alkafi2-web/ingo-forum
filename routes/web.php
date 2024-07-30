@@ -310,7 +310,6 @@ Route::prefix('contact')->group(function () {
     Route::post('/us/info', [IndexController::class, 'contactInfo'])->name('frontend.contact.info');
 });
 
-
 Route::get('/question/answer', [IndexController::class, 'faqs'])->name('frontend.faqs');
 Route::get('/publication/list', [FrontnedPublicationController::class, 'index'])->name('frontend.publication');
 // frontend route end

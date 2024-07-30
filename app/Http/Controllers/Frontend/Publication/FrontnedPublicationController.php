@@ -33,7 +33,10 @@ class FrontnedPublicationController extends Controller
     if ($searchTerm) {
         $query->where(function ($q) use ($searchTerm) {
             $q->where('title', 'like', "%{$searchTerm}%")
-              ->orWhere('short_description', 'like', "%{$searchTerm}%");
+              ->orWhere('short_description', 'like', "%{$searchTerm}%")
+              ->orWhere('author', 'like', "%{$searchTerm}%")
+              ->orWhere('publisher', 'like', "%{$searchTerm}%")
+              ;
         });
     }
 
