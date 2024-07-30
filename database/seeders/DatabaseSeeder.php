@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             MainContentsTableSeeder::class,
             PostSeeder::class,
             MediaGallerySeeder::class,
-            BannerSeeder::class,
+            // BannerSeeder::class,
         ]);
     }
 }
