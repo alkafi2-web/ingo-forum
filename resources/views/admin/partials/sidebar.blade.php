@@ -353,14 +353,30 @@
                 {{-- event side bar end --}}
 
                 {{-- apperarence sidebar start --}}
-                @if (Auth::guard('admin')->user()->hasAnyPermission(['page-add', 'page-view-all', 'menu-manage', 'banner-content-manage', 'faqs-manage']))
+                @if (Auth::guard('admin')->user()->hasAnyPermission([
+                            'page-add',
+                            'page-view-all',
+                            'menu-manage',
+                            'banner-content-manage',
+                            'faqs-manage',
+                            'photo-album-manage',
+                            'photo-gallery-manage',
+                            'video-gallery-manage',
+                        ]))
                     <div class="menu-item">
                         <div class="menu-content pt-8 pb-2">
                             <span class="menu-section text-muted text-uppercase fs-8 ls-1">Appereance</span>
                         </div>
                     </div>
                 @endif
-                @if (Auth::guard('admin')->user()->hasAnyPermission(['page-add', 'page-view-all', 'menu-manage', 'banner-content-manage', 'faqs-manage']))
+                @if (Auth::guard('admin')->user()->hasAnyPermission([
+                            'page-add',
+                            'page-view-all',
+                            'menu-manage',
+                            'banner-content-manage',
+                            'faqs-manage',
+                            'about-us-content-manage',
+                        ]))
                     @can('menu-manage')
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteName() == 'menu.index' ? 'active' : '' }}"
@@ -439,7 +455,7 @@
                             </div>
                         </div>
                     @endif
-                    @if (Auth::guard('admin')->user()->hasAnyPermission(['page-add', 'page-view-all']))
+                    @if (Auth::guard('admin')->user()->hasAnyPermission(['banner-content-manage', 'about-us-content-manage', 'faqs-manage']))
                         <div data-kt-menu-trigger="click"
                             class="menu-item menu-accordion {{ Route::currentRouteName() == 'banner' || Route::currentRouteName() == 'aboutus' || Route::currentRouteName() == 'faqs' ? 'hover show' : '' }}">
                             <span class="menu-link">
@@ -466,36 +482,42 @@
                             </span>
                             <div
                                 class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'banner' || Route::currentRouteName() == 'aboutus' || Route::currentRouteName() == 'faqs' ? 'hover show' : '' }}">
-                                
-                                <a class="menu-item menu-accordion" href="{{ route('banner') }}">
-                                    <span
-                                        class="menu-link {{ Route::currentRouteName() == 'banner' ? 'active' : '' }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
+                                @can('banner-content-manage')
+                                    <a class="menu-item menu-accordion" href="{{ route('banner') }}">
+                                        <span
+                                            class="menu-link {{ Route::currentRouteName() == 'banner' ? 'active' : '' }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Banner Content</span>
                                         </span>
-                                        <span class="menu-title">Banner Content</span>
-                                    </span>
-                                </a>
-
-                                <a class="menu-item menu-accordion" href="{{ route('aboutus') }}">
-                                    <span
-                                        class="menu-link {{ Route::currentRouteName() == 'aboutus' ? 'active' : '' }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
+                                    </a>
+                                @endcan
+                                @can('about-us-content-manage')
+                                    <a class="menu-item menu-accordion" href="{{ route('aboutus') }}">
+                                        <span
+                                            class="menu-link {{ Route::currentRouteName() == 'aboutus' ? 'active' : '' }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">About Us Content</span>
                                         </span>
-                                        <span class="menu-title">About Us Content</span>
-                                    </span>
-                                </a>
-                                <a class="menu-item menu-accordion" href="{{ route('faqs') }}">
-                                    <span class="menu-link {{ Route::currentRouteName() == 'faqs' ? 'active' : '' }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
+                                    </a>
+                                @endcan
+                                @can('faqs-manage')
+                                    <a class="menu-item menu-accordion" href="{{ route('faqs') }}">
+                                        <span class="menu-link {{ Route::currentRouteName() == 'faqs' ? 'active' : '' }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">FAQs</span>
                                         </span>
-                                        <span class="menu-title">FAQs</span>
-                                    </span>
-                                </a>
+                                    </a>
+                                @endcan
                             </div>
                         </div>
+                    @endif
+                    @if (Auth::guard('admin')->user()->hasAnyPermission(['photo-album-manage', 'photo-gallery-manage', 'video-gallery-manage']))
                         <div data-kt-menu-trigger="click"
                             class="menu-item menu-accordion {{ Route::currentRouteName() == 'media.album' || Route::currentRouteName() == 'photo' || Route::currentRouteName() == 'video' ? 'hover show' : '' }}">
                             <span class="menu-link">
@@ -522,161 +544,184 @@
                             </span>
                             <div
                                 class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'media.album' || Route::currentRouteName() == 'photo' || Route::currentRouteName() == 'video' ? 'hover show' : '' }}">
-                                <a class="menu-item menu-accordion" href="{{ route('media.album') }}">
-                                    <span
-                                        class="menu-link {{ Route::currentRouteName() == 'media.album' ? 'active' : '' }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">Photo Album</span>
-                                    </span>
-                                </a>
-                                <a class="menu-item menu-accordion" href="{{ route('photo') }}">
-                                    <span
-                                        class="menu-link {{ Route::currentRouteName() == 'photo' ? 'active' : '' }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">Photo Galllery</span>
-                                    </span>
-                                </a>
 
-                                <a class="menu-item menu-accordion" href="{{ route('video') }}">
-                                    <span
-                                        class="menu-link {{ Route::currentRouteName() == 'video' ? 'active' : '' }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
+                                @can('photo-album-manage')
+                                    <a class="menu-item menu-accordion" href="{{ route('media.album') }}">
+                                        <span
+                                            class="menu-link {{ Route::currentRouteName() == 'media.album' ? 'active' : '' }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Photo Album</span>
                                         </span>
-                                        <span class="menu-title">Video Gallery</span>
-                                    </span>
-                                </a>
+                                    </a>
+                                @endcan
+                                @can('photo-gallery-manage')
+                                    <a class="menu-item menu-accordion" href="{{ route('photo') }}">
+                                        <span
+                                            class="menu-link {{ Route::currentRouteName() == 'photo' ? 'active' : '' }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Photo Galllery</span>
+                                        </span>
+                                    </a>
+                                @endcan
+                                @can('video-gallery-manage')
+                                    <a class="menu-item menu-accordion" href="{{ route('video') }}">
+                                        <span
+                                            class="menu-link {{ Route::currentRouteName() == 'video' ? 'active' : '' }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Video Gallery</span>
+                                        </span>
+                                    </a>
+                                @endcan
                             </div>
                         </div>
                     @endif
+
                 @endif
                 {{-- apperarence sidebar end --}}
 
-                <div class="menu-item">
-                    <div class="menu-content pt-8 pb-2">
-                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">User Management</span>
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['users-manage', 'roles-manage', 'contact-list-view', 'user-activity']))
+                    <div class="menu-item">
+                        <div class="menu-content pt-8 pb-2">
+                            <span class="menu-section text-muted text-uppercase fs-8 ls-1">User Management</span>
+                        </div>
                     </div>
-                </div>
-                <div class="menu-item">
-                    <a class="menu-link {{ Route::currentRouteName() == 'createUser' ? 'active' : '' }}"
-                        href="{{ route('createUser') }}">
-                        <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-                            <span class="svg-icon svg-icon-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none">
-                                    <rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
-                                    <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2"
-                                        fill="black" />
-                                    <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2"
-                                        fill="black" />
-                                    <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2"
-                                        fill="black" />
-                                </svg>
+                @endif
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['users-manage']))
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteName() == 'createUser' ? 'active' : '' }}"
+                            href="{{ route('createUser') }}">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                                <span class="svg-icon svg-icon-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none">
+                                        <rect x="2" y="2" width="9" height="9" rx="2"
+                                            fill="black" />
+                                        <rect opacity="0.3" x="13" y="2" width="9" height="9"
+                                            rx="2" fill="black" />
+                                        <rect opacity="0.3" x="13" y="13" width="9" height="9"
+                                            rx="2" fill="black" />
+                                        <rect opacity="0.3" x="2" y="13" width="9" height="9"
+                                            rx="2" fill="black" />
+                                    </svg>
+                                </span>
+                                <!--end::Svg Icon-->
                             </span>
-                            <!--end::Svg Icon-->
-                        </span>
-                        <span class="menu-title">Users</span>
-                    </a>
-                </div>
-                <div class="menu-item">
-                    <a class="menu-link {{ Route::currentRouteName() == 'role' ? 'active' : '' }}"
-                        href="{{ route('role') }}">
-                        <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-                            <span class="svg-icon svg-icon-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none">
-                                    <rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
-                                    <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2"
-                                        fill="black" />
-                                    <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2"
-                                        fill="bactivity.listlack" />
-                                    <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2"
-                                        fill="black" />
-                                </svg>
-                            </span>
-                            <!--end::Svg Icon-->
-                        </span>
-                        <span class="menu-title">Roles</span>
-                    </a>
-                </div>
-                <div class="menu-item">
-                    <a class="menu-link {{ Route::currentRouteName() == 'contact.list' ? 'active' : '' }}"
-                        href="{{ route('contact.list') }}">
-                        <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-                            <span class="svg-icon svg-icon-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none">
-                                    <rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
-                                    <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2"
-                                        fill="black" />
-                                    <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2"
-                                        fill="black" />
-                                    <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2"
-                                        fill="black" />
-                                </svg>
-                            </span>
-                            <!--end::Svg Icon-->
-                        </span>
-                        <span class="menu-title">Contact List</span>
-                    </a>
-                </div>
-                <div class="menu-item">
-                    <a class="menu-link {{ Route::currentRouteName() == 'activity.list' ? 'active' : '' }}"
-                        href="{{ route('activity.list') }}">
-                        <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-                            <span class="svg-icon svg-icon-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none">
-                                    <rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
-                                    <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2"
-                                        fill="black" />
-                                    <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2"
-                                        fill="black" />
-                                    <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2"
-                                        fill="black" />
-                                </svg>
-                            </span>
-                            <!--end::Svg Icon-->
-                        </span>
-                        <span class="menu-title">User Activities</span>
-                    </a>
-                </div>
-
-                <div class="menu-item">
-                    <div class="menu-content pt-8 pb-2">
-                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">Settings</span>
+                            <span class="menu-title">Users</span>
+                        </a>
                     </div>
-                </div>
-                <div class="menu-item">
-                    <a class="menu-link {{ Route::currentRouteName() == 'system' ? 'active' : '' }}"
-                        href="{{ route('system') }}">
-                        <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-                            <span class="svg-icon svg-icon-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none">
-                                    <rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
-                                    <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2"
-                                        fill="black" />
-                                    <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2"
-                                        fill="black" />
-                                    <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2"
-                                        fill="black" />
-                                </svg>
+                @endif
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['roles-manage']))
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteName() == 'role' ? 'active' : '' }}"
+                            href="{{ route('role') }}">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                                <span class="svg-icon svg-icon-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none">
+                                        <rect x="2" y="2" width="9" height="9" rx="2"
+                                            fill="black" />
+                                        <rect opacity="0.3" x="13" y="2" width="9" height="9"
+                                            rx="2" fill="black" />
+                                        <rect opacity="0.3" x="13" y="13" width="9" height="9"
+                                            rx="2" fill="bactivity.listlack" />
+                                        <rect opacity="0.3" x="2" y="13" width="9" height="9"
+                                            rx="2" fill="black" />
+                                    </svg>
+                                </span>
+                                <!--end::Svg Icon-->
                             </span>
-                            <!--end::Svg Icon-->
-                        </span>
-                        <span class="menu-title">System Setting</span>
-                    </a>
-                </div>
+                            <span class="menu-title">Roles</span>
+                        </a>
+                    </div>
+                @endif
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['contact-list-view']))
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteName() == 'contact.list' ? 'active' : '' }}"
+                            href="{{ route('contact.list') }}">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                                <span class="svg-icon svg-icon-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none">
+                                        <rect x="2" y="2" width="9" height="9" rx="2"
+                                            fill="black" />
+                                        <rect opacity="0.3" x="13" y="2" width="9" height="9"
+                                            rx="2" fill="black" />
+                                        <rect opacity="0.3" x="13" y="13" width="9" height="9"
+                                            rx="2" fill="black" />
+                                        <rect opacity="0.3" x="2" y="13" width="9" height="9"
+                                            rx="2" fill="black" />
+                                    </svg>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Contact List</span>
+                        </a>
+                    </div>
+                @endif
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['user-activity']))
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteName() == 'activity.list' ? 'active' : '' }}"
+                            href="{{ route('activity.list') }}">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                                <span class="svg-icon svg-icon-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none">
+                                        <rect x="2" y="2" width="9" height="9" rx="2"
+                                            fill="black" />
+                                        <rect opacity="0.3" x="13" y="2" width="9" height="9"
+                                            rx="2" fill="black" />
+                                        <rect opacity="0.3" x="13" y="13" width="9" height="9"
+                                            rx="2" fill="black" />
+                                        <rect opacity="0.3" x="2" y="13" width="9" height="9"
+                                            rx="2" fill="black" />
+                                    </svg>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">User Activities</span>
+                        </a>
+                    </div>
+                @endif
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['system-settings-manage']))
+                    <div class="menu-item">
+                        <div class="menu-content pt-8 pb-2">
+                            <span class="menu-section text-muted text-uppercase fs-8 ls-1">Settings</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteName() == 'system' ? 'active' : '' }}"
+                            href="{{ route('system') }}">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                                <span class="svg-icon svg-icon-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none">
+                                        <rect x="2" y="2" width="9" height="9" rx="2"
+                                            fill="black" />
+                                        <rect opacity="0.3" x="13" y="2" width="9" height="9"
+                                            rx="2" fill="black" />
+                                        <rect opacity="0.3" x="13" y="13" width="9" height="9"
+                                            rx="2" fill="black" />
+                                        <rect opacity="0.3" x="2" y="13" width="9" height="9"
+                                            rx="2" fill="black" />
+                                    </svg>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">System Setting</span>
+                        </a>
+                    </div>
+                @endif
             </div>
             <!--end::Menu-->
         </div>

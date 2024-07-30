@@ -41,6 +41,7 @@ class PermissionSeeder extends Seeder
             'users-manage',
             'roles-manage',
             'contact-list-view',
+            'user-activity',
             'system-settings-manage',
         ];
 
