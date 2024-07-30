@@ -20,13 +20,62 @@ class BannerController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $banners = Banner::latest();
-
+            $banners = Banner::latest()->get();
+    
             return DataTables::of($banners)
+                ->addColumn('title_display', function ($banner) {
+                    $title = json_decode($banner->title, true);
+                    if ($title && $title['status'] == 1) {
+                        return '<div style="display: flex; align-items: center;">
+                                    <span style="background-color: ' . $title['color'] . '; width: 20px; height: 20px; display: inline-block; margin-right: 5px;"></span>
+                                    ' . $title['text'] . '
+                                </div>';
+                    }
+                    return '-';
+                })
+                ->addColumn('background_display', function ($banner) {
+                    $background_color = json_decode($banner->background_color, true);
+                    $overlay_color = json_decode($banner->overlay_color, true);
+                    $bg_image = json_decode($banner->bg_image, true);
+    
+                    $bgContent = '';
+                    if ($background_color && $background_color['status'] == 1) {
+                        $bgContent .= '<span style="background-color: ' . $background_color['color'] . '; width: 50px; height: 50px; display: inline-block;"></span>';
+                    } elseif ($bg_image && $bg_image['path']) {
+                        $bgContent .= '<img src="' . asset('public/frontend/images/banner/' . $bg_image['path']) . '" alt="Background Image" style="width: 50px; height: 50px; object-fit: contain;">';
+                    }
+    
+                    if ($overlay_color && $overlay_color['status'] == 1) {
+                        $bgContent .= '<span style="background-color: ' . $overlay_color['color'] . '; width: 20px; height: 20px; display: inline-block; margin-left: 5px;"></span>';
+                    }
+    
+                    return $bgContent;
+                })
+                ->addColumn('content_image_display', function ($banner) {
+                    $content_image = json_decode($banner->content_image, true);
+                    if ($content_image && $content_image['status'] == 1) {
+                        return '<img src="' . asset('public/frontend/images/banner/' . $content_image['path']) . '" alt="Content Image" style="width: 50px; height: 50px; object-fit: contain;">';
+                    }
+                    return '-';
+                })
+                ->editColumn('status', function ($banner) {
+                    return '<span class="status badge badge-light-' . ($banner->status == 1 ? 'success' : 'danger') . '" data-status="' . $banner->status . '" data-id="' . $banner->id . '">' . ($banner->status == 1 ? 'Active' : 'Deactive') . '</span>';
+                })
+                ->addColumn('actions', function ($banner) {
+                    return '<a href="javascript:void(0)" class="edit text-primary mr-2 me-2" id="editButton" data-id="' . $banner->id . '">
+                                <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
+                            </a>
+                            <a href="javascript:void(0)" class="text-danger delete" data-id="' . $banner->id . '">
+                                <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
+                            </a>';
+                })
+                ->rawColumns(['title_display', 'background_display', 'content_image_display', 'status', 'actions'])
                 ->make(true);
         }
         return view('admin.content.banner.index');
     }
+    
+     
 
     public function bannerCreateOrUpdate(Request $request)
     {
