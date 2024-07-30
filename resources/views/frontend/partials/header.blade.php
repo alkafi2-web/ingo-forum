@@ -96,6 +96,7 @@
                             @if ($menu->subMenus->count())
                                 <ul class="dropdown-menu">
                                     @foreach ($menu->subMenus as $child)
+                                    @if($child->visibility == 1)
                                         @if ($child->type == 'route')
                                             <li><a class="dropdown-item"
                                                     href="{{ route($child->route) }}">{{ $child->name }}</a></li>
@@ -110,6 +111,7 @@
                                             <li><a class="dropdown-item"
                                                     href="{{ $child->url }}">{{ $child->name }}</a></li>
                                         @endif
+                                    @endif
                                     @endforeach
                                 </ul>
                             @endif
