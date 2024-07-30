@@ -118,7 +118,8 @@
                 </ul>
                 <form class="navbar-btn" role="search">
                     @if (Auth::guard('member')->check() && Auth::guard('member')->user()->status == 1)
-                        <a href="{{ route('member.profile') }}" class="btn btn-outline-success">Profile</a>
+                        {{-- <a href="{{ route('member.profile') }}" class="btn btn-outline-success">Profile</a> --}}
+                        <a href="{{ route('member.own.profile') }}" class="btn btn-outline-success">Profile</a>
                         <a href="{{ route('member.logout') }}" class="btn btn-outline-warning">Logout</a>
                     @else
                         <a href="{{ route('frontend.login') }}" class="btn btn-outline-success">Login</a>

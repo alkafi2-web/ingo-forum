@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Content;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\ContactInfo;
 use App\Models\MainContent;
 use Brian2694\Toastr\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class SystemController extends Controller
 {
@@ -22,6 +25,7 @@ class SystemController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'short_content' => 'required|string',
+            'address_embaded' => 'nullable|string',
             'email' => 'nullable|string|email', // Added email validation
             'phone' => 'nullable|string', // Added phone validation (adjust as per your validation rules)
             'address' => 'nullable|string', // Added phone validation (adjust as per your validation rules)
@@ -64,6 +68,7 @@ class SystemController extends Controller
         $data = [
             'name' => $request->input('name'),
             'short_content' => $request->input('short_content'),
+            'address_embaded' => $request->input('address_embaded'),
             'address' => $request->input('address'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
@@ -97,8 +102,27 @@ class SystemController extends Controller
                 ['content' => $value]
             );
         }
-
+        Helper::log("Update or create system content");
         // Redirect back with success message
         return redirect()->route('system')->with('success', 'Successfully updated system information!');
+    }
+
+    public function contactList(Request $request)
+    {
+        if ($request->ajax()) {
+            $contactLists = ContactInfo::latest();
+
+            return DataTables::of($contactLists)
+                ->make(true);
+        }
+        return view('admin.contact.contact-list');
+    }
+
+    public function contactListDelete(Request $request)
+    {
+       $contacInfo = ContactInfo::findOrFail($request->id);
+       $contacInfo->delete();
+       Helper::log("Delete contact info");
+       return response()->json(['success' => ['success' => 'You have successfully delete contact info!']]);
     }
 }

@@ -30,7 +30,7 @@
                                 <select id="status_filter" class="custom-select form-control"
                                     >
                                     <option value="">All Status</option>
-                                    <option value="1">Active</option>
+                                    <option value="1">Approved</option>
                                     <option value="2">Suspend</option>
                                     <option value="0">Pending</option>
                                     <option value="3">Reject</option>

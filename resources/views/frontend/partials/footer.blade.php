@@ -1,3 +1,6 @@
+<div class="scroll-to-top">
+    <span id="scroll-top"><i class="fa-solid fa-arrow-up"></i></span>
+</div>
 <footer class="footer">
     <div class="container">
         <div class="footer-top-area">

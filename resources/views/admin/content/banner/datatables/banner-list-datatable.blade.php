@@ -1,179 +1,193 @@
 <div class="table-responsive table-container">
     <!--begin::Table-->
-    <table class="table election-datatable align-middle table-bordered fs-6 gy-5 m-auto display responsive"
-        id="banner-data">
+    <table class="table election-datatable align-middle table-bordered fs-6 gy-5 m-auto display responsive" id="banner-data">
         <!--begin::Table head-->
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Banner Title') }}
                 </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Banner Description') }}
+                <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                    {{ __('Background') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
-                    {{ __('Banner Image') }}
+                    {{ __('Content Img') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Status') }}
                 </th>
                 <th class="text-end min-w-140px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
-                    {{ __('Action') }}</th>
+                    {{ __('Action') }}
+                </th>
             </tr>
         </thead>
         <tbody>
-
+            <!-- Content will be loaded via DataTables AJAX -->
         </tbody>
         <!--end::Table head-->
     </table>
     <!--end::Table-->
 </div>
 
-
 @push('custom-js')
-    <script>
-        $(document).ready(function() {
-            var table = $('#banner-data').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('banner') }}",
-                    type: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
+<script>
+    $(document).ready(function() {
+        var table = $('#banner-data').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ route('banner') }}",
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            },
+            columns: [
+                {
+                    data: 'title_display',
+                    name: 'title_display',
+                    orderable: true,
+                    searchable: true
                 },
-                columns: [{
-                        orderable: true,
-                        sortable: false,
-                        data: 'title',
-                        name: 'title'
-                    },
-                    {
-                        orderable: true,
-                        sortable: false,
-                        data: 'description',
-                        name: 'description'
-                    },
-                    {
-                        data: 'image',
-                        name: 'image',
-                        orderable: true,
-                        sortable: false,
-                        render: function(data, type, row) {
-                            let basePath = '{{ asset('public/frontend/images/banner/') }}/'
-                            return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
-                        }
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: true,
-                        sortable: false,
-                        render: function(data, type, row) {
-
-                            return `<span class="status badge badge-light-${data == 1 ? 'success' : 'danger'}" data-status="${data}" data-id="${row.id}">${data == 1 ? 'Active' : 'Deactive'}</span>`;
-                        }
-                    },
-                    {
-                        data: null,
-                        name: 'actions',
-                        orderable: false,
-                        searchable: false,
-                        render: function(data, type, row) {
-                            return `
-                            <a href="javascript:void(0)" class="edit text-primary mr-2 me-2 " data-id="${row.id}">
-                                <i class="fas fa-edit text-primary" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
-                            </a>
-                            <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}">
-                                <i class="fas fa-trash text-danger" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
-                            </a>`;
-                        }
-                    }
-
-
-                ],
-                lengthMenu: [
-                    [5, 10, 30, 50, -1],
-                    [5, 10, 30, 50, "All"]
-                ], // Add 'All' option
-                pageLength: 5, // Set default page length
-                dom: "<'row'<'col-sm-4'l><'col-sm-4 d-flex justify-content-center'B><'col-sm-4'f>>" +
-                    // Page length, buttons, and search
-                    "<'row'<'col-sm-12'tr>>" + // Table rows
-                    "<'row'<'col-sm-5'i><'col-sm-7'p>>", // Information and pagination
-                buttons: [{
-                        extend: 'colvis',
-                        columns: ':not(:first-child)' // Exclude first column (serial)
-                    },
-                    // 'excel', 'print', 'copy'
-                ],
-                language: {
-                    search: '<div class="input-group">' +
-                        '<span class="input-group-text">' +
-                        '<i class="fas fa-search"></i>' +
-                        '</span>' +
-                        '_INPUT_' +
-                        '</div>'
+                {
+                    data: 'background_display',
+                    name: 'background_display',
+                    orderable: true,
+                    searchable: true
                 },
-                columnDefs: [{
-                        targets: '_all',
-                        searchable: true
-                    },
-                    {
-                        targets: -1, // Target the last column (actions column)
-                        className: 'text-center', // Optional: Center align the content in this column
-                    },
-                    {
-                        targets: '_all',
-                        searchable: true,
-                        orderable: true
-                    }
-                ],
-                // responsive: true,
-
-            });
+                {
+                    data: 'content_image_display',
+                    name: 'content_image_display',
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: 'actions',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ],
+            lengthMenu: [
+                [6, 30, 50, -1],
+                [6, 30, 50, "All"]
+            ],
+            pageLength: 6,
+            dom: "<'row'<'col-sm-4'l><'col-sm-4 d-flex justify-content-center'B><'col-sm-4'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            buttons: [
+                {
+                    extend: 'colvis',
+                    columns: ':not(:first-child)'
+                },
+            ],
+            language: {
+                search: '<div class="input-group">' +
+                    '<span class="input-group-text">' +
+                    '<i class="fas fa-search"></i>' +
+                    '</span>' +
+                    '_INPUT_' +
+                    '</div>'
+            },
+            columnDefs: [
+                {
+                    targets: '_all',
+                    searchable: true,
+                    orderable: true
+                },
+                {
+                    targets: -1,
+                    className: 'text-center'
+                }
+            ],
         });
-        $(document).on('click', '.edit', function(e) {
-            e.preventDefault(); // Prevent default link behavior
+
+        $(document).on('click', '#editButton', function(e) {
+            e.preventDefault();
 
             var id = $(this).attr('data-id');
-            var url = "{{ route('banner.edit') }}";
+            var url = "{{ route('banner.info') }}";
             $.ajax({
                 url: url,
-                type: 'POST', // or 'GET' depending on your server endpoint
+                type: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                data: {
-                    id: id
-                }, // You can send additional data if needed
+                data: { id: id },
                 success: function(response) {
-                    console.log(response.banner);
                     var banner = response.banner;
-                    $('#add-header').text('Update Banner Content');
-                    $('#title').val(banner.title);
-                    $('#b_des').val(banner.description);
-                    let basePath = '{{ asset('public/frontend/images/banner/') }}/'
-                    var imagePath = basePath + banner.image;
-                    $('#pp').attr('src', imagePath);
-                    $('#banner-update').removeClass('d-none');
-                    $('#banner-update').attr('data-id',banner.id);
-                    $('#banner-submit').addClass('d-none');
+                    $('#add-header').text('Update Banner');
+                    $('#banner_id').val(id);
+                    $('#title').val(banner.title.text);
+                    $('#title_color').val(banner.title.color);
+                    $('#titleSwitch').prop('checked', banner.title.status);
+
+                    $('#banner_description').val(banner.description.text);
+                    $('#description_color').val(banner.description.color);
+                    $('#descriptionSwitch').prop('checked', banner.description.status);
+
+                    $('#background_type').val(banner.background_color.status ? 'color' : 'image');
+                    $('#background_color').val(banner.background_color.color);
+                    $('#overlay_color').val(banner.overlay_color.color);
+                    $('#overlaySwitch').prop('checked', banner.overlay_color.status);
+
+                    if (banner.background_color.status) {
+                        $('#backgroundImageRow').hide();
+                        $('#backgroundColorRow').show();
+                    } else {
+                        $('#backgroundImageRow').show();
+                        $('#backgroundColorRow').hide();
+                    }
+
+                    let basePath = '{{ asset('public/frontend/images/banner/') }}/';
+                    $('#pp').attr('src', banner.bg_image && banner.bg_image.path ? basePath + banner.bg_image.path : '');
+                    $('#position').val(banner.position);
+                    
+                    if (banner.content_image && banner.content_image.path) {
+                        $('#content_pp').attr('src', basePath + banner.content_image.path);
+                        $('#contentImageSwitch').prop('checked', banner.content_image.status);
+                    } else {
+                        $('#content_pp').attr('src', '');
+                        $('#contentImageSwitch').prop('checked', false);
+                    }
+
+                    if (banner.button.status) {
+                        $('#button_text').val(banner.button.text);
+                        $('#button_bg_color').val(banner.button.bg_color);
+                        $('#button_color').val(banner.button.color);
+                        $('#button_url').val(banner.button.url);
+                        $('#add_button').prop('checked', true);
+                        $('#buttonRow').show();
+                    } else {
+                        $('#button_text').val('');
+                        $('#button_bg_color').val('');
+                        $('#button_color').val('');
+                        $('#button_url').val('');
+                        $('#add_button').prop('checked', false);
+                        $('#buttonRow').hide();
+                    }
+
+                    $('#bannerSubmitBtn').text('Update');
                     $('#page-refresh').removeClass('d-none');
                 },
                 error: function(xhr, status, error) {
-                    // Handle AJAX error
                     Swal.fire('Error!', 'An error occurred.', 'error');
                 }
             });
         });
+
         $(document).on('click', '.delete', function(e) {
-            e.preventDefault(); // Prevent default link behavior
+            e.preventDefault();
 
             var id = $(this).attr('data-id');
             var url = "{{ route('banner.delete') }}";
-            // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
                 text: 'This action will delete this banner!',
@@ -184,68 +198,64 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Send AJAX request
-                    // sendAjaxRequest(url, row);
-
-                    sendAjaxReq(id, status = null, url);
+                    sendAjaxReq(id, null, url);
                 }
             });
         });
-        $(document).on('click', '.status', function(e) {
-            e.preventDefault(); // Prevent default link behavior
 
-            var id = $(this).attr('data-id'); // Get the URL from the href attribute
+        $(document).on('click', '.status', function(e) {
+            e.preventDefault();
+
+            var id = $(this).attr('data-id');
             var status = $(this).attr('data-status');
             var url = "{{ route('banner.status') }}";
-            // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
                 text: 'This action will change status of this banner!',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes, Change it!',
+                confirmButtonText: 'Yes, change it!',
                 cancelButtonText: 'No, cancel!',
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Send AJAX request
-                    // sendAjaxRequest(url, row);
-
                     sendAjaxReq(id, status, url);
                 }
             });
         });
 
         function sendAjaxReq(id, status, url) {
-            var requestData = {
-                id: id,
-                // Optionally include status if it's provided
-            };
-
-            // Check if status is defined and not null
+            var requestData = { id: id };
             if (typeof status !== 'undefined' && status !== null) {
                 requestData.status = status;
             }
             $.ajax({
                 url: url,
-                type: 'POST', // or 'GET' depending on your server endpoint
+                type: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                data: requestData, // You can send additional data if needed
+                data: requestData,
                 success: function(response) {
-
                     $('#banner-data').DataTable().ajax.reload(null, false);
-                    // Swal.fire('Success!', response.success,
-                    //     'success');
                     toastr.success(response.success);
                 },
                 error: function(xhr, status, error) {
-                    // Handle AJAX error
                     Swal.fire('Error!', 'An error occurred.', 'error');
                 }
             });
         }
 
-    </script>
+        $('#page-refresh').on('click', function(e) {
+            e.preventDefault();
+            $('#add-header').text('Add New Banner');
+            $('#bannerForm')[0].reset();
+            $('#pp').attr('src', '');
+            $('#content_pp').attr('src', '');
+            $('#bannerSubmitBtn').text('Submit');
+            $('#page-refresh').addClass('d-none');
+            $('#banner_id').val('')
+        });
+    });
+</script>
 @endpush

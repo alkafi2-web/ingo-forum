@@ -7,7 +7,9 @@ use App\Models\Member;
 use App\Models\MemberInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+
 
 class FrontAuthController extends Controller
 {
@@ -75,5 +77,21 @@ class FrontAuthController extends Controller
     {
         $memberinfo = MemberInfo::where('membership_id', $membershipId)->with('member')->first();
         return view('frontend.member.member-profile', compact('memberinfo'));
+    }
+
+    public function profileDownload($membership_id)
+    {
+        $memberinfo = MemberInfo::where('membership_id', $membership_id)->with('member')->first();
+        $profileAttachment = $memberinfo->profile_attachment;
+        $dir = public_path('/frontend/images/member/');
+        $extension = pathinfo($dir . $profileAttachment, PATHINFO_EXTENSION);
+
+        $profile_attachment_path = $dir . $profileAttachment;
+
+        if (file_exists($profile_attachment_path)) {
+            return response()->download($profile_attachment_path, $membership_id . '.' . $extension);
+        } else {
+            return response()->json(['error' => 'File not found.'], 404);
+        }
     }
 }

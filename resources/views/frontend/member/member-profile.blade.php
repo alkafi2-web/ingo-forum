@@ -1,4 +1,4 @@
-@extends('frontend.layouts.front-end-layout')
+@extends('frontend.layouts.frontend-page-layout')
 @section('frontend-section')
     <!-- Profile Content Section start here  -->
     <section class="members-profile-content bg-green">
@@ -15,14 +15,15 @@
                 </div>
                 <div class="col-md-9">
                     <div class="profile-content text-white pb-3">
-                        <h2 class="section-title">{{ $memberinfo->title }}</h2>
+                        <div class="d-flex align-item-center justify-content-between">
+                            <h2 class="section-title">{{ $memberinfo->title }}</h2>
+                            {{-- <a href="{{ route('member.profile') }}" class="ct-btn btn-yellow">Edit Profile</a> --}}
+                        </div>
+                        
                         <h4>{{ $memberinfo->sub_title }}</h4>
-                        <p>Lorem ipsum, or&nbsp;lipsum&nbsp;as it is sometimes known, is dummy text used in laying out
-                            print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th
-                            century who is thought to have scrambled parts of Cicero's&nbsp;De Finibus Bonorum et
-                            Malorum&nbsp;for use in a type specimen book. It usually begins with:</p>
+                        <p>{{$memberinfo->short_description}}</p>
                         <div class="d-flex align-items-center">
-                            <a href="" class="ct-btn btn-yellow">Download Our Profile</a>
+                            <a href="{{ route('profile.download',['membership_id'=>$memberinfo->membership_id]) }}" class="ct-btn btn-yellow">Download Our Profile</a>
                             <nav class="d-flex align-items-center profile-social ms-3">
                                 @isset($memberinfo->instagram)
                                     <a href="{{ $memberinfo->instagram }}" class="text-decoration-none" target="_blank"

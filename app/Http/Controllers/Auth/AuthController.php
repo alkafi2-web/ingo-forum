@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
+use Carbon\Carbon;
 
 use function Ramsey\Uuid\v1;
 
@@ -53,9 +55,8 @@ class AuthController extends Controller
         ]);
         $user->assignRole('admin');
         // $user->assignRole($request->input('role'));
-
+        Helper::log('Create ' . $user->name . ' user');
         return response()->json(['success' => ['success' => 'User Create Successfully']]);
-        return $request->all();
     }
 
     public function login()
@@ -68,11 +69,6 @@ class AuthController extends Controller
             // If user is not authenticated, return login view
             return view('admin.authenication.login');
         }
-    }
-    public function dashboard()
-    {
-        
-        return view('admin.dashboard.dashborad');
     }
     public function loginPost(Request $request)
     {
@@ -90,6 +86,11 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::guard('admin')->attempt($credentials)) {
             // Authentication passed for the 'admin' guard
+            $user = Auth::guard('admin')->user();
+            $user->last_activity = Carbon::now();
+            $user->save();
+
+            Helper::log('Logged in');
             Toastr::success('You have successfully logged in!', 'Success');
             return response()->json(['redirect' => route('dashboard')], 200);
         }
@@ -101,12 +102,18 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $user = Auth::guard('admin')->user();
+        $user->last_activity = null;
+        $user->save();
+        
+        Helper::log('Logged out');
         Auth::guard('admin')->logout();
 
         // For API routes, return a JSON response
         if ($request->expectsJson()) {
             return response()->json(['message' => 'Logged out successfully']);
         }
+
         // For web routes, redirect back to login or any other route
         Toastr::success('You have successfully Log out!', 'Success');
         return redirect()->route('login');
@@ -137,7 +144,8 @@ class AuthController extends Controller
 
         // Save the changes to the database
         $user->save();
-
+        $statusMessage = $newStatus == 1 ? "$user->name's status changed deactive to active" : "$user->name's status changed active to deactive";
+        Helper::log($statusMessage);
         return response()->json(['success' => 'User status updated successfully']);
     }
 
@@ -177,6 +185,7 @@ class AuthController extends Controller
 
         // Sync roles (replace existing roles with the new roles)
         $user->syncRoles([$request->input('role')]);
+        Helper::log("Update $user->name's information");
         return response()->json(['success' => ['success' => 'User Update Successfully']]);
     }
 
@@ -186,6 +195,7 @@ class AuthController extends Controller
         $user->status = 0; // Example update
         $user->save();
         $user->delete();
+        Helper::log("Delete $user->name user");
         return response()->json(['success' => 'User Delete Successfully']);
     }
 

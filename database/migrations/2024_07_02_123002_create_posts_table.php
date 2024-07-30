@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('long_des')->nullable(); // Long description or content of the post
             $table->string('banner')->nullable(); // Banner or featured image URL
             $table->integer('status')->default(0); // Status of the post
+            $table->integer('comment_permission')->default(0); // Status of the post
             $table->unsignedBigInteger('added_by'); // Foreign key referencing users table (added by)
             $table->json('seo')->nullable(); // JSON field for SEO metadata
             $table->json('og')->nullable(); // JSON field for Open Graph metadata

@@ -50,11 +50,13 @@ h2 {
 p,
 span {
   font-size: 16px;
-  font-family: "Fredoka", sans-serif;
+  font-family: 'Gilroy-Regular', sans-serif;
   line-height: 20px;
   color: var(--paragraph-color);
 }
-
+li {
+  font-family: 'Gilroy-Regular', sans-serif;
+}
 a {
   font-family: "Fredoka", sans-serif;
 }
@@ -269,24 +271,37 @@ a {
 /* Scroll to top  end */
 /* Hero Section Design Start Here  */
 .hero-section {
-  background-color: var(--light);
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 80vh;
 }
 
-.hero-left h1 {
-  color: var(--primary);
-  text-transform: uppercase;
-  font-weight: 700;
+.hero-section .hero-overlay {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-section > * {
+  position: relative;
+  z-index: 8888;
+  opacity: 1;
 }
 
 .hero-left h1 {
   font-size: 45px;
-  color: var(--primary);
   text-transform: uppercase;
   font-weight: 700;
 }
 
 .hero-right img {
-  width: 100%;
+  width: 100% !important;
   height: auto;
 }
 
@@ -325,11 +340,11 @@ a {
 }
 
 .fx1 {
-  background-image: url('../images/fx-bg1.png');
+  background-image: url('../images/fx-bg2.png');
 }
 
 .fx2 {
-  background-image: url('../images/fx-bg2.png');
+  background-image: url('../images/fx-bg1.png');
 }
 
 .fx3 {
@@ -347,32 +362,39 @@ a {
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 5px;
+  height: 100%;
 }
 
 .fixtures-item .fixture-icon {
+  height: 70px;
+  width: 70px;
   text-align: center;
-  margin-top: -50px;
+  margin: -50px auto 10px auto;
   padding-bottom: 30px;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 .fixtures-item .fixture-icon img {
-
   background-color: var(--white);
   padding: 15px;
   height: 70px;
   width: 70px;
   object-fit: contain;
-  border-radius: 50%;
   box-shadow: 0px 4px 15px 12px rgba(200, 91, 91, 0.08);
 }
 
 .fixture-text span {
-  font-weight: 500;
+  font-weight: 400;
+  font-size: 14px;
+  display: block;
+  line-height: 16px;
 }
 
 .fixture-text h3 {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 500;
+  margin-bottom: 10px;
 }
 
 /* About Us Section Design End Here  */
@@ -1250,6 +1272,77 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
 }
 
 /* Profile Edit Page design end  */
+/* Search Filter Design start  */
+.filter-arrow {
+  padding: 12px 5px;
+  border-radius: 4px;
+  background-color: var(--white);
+}
+.cw-1 {
+  width: 5%;
+}
+.cw-2 {
+  width: 90%;
+}
+.cw-3 {
+  width: 5%;
+}
+
+.filter-toggle1,
+.filter-toggle2 {
+  background-color: var(--green-light);
+  padding: 10px 12px;
+  border-radius: 4px;
+}
+.filter-toggle2 .fa-xmark {
+  display: none;
+}
+.filter-box{
+  display: none;
+  /* overflow: hidden; */
+}
+.search-group {
+  background-color: var(--primary);
+  padding: 8px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.search-group svg {
+  position: absolute;
+  left: 20px;
+  top: 17px;
+  color: #fff;
+}
+.search-group input[type="submit"] {
+  position: absolute;
+  right: 10px;
+  top: 7px;
+  background-color: var(--secondary);
+  border: 1px solid var(--secondary);
+  color: #fff;
+  padding: 4px 15px 5px 15px;
+  border-radius: 50px;
+}
+.search-group input[type="text"] {
+  cursor: pointer;
+  background-color: transparent !important;
+  border: none !important;
+  color: #fff !important;
+  padding: 5px 55px 5px 25px !important;
+}
+.search-group input[type="text"]::placeholder {
+  color: #fff !important;
+}
+.search-group input[type="text"]:focus {
+  box-shadow: none !important;
+}
+.search-filter select {
+  background-color: var(--green-light) !important;
+  border: 1px solid var(--green-light) !important;
+}
+
+/* Search Filter Design end  */
+
 /* Footer Design Start Here  */
 .footer {
   padding: 50px 0 5px 0;
@@ -1376,12 +1469,21 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
     width: 100%;
     height: 260px;
   }
+  .cw-1 {
+    width: 9%;
+  }
+  .cw-2 {
+    width: 82%;
+  }
+  .cw-3 {
+    width: 9%;
+  }
 }
 
 @media screen and (max-width: 768px) {
   h1 {
-    font-size: 35px !important;
-    line-height: 37px;
+    font-size: 32px !important;
+    line-height: 35px;
   }
 
   h2 {
@@ -1396,7 +1498,9 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
   .top-bar {
     display: none;
   }
-
+  .hero-section {
+    text-align: center;
+  }
   .footer-info {
     text-align: center;
     padding-right: 0px;
@@ -1511,11 +1615,17 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
   .gallery-card .gallery-img img {
     height: 180px;
   }
+  .hero-right img {
+    width: 350px !important;
+    height: auto;
+    object-fit: contain;
+    margin: 30px auto 0 auto;
+  }
 }
 
 @media screen and (max-width: 480px) {
   .fixtures .fixtures-item {
-    padding: 20px 30px 20px 30px;
+    padding: 20px 10px 20px 10px;
   }
 
   .page-title-section .page-title {
@@ -1588,6 +1698,18 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
   .partners .partner img {
     height: 135px;
     width: 135px;
+  }
+  .cw-1 {
+    width: 12%;
+  }
+  .cw-2 {
+    width: 70%;
+  }
+  .cw-3 {
+    width: 12%;
+  }
+  .hero-right img {
+    width: 300px !important;
   }
 }
 .cke_notifications_area{
