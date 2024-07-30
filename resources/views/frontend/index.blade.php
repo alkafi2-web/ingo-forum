@@ -769,5 +769,4 @@
         </section>
     @endif
     <!-- Video Section End  -->
-
 @endsection

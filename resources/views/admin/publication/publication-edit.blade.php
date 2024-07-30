@@ -82,7 +82,7 @@
                                     <input type="file" id="file" name="file" class="form-control mt-3">
                                     @if ($publication->file)
                                         <p>Current File: <a
-                                                href="{{ asset('public/frontend/files/publication/' . $publication->file) }}"
+                                                href="{{ asset('public/frontend/images/publication/' . $publication->file) }}"
                                                 target="_blank">Open File</a></p>
                                     @endif
                                 </div>

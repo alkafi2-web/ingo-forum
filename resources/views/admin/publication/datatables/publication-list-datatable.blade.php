@@ -91,7 +91,7 @@
                         orderable: true,
                         sortable: false,
                         render: function(data, type, row) {
-                            let basePath = '{{ asset('public/frontend/files/publication/') }}/';
+                            let basePath = '{{ asset('public/frontend/images/publication/') }}/';
                             return `<a href="${basePath + data}" target="_blank">Open File</a>`;
                         }
                     },
