@@ -1,0 +1,15 @@
+[14-Jul-2024 12:06:33 UTC] PHP Warning:  require(/home/webasein/public_html/ingo.webase.info/vendor/autoload.php): Failed to open stream: No such file or directory in /home/webasein/public_html/ingo.webase.info/index.php on line 13
+[14-Jul-2024 12:06:33 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/webasein/public_html/ingo.webase.info/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/webasein/public_html/ingo.webase.info/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/webasein/public_html/ingo.webase.info/index.php on line 13
+[14-Jul-2024 12:06:33 UTC] PHP Warning:  require(/home/webasein/public_html/ingo.webase.info/vendor/autoload.php): Failed to open stream: No such file or directory in /home/webasein/public_html/ingo.webase.info/index.php on line 13
+[14-Jul-2024 12:06:33 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/webasein/public_html/ingo.webase.info/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/webasein/public_html/ingo.webase.info/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/webasein/public_html/ingo.webase.info/index.php on line 13
+[14-Jul-2024 12:23:21 UTC] PHP Warning:  require(/home/webasein/public_html/ingo.webase.info/vendor/autoload.php): Failed to open stream: No such file or directory in /home/webasein/public_html/ingo.webase.info/index.php on line 13
+[14-Jul-2024 12:23:22 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/webasein/public_html/ingo.webase.info/vendor/autoload.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/webasein/public_html/ingo.webase.info/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/webasein/public_html/ingo.webase.info/index.php on line 13
