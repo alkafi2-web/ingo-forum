@@ -86,8 +86,19 @@
             let search = $('#searchHidden').val();
             let category = $('#categoryFilter').val();
             let url = new URL(window.location.href);
-            url.searchParams.set('search', search);
-            url.searchParams.set('category', category);
+
+            // Set or remove parameters based on their values
+            if (search) {
+                url.searchParams.set('search', search);
+            } else {
+                url.searchParams.delete('search');
+            }
+
+            if (category) {
+                url.searchParams.set('category', category);
+            } else {
+                url.searchParams.delete('category');
+            }
 
             // Update the URL in the browser
             window.history.pushState({}, '', url);
@@ -152,7 +163,7 @@
                 case 'category':
                     $('#categoryFilter').val('');
                     break;
-                    // Add more cases if needed
+                // Add more cases if needed
             }
             updateBlogs();
         });
@@ -185,4 +196,5 @@
         initializeFilters();
     });
 </script>
+
 @endpush

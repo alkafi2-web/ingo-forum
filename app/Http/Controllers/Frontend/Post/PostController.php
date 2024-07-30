@@ -33,8 +33,16 @@ class PostController extends Controller
         $query = $postCategory->posts()->where('posts.status', 1);
 
         // Apply filters if present
+        // if ($request->input('search')) {
+        //     $query->where('title', 'like', '%' . $request->input('search') . '%');
+        // }
         if ($request->input('search')) {
-            $query->where('title', 'like', '%' . $request->input('search') . '%');
+            $searchTerm = $request->input('search');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'like', "%{$searchTerm}%")
+                  ->orWhere('long_des', 'like', "%{$searchTerm}%")
+                  ;
+            });
         }
         if ($request->input('category')) {
             $query->where('category_id', $request->input('category'));
