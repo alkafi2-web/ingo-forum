@@ -25,7 +25,7 @@
                                     <label class="form-check-label text-gray-700 fw-bold"
                                         for="permission-switch-{{ $loop->index }}" data-bs-toggle="tooltip"
                                         data-bs-original-title="Enable Permission" data-kt-initialized="1">
-                                        {{ ucfirst($permission->name) }}
+                                        {{ str_replace('-', ' ', ucwords($permission->name, '-')) }}
                                     </label>
                                     <!--end::Label-->
                                 </div>

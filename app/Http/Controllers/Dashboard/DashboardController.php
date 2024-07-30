@@ -10,13 +10,16 @@ use App\Models\ContactInfo;
 use App\Models\Event; 
 use App\Models\User;
 use App\Models\Activity;
-use Carbon\Carbon; 
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function dashboard()
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('dashboard-view')) {
+            abort(401);
+        }
         // Fetch the latest 6 posts
         $latestPosts = Post::with(['category', 'subcategory', 'addedBy', 'comments', 'replies', 'totalRead'])
         ->where('status', 1)

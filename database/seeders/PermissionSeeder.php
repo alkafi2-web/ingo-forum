@@ -17,53 +17,60 @@ class PermissionSeeder extends Seeder
     {
         // Define array of permission names
         $permissions = [
-            'dashboard',
-            'menu',
-            'page',
-            'website-content',
-            'event',
-            'post',
-            'user',
-            'role'
-
+            'dashboard-view',
+            'member-list-view',
+            'member-request-view',
+            'member-management',
+            'post-add',
+            'post-view-all',
+            'post-category-manage',
+            'post-subcategory-manage',
+            'publication-add',
+            'publication-view-all',
+            'publication-category-manage',
+            'event-view',
+            'menu-manage',
+            'page-add',
+            'page-view-all',
+            'banner-content-manage',
+            'about-us-content-manage',
+            'faqs-manage',
+            'photo-album-manage',
+            'photo-gallery-manage',
+            'video-gallery-manage',
+            'users-manage',
+            'roles-manage',
+            'contact-list-view',
+            'user-activity',
+            'system-settings-manage',
         ];
 
         // Create permissions
         foreach ($permissions as $permissionName) {
-            Permission::create(['name' => $permissionName, 'guard_name' => 'admin']);
+            Permission::firstOrCreate(['name' => $permissionName, 'guard_name' => 'admin']);
         }
 
-        // Create roles
+        // Define roles
         $roles = [
             ['name' => 'super-admin', 'guard_name' => 'admin'],
             ['name' => 'admin', 'guard_name' => 'admin']
         ];
 
         foreach ($roles as $roleData) {
-            $role = Role::create($roleData);
+            $role = Role::firstOrCreate($roleData);
 
             // Assign permissions based on role
             switch ($role->name) {
                 case 'super-admin':
                     // Assign all permissions to super-admin role
-                    $permissions = Permission::pluck('id')->all();
-                    $role->syncPermissions($permissions);
+                    $allPermissions = Permission::pluck('id')->all();
+                    $role->syncPermissions($allPermissions);
                     break;
 
                 case 'admin':
                     // Assign permissions for admin role
-                    $adminPermissions = [
-                        'dashboard',
-                        'menu',
-                        'page',
-                        'website-content',
-                        'event',
-                        'post',
-                        'user',
-                        'role'
-                    ];
-                    $adminPermissionsIds = Permission::whereIn('name', $adminPermissions)->pluck('id')->all();
-                    $role->syncPermissions($adminPermissionsIds);
+                    $adminPermissions = Permission::pluck('id')->all(); // Assuming admin needs all permissions
+                    $role->syncPermissions($adminPermissions);
                     break;
             }
         }
@@ -72,7 +79,7 @@ class PermissionSeeder extends Seeder
         $user = User::where('email', 'hello@webase.com.bd')->first();
 
         if ($user) {
-            // Assign the role to the user
+            // Assign the super-admin role to the user
             $role = Role::where('name', 'super-admin')->first(); // Assuming 'super-admin' role exists
             if ($role) {
                 $user->assignRole($role);
