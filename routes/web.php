@@ -26,6 +26,7 @@ use App\Http\Controllers\Frontend\Post\PostController as FrontendPostController;
 use App\Http\Controllers\RobotsController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Frontend\Publication\FrontnedPublicationController;
 use App\Http\Controllers\Publication\PublicationController;
 
 // robot & sitemap 
@@ -311,4 +312,5 @@ Route::prefix('contact')->group(function () {
 
 
 Route::get('/question/answer', [IndexController::class, 'faqs'])->name('frontend.faqs');
+Route::get('/publication/list', [FrontnedPublicationController::class, 'index'])->name('frontend.publication');
 // frontend route end

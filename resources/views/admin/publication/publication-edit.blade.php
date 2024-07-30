@@ -9,7 +9,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h2 class="mt-5">Publication Update</h2>
                     <a href="{{ route('publication.list') }}" class="btn btn-primary"><span><i
-                                class="fas fa-list"></i></span>All Post</a>
+                                class="fas fa-list"></i></span>All Publication</a>
                 </div>
                 <div class="card-body">
                     <form action="/submit-form" id="publicationForm" method="POST" enctype="multipart/form-data">
