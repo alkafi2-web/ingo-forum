@@ -477,7 +477,7 @@
                                     </span>
                                     <!--end::Svg Icon-->
                                 </span>
-                                <span class="menu-title">Website Content</span>
+                                <span class="menu-title">Content Management</span>
                                 <span class="menu-arrow"></span>
                             </span>
                             <div
@@ -489,7 +489,7 @@
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">Banner Content</span>
+                                            <span class="menu-title">Home Banner</span>
                                         </span>
                                     </a>
                                 @endcan
@@ -500,7 +500,7 @@
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">About Us Content</span>
+                                            <span class="menu-title">About Us</span>
                                         </span>
                                     </a>
                                 @endcan
