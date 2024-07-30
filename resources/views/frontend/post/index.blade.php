@@ -6,12 +6,16 @@
     <div class="container">
         <div class="filter-arrow mb-3 d-flex align-items-center justify-content-between" style="margin: 0 2px;">
             <div class="cw-1 text-start">
-                <span class="fs-6"><i class="fa-solid fa-filter filter-toggle1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Filter"></i></span>
+                <span class="fs-6">
+                    <i class="fa-solid fa-filter filter-toggle1" data-bs-toggle="tooltip" data-bs-placement="right"
+                        data-bs-title="Filter"></i>
+                </span>
             </div>
             <div class="cw-2 search-filter">
                 <div class="position-relative search-group">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="searchInput" class="form-control" placeholder="Search..." value="{{ request()->input('search') }}">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search..."
+                        value="{{ request()->input('search') }}">
                     <input type="hidden" id="searchHidden" name="search" value="{{ request()->input('search') }}">
                 </div>
             </div>
@@ -28,8 +32,10 @@
                     <select id="categoryFilter" class="form-select" aria-label="Default select example">
                         <option value="">Category</option>
                         @forelse ($postCategory->subcategories as $category)
-                            <option value="{{ $category->id }}" {{ request()->input('category') == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}</option>
+                            <option value="{{ $category->id }}"
+                                {{ request()->input('category') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
                         @empty
                             <option>There Is No Category</option>
                         @endforelse
@@ -37,78 +43,146 @@
                 </div>
             </div>
         </div>
-        <div class="reset-area d-flex align-items-center pb-2 {{ request()->input('search') || request()->input('category') || request()->input('author') || request()->input('publisher') ? '' : 'd-none' }}">
+        <div
+            class="reset-area d-flex align-items-center pb-2 {{ request()->input('search') || request()->input('category') ? '' : 'd-none' }}">
             <button type="button" id="resetAllFilters" class="btn btn-outline-secondary me-1">
                 <span>Reset All Filters</span> <i class="fas fa-times"></i>
             </button>
             <div id="activeFilters">
                 @if (request()->input('search'))
-                    <button type="button" class="btn btn-outline-secondary filterReset" data-filter="search" data-value="{{ request()->input('search') }}">
+                    <button type="button" class="btn btn-outline-secondary filterReset" data-filter="search"
+                        data-value="{{ request()->input('search') }}">
                         <span>{{ request()->input('search') }}</span> <i class="fas fa-times"></i>
                     </button>
                 @endif
                 @if (request()->input('category'))
-                    <button type="button" class="btn btn-outline-secondary filterReset" data-filter="category" data-value="{{ request()->input('category') }}">
-                        <span>Category: {{ $categories->where('id', request()->input('category'))->first()->name ?? 'Unknown' }}</span> <i class="fas fa-times"></i>
+                    <button type="button" class="btn btn-outline-secondary filterReset" data-filter="category"
+                        data-value="{{ request()->input('category') }}">
+                        <span>Category:
+                            {{ $postCategory->subcategories->where('id', request()->input('category'))->first()->name ?? 'Unknown' }}</span>
+                        <i class="fas fa-times"></i>
                     </button>
                 @endif
             </div>
         </div>
-        <div class="row g-3 g-md-4">
-            @forelse ($posts as $post)
-            <div class="col-6 col-md-4">
-                <div class="blog-card h-100">
-                    <div class="blog-img" style="max-height: 230px; overflow: hidden;">
-                        <a href="{{ route('single.post', ['categorySlug'=>$postCategory->slug, 'postSlug'=>$post->slug])}}">
-                            <img src="{{ asset("public/frontend/images/posts/{$post->banner}") }}" alt=""
-                                style="width: 100%; height: auto; object-fit: cover;">
-                        </a>
-                    </div>
-                    <div class="blog-content">
-                        <span class="mini-title">#{{ $post->subcategory->name }}</span>
-                        <h3 class="blog-title line-clamp-2"><a href="{{ route('single.post', ['categorySlug'=>$postCategory->slug, 'postSlug'=>
-                                    $post->slug])}}">{{ $post->title }}</a></h3>
-                        <div class="blog-text line-clamp-3" style="text-align: justify;">
-                            {!! \Illuminate\Support\Str::limit(htmlspecialchars_decode(strip_tags($post->long_des)), 200) !!}
-                        </div>
-                        <div class="blog-publice py-1">
-                            <div class="row pb-1">
-                                <div class="col-6 border-right">
-                                    <div class="d-flex align-items-center">
-                                        <img src="{{ asset('public/frontend/images/icons/calender.png') }}"
-                                            alt="">
-                                        <div class="ms-2">
-                                            <span class="d-block fw-semibold">Date:</span>
-                                            <span
-                                                class="blog-date-admin">{{ $post->created_at->format('d M Y') }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="d-flex d-flex align-items-center">
-                                        <img src="{{ asset('public/frontend/images/icons/profile.png') }}"
-                                            alt="">
-                                        <div class="ms-2">
-                                            <span class="d-block fw-semibold">By:</span>
-                                            <span class="blog-date-admin">{{ $post->addedBy->name }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @empty
-            <h6>No {{ $postCategory->name }} Found!</h6>
-            @endforelse
+        <div id="postContainer" class="row g-3 g-md-4">
+            @include('frontend.post.partials.post') <!-- Include posts partial view -->
         </div>
         <div class="row pt-4">
             <div class="col-12 post-pagination">
-                {{ $posts->links() }} <!-- Laravel pagination links -->
+                @include('frontend.post.partials.pagination') <!-- Include pagination partial view -->
             </div>
         </div>
     </div>
 </section>
 <!-- Blogs Area end here -->
+
 @endsection
+
+@push('custom-js')
+<script>
+    $(document).ready(function() {
+        function updateBlogs() {
+            let search = $('#searchHidden').val();
+            let category = $('#categoryFilter').val();
+            let url = new URL(window.location.href);
+            url.searchParams.set('search', search);
+            url.searchParams.set('category', category);
+
+            // Update the URL in the browser
+            window.history.pushState({}, '', url);
+
+            $.ajax({
+                url: url.toString(),
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#postContainer').html(data.html);
+                    $('.post-pagination').html(data.pagination);
+                    updateResetArea(search, category);
+                }
+            });
+        }
+
+        function updateResetArea(search, category) {
+            let resetHtml = '';
+
+            if (search) {
+                resetHtml += `<button type="button" class="btn btn-outline-secondary filterReset" data-filter="search" data-value="${search}">
+                    <span>${search}</span> <i class="fas fa-times"></i>
+                </button>`;
+            }
+            if (category) {
+                let categoryName = $('#categoryFilter option:selected').text();
+                resetHtml += `<button type="button" class="btn btn-outline-secondary filterReset" data-filter="category" data-value="${category}">
+                    <span>Category: ${categoryName}</span> <i class="fas fa-times"></i>
+                </button>`;
+            }
+
+            if (resetHtml) {
+                $('#activeFilters').html(resetHtml);
+                $('.reset-area').removeClass('d-none');
+            } else {
+                $('#activeFilters').html('');
+                $('.reset-area').addClass('d-none');
+            }
+        }
+
+        // Trigger search update on input change
+        $('#searchInput').on('keyup', function() {
+            $('#searchHidden').val($(this).val());
+            updateBlogs();
+        });
+
+        // Trigger filter update on select change
+        $('#categoryFilter').on('change', function() {
+            updateBlogs();
+        });
+
+        // Reset individual filters
+        $(document).on('click', '.filterReset', function() {
+            let filterType = $(this).data('filter');
+            let filterValue = $(this).data('value');
+
+            switch (filterType) {
+                case 'search':
+                    $('#searchInput').val('');
+                    $('#searchHidden').val('');
+                    break;
+                case 'category':
+                    $('#categoryFilter').val('');
+                    break;
+                    // Add more cases if needed
+            }
+            updateBlogs();
+        });
+
+        // Reset all filters
+        $('#resetAllFilters').on('click', function() {
+            $('#searchInput').val('');
+            $('#searchHidden').val('');
+            $('#categoryFilter').val('');
+            updateBlogs();
+        });
+
+        // Initialize filter UI based on existing URL parameters
+        function initializeFilters() {
+            let search = new URLSearchParams(window.location.search).get('search');
+            let category = new URLSearchParams(window.location.search).get('category');
+
+            if (search) {
+                $('#searchInput').val(search);
+                $('#searchHidden').val(search);
+            }
+            if (category) {
+                $('#categoryFilter').val(category);
+            }
+
+            updateBlogs();
+        }
+
+        // Run on page load
+        initializeFilters();
+    });
+</script>
+@endpush

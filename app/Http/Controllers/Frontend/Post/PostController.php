@@ -20,18 +20,43 @@ use Artesaos\SEOTools\Facades\JsonLd;
 
 class PostController extends Controller
 {
+    
+
     public function index(Request $request, $categorySlug)
     {
         // Fetch the post category with its posts and subcategories
         $postCategory = PostCategory::where('slug', $categorySlug)
-                        ->with(['posts','subcategories'])
-                        ->firstOrFail(); // Assuming the category slug is unique
+            ->with(['posts', 'subcategories'])
+            ->firstOrFail(); // Assuming the category slug is unique
 
-        // Separate the paginated posts collection from the category object
-        $posts = $postCategory->posts()->Where('posts.status', 1)->paginate(9);
+        // Build the query for filtering posts
+        $query = $postCategory->posts()->where('posts.status', 1);
 
-        return view('frontend.post.index', compact('postCategory', 'posts'));
+        // Apply filters if present
+        if ($request->input('search')) {
+            $query->where('title', 'like', '%' . $request->input('search') . '%');
+        }
+        if ($request->input('category')) {
+            $query->where('category_id', $request->input('category'));
+        }
+
+        // Get the paginated results
+        $posts = $query->paginate(9);
+
+        // Fetch categories for the filter dropdown
+        $categories = PostCategory::all();
+
+        // Return partial view for AJAX request
+        if ($request->ajax()) {
+            $html = view('frontend.post.partials.post', compact('posts', 'postCategory'))->render();
+            $pagination = view('frontend.post.partials.pagination', compact('posts'))->render();
+            return response()->json(['html' => $html, 'pagination' => $pagination]);
+        }
+
+        return view('frontend.post.index', compact('postCategory', 'posts', 'categories'));
     }
+
+
 
     /**
      * Display a single post with comments, latest posts, and related posts.
@@ -43,26 +68,26 @@ class PostController extends Controller
     public function showSinglePost(Request $request, $categorySlug, $postSlug)
     {
         $post = Post::where('status', 1)
-                    ->where('slug', $postSlug)
-                    ->whereHas('category', function ($query) use ($categorySlug) {
-                        $query->where('slug', $categorySlug);
-                    })
-                    ->with('category', 'comments', 'comments.replies', 'totalRead') // Eager load comments and their replies
-                    ->firstOrFail();
+            ->where('slug', $postSlug)
+            ->whereHas('category', function ($query) use ($categorySlug) {
+                $query->where('slug', $categorySlug);
+            })
+            ->with('category', 'comments', 'comments.replies', 'totalRead') // Eager load comments and their replies
+            ->firstOrFail();
 
         $latestPosts = Post::where('status', 1)
-                            ->where('category_id', $post->category_id)
-                            ->where('id', '<>', $post->id) // Exclude the current post
-                            ->latest()
-                            ->take(5)
-                            ->get();
+            ->where('category_id', $post->category_id)
+            ->where('id', '<>', $post->id) // Exclude the current post
+            ->latest()
+            ->take(5)
+            ->get();
 
         $relatedPosts = Post::where('status', 1)
-                            ->where('category_id', $post->category_id)
-                            ->where('id', '<>', $post->id) // Exclude the current post
-                            ->inRandomOrder() // Example of random order for related posts
-                            ->take(5)
-                            ->get();
+            ->where('category_id', $post->category_id)
+            ->where('id', '<>', $post->id) // Exclude the current post
+            ->inRandomOrder() // Example of random order for related posts
+            ->take(5)
+            ->get();
 
         // Track the read
         $ipAddress = $request->ip();
@@ -112,7 +137,7 @@ class PostController extends Controller
         }
         // Get authenticated user using the 'member' guard
         $user = Auth::guard('member')->user();
-        
+
         $request->validate([
             'post_id' => 'required|exists:posts,id', // Validate post_id exists in posts table    
             'comment_text' => 'required|string',
@@ -140,10 +165,10 @@ class PostController extends Controller
             'comment_id' => 'required|exists:comments,id',
             'reply_text' => 'required',
         ]);
-        
+
         // Get authenticated user using the 'member' guard
         $user = Auth::guard('member')->user();
-        
+
 
         // Create new reply
         $reply = new Reply();
@@ -165,15 +190,15 @@ class PostController extends Controller
         }
         // Get authenticated user using the 'member' guard
         $user = Auth::guard('member')->user();
-        
+
         $request->validate([
             'comment_id' => 'required|exists:comments,id',
         ]);
 
         // Check if reaction exists, toggle it if so, or create new
         $existingReaction = Reaction::where('comment_id', $request->comment_id)
-                                    ->where('member_id', $user->id)
-                                    ->first();
+            ->where('member_id', $user->id)
+            ->first();
 
         if ($existingReaction) {
             $existingReaction->delete();
@@ -189,7 +214,7 @@ class PostController extends Controller
             'msg' => 'Reaction has been added'
         ]);
     }
-    
+
     public function deleteCommentOrReply(Request $request)
     {
         if ($request->has('comment_id')) {
@@ -212,16 +237,133 @@ class PostController extends Controller
     {
         // Define a list of common stop words
         $stopWords = [
-            'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself', 'yourselves',
-            'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'they', 'them', 'their',
-            'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 
-            'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 
-            'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 
-            'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 
-            'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 
-            'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 
-            'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 
-            'should', 'now'
+            'i',
+            'me',
+            'my',
+            'myself',
+            'we',
+            'our',
+            'ours',
+            'ourselves',
+            'you',
+            'your',
+            'yours',
+            'yourself',
+            'yourselves',
+            'he',
+            'him',
+            'his',
+            'himself',
+            'she',
+            'her',
+            'hers',
+            'herself',
+            'it',
+            'its',
+            'itself',
+            'they',
+            'them',
+            'their',
+            'theirs',
+            'themselves',
+            'what',
+            'which',
+            'who',
+            'whom',
+            'this',
+            'that',
+            'these',
+            'those',
+            'am',
+            'is',
+            'are',
+            'was',
+            'were',
+            'be',
+            'been',
+            'being',
+            'have',
+            'has',
+            'had',
+            'having',
+            'do',
+            'does',
+            'did',
+            'doing',
+            'a',
+            'an',
+            'the',
+            'and',
+            'but',
+            'if',
+            'or',
+            'because',
+            'as',
+            'until',
+            'while',
+            'of',
+            'at',
+            'by',
+            'for',
+            'with',
+            'about',
+            'against',
+            'between',
+            'into',
+            'through',
+            'during',
+            'before',
+            'after',
+            'above',
+            'below',
+            'to',
+            'from',
+            'up',
+            'down',
+            'in',
+            'out',
+            'on',
+            'off',
+            'over',
+            'under',
+            'again',
+            'further',
+            'then',
+            'once',
+            'here',
+            'there',
+            'when',
+            'where',
+            'why',
+            'how',
+            'all',
+            'any',
+            'both',
+            'each',
+            'few',
+            'more',
+            'most',
+            'other',
+            'some',
+            'such',
+            'no',
+            'nor',
+            'not',
+            'only',
+            'own',
+            'same',
+            'so',
+            'than',
+            'too',
+            'very',
+            's',
+            't',
+            'can',
+            'will',
+            'just',
+            'don',
+            'should',
+            'now'
         ];
 
         // Convert the description to lowercase and split into words
