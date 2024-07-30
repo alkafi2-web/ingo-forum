@@ -151,8 +151,8 @@
                 $('#title_color').prop('readonly', false);
                 $('#titleColorRow').show();
             } else {
-                $('#title').val(null).prop('readonly', true);
-                $('#title_color').val(null).prop('readonly', true);
+                $('#title').val().prop('readonly', true);
+                $('#title_color').val().prop('readonly', true);
                 $('#titleColorRow').hide();
             }
         });

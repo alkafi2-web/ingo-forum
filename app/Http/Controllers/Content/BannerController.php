@@ -25,7 +25,7 @@ class BannerController extends Controller
             return DataTables::of($banners)
                 ->addColumn('title_display', function ($banner) {
                     $title = json_decode($banner->title, true);
-                    if ($title && $title['status'] == 1) {
+                    if ($title) {
                         return '<div style="display: flex; align-items: center;">
                                     <span style="background-color: ' . $title['color'] . '; width: 20px; height: 20px; display: inline-block; margin-right: 5px;"></span>
                                     ' . $title['text'] . '
@@ -53,7 +53,7 @@ class BannerController extends Controller
                 })
                 ->addColumn('content_image_display', function ($banner) {
                     $content_image = json_decode($banner->content_image, true);
-                    if ($content_image && $content_image['status'] == 1) {
+                    if ($content_image) {
                         return '<img src="' . asset('public/frontend/images/banner/' . $content_image['path']) . '" alt="Content Image" style="width: 50px; height: 50px; object-fit: contain;">';
                     }
                     return '-';
@@ -183,14 +183,14 @@ class BannerController extends Controller
             $contentImageName = time() . '_content.' . $request->content_image->extension();
             $request->content_image->move(public_path('frontend/images/banner'), $contentImageName);
             $banner->content_image = json_encode([
-                'status' => $request->input('contentImageSwitch') === 'on' ? 0 : 1,
+                'status' => $request->input('contentImageSwitch') === 'on' ? 1 : 0,
                 'path' => $contentImageName
             ]);
         } elseif ($request->filled('id') && $request->input('contentImageSwitch') !== 'on') {
             $banner->content_image = $banner->content_image;
         } else {
             $banner->content_image = json_encode([
-                'status' => $request->input('contentImageSwitch') === 'on' ? 0 : 1,
+                'status' => $request->input('contentImageSwitch') === 'on' ? 1 : 0,
                 'path' => null
             ]);
         }
