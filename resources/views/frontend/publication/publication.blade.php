@@ -65,6 +65,10 @@
                 </div>
             </div>
         </div>
+        {{-- <div class="reset-area d-flex align-items-center pb-2 d-none">
+            <button type="button" class="btn btn-outline-secondary me-1">Secondary <span><i class="fas fa-times"></i></span></button>
+            <button type="button" class="btn btn-outline-secondary">Secondary</button>
+        </div> --}}
         <!-- filter section end -->
         <div id="publicationsContainer" class="row g-3 g-md-4">
             @forelse ($publications as $publication)
