@@ -17,7 +17,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="pt-5 " id="add-header">Add Banner Content</h2>
+                    <h2 class="pt-5 " id="add-header">Add New Banner</h2>
                 </div>
                 <div class="card-body">
                     @include('admin.content.banner.partials.add-banner')

@@ -18,6 +18,9 @@ class MemberController extends Controller
 {
     public function becomeMember()
     {
+        if (Auth::guard('member')->check()) {
+            return redirect()->route('frontend.index');
+        }
         return view('frontend.member.become-member');
     }
 
@@ -26,7 +29,7 @@ class MemberController extends Controller
         // Define validation rules
         $rules = [
             'org_name' => 'required|string|max:255',
-            'org_website' => 'required|url|string|max:255',
+            'org_website' => 'required|string|max:255',
             'org_email' => 'required|email|max:255',
             'org_type' => ['required', Rule::in(['1', '2'])],
             'org_address' => 'required|string|max:255',
@@ -84,7 +87,11 @@ class MemberController extends Controller
         ]);
         return response()->json(['success' => true, 'message' => 'Successfully Be A Member.Now Log in And Update Info', 'redirect' => route('frontend.login')], 200);
     }
-
+    public function memberOwnProfile()
+    {
+        $memberinfo = Auth::guard('member')->user()->load('info');
+        return view('frontend.member.member-own-profile', compact('memberinfo'));
+    }
     public function memberProfile()
     {
         $member = Auth::guard('member')->user()->load('memberInfos');
@@ -110,7 +117,7 @@ class MemberController extends Controller
             'director_name' => 'required|string|max:255',
             'director_email' => 'required|email|max:255',
             'director_phone' => 'nullable|string|max:20',
-            'login_email' => 'required|email|max:255',
+            // 'login_email' => 'required|email|max:255',
             'login_phone' => 'nullable|string|max:20',
             'password' => 'nullable|string|min:8|confirmed',
         ];
@@ -144,7 +151,7 @@ class MemberController extends Controller
         $member = Auth::guard('member')->user();
 
         // Update member information
-        $member->email = $request->login_email;
+        // $member->email = $request->login_email;
         $member->phone = $request->login_phone;
         if ($request->filled('password')) {
             $member->password = Hash::make($request->password);
@@ -220,13 +227,14 @@ class MemberController extends Controller
 
     public function profileUpdateSummary(Request $request)
     {
-        // return $request->all();
         // Define custom error messages
         $messages = [
             'title.required' => 'The title field is required.',
             'sub_title.required' => 'The sub title field is required.',
             'title.max' => 'The title must not exceed :max characters.',
             'sub_title.max' => 'The sub title must not exceed :max characters.',
+            'organization_document.mimes' => 'The organization document must be a file of type: pdf, jpg, png.',
+            'organization_document.max' => 'The organization document must not exceed :max kilobytes.',
             // Add more custom messages as needed
         ];
 
@@ -240,17 +248,43 @@ class MemberController extends Controller
             'work' => 'nullable|string',
             'history' => 'nullable|string',
             'other_description' => 'nullable|string',
+            'organization_document' => 'nullable|file|mimes:pdf,jpg,png,docx', // 2MB max
         ], $messages);
 
         // If validation fails, return JSON response with validation errors
         if ($validator->fails()) {
             return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
         }
+
         $member = Auth::guard('member')->user();
         $memberInfo = $member->memberInfos()->firstOrNew();
+
+        // Handle file upload if a file is provided
+        if ($request->hasFile('organization_document')) {
+            $organization_document = $request->file('organization_document');
+            $organization_document_name = Str::uuid() . '.' . $organization_document->getClientOriginalExtension();
+            $dir = public_path('/frontend/images/member/');
+
+            if (!File::exists($dir)) {
+                File::makeDirectory($dir, 0755, true);
+            }
+            
+            $old_profile_attachment = $dir . $memberInfo->profile_attachment;
+            if (File::exists($old_profile_attachment)) {
+                File::delete($old_profile_attachment);
+            }
+            // Move the file to the specified directory
+            $organization_document->move($dir, $organization_document_name);
+            $memberInfo->update([
+                'profile_attachment' => $organization_document_name,
+            ]);
+        }
+
+        // Update member information
         $memberInfo->update([
             'title' => $request->title,
             'sub_title' => $request->sub_title,
+            'short_description' => $request->short_description,
             'mission' => $request->mission,
             'vision' => $request->vision,
             'value' => $request->value,
@@ -258,15 +292,18 @@ class MemberController extends Controller
             'history' => $request->history,
             'other_description' => $request->other_description,
         ]);
+
+        // Save the updated member information
         $memberInfo->save();
+        $fileUrl = $memberInfo->profile_attachment ? asset('public/frontend/images/member/' . $memberInfo->profile_attachment) : null;
         // Return success response
-        return response()->json(['success' => true, 'message' => 'Data successfully Update.'], 200);
-        return $request->all();
+        return response()->json(['success' => true, 'message' => 'Data successfully updated.', 'fileUrl' => $fileUrl], 200);
     }
+
 
     public function profileUpdateSocial(Request $request)
     {
-        
+
         // Define custom error messages
         $messages = [
             'facebook.required' => 'The facebook field is required.',
@@ -289,11 +326,11 @@ class MemberController extends Controller
 
         // Define validation rules
         $validator = Validator::make($request->all(), [
-            'facebook' => 'required|url|max:255',
-            'twitter' => 'required|url|max:255',
-            'linkedin' => 'required|url|max:255',
-            'instagram' => 'required|url|max:255',
-            'youtube' => 'required|url|max:255',
+            'facebook' => 'nullable|url|max:255',
+            'twitter' => 'nullable|url|max:255',
+            'linkedin' => 'nullable|url|max:255',
+            'instagram' => 'nullable|url|max:255',
+            'youtube' => 'nullable|url|max:255',
         ], $messages);
 
         // If validation fails, return JSON response with validation errors

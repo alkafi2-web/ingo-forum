@@ -76,9 +76,8 @@
                             let permissionsArray = data.split(',');
 
                             // Array of possible Bootstrap badge classes
-                            let badgeClasses = ['badge-primary', 'badge-success',
-                                'badge-danger', 'badge-warning', 'badge-info',
-                                'badge-dark'
+                            let badgeClasses = ['badge-primary', 'badge-success', 'badge-danger',
+                                'badge-warning', 'badge-info', 'badge-dark'
                             ];
 
                             // Initialize a counter to cycle through badge classes
@@ -86,9 +85,9 @@
 
                             // Create a comma-separated list of permission badges with cycling colors
                             let permissionsHtml = permissionsArray.map(permission => {
-                                // Trim and capitalize the first letter of permission
-                                let permissionText = permission.trim().charAt(0)
-                                    .toUpperCase() + permission.trim().slice(1);
+                                // Trim, replace hyphens with spaces, and capitalize the first letter of each word in permission
+                                let permissionText = permission.trim().replace(/-/g, ' ')
+                                    .replace(/\b\w/g, char => char.toUpperCase());
                                 // Get the next badge class in the cycle
                                 let badgeClass = badgeClasses[badgeIndex % badgeClasses
                                     .length];
@@ -127,10 +126,10 @@
 
                 ],
                 lengthMenu: [
-                    [10, 30, 50, -1],
-                    [10, 30, 50, "All"]
+                    [5, 30, 50, -1],
+                    [5, 30, 50, "All"]
                 ], // Add 'All' option
-                pageLength: 10, // Set default page length
+                pageLength: 5, // Set default page length
                 dom: "<'row'<'col-sm-4'l><'col-sm-4 d-flex justify-content-center'B><'col-sm-4'f>>" +
                     // Page length, buttons, and search
                     "<'row'<'col-sm-12'tr>>" + // Table rows
@@ -188,7 +187,7 @@
                         $('#name').val(role.name);
                         // Uncheck all checkboxes initially
                         $('input[type="checkbox"][name="permissions[]"]').prop('checked',
-                        false);
+                            false);
 
                         // Check checkboxes based on role.permissions array
                         role.permissions.forEach(permission => {

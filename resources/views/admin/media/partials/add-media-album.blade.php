@@ -29,7 +29,7 @@
                 <label for="albumtype" class="text-3xl required">Album Type</label>
                 <select class="form-control" id="albumtype" name="albumtype">
                     <option value="photo" {{ old('albumtype') == 'photo' ? 'selected' : '' }}>Photo</option>
-                    <option value="video" {{ old('albumtype') == 'video' ? 'selected' : '' }}>Video</option>
+                    {{-- <option value="video" {{ old('albumtype') == 'video' ? 'selected' : '' }}>Video</option> --}}
                 </select>
             </div>
         </div>

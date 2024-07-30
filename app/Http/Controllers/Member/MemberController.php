@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Member;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\MemberInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class MemberController extends Controller
 {
     public function memberlist(Request $request)
     {
+        if (!Auth::user()->hasPermissionTo('member-list-view')) {
+            abort(401);
+        }
         // return $members = Member::where('status', 0)->with('memberInfos')->get();
         if ($request->ajax()) {
             $organizationType = $request->organization;
@@ -19,12 +24,12 @@ class MemberController extends Controller
             $members = Member::with('memberInfos')->get();
             // If organization type is provided, filter the members
             if (!empty($organizationType)) {
-                $members = $members->filter(function($member) use ($organizationType) {
+                $members = $members->filter(function ($member) use ($organizationType) {
                     return $member->memberInfos->first() && $member->memberInfos->first()->organisation_type == $organizationType;
                 });
             }
             if ($statusFilter !== null && $statusFilter !== '') {
-                $members = $members->filter(function($member) use ($statusFilter) {
+                $members = $members->filter(function ($member) use ($statusFilter) {
                     return $member->status == $statusFilter;
                 });
             }
@@ -44,6 +49,9 @@ class MemberController extends Controller
     }
     public function memberRequest(Request $request)
     {
+        if (!Auth::user()->hasPermissionTo('member-request-view')) {
+            abort(401);
+        }
         // return $members = Member::where('status', 0)->with('memberInfos')->get();
         if ($request->ajax()) {
             $members = Member::where('status', 0)->with('memberInfos')->get();
@@ -64,14 +72,20 @@ class MemberController extends Controller
 
     public function view($id)
     {
+        if (!Auth::guard('admin')->user()?->hasAnyPermission(['member-request-view', 'member-list-view'])) {
+            abort(401);
+        }
         $member = Member::where('id', $id)->with('memberInfos')->first();
 
         return view('admin.member.member-view', compact('member'));
     }
     public function approved(Request $request)
     {
+        if (!Auth::user()->hasPermissionTo('member-management')) {
+            abort(401);
+        }
         // Find the member by ID
-        $member = Member::with('memberInfos')->findOrFail($request->id);
+        $member = Member::with('memberInfos', 'info')->findOrFail($request->id);
         $member->status = 1;
         if ($member->memberInfos[0]['membership_id'] == null) {
             // Get the latest membership_id and generate a new one
@@ -103,7 +117,7 @@ class MemberController extends Controller
 
         // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
         $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
-
+        Helper::log("Approved " . $member->info->organisation_name);
         // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',
@@ -113,8 +127,11 @@ class MemberController extends Controller
     }
     public function suspend(Request $request)
     {
+        if (!Auth::user()->hasPermissionTo('member-management')) {
+            abort(401);
+        }
         // Find the member by ID
-        $member = Member::findOrFail($request->id);
+        $member = Member::with('memberInfos')->findOrFail($request->id);
 
         // Update the status to 1 (or any appropriate value for "suspended")
         $member->status = 2; // Assuming 1 means suspended status
@@ -126,7 +143,8 @@ class MemberController extends Controller
 
         // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
         $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
-
+        $memberInfo = $member->memberInfos[0];
+        Helper::log("Suspended ". $memberInfo->organisation_name);
         // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',
@@ -137,8 +155,11 @@ class MemberController extends Controller
     }
     public function reject(Request $request)
     {
+        if (!Auth::user()->hasPermissionTo('member-management')) {
+            abort(401);
+        }
         // Find the member by ID
-        $member = Member::findOrFail($request->id);
+        $member = Member::with('memberInfos')->findOrFail($request->id);
 
         // Update the status to 1 (or any appropriate value for "suspended")
         $member->status = 3; // Assuming 1 means suspended status
@@ -150,7 +171,8 @@ class MemberController extends Controller
 
         // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
         $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
-
+        $memberInfo = $member->memberInfos[0];
+        Helper::log("Rejected " . $memberInfo->organisation_name);
         // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',

@@ -18,7 +18,7 @@ class Post extends Model
 
     public function subcategory()
     {
-        return $this->belongsTo(PostSubCategory::class, 'category_id', 'id');
+        return $this->belongsTo(PostSubCategory::class, 'sub_category_id', 'id');
     }
     
 
@@ -30,5 +30,15 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function totalRead()
+    {
+        return $this->hasMany(PostRead::class);
+    }
+
+    public function replies()
+    {
+        return $this->hasManyThrough(Reply::class, Comment::class, 'post_id', 'comment_id', 'id', 'id');
     }
 }
