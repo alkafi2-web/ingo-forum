@@ -37,8 +37,8 @@ use Illuminate\Support\Str;
                   <img src="{{ asset('public/frontend/images/icons/fx1.png') }}" alt="">
                 </div>
                 <div class="fixture-text">
-                  <span>Donate for</span>
-                  <h3>Children Education</h3>
+                  <h3>Coordination</h3>
+                  <span>The Forum Secretariat facilitates information sharing and mutual understanding among our members.</span>
                 </div>
               </div>
             </div>
@@ -48,8 +48,8 @@ use Illuminate\Support\Str;
                   <img src="{{ asset('public/frontend/images/icons/fx3.png') }}" alt="">
                 </div>
                 <div class="fixture-text">
-                  <span>Donate for</span>
-                  <h3>Children Education</h3>
+                  <h3>Advocacy</h3>
+                  <span>We mobilise the INGO Forum members on collective positioning on critical humanitarian issues.</span>
                 </div>
               </div>
             </div>
@@ -60,8 +60,8 @@ use Illuminate\Support\Str;
                   <img src="{{ asset('public/frontend/images/icons/fx4.png') }}" alt="">
                 </div>
                 <div class="fixture-text">
-                  <span>Donate for</span>
-                  <h3>Children Education</h3>
+                  <h3>Safety and security</h3>
+                  <span>The members of the INGO Forum are convinced that security, safety and well-being of humanitarian personnel prevail.</span>
                 </div>
               </div>
             </div>
@@ -72,8 +72,8 @@ use Illuminate\Support\Str;
                   {{-- <img src="images/icons/fx2.png" alt=""> --}}
                 </div>
                 <div class="fixture-text">
-                  <span>Donate for</span>
-                  <h3>Children Education</h3>
+                  <h3>Liaison with national NGOs</h3>
+                  <span>The INGO members are committed to strengthening relationships, linkages and collaborative efforts .</span>
                 </div>
               </div>
             </div>

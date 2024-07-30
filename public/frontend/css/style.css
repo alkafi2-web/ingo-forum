@@ -50,11 +50,13 @@ h2 {
 p,
 span {
   font-size: 16px;
-  font-family: "Fredoka", sans-serif;
+  font-family: 'Gilroy-Regular', sans-serif;
   line-height: 20px;
   color: var(--paragraph-color);
 }
-
+li {
+  font-family: 'Gilroy-Regular', sans-serif;
+}
 a {
   font-family: "Fredoka", sans-serif;
 }
@@ -299,7 +301,7 @@ a {
 }
 
 .hero-right img {
-  width: 100%;
+  width: 100% !important;
   height: auto;
 }
 
@@ -338,11 +340,11 @@ a {
 }
 
 .fx1 {
-  background-image: url('../images/fx-bg1.png');
+  background-image: url('../images/fx-bg2.png');
 }
 
 .fx2 {
-  background-image: url('../images/fx-bg2.png');
+  background-image: url('../images/fx-bg1.png');
 }
 
 .fx3 {
@@ -360,32 +362,39 @@ a {
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 5px;
+  height: 100%;
 }
 
 .fixtures-item .fixture-icon {
+  height: 70px;
+  width: 70px;
   text-align: center;
-  margin-top: -50px;
+  margin: -50px auto 10px auto;
   padding-bottom: 30px;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 .fixtures-item .fixture-icon img {
-
   background-color: var(--white);
   padding: 15px;
   height: 70px;
   width: 70px;
   object-fit: contain;
-  border-radius: 50%;
   box-shadow: 0px 4px 15px 12px rgba(200, 91, 91, 0.08);
 }
 
 .fixture-text span {
-  font-weight: 500;
+  font-weight: 400;
+  font-size: 14px;
+  display: block;
+  line-height: 16px;
 }
 
 .fixture-text h3 {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 500;
+  margin-bottom: 10px;
 }
 
 /* About Us Section Design End Here  */
@@ -1473,8 +1482,8 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
 
 @media screen and (max-width: 768px) {
   h1 {
-    font-size: 35px !important;
-    line-height: 37px;
+    font-size: 32px !important;
+    line-height: 35px;
   }
 
   h2 {
@@ -1489,7 +1498,9 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
   .top-bar {
     display: none;
   }
-
+  .hero-section {
+    text-align: center;
+  }
   .footer-info {
     text-align: center;
     padding-right: 0px;
@@ -1604,11 +1615,17 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
   .gallery-card .gallery-img img {
     height: 180px;
   }
+  .hero-right img {
+    width: 350px !important;
+    height: auto;
+    object-fit: contain;
+    margin: 30px auto 0 auto;
+  }
 }
 
 @media screen and (max-width: 480px) {
   .fixtures .fixtures-item {
-    padding: 20px 30px 20px 30px;
+    padding: 20px 10px 20px 10px;
   }
 
   .page-title-section .page-title {
@@ -1690,6 +1707,9 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
   }
   .cw-3 {
     width: 12%;
+  }
+  .hero-right img {
+    width: 300px !important;
   }
 }
 .cke_notifications_area{
