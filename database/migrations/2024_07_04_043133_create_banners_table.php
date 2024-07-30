@@ -17,10 +17,10 @@ return new class extends Migration
             $table->json('description')->nullable();
             $table->json('bg_image')->nullable();
             $table->json('content_image')->nullable();
-            $table->json('background_color')->nullable()->default(json_encode(['status' => 1, 'color' => '#D7E8E0']));
-            $table->json('overlay_color')->nullable()->default(json_encode(['status' => 0, 'color' => 'rgba(0, 0, 0, 0.5)']));
-            $table->string('title_color')->nullable()->default('#0ca65b');
-            $table->string('description_color')->nullable()->default('#d4d6d8');
+            $table->json('background_color')->nullable();
+            $table->json('overlay_color')->nullable();
+            $table->string('title_color')->nullable();
+            $table->string('description_color')->nullable();
             $table->json('button')->nullable();
             $table->integer('position')->nullable();
             $table->unsignedBigInteger('added_by'); // Change existing column type to unsignedBigInteger
