@@ -3,7 +3,7 @@
     <div class="owl-carousel owl-theme hero-slider">
         @forelse ($global['banner'] as $banner) 
         <div class="item">
-            <div class="hero-section ptb-70" 
+            <div class="hero-section ptb-70 d-flex align-items-center" 
                 @if($banner['background_color']['status'] ?? false) 
                     style="background-color: {{ $banner['background_color']['color'] }}"
                 @else 
