@@ -478,6 +478,8 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="menu-title">Website Content</span>
+                                <span class="menu-arrow"></span>
+                            </span>
                             <div
                                 class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'banner' || Route::currentRouteName() == 'aboutus' || Route::currentRouteName() == 'faqs' ? 'hover show' : '' }}">
                                 @can('banner-content-manage')
