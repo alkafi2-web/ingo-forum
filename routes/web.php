@@ -176,12 +176,11 @@ Route::prefix('admin')->group(function () {
             Route::prefix('/')->group(function () {
                 Route::get('/', [PublicationController::class, 'publicationCreate'])->name('publication.create');
                 Route::post('/store', [PublicationController::class, 'publicationStore'])->name('publication.store');
-                Route::get('/list', [PublicationController::class, 'postList'])->name('publication.list');
-                Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
-                Route::post('/comment', [PostController::class, 'postComment'])->name('post.comment');
-                Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');
-                Route::get('/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
-                Route::post('/update', [PostController::class, 'postUpdate'])->name('post.update');
+                Route::get('/list', [PublicationController::class, 'publicationList'])->name('publication.list');
+                Route::post('/delete', [PublicationController::class, 'publicationDelete'])->name('publication.delete');
+                Route::post('/status', [PublicationController::class, 'publicationStatus'])->name('publication.status');
+                Route::get('/edit/{id}', [PublicationController::class, 'publicationEdit'])->name('publication.edit');
+                Route::post('/update', [PublicationController::class, 'publicationUpdate'])->name('publication.update');
             });
         });
         // Publication menagement route end
