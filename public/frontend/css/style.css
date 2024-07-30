@@ -276,7 +276,7 @@ a {
   height: 80vh;
 }
 
-.hero-section::before {
+.hero-section .hero-overlay {
   content: "";
   position: absolute;
   top: 0;
