@@ -638,6 +638,7 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'App\\Models\\Post' => __DIR__ . '/../..' . '/app/Models/Post.php',
         'App\\Models\\PostCategory' => __DIR__ . '/../..' . '/app/Models/PostCategory.php',
         'App\\Models\\PostComment' => __DIR__ . '/../..' . '/app/Models/PostComment.php',
+        'App\\Models\\PostRead' => __DIR__ . '/../..' . '/app/Models/PostRead.php',
         'App\\Models\\PostSubCategory' => __DIR__ . '/../..' . '/app/Models/PostSubCategory.php',
         'App\\Models\\Reaction' => __DIR__ . '/../..' . '/app/Models/Reaction.php',
         'App\\Models\\Reply' => __DIR__ . '/../..' . '/app/Models/Reply.php',

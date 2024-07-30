@@ -44,6 +44,7 @@ return array(
     'App\\Models\\Post' => $baseDir . '/app/Models/Post.php',
     'App\\Models\\PostCategory' => $baseDir . '/app/Models/PostCategory.php',
     'App\\Models\\PostComment' => $baseDir . '/app/Models/PostComment.php',
+    'App\\Models\\PostRead' => $baseDir . '/app/Models/PostRead.php',
     'App\\Models\\PostSubCategory' => $baseDir . '/app/Models/PostSubCategory.php',
     'App\\Models\\Reaction' => $baseDir . '/app/Models/Reaction.php',
     'App\\Models\\Reply' => $baseDir . '/app/Models/Reply.php',
