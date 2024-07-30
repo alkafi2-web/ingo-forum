@@ -86,6 +86,19 @@
 
     <div class="row mb-3">
         <div class="col-md-12 mb-2">
+            <div class="form-group">
+                <div class="d-flex align-items-center">
+                    <label for="content_image" class="text-3xl text-nowrap">Content Image</label>&nbsp;&nbsp;
+                    <input type="checkbox" id="contentImageSwitch" class="form-switch" name="contentImageSwitch" checked>
+                </div>
+                <input type="file" class="form-control" id="content_image" name="content_image" value="" oninput="content_pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
+                <img id="content_pp" width="100" class="float-start mt-3" src="">
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-12 mb-2">
             <div class="form-group d-flex align-items-center">
                 <label for="add_button" class="text-3xl">Add Button</label>&nbsp;&nbsp;
                 <input type="checkbox" id="add_button" class="form-switch" name="add_button">
@@ -129,6 +142,7 @@
 </form>
 
 @push('custom-js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.5/jscolor.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#titleSwitch').change(function() {
@@ -192,6 +206,7 @@
                     toastr.success(response.success);
                     $('#bannerForm')[0].reset();
                     $('#pp').attr('src', '');
+                    $('#content_pp').attr('src', '');
                     $('#banner-data').DataTable().ajax.reload(null, false);
                 },
                 error: function(xhr) {
@@ -208,6 +223,7 @@
             $('#add-header').text('Add Banner Content');
             $('#bannerForm')[0].reset();
             $('#pp').attr('src', '');
+            $('#content_pp').attr('src', '');
             $('#banner-submit').removeClass('d-none');
             $('#banner-update').addClass('d-none');
             $('#page-refresh').addClass('d-none');

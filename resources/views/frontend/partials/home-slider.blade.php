@@ -7,6 +7,9 @@
             .herobefore{{ $banner->id }}::before{
                 background-color: {{ $banner['overlay_color']['color'] }};
             }
+            .cloned .item .herobefore{{ $banner->id }}::before{
+                background: none!important;
+            }
         </style>
         @endif
         <div class="item">
