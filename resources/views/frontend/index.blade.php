@@ -91,7 +91,7 @@ use Illuminate\Support\Str;
           <p>
             {!! $global['aboutus_content']->description ?? 'Please Upload It From Admin' !!}
           </p>
-          <a href="{{route('member')}}" class="ct-btn btn-yellow">Be a Member</a>
+          {{-- <a href="{{route('member')}}" class="ct-btn btn-yellow">Be a Member</a> --}}
         </div>
       </div>
     </div>
