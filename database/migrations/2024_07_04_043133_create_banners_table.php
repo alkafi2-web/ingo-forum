@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
-            $table->text('description')->nullable();
-            $table->string('image')->nullable();
-            $table->string('background_color')->nullable()->default('#D7E8E0');
-            $table->string('overlay_color')->nullable()->default('rgba(0, 0, 0, 0.5)');
-            $table->string('title_color')->default('#0ca65b');
-            $table->string('description_color')->default('#d4d6d8');
-            $table->json('button')->nullable(); // JSON field for button details
-            $table->integer('status')->default(0); // Status of the banner
-            $table->unsignedBigInteger('added_by'); // Foreign key referencing users table
+            $table->json('title')->nullable();
+            $table->json('description')->nullable();
+            $table->json('bg_image')->nullable();
+            $table->json('content_image')->nullable();
+            $table->json('background_color')->nullable()->default(json_encode(['status' => 1, 'color' => '#D7E8E0']));
+            $table->json('overlay_color')->nullable()->default(json_encode(['status' => 0, 'color' => 'rgba(0, 0, 0, 0.5)']));
+            $table->string('title_color')->nullable()->default('#0ca65b');
+            $table->string('description_color')->nullable()->default('#d4d6d8');
+            $table->json('button')->nullable();
+            $table->integer('position')->nullable();
+            $table->unsignedBigInteger('added_by'); // Change existing column type to unsignedBigInteger
+            $table->integer('status')->default(0); // Ensure the status column is present and defaulted
             $table->timestamps();
 
             // Foreign key constraint

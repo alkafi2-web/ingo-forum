@@ -1,46 +1,51 @@
 <form id="bannerForm" action="" method="POST" enctype="multipart/form-data">
     @csrf
     <input type="hidden" id="banner_id" name="id">
+
     <div class="row mb-3">
-        <div class="col-md-12">
-            <div class="form-group d-flex align-items-center">
-                <label for="title" class="text-3xl required">Banner Title</label>
-                <input type="text" class="form-control mx-2" id="title" name="title" value="{{ old('title') }}">
-                <input type="checkbox" id="titleSwitch" class="form-switch" checked>
+        <div class="col-md-12 mb-2">
+            <div class="form-group">
+                <div class="d-flex align-items-center">
+                    <label for="title" class="text-3xl text-nowrap">Banner Title</label>&nbsp;&nbsp;
+                    <input type="checkbox" id="titleSwitch" class="form-switch" name="titleSwitch" checked>
+                </div>
+                <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
             </div>
         </div>
     </div>
     <div class="row mb-3" id="titleColorRow">
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="title_color" class="text-3xl">Title Color</label>
-                <input type="color" class="form-control" id="title_color" name="title_color" value="#000000">
+        <div class="col-md-12 mb-2">
+            <div class="form-group d-flex align-items-center">
+                <label for="title_color" class="text-3xl text-nowrap">Title Color</label>
+                <input type="color" class="" id="title_color" name="title_color" value="#000000">
             </div>
         </div>
     </div>
 
     <div class="row mb-3">
-        <div class="col-md-12">
-            <div class="form-group d-flex align-items-center">
-                <label for="b_des" class="text-3xl required">Banner Description</label>
-                <input type="text" class="form-control mx-2" id="b_des" name="b_des" value="{{ old('b_des') }}">
-                <input type="checkbox" id="descriptionSwitch" class="form-switch" checked>
+        <div class="col-md-12 mb-2">
+            <div class="form-group">
+                <div class="d-flex align-items-center">
+                    <label for="banner_description" class="text-3xl text-nowrap">Banner Description</label>&nbsp;&nbsp;
+                    <input type="checkbox" id="descriptionSwitch" class="form-switch" name="descriptionSwitch" checked>
+                </div>
+                <input type="text" class="form-control" id="banner_description" name="banner_description" value="{{ old('banner_description') }}">
             </div>
         </div>
     </div>
     <div class="row mb-3" id="descriptionColorRow">
-        <div class="col-md-12">
-            <div class="form-group">
+        <div class="col-md-12 mb-2">
+            <div class="form-group d-flex align-items-center">
                 <label for="description_color" class="text-3xl">Description Color</label>
-                <input type="color" class="form-control" id="description_color" name="description_color" value="#000000">
+                <input type="color" class="" id="description_color" name="description_color" value="#000000">
             </div>
         </div>
     </div>
 
     <div class="row mb-3">
-        <div class="col-md-12">
+        <div class="col-md-12 mb-2">
             <div class="form-group">
-                <label for="background_type" class="text-3xl required">Background Type</label>
+                <label for="background_type" class="text-3xl text-nowrap">Background Type</label>
                 <select class="form-control" id="background_type" name="background_type">
                     <option value="image">Image</option>
                     <option value="color">Color</option>
@@ -52,58 +57,69 @@
     <div class="row mb-3" id="backgroundImageRow">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="image" class="text-3xl required">Banner Image</label>
-                <input type="file" class="form-control" id="image" name="image" value="" oninput="pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
-                <p class="text-danger">The banner image must be exactly 640x550 pixels.</p>
+                <label for="bg_image" class="text-3xl text-nowrap">Background Image</label>
+                <input type="file" class="form-control" id="bg_image" name="bg_image" value="" oninput="pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
+                <p class="text-danger">The banner image must be exactly 1920X768 pixels.</p>
                 <img id="pp" width="100" class="float-start mt-3" src="">
             </div>
         </div>
     </div>
 
     <div class="row mb-3" id="overlayColorRow">
-        <div class="col-md-12">
-            <div class="form-group">
+        <div class="col-md-12 mb-2">
+            <div class="form-group d-flex align-items-center">
                 <label for="overlay_color" class="text-3xl">Overlay Color</label>
-                <input type="color" class="form-control" id="overlay_color" name="overlay_color" value="#000000">
+                <input class="jscolor {hash:true, mode:'RGBA'} mx-2" id="overlay_color" name="overlay_color" value="rgba(0,0,0,0.5)">
+                <input type="checkbox" id="overlaySwitch" class="form-switch" name="overlaySwitch" checked>
             </div>
         </div>
     </div>
 
     <div class="row mb-3" id="backgroundColorRow" style="display: none;">
-        <div class="col-md-12">
-            <div class="form-group">
+        <div class="col-md-12 mb-2">
+            <div class="form-group d-flex align-items-center">
                 <label for="background_color" class="text-3xl">Background Color</label>
-                <input type="color" class="form-control" id="background_color" name="background_color" value="#ffffff">
+                <input type="color" class="" id="background_color" name="background_color" value="#ffffff">
             </div>
         </div>
     </div>
 
     <div class="row mb-3">
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="add_button" class="text-3xl">Add Button</label>
-                <input type="checkbox" id="add_button" class="form-switch">
+        <div class="col-md-12 mb-2">
+            <div class="form-group d-flex align-items-center">
+                <label for="add_button" class="text-3xl">Add Button</label>&nbsp;&nbsp;
+                <input type="checkbox" id="add_button" class="form-switch" name="add_button">
             </div>
         </div>
     </div>
 
     <div class="row mb-3" id="buttonRow" style="display: none;">
-        <div class="col-md-12">
-            <div class="form-group">
+        <div class="col-md-12 mb-2">
+            <div class="form-group mb-2">
                 <label for="button_text" class="text-3xl">Button Text</label>
                 <input type="text" class="form-control" id="button_text" name="button_text" value="{{ old('button_text') }}">
             </div>
-            <div class="form-group">
+            <div class="form-group mb-2 d-flex align-items-center">
                 <label for="button_bg_color" class="text-3xl">Button Background Color</label>
-                <input type="color" class="form-control" id="button_bg_color" name="button_bg_color" value="#ffffff">
+                <input type="color" class="" id="button_bg_color" name="button_bg_color" value="#ffffff">
             </div>
-            <div class="form-group">
+            <div class="form-group mb-2 d-flex align-items-center">
                 <label for="button_color" class="text-3xl">Button Color</label>
-                <input type="color" class="form-control" id="button_color" name="button_color" value="#000000">
+                <input type="color" class="" id="button_color" name="button_color" value="#000000">
             </div>
-            <div class="form-group">
+            <div class="form-group mb-2">
                 <label for="button_url" class="text-3xl">Button URL</label>
                 <input type="url" class="form-control" id="button_url" name="button_url" value="{{ old('button_url') }}">
+            </div>
+        </div>
+    </div>
+
+    <!-- Position input row -->
+    <div class="row mb-3">
+        <div class="col-md-12 mb-2">
+            <div class="form-group">
+                <label for="position" class="text-3xl">Position</label>
+                <input type="number" class="form-control" id="position" name="position" value="{{ old('position') }}">
             </div>
         </div>
     </div>
@@ -129,11 +145,11 @@
 
         $('#descriptionSwitch').change(function() {
             if ($(this).is(':checked')) {
-                $('#b_des').prop('readonly', false);
+                $('#banner_description').prop('readonly', false);
                 $('#description_color').prop('readonly', false);
                 $('#descriptionColorRow').show();
             } else {
-                $('#b_des').val(null).prop('readonly', true);
+                $('#banner_description').val(null).prop('readonly', true);
                 $('#description_color').val(null).prop('readonly', true);
                 $('#descriptionColorRow').hide();
             }

@@ -30,66 +30,129 @@ class BannerController extends Controller
 
     public function bannerCreateOrUpdate(Request $request)
     {
-        $request->validate([
-            'title' => 'nullable|string|max:255',
-            'title_color' => 'nullable|string|max:7',
-            'b_des' => 'nullable|string',
-            'description_color' => 'nullable|string|max:7',
-            'background_type' => 'required|string',
-            'background_color' => 'nullable|string|max:7',
-            'overlay_color' => 'nullable|string|max:7',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'button_text' => 'nullable|string|max:255',
-            'button_bg_color' => 'nullable|string|max:7',
-            'button_color' => 'nullable|string|max:7',
+        $rules = [
+            'background_type' => 'required',
+            'overlay_color' => 'nullable',
+            'bg_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'content_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'button_text' => 'nullable|max:255',
+            'button_bg_color' => 'nullable|max:7',
+            'button_color' => 'nullable|max:7',
             'button_url' => 'nullable|url|max:255',
-        ]);
-
-        if ($request->has('id')) {
+            'position' => 'nullable|integer'
+        ];
+    
+        // Title validation
+        $rules['title'] = 'required_if:titleSwitch,on|max:255';
+        $rules['title_color'] = 'required_if:titleSwitch,on|max:7';
+    
+        // Description validation
+        $rules['banner_description'] = 'required_if:descriptionSwitch,on';
+        $rules['description_color'] = 'required_if:descriptionSwitch,on|max:7';
+    
+        // Background type validation
+        $rules['bg_image'] = 'required_if:background_type,image|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+        $rules['background_color'] = 'required_if:background_type,color|max:7';
+    
+        // Content image validation
+        $rules['content_image'] = 'required_if:contentImageSwitch,on|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+    
+        // Button validation
+        $rules['button_text'] = 'required_if:add_button,on|max:255';
+        $rules['button_bg_color'] = 'required_if:add_button,on|max:7';
+        $rules['button_color'] = 'required_if:add_button,on|max:7';
+        $rules['button_url'] = 'required_if:add_button,on|max:255';
+    
+        $request->validate($rules);
+    
+        if ($request->filled('id')) {
             $banner = Banner::find($request->id);
             if (!$banner) {
                 return response()->json(['error' => 'Banner not found'], 404);
             }
         } else {
             $banner = new Banner();
+            $lastPosition = Banner::max('position');
+            $request->merge(['position' => $lastPosition + 1]);
         }
-
-        $banner->title = $request->title;
-        $banner->title_color = $request->title_color;
-        $banner->description = $request->b_des;
-        $banner->description_color = $request->description_color;
-        $banner->background_color = $request->background_color;
-        $banner->overlay_color = $request->overlay_color;
-
-        if ($request->background_type === 'image' && $request->hasFile('image')) {
-            if ($banner->image) {
-                Storage::delete('public/frontend/images/banner/' . $banner->image);
+    
+        $banner->title = json_encode([
+            'status' => $request->input('titleSwitch') === 'on' ? 1 : 0,
+            'text' => $request->input('title'),
+            'color' => $request->input('title_color')
+        ]);
+    
+        $banner->description = json_encode([
+            'status' => $request->input('descriptionSwitch') === 'on' ? 1 : 0,
+            'text' => $request->input('banner_description'),
+            'color' => $request->input('description_color')
+        ]);
+    
+        $banner->background_color = json_encode([
+            'status' => $request->input('background_type') === 'color' ? 1 : 0,
+            'color' => $request->input('background_color')
+        ]);
+    
+        $banner->overlay_color = json_encode([
+            'status' => $request->input('background_type') === 'image' ? 1 : 0,
+            'color' => $request->input('overlay_color')
+        ]);
+    
+        if ($request->hasFile('bg_image')) {
+            if ($banner->bg_image) {
+                $oldBgImage = json_decode($banner->bg_image)->path;
+                if (file_exists(public_path('frontend/images/banner/' . $oldBgImage))) {
+                    unlink(public_path('frontend/images/banner/' . $oldBgImage));
+                }
             }
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('frontend/images/banner'), $imageName);
-            $banner->image = $imageName;
-        } else {
-            $banner->image = null;
+            $bgImageName = time() . '_bg.' . $request->bg_image->extension();
+            $request->bg_image->move(public_path('frontend/images/banner'), $bgImageName);
+            $banner->bg_image = json_encode([
+                'status' => $request->input('background_type') === 'image' ? 1 : 0,
+                'path' => $bgImageName
+            ]);
         }
-
-        if ($request->add_button) {
+    
+        if ($request->hasFile('content_image')) {
+            if ($banner->content_image) {
+                $oldContentImage = json_decode($banner->content_image)->path;
+                if (file_exists(public_path('frontend/images/banner/' . $oldContentImage))) {
+                    unlink(public_path('frontend/images/banner/' . $oldContentImage));
+                }
+            }
+            $contentImageName = time() . '_content.' . $request->content_image->extension();
+            $request->content_image->move(public_path('frontend/images/banner'), $contentImageName);
+            $banner->content_image = json_encode([
+                'status' => $request->input('contentImageSwitch') === 'on' ? 1 : 0,
+                'path' => $contentImageName
+            ]);
+        }
+    
+        if ($request->has('add_button') && $request->input('add_button') == 'on') {
             $banner->button = json_encode([
-                'button_text' => $request->button_text,
-                'bg_color' => $request->button_bg_color,
-                'color' => $request->button_color,
-                'url' => $request->button_url,
+                'status' => 1,
+                'text' => $request->input('button_text'),
+                'bg_color' => $request->input('button_bg_color'),
+                'color' => $request->input('button_color'),
+                'url' => $request->input('button_url'),
             ]);
         } else {
-            $banner->button = null;
+            $banner->button = json_encode(['status' => 0]);
         }
-
-        $banner->status = 1; // Assuming the banner is active by default
-        $banner->added_by = auth()->user()->id;
-
+    
+        $banner->position = $request->input('position');
+        $banner->status = 1; // Assuming status is always 1 for active banners
+        $banner->added_by = auth()->id(); // Assuming the authenticated user is adding the banner
+    
         $banner->save();
-
+    
         return response()->json(['success' => 'Banner saved successfully']);
     }
+    
+    
+    
+
+    
     
     public function bannerCreate(Request $request)
     {

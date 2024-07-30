@@ -140,6 +140,8 @@
     <script src="{{ asset('public/admin/js/ekko-lightbox.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.rawgit.com/mjsarfatti/nestedSortable/master/jquery.mjs.nestedSortable.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.5/jscolor.min.js"></script>
+
     @stack('custom-js')
     <!-- Initialize Toastr -->
     {!! Toastr::message() !!}

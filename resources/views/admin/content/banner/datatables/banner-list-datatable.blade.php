@@ -8,9 +8,6 @@
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Banner Title') }}
                 </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Banner Description') }}
-                </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Banner Image') }}
                 </th>
@@ -48,12 +45,6 @@
                         sortable: false,
                         data: 'title',
                         name: 'title'
-                    },
-                    {
-                        orderable: true,
-                        sortable: false,
-                        data: 'description',
-                        name: 'description'
                     },
                     {
                         data: 'image',

@@ -1,33 +1,39 @@
-
-
 <!-- Hero Section Start  -->
 <section>
     <div class="owl-carousel owl-theme hero-slider">
         @forelse ($global['banner'] as $banner)
+        @if($banner['overlay_color']['status'] ?? false)
+        <style>
+            .herobefore{{ $banner->id }}::before{
+                background-color: {{ $banner['overlay_color']['color'] }};
+            }
+        </style>
+        @endif
         <div class="item">
-            <div class="hero-section ptb-70" 
-                @if($banner->background_color) 
-                    style="background-color: {{ $banner->background_color }}"
+            <div class="hero-section herobefore{{ $banner->id }} ptb-70" 
+                @if($banner['background_color']['status'] ?? false) 
+                    style="background-color: {{ $banner['background_color']['color'] }}"
                 @else 
-                    style="background-image: url('{{ asset('public/frontend/images/banner/' . $banner->image) }}')"
+                    style="background-image: url('{{ asset('public/frontend/images/banner/' . ($banner['bg_image']['path'] ?? 'default-bg.jpg')) }}')"
                 @endif
                 >
-                @if(!$banner->background_color && $banner->overlay_color)
-                <div class="hero-section::before" style="background-color: {{ $banner->overlay_color }}"></div>
-                @endif
                 <div class="container">
                     <div class="row d-flex align-items-center">
                         <div class="col-lg-6 hero-left mb-2 lg-mb-0">
-                            <h1 style="color: {{ $banner->title_color }}">{{ $banner->title }}</h1>
-                            @if($banner->description)
-                            <p class="pb-3" style="color: {{ $banner->description_color }}">{{ $banner->description }}</p>
+                            @if($banner['title']['status'] ?? false)
+                            <h1 style="color: {{ $banner['title']['color'] }}">{{ $banner['title']['text'] }}</h1>
                             @endif
-                            @if(isset($banner->button))
-                            <a href="{{ $banner->button['url'] }}" class="ct-btn" style="background-color: {{ $banner->button['bg_color'] }}; color: {{ $banner->button['color'] }}">{{ $banner->button['button_text'] }}</a>
+                            @if($banner['description']['status'] ?? false)
+                            <p class="pb-3" style="color: {{ $banner['description']['color'] }}">{{ $banner['description']['text'] }}</p>
+                            @endif
+                            @if(($banner['button']['status'] ?? false) && isset($banner['button']))
+                            <a href="{{ $banner['button']['url'] }}" class="ct-btn" style="background-color: {{ $banner['button']['bg_color'] }}; color: {{ $banner['button']['color'] }}">{{ $banner['button']['text'] }}</a>
                             @endif
                         </div>
                         <div class="col-lg-6 hero-right">
-                            <img src="{{ asset('public/frontend/images/banner/' . $banner->image) }}" alt="banner image">
+                            @if($banner['content_image']['status'] ?? false)
+                            <img src="{{ asset('public/frontend/images/banner/' . ($banner['content_image']['path'] ?? 'default-content.jpg')) }}" alt="banner image">
+                            @endif
                         </div>
                     </div>
                 </div>
