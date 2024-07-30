@@ -65,21 +65,21 @@
         </div>
     </div>
 
-    <div class="row mb-3" id="overlayColorRow">
-        <div class="col-md-12 mb-2">
-            <div class="form-group d-flex align-items-center">
-                <label for="overlay_color" class="text-3xl">Overlay Color</label>
-                <input class="jscolor {hash:true, mode:'RGBA'} mx-2" id="overlay_color" name="overlay_color" value="rgba(0,0,0,0.5)">
-                <input type="checkbox" id="overlaySwitch" class="form-switch" name="overlaySwitch" checked>
-            </div>
-        </div>
-    </div>
-
     <div class="row mb-3" id="backgroundColorRow" style="display: none;">
         <div class="col-md-12 mb-2">
             <div class="form-group d-flex align-items-center">
                 <label for="background_color" class="text-3xl">Background Color</label>
                 <input type="color" class="" id="background_color" name="background_color" value="#ffffff">
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3" id="overlayColorRow">
+        <div class="col-md-12 mb-2">
+            <div class="form-group d-flex align-items-center">
+                <label for="overlay_color" class="text-3xl text-nowrap">Overlay Color</label>
+                <input class="jscolor {hash:true, mode:'RGBA'} mx-2 w-100" id="overlay_color" name="overlay_color" value="rgba(0,0,0,0.5)">
+                <input type="checkbox" id="overlaySwitch" class="form-switch" name="overlaySwitch" checked>
             </div>
         </div>
     </div>
@@ -137,7 +137,7 @@
         </div>
     </div>
 
-    <button id="banner-submit" type="submit" class="btn btn-primary mt-3"><i class="fas fa-upload"></i> Submit</button>
+    <button id="banner-submit" type="submit" class="btn btn-primary mt-3"><i class="fas fa-upload"></i> <span id="bannerSubmitBtn">Submit</span></button>
     <button id="page-refresh" type="button" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i> Refresh</button>
 </form>
 
