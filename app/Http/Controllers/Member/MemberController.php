@@ -7,12 +7,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\MemberInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class MemberController extends Controller
 {
     public function memberlist(Request $request)
     {
+        if (!Auth::user()->hasPermissionTo('member-list-view')) {
+            abort(401);
+        }
         // return $members = Member::where('status', 0)->with('memberInfos')->get();
         if ($request->ajax()) {
             $organizationType = $request->organization;
@@ -45,6 +49,9 @@ class MemberController extends Controller
     }
     public function memberRequest(Request $request)
     {
+        if (!Auth::user()->hasPermissionTo('member-request-view')) {
+            abort(401);
+        }
         // return $members = Member::where('status', 0)->with('memberInfos')->get();
         if ($request->ajax()) {
             $members = Member::where('status', 0)->with('memberInfos')->get();
@@ -65,12 +72,18 @@ class MemberController extends Controller
 
     public function view($id)
     {
+        if (!Auth::guard('admin')->user()?->hasAnyPermission(['member-request-view', 'member-list-view'])) {
+            abort(401);
+        }
         $member = Member::where('id', $id)->with('memberInfos')->first();
 
         return view('admin.member.member-view', compact('member'));
     }
     public function approved(Request $request)
     {
+        if (!Auth::user()->hasPermissionTo('member-management')) {
+            abort(401);
+        }
         // Find the member by ID
         $member = Member::with('memberInfos', 'info')->findOrFail($request->id);
         $member->status = 1;
@@ -114,6 +127,9 @@ class MemberController extends Controller
     }
     public function suspend(Request $request)
     {
+        if (!Auth::user()->hasPermissionTo('member-management')) {
+            abort(401);
+        }
         // Find the member by ID
         $member = Member::with('memberInfos')->findOrFail($request->id);
 
@@ -139,6 +155,9 @@ class MemberController extends Controller
     }
     public function reject(Request $request)
     {
+        if (!Auth::user()->hasPermissionTo('member-management')) {
+            abort(401);
+        }
         // Find the member by ID
         $member = Member::with('memberInfos')->findOrFail($request->id);
 
