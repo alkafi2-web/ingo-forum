@@ -202,7 +202,7 @@
                 </div>
 
                 <div data-kt-menu-trigger="click"
-                    class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'subcategory' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'post.edit' || Route::currentRouteName() == 'publication.category' ? 'hover show' : '' }}">
+                    class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'publication.create' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'post.edit' || Route::currentRouteName() == 'publication.category' ? 'hover show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -225,19 +225,19 @@
                         <span class="menu-arrow"></span>
                     </span>
                     <div
-                        class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'publication.category' || Route::currentRouteName() == 'subcategory' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' ? 'hover show' : '' }}">
+                        class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'publication.category' || Route::currentRouteName() == 'publication.create' || Route::currentRouteName() == 'publication.list' || Route::currentRouteName() == 'post.list' ? 'hover show' : '' }}">
                         
 
-                        <a class="menu-item menu-accordion" href="{{ route('post.create') }}">
-                            <span class="menu-link {{ Route::currentRouteName() == 'post.create' ? 'active' : '' }}">
+                        <a class="menu-item menu-accordion" href="{{ route('publication.create') }}">
+                            <span class="menu-link {{ Route::currentRouteName() == 'publication.create' ? 'active' : '' }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">Add Publication</span>
                             </span>
                         </a>
-                        <a class="menu-item menu-accordion" href="{{ route('post.list') }}">
-                            <span class="menu-link {{ Route::currentRouteName() == 'post.list' ? 'active' : '' }}">
+                        <a class="menu-item menu-accordion" href="{{ route('publication.list') }}">
+                            <span class="menu-link {{ Route::currentRouteName() == 'publication.list' ? 'active' : '' }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>

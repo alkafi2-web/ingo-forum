@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('publications', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('added_by')->nullable();
             $table->string('publisher')->nullable();
             $table->string('title')->nullable();
             $table->string('author')->nullable();
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign key constraint
+            $table->foreign('added_by')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('publication_categories')->onDelete('cascade');
         });
     }

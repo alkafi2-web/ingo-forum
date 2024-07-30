@@ -27,6 +27,7 @@ use App\Http\Controllers\RobotsController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Frontend\Publication\FrontnedPublicationController;
 use App\Http\Controllers\Publication\PublicationController;
 
 // robot & sitemap 
@@ -182,12 +183,11 @@ Route::prefix('admin')->group(function () {
             Route::prefix('/')->group(function () {
                 Route::get('/', [PublicationController::class, 'publicationCreate'])->name('publication.create');
                 Route::post('/store', [PublicationController::class, 'publicationStore'])->name('publication.store');
-                Route::get('/list', [PublicationController::class, 'postList'])->name('publication.list');
-                Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
-                Route::post('/comment', [PostController::class, 'postComment'])->name('post.comment');
-                Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');
-                Route::get('/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
-                Route::post('/update', [PostController::class, 'postUpdate'])->name('post.update');
+                Route::get('/list', [PublicationController::class, 'publicationList'])->name('publication.list');
+                Route::post('/delete', [PublicationController::class, 'publicationDelete'])->name('publication.delete');
+                Route::post('/status', [PublicationController::class, 'publicationStatus'])->name('publication.status');
+                Route::get('/edit/{id}', [PublicationController::class, 'publicationEdit'])->name('publication.edit');
+                Route::post('/update', [PublicationController::class, 'publicationUpdate'])->name('publication.update');
             });
         });
         // Publication menagement route end
@@ -294,7 +294,7 @@ Route::prefix('member')->group(function () {
 });
 
 // post routes start
-Route::get('/post/{categorySlug}', [FrontendPostController::class, 'index']);
+Route::get('/post/{categorySlug}', [FrontendPostController::class, 'index'])->name('frontend.blog.news');
 Route::get('/post/{categorySlug}/{postSlug}', [FrontendPostController::class, 'showSinglePost'])->name('single.post');
 
 Route::post('/comments', [FrontendPostController::class, 'storeComment'])->name('comments.store');
@@ -316,6 +316,6 @@ Route::prefix('contact')->group(function () {
     Route::post('/us/info', [IndexController::class, 'contactInfo'])->name('frontend.contact.info');
 });
 
-
 Route::get('/question/answer', [IndexController::class, 'faqs'])->name('frontend.faqs');
+Route::get('/publication/list', [FrontnedPublicationController::class, 'index'])->name('frontend.publication');
 // frontend route end

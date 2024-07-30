@@ -6,19 +6,25 @@
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Title') }}
-                </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Category') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Subcategory') }}
+                    {{ __('Title') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Description') }}
+                    {{ __('Author') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Banner') }}
+                    {{ __('Publisher') }}
+                </th>
+                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                    {{ __('Publish Date') }}
+                </th>
+                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                    {{ __('File') }}
+                </th>
+                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                    {{ __('Image') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Status') }}
@@ -43,7 +49,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('post.list') }}",
+                    url: "{{ route('publication.list') }}",
                     type: 'GET',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -52,60 +58,50 @@
                 columns: [{
                         orderable: true,
                         sortable: false,
-                        data: 'title',
-                        name: 'title'
-                    },
-                    {
-                        orderable: true,
-                        sortable: false,
                         data: 'category_name',
                         name: 'category_name'
                     },
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'subcategory_name',
-                        name: 'subcategory_name'
+                        data: 'title',
+                        name: 'title'
                     },
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'short_des',
-                        name: 'short_des',
-                        render: function(data, type, row, meta) {
-                            console.log("Render Function Data: ", data);
-                            return $('<div/>').html(data).text();
-                        }
+                        data: 'author',
+                        name: 'author'
                     },
-                    // {
-                    //     orderable: true,
-                    //     sortable: false,
-                    //     data: 'long_des',
-                    //     name: 'long_des',
-                    //     render: function(data, type, row, meta) {
-                    //         console.log("Render Function Data: ", data);
-
-                    //         // Create a temporary DOM element to work with HTML content
-                    //         var tempDiv = $('<div/>').html(data);
-
-                    //         // Remove image tags from the content
-                    //         tempDiv.find('img').remove();
-
-                    //         // Get the text content and truncate it to 300 characters
-                    //         var textContent = tempDiv.text();
-                    //         var truncatedText = textContent.length > 300 ? textContent.substring(0,
-                    //             300) + '...' : textContent;
-
-                    //         return truncatedText;
-                    //     }
-                    // },
                     {
-                        data: 'banner',
-                        name: 'banner',
+                        orderable: true,
+                        sortable: false,
+                        data: 'publisher',
+                        name: 'publisher'
+                    },
+                    {
+                        orderable: true,
+                        sortable: false,
+                        data: 'publish_date',
+                        name: 'publish_date'
+                    },
+                    {
+                        data: 'file',
+                        name: 'file',
                         orderable: true,
                         sortable: false,
                         render: function(data, type, row) {
-                            let basePath = '{{ asset('public/frontend/images/posts/') }}/'
+                            let basePath = '{{ asset('public/frontend/images/publication/') }}/';
+                            return `<a href="${basePath + data}" target="_blank">Open File</a>`;
+                        }
+                    },
+                    {
+                        data: 'image',
+                        name: 'image',
+                        orderable: true,
+                        sortable: false,
+                        render: function(data, type, row) {
+                            let basePath = '{{ asset('public/frontend/images/publication/') }}/'
                             return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
                         }
                     },
@@ -125,27 +121,9 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            var editRoute = '{{ route('post.edit', ':id') }}'.replace(':id', row
-                            .id);
-                            var singlePostRoute =
-                                '{{ route('single.post', ['categorySlug' => ':categorySlug', 'postSlug' => ':postSlug']) }}'
-                                .replace(':categorySlug', row.category_slug)
-                                .replace(':postSlug', row.slug);
-
-                            // Determine the comment icon based on comment_permission
-                            var commentIcon = row.comment_permission ? 'fa-comments text-success' :
-                                'fa-comment-slash text-mute';
-                            var commentTitle = row.comment_permission ? 'Comments Enabled' :
-                                'Comments Disabled';
-
+                            var editRoute = '{{ route('publication.edit', ':id') }}'.replace(':id', row
+                                .id);
                             return `<div style="display: flex; align-items: center;">
-
-                            <a href="javascript:void(0)" class="text-danger comment" data-id="${row.id}" style="margin-right: 10px;">
-                                <i class="fas ${commentIcon}" title="${commentTitle}" style="font-size: 16px;"></i>
-                            </a>
-                            <a href="${singlePostRoute}" class="view text-info mr-2 me-2" data-id="${row.id}">
-                                <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
-                            </a>
                             <a href="${editRoute}" class="edit text-primary mr-2 me-2" data-id="${row.id}" style="margin-right: 10px;">
                                 <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
                             </a>
@@ -201,37 +179,14 @@
             e.preventDefault(); // Prevent default link behavior
 
             var id = $(this).attr('data-id');
-            var url = "{{ route('post.delete') }}";
+            var url = "{{ route('publication.delete') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will delete this Post!',
+                text: 'This action will delete this publication!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Send AJAX request
-                    // sendAjaxRequest(url, row);
-
-                    sendAjaxReq(id, status = null, url);
-                }
-            });
-        });
-        $(document).on('click', '.comment', function(e) {
-            e.preventDefault(); // Prevent default link behavior
-
-            var id = $(this).attr('data-id');
-            var url = "{{ route('post.comment') }}";
-            // Show SweetAlert confirmation dialog
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'This action will be change comment permission this Post!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, change it!',
                 cancelButtonText: 'No, cancel!',
                 reverseButtons: true
             }).then((result) => {
@@ -248,11 +203,11 @@
 
             var id = $(this).attr('data-id'); // Get the URL from the href attribute
             var status = $(this).attr('data-status');
-            var url = "{{ route('post.status') }}";
+            var url = "{{ route('publication.status') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will change status of this Post!',
+                text: 'This action will change status of this publication!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, Change it!',
