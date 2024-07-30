@@ -92,6 +92,7 @@ class PostController extends Controller
 
     public function postList(Request $request)
     {
+        
         if ($request->ajax()) {
             $posts = Post::with('category', 'subcategory', 'addedBy')->latest();
             // Format data for DataTables
@@ -190,7 +191,7 @@ class PostController extends Controller
                 'nullable',
                 'string',
                 'max:255',
-                'unique:posts,slug,' . $request->id, // Ensure slug is unique except for current post
+                // 'unique:posts,slug,' . $request->id, // Ensure slug is unique except for current post
                 // Regex pattern to allow only alphanumeric characters and dashes
                 'regex:/^[a-zA-Z0-9\-]*$/u',
             ],
