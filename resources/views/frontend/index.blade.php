@@ -106,28 +106,28 @@
                         <div class="counter border-right">
                             <img src="{{ asset('public/frontend/images/member-badge.png') }}" alt="">
                             <h3 class="text-white count-number" data-count="150">0</h3>
-                            <p class="text-white">Total Members</p>
+                            <p class="text-white">Active in 13 Countries</p>
                         </div>
                     </div>
                     <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
                         <div class="counter border-right mobile-border-none">
                             <img src="{{ asset('public/frontend/images/member-badge.png') }}" alt="">
                             <h3 class="text-white count-number" data-count="120">0</h3>
-                            <p class="text-white">Total Members</p>
+                            <p class="text-white">Working for 17 SDG Goal</p>
                         </div>
                     </div>
                     <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
                         <div class="counter border-right">
                             <img src="{{ asset('public/frontend/images/member-badge.png') }}" alt="">
                             <h3 class="text-white count-number" data-count="170">0</h3>
-                            <p class="text-white">Total Members</p>
+                            <p class="text-white">Member Organisation's 94</p>
                         </div>
                     </div>
                     <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
                         <div class="counter">
                             <img src="{{ asset('public/frontend/images/member-badge.png') }}" alt="">
                             <h3 class="text-white count-number" data-count="100">0</h3>
-                            <p class="text-white">Total Members</p>
+                            <p class="text-white">Committed to Peace since 2000</p>
                         </div>
                     </div>
                 </div>
@@ -144,7 +144,7 @@
                     <div class="col-lg-6">
                         <div class="text-center">
                             <h5 class="sub-title">Our Members</h5>
-                            <h2 class="section-title">Hands in Together, Hearts in Unison</h2>
+                            <h2 class="section-title">Hands in Together</h2>
                         </div>
                     </div>
                     <div class="col-lg-3"></div>
@@ -290,8 +290,8 @@
                     <div class="col-lg-3"></div>
                     <div class="col-lg-6">
                         <div class="text-center">
-                            <h5 class="sub-title">Our latest news & blogs</h5>
-                            <h2 class="section-title">Check all our latest news and blogs</h2>
+                            <h5 class="sub-title">Blog & News</h5>
+                            <h2 class="section-title">Moments of INGO</h2>
                         </div>
                     </div>
                     <div class="col-lg-3"></div>
@@ -472,6 +472,77 @@
         </section>
     @endif
     <!-- Blog Section End  -->
+    <!-- Publication Section Start  -->
+    @if ($global['publications']->count() > 0)
+        <section class="blog-section ptb-70 bg-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <h5 class="sub-title">Publications</h5>
+                            <h2 class="section-title">Insights and Innovations from INGO</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row gy-3 gy-md-4 gx-3 gx-md-4 pt-5">
+                    @forelse ($global['publications'] as $publication)
+                        <div class="col-6 col-md-4">
+                            <div class="blog-card h-100">
+                                <div class="blog-img" style="max-height: 230px; overflow: hidden;">
+                                    <a href="{{ asset('public/frontend/images/publication/') }}/{{ $publication->file }}"
+                                        target="__blank">
+                                        <img src="{{ asset("public/frontend/images/publication/{$publication->image}") }}"
+                                            alt="" style="width: 100%; height: auto; object-fit: cover;">
+                                    </a>
+                                </div>
+                                <div class="blog-content">
+                                    <div class="col-sm-12 col-md-12 postcat-initials">
+                                        <span class="mini-title">#{{ $publication->category->name }}</span>
+                                    </div>
+                                    <h3 class="blog-title line-clamp-2">
+                                        <a href="{{ asset('public/frontend/images/publication/') }}/{{ $publication->file }}"
+                                            target="__blank">{{ $publication->title }}</a>
+                                    </h3>
+                                    <div class="blog-text line-clamp-3" style="text-align: justify;">
+                                        {!! \Illuminate\Support\Str::limit(htmlspecialchars_decode(strip_tags($publication->short_description)), 200) !!}
+                                    </div>
+                                    <div class="blog-publice py-1">
+                                        <div class="row pb-1">
+                                            <div class="col-6 border-right">
+                                                <div class="d-flex align-items-center">
+                                                    <img src="{{ asset('public/frontend/images/icons/calender.png') }}"
+                                                        alt="">
+                                                    <div class="ms-2">
+                                                        <span class="d-block fw-semibold">Date:</span>
+                                                        <span
+                                                            class="blog-date-admin">{{ $publication->publish_date }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <img src="{{ asset('public/frontend/images/icons/profile.png') }}"
+                                                        alt="">
+                                                    <div class="ms-2">
+                                                        <span class="d-block fw-semibold">Author:</span>
+                                                        <span class="blog-date-admin">{{ $publication->author }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <h6>Not Found!</h6>
+                    @endforelse
+
+                </div>
+            </div>
+        </section>
+    @endif
+    <!-- publication Section End  -->
     <!-- Photo Gallery Section start  -->
     @if ($global['albums']->count() > 0)
         <section class="gallery-section ptb-70">
@@ -481,7 +552,7 @@
                     <div class="col-lg-6">
                         <div class="text-center">
                             <h5 class="sub-title">Photo Gallery</h5>
-                            <h2 class="section-title">Showcasing Our Best Moments</h2>
+                            <h2 class="section-title">Snapshots of INGO Moments</h2>
                         </div>
                     </div>
                     <div class="col-lg-3"></div>
@@ -559,7 +630,7 @@
                     <div class="col-lg-6">
                         <div class="text-center">
                             <h5 class="sub-title">Video Gallery</h5>
-                            <h2 class="section-title">Showcasing Our Best Moments</h2>
+                            <h2 class="section-title">Live Moments of INGO</h2>
                         </div>
                     </div>
                     <div class="col-lg-3"></div>
