@@ -14,7 +14,9 @@ class FAQsController extends Controller
 {
     public function index(Request $request)
     {
-        
+        if (!Auth::guard('admin')->user()->hasPermissionTo('faqs-manage')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $banners = Faqs::latest();
 

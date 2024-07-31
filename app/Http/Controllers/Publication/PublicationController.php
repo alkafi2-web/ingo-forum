@@ -18,6 +18,9 @@ class PublicationController extends Controller
 {
     public function category(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('publication-category-manage')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $categoryies = PublicationCategory::latest();;
 
@@ -128,6 +131,9 @@ class PublicationController extends Controller
     // publicatiuon start
     public function publicationCreate()
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('publication-add')) {
+            abort(401);
+        }
         // return $posts = Post::with(['category', 'subcategory','addedBy'])->where('status',1)->latest()->get();
         $categories = PublicationCategory::where('status', 1)->get();
         return view('admin.publication.publication-add', [
@@ -212,6 +218,9 @@ class PublicationController extends Controller
 
     public function publicationList(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('publication-view-all')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $publication = Publication::with('addedBy', 'category')->latest();
             // Format data for DataTables

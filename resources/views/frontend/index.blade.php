@@ -309,7 +309,7 @@ use Illuminate\Support\Str;
             <h3 class="blog-title line-clamp-2"><a
                 href="{{ route('single.post', ['categorySlug' => $post->category->slug, 'postSlug' => $post->slug]) }}">{{ $post->title }}</a>
             </h3>
-            <p class="line-clamp-3">{!! Str::limit($post->short_des, 50) !!}</p>
+            <p class="line-clamp-3">{!! Str::limit($post->long_des, 50) !!}</p>
             <div class="blog-publice py-1">
               <div class="row pb-1">
                 <div class="col-6 border-right">

@@ -13,6 +13,7 @@
                     @include('admin.user.datatables.user-list-datatable')
                 </div>
             </div>
+            @if(Auth::guard('admin')->user()->hasRole('super-admin'))
             <div class="card mt-4">
                 <div class="card-header">
                     <h2 class="pt-5">Deleted User List</h2>
@@ -21,6 +22,7 @@
                     @include('admin.user.datatables.delete-user-list-datatable')
                 </div>
             </div>
+            @endif
         </div>
         <div class="col-md-4">
             <div class="card">

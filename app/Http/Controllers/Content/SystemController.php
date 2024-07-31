@@ -8,6 +8,7 @@ use App\Models\ContactInfo;
 use App\Models\MainContent;
 use Brian2694\Toastr\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
@@ -16,7 +17,9 @@ class SystemController extends Controller
 {
     public function index()
     {
-
+        if (!Auth::guard('admin')->user()->hasPermissionTo('system-settings-manage')) {
+            abort(401);
+        }
         return view('admin.content.systemt-content.index');
     }
     public function systemPost(Request $request)
@@ -109,6 +112,9 @@ class SystemController extends Controller
 
     public function contactList(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('contact-list-view')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $contactLists = ContactInfo::latest();
 

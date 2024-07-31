@@ -19,6 +19,9 @@ class BannerController extends Controller
 {
     public function index(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('banner-content-manage')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $banners = Banner::latest('position')->get();
     

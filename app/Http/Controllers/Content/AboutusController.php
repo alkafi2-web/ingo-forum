@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\MainContent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
@@ -15,6 +16,9 @@ class AboutusController extends Controller
 {
     public static function index(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('about-us-content-manage')) {
+            abort(401);
+        }
         $mainContent = MainContent::where('name', 'aboutus-content')->first();
         if ($request->ajax()) {
 
@@ -33,6 +37,9 @@ class AboutusController extends Controller
     }
     public function aboutusCreate(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('about-us-content-manage')) {
+            abort(401);
+        }
         // Custom error messages
         $messages = [
             'title.required' => 'The About Us Title is required.',
@@ -87,6 +94,7 @@ class AboutusController extends Controller
 
     public function aboutusFeatureCreate(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'subtitle' => 'required|string|max:255',
