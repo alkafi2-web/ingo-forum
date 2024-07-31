@@ -4,6 +4,7 @@
 @php
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Helpers\Helper;
 @endphp
 
 <!-- Hero slider Section Start  -->
@@ -309,7 +310,10 @@ use Illuminate\Support\Str;
             <h3 class="blog-title line-clamp-2"><a
                 href="{{ route('single.post', ['categorySlug' => $post->category->slug, 'postSlug' => $post->slug]) }}">{{ $post->title }}</a>
             </h3>
-            <p class="line-clamp-3">{!! Str::limit($post->long_des, 50) !!}</p>
+            
+
+            <p class="line-clamp-3" style="height: 60px">{!! \Illuminate\Support\Str::limit(htmlspecialchars_decode(strip_tags($post->long_des)), 200) !!}</p>
+          
             <div class="blog-publice py-1">
               <div class="row pb-1">
                 <div class="col-6 border-right">
@@ -485,7 +489,7 @@ use Illuminate\Support\Str;
             <span class="mini-title">#{{ $album->albumtype }}</span>
             <h3 class="blog-title line-clamp-2"><a
                 href="{{route('singleAlbum',['id'=>$album->id])}}">{{ $album->title }}</a></h3>
-            <p class="line-clamp-3">{{ Str::limit($album->subcontent ?? '', 150) }}</p>
+            <p class="line-clamp-3" style="height: 60px">{{ Str::limit($album->subcontent ?? '', 150) }}</p>
             <div class="blog-publice py-1">
               <div class="row pb-1">
                 <div class="col-6 border-right">
@@ -551,7 +555,7 @@ use Illuminate\Support\Str;
                   data-title="{{ $video->name }}">{{ $video->name }}</a>
 
               </h3>
-              <p class="line-clamp-3">{{ $video->content }}
+              <p class="line-clamp-3" style="height: 60px">{{ $video->content }}
               </p>
               <div class="blog-publice py-1">
                 <div class="row pb-1">
@@ -580,121 +584,6 @@ use Illuminate\Support\Str;
         </div>
         @empty
         @endforelse
-
-        {{-- <div class="item">
-                        <div class="blog-card h-100">
-                            <div class="blog-img">
-                                <a href="javascript:void(0)" data-bs-target="#exampleModalToggle"
-                                    data-bs-toggle="modal"><img src="./images/video-thumbnail.png" alt=""></a>
-                            </div>
-                            <div class="blog-content">
-                                <span class="mini-title">#Education</span>
-                                <h3 class="blog-title line-clamp-2"><a href="javascript:void(0)"
-                                        data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Children Education</a>
-                                </h3>
-                                <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                                <div class="blog-publice py-1">
-                                    <div class="row pb-1">
-                                        <div class="col-6 border-right">
-                                            <div class="d-flex align-items-center">
-                                                <img src="images/icons/calender.png" alt="">
-                                                <div class="ms-2">
-                                                    <span class="d-block fw-semibold">Date:</span>
-                                                    <span class="blog-date-admin">10 Jun</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="d-flex d-flex align-items-center">
-                                                <img src="images/icons/profile.png" alt="">
-                                                <div class="ms-2">
-                                                    <span class="d-block fw-semibold">By:</span>
-                                                    <span class="blog-date-admin">Admin</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="blog-card h-100">
-                            <div class="blog-img">
-                                <a href="javascript:void(0)" data-bs-target="#exampleModalToggle"
-                                    data-bs-toggle="modal"><img src="./images/video-thumbnail.png" alt=""></a>
-                            </div>
-                            <div class="blog-content">
-                                <span class="mini-title">#Education</span>
-                                <h3 class="blog-title line-clamp-2"><a href="javascript:void(0)"
-                                        data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Children Education</a>
-                                </h3>
-                                <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                                <div class="blog-publice py-1">
-                                    <div class="row pb-1">
-                                        <div class="col-6 border-right">
-                                            <div class="d-flex align-items-center">
-                                                <img src="images/icons/calender.png" alt="">
-                                                <div class="ms-2">
-                                                    <span class="d-block fw-semibold">Date:</span>
-                                                    <span class="blog-date-admin">10 Jun</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="d-flex d-flex align-items-center">
-                                                <img src="images/icons/profile.png" alt="">
-                                                <div class="ms-2">
-                                                    <span class="d-block fw-semibold">By:</span>
-                                                    <span class="blog-date-admin">Admin</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="blog-card h-100">
-                            <div class="blog-img">
-                                <a href="javascript:void(0)" data-bs-target="#exampleModalToggle"
-                                    data-bs-toggle="modal"><img src="./images/video-thumbnail.png" alt=""></a>
-                            </div>
-                            <div class="blog-content">
-                                <span class="mini-title">#Education</span>
-                                <h3 class="blog-title line-clamp-2"><a href="javascript:void(0)"
-                                        data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Children Education</a>
-                                </h3>
-                                <p class="line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                                <div class="blog-publice py-1">
-                                    <div class="row pb-1">
-                                        <div class="col-6 border-right">
-                                            <div class="d-flex align-items-center">
-                                                <img src="images/icons/calender.png" alt="">
-                                                <div class="ms-2">
-                                                    <span class="d-block fw-semibold">Date:</span>
-                                                    <span class="blog-date-admin">10 Jun</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="d-flex d-flex align-items-center">
-                                                <img src="images/icons/profile.png" alt="">
-                                                <div class="ms-2">
-                                                    <span class="d-block fw-semibold">By:</span>
-                                                    <span class="blog-date-admin">Admin</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
       </div>
     </div>
 </section>

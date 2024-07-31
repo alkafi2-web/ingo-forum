@@ -34,6 +34,10 @@
                                     <a href="{{ $memberinfo->linkedin }}" class="text-decoration-none" target="_blank"
                                         rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
                                 @endisset
+                                @isset($memberinfo->youtube)
+                                    <a href="{{ $memberinfo->youtube }}" class="text-decoration-none" target="_blank"
+                                        rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                                @endisset
 
                                 @isset($memberinfo->facebook)
                                     <a href="{{ $memberinfo->facebook }}" class="text-decoration-none" target="_blank"
