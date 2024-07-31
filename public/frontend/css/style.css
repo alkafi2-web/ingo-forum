@@ -429,6 +429,11 @@ a {
   margin-top: 5px;
   margin-bottom: 0;
 }
+.counter span,
+.counter a {
+  text-decoration: none;
+  color: var(--secondary);
+}
 
 .counter p {
   margin-bottom: 0;
