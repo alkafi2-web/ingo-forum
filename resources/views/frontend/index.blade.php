@@ -671,4 +671,50 @@ use App\Helpers\Helper;
 </section>
 @endif
 <!-- Video Section End  -->
+<section style="background-color: #F2F9F5">
+  <div class="subscribe-area ptb-70">
+    <div class="container">
+      <div class="row d-flex align-items-center cs-pt-sub">
+        <div class="col-12">
+          <div class="newsletter-box">
+            <p>Join with our Community</p>
+            <h4>Subscribe Newsletter </h4>
+            <span>& get Company News</span>
+            <form action="">
+              <div class="main-box pt-3">
+                <div class="input-group">
+                  <i class="fa-regular fa-envelope position-absolute"></i>
+                  <input type="text" class="form-control" id="" aria-describedby="" placeholder="Enter your email">
+                  <button class="btn btn-yellow" type="button" id="">Subscribe</button>
+                </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-12">
+          <style>
+            .footer {
+                padding: 75px 0 5px 0 !important;
+            }
+            @media screen and (max-width: 768px) {
+              .be-a-member-section {
+                margin-bottom: -80px;
+              }
+            }
+          </style>
+          <div class="be-a-member-section">
+            <div class="row d-flex align-items-center g-3">
+              <div class="col-md-6 d-flex flex-column">
+                <span class="be-1 pb-1">Become a member</span>
+                <span class="be-2">Express Your Interest</span>
+              </div>
+              <div class="col-md-6">
+                <a href="" class="btn join-btn w-100">Join With Us</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 @endsection

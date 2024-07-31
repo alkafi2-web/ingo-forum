@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 mb-3 mb-md-0">
+                <div class="col-md-3 mb-3 mb-md-0 text-center text-md-start">
                     <h4 class="footer-menu-title">About Us</h4>
                     <nav class="footer-menu">
                         @foreach ($menus as $menu)
@@ -57,7 +57,7 @@
                         @endforeach
                     </nav>
                 </div>
-                <div class="col-md-3 mb-3 mb-md-0">
+                <div class="col-md-3 mb-3 mb-md-0 text-center text-md-start">
                     <h4 class="footer-menu-title">Members</h4>
                     <nav class="footer-menu">
                         @foreach ($menus as $menu)
@@ -96,7 +96,7 @@
                         </ul>
                     </nav>
                 </div> --}}
-                <div class="col-6 col-md-2 mb-3 mb-md-0">
+                <div class="col-12 col-md-2 mb-3 mb-md-0 text-center text-md-start">
                     <h4 class="footer-menu-title">Resources</h4>
                     <nav class="footer-menu">
                         <ul>

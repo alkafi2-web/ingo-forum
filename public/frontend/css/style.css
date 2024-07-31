@@ -31,11 +31,21 @@ h2,
 h3 {
   font-family: "Raleway", sans-serif;
 }
+h1 a,
+h2 a,
+h3 a {
+  font-family: "Raleway", sans-serif !important;
+}
 
 h4,
 h5,
 h6 {
   font-family: 'Avenir', sans-serif;
+}
+h4 a,
+h5 a,
+h6 a {
+  font-family: 'Avenir', sans-serif !important;
 }
 
 h1 {
@@ -1351,6 +1361,90 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
 }
 
 /* Search Filter Design end  */
+/* Newletter section start here  */
+.subscribe-area {
+  position: relative;
+  background-image: url('../images/subscribe.png');
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+ .subscribe-area > img {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+ }
+.newsletter-box {
+  color: var(--white);
+  max-width: 500px;
+  padding: 30px;
+  background-image: url('../images/newsletter.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 10px;
+  margin-bottom: 50px;
+}
+.newsletter-box :is(span, p) {
+  color: var(--white);
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Gilroy-Bold', sans-serif;
+}
+.newsletter-box h4 {
+  margin-bottom: 0px;
+}
+.main-box input[type="text"] {
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+  padding-left: 35px !important;
+  background-color: #ffffff7a !important;
+  border: 1px solid #ffffff7a !important;
+  color: #fff !important;
+}
+.main-box input[type="text"]:focus {
+  box-shadow: none !important;
+}
+.main-box input[type="text"]::placeholder {
+  color: #fff !important;
+}
+.main-box .input-group svg {
+  top: 13px;
+  left: 12px;
+}
+.be-a-member-section {
+  background-color: #E88700;
+  padding: 30px 80px 30px 80px;
+  border-radius: 10px;
+  margin-bottom: -114px;
+}
+.be-a-member-section .be-1 {
+  font-family: 'Gilroy-Bold', sans-serif;
+  color: #fff;
+}
+.be-a-member-section .be-2 {
+  color: rgba(255, 255, 255, 0.8)
+}
+.join-btn {
+  background-color: rgba(249, 158, 31, 1);
+  color: #fff;
+  font-family: "Fredoka", sans-serif;
+  font-size: 14px;
+}
+.join-btn:hover {
+  background-color: var(--primary);
+  color: #fff;
+}
+.newsletter-padding {
+  padding: 60px 0;
+}
+.cs-pt-sub {
+  padding-top: 70px;
+}
+/* Newletter section end here  */
 
 /* Footer Design Start Here  */
 .footer {
@@ -1630,6 +1724,9 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
     object-fit: contain;
     margin: 30px auto 0 auto;
   }
+  .be-a-member-section {
+    padding: 30px 50px 30px 50px;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -1719,6 +1816,9 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
   }
   .hero-right img {
     width: 300px !important;
+  }
+  .be-a-member-section {
+    padding: 30px;
   }
 }
 .cke_notifications_area{
