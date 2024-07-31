@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Content;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Page;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Validator;
 
@@ -18,6 +19,9 @@ class PageController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('page-view-all')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $data = Page::select(['id', 'title', 'slug', 'visibility'])->orderBy('id', 'DESC');
             return DataTables::of($data)
@@ -39,6 +43,9 @@ class PageController extends Controller
     }
 
     public function showCreatePage(){
+        if (!Auth::guard('admin')->user()->hasPermissionTo('page-add')) {
+            abort(401);
+        }
         $page=[];
         return view('admin.content.page.create-page', compact('page'));
     }

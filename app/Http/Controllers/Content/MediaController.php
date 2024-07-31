@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MediaAlbum;
 use App\Models\MediaGallery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
@@ -16,6 +17,9 @@ class MediaController extends Controller
 {
     public function mediaAlbum(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('photo-album-manage')) {
+            abort(401);
+        }
         
         $albums = MediaAlbum::with([
             'mediaGalleries' => function ($query) {
@@ -138,7 +142,9 @@ class MediaController extends Controller
 
     public function photoIndex(Request $request)
     {
-
+        if (!Auth::guard('admin')->user()->hasPermissionTo('photo-gallery-manage')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $album_filter = $request->input('album_filter');
             $status_filter = $request->input('status_filter');
@@ -328,7 +334,9 @@ class MediaController extends Controller
 
     public function videoIndex(Request $request)
     {
-
+        if (!Auth::guard('admin')->user()->hasPermissionTo('video-gallery-manage')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $videos = MediaGallery::where('type', 'video')->latest()->get();
 

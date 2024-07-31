@@ -133,15 +133,5 @@
 @endsection
 
 @push('custom-js')
-    <script>
-        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-            event.preventDefault();
-            $(this).ekkoLightbox({
-                onShown: function() {
-                    var title = $(this).attr('data-title');
-                    $('.ekko-lightbox .modal-title').text(title).css('text-align', 'left');
-                }
-            });
-        });
-    </script>
+    
 @endpush

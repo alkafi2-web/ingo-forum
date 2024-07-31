@@ -25,22 +25,26 @@
                         <div class="d-flex align-items-center">
                             <a href="{{ route('profile.download',['membership_id'=>$memberinfo->info->membership_id]) }}" class="ct-btn btn-yellow">Download Our Profile</a>
                             <nav class="d-flex align-items-center profile-social ms-3">
-                                @isset($memberinfo->instagram)
+                                @isset($memberinfo->info->instagram)
                                     <a href="{{ $memberinfo->info->instagram }}" class="text-decoration-none" target="_blank"
                                         rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
                                 @endisset
 
-                                @isset($memberinfo->linkedin)
+                                @isset($memberinfo->info->linkedin)
                                     <a href="{{ $memberinfo->info->linkedin }}" class="text-decoration-none" target="_blank"
                                         rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
                                 @endisset
+                                @isset($memberinfo->info->youtube)
+                                    <a href="{{ $memberinfo->info->youtube }}" class="text-decoration-none" target="_blank"
+                                        rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                                @endisset
 
-                                @isset($memberinfo->facebook)
+                                @isset($memberinfo->info->facebook)
                                     <a href="{{ $memberinfo->info->facebook }}" class="text-decoration-none" target="_blank"
                                         rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
                                 @endisset
 
-                                @isset($memberinfo->twitter)
+                                @isset($memberinfo->info->twitter)
                                     <a href="{{ $memberinfo->info->twitter }}" class="text-decoration-none" target="_blank"
                                         rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
                                 @endisset
@@ -75,6 +79,7 @@
                         </div>
                         <a href="{{ $memberinfo->info->organisation_website }}" target="_blank"
                             class="ct-btn btn-yellow w-100 mt-3">Visit Our Website</a>
+                        
                     </div>
                 </div>
                 <div class="col-lg-9">

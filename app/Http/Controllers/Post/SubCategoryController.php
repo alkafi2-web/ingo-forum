@@ -16,6 +16,9 @@ class SubCategoryController extends Controller
 {
     public function subcategory(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('post-subcategory-manage')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $subcategories = PostSubCategory::with('category')->latest()->get();
 

@@ -16,6 +16,9 @@ class UserController extends Controller
 {
     public function activityList(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('user-activity')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $activities = Activity::with('user')->get();
             // dd($activities);

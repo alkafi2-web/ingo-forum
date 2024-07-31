@@ -8,11 +8,15 @@ use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\Page;
 use App\Models\PostCategory;
+use Illuminate\Support\Facades\Auth;
 
 class MenuController extends Controller
 {
     public function index()
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('menu-manage')) {
+            abort(401);
+        }
         $menus = Menu::with('subMenus', 'page')->where('parent_id', 0)->orderBy('position')->get();
         return view('admin.menu.index', compact('menus'));
     }
