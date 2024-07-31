@@ -10,18 +10,28 @@
                     <form id="myForm" action="{{ route('system.post') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-3">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="name" class="text-3xl required">Name</label>
                                     <input type="text" class="form-control" id="name" name="name" value="{{ old('name')??$global['website_name'] }}">
                                 </div>
                             </div>
+                        </div>
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="fileInput" class="text-3xl">Logo</label>
                                     <input type="file" class="form-control" id="fileInput" name="logo"
                                            oninput="pp.src=window.URL.createObjectURL(this.files[0])">
                                     <img id="pp" width="100" class="float-start mt-3" src="{{asset('public/frontend/images/'.$global['logo'])}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="favicon" class="text-3xl">Favicon</label>
+                                    <input type="file" class="form-control" id="favicon" name="favicon"
+                                           oninput="ppp.src=window.URL.createObjectURL(this.files[0])">
+                                    <img id="ppp" width="100" class="float-start mt-3" src="{{asset('public/frontend/images/'.$global['favicon'])}}">
                                 </div>
                             </div>
                         </div>

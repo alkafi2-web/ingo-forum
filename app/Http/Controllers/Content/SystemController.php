@@ -37,6 +37,7 @@ class SystemController extends Controller
             'youtube' => ['nullable', 'string', 'url'],
             'twitter' => ['nullable', 'string', 'url'],
             'logo' => ['nullable', 'file', 'mimes:png,jpeg,gif', 'max:1024'], // max:1024 specifies 1MB limit
+            'favicon' => ['nullable', 'file', 'mimes:png,jpeg,gif', 'max:1024'], // max:1024 specifies 1MB limit
         ], [
             'name.required' => 'The name field is required.',
             'name.string' => 'The name must be a string.',
@@ -57,6 +58,9 @@ class SystemController extends Controller
             'logo.file' => 'The logo must be a file.',
             'logo.mimes' => 'The logo must be a PNG, JPEG, or GIF image.',
             'logo.max' => 'The logo may not be greater than 1MB in size.',
+            'favicon.file' => 'The favicon must be a file.',
+            'favicon.mimes' => 'The favicon must be a PNG, JPEG, or GIF image.',
+            'favicon.max' => 'The favicon may not be greater than 1MB in size.',
         ]);
 
 
@@ -96,6 +100,21 @@ class SystemController extends Controller
 
             // Add logo name to data array
             $data['logo'] = $logoName;
+        }
+        if ($request->hasFile('favicon')) {
+            $favicon = $request->file('favicon');
+            $randomNumber = rand(1000, 9999); // You can adjust the range as needed
+            $faviconName = 'favicon' . $randomNumber . '.' . $favicon->getClientOriginalExtension();
+            $favicon->move(public_path('/frontend/images/'), $faviconName);
+
+            // Update MainContent for favicon
+            MainContent::updateOrCreate(
+                ['name' => 'favicon'],
+                ['content' => $faviconName]
+            );
+
+            // Add logo name to data array
+            $data['favicon'] = $faviconName;
         }
 
         // Update or insert based on conditions
