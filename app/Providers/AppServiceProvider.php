@@ -44,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
             $global = [
                 'logo' => $mainContent['logo'] ?? 'logo.png',
                 'favicon' => $mainContent['favicon'] ?? 'logo.png',
-                'website_name' => $mainContent['name'] ?? '',
+                'website_name' => $mainContent['name'] ?? 'Ingo Forum',
                 'short_content' => $mainContent['short_content'] ?? '',
                 'facebook' => $mainContent['facebook'] ?? '',
                 'linkedin' => $mainContent['linkedin'] ?? '',
