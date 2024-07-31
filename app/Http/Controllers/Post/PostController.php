@@ -19,6 +19,9 @@ class PostController extends Controller
 {
     public function postCreate()
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('post-add')) {
+            abort(401);
+        }
         // return $posts = Post::with(['category', 'subcategory','addedBy'])->where('status',1)->latest()->get();
         $categories = PostCategory::where('status', 1)->with('subcategories')->get();
         return view('admin.post.post-create', [
@@ -92,7 +95,9 @@ class PostController extends Controller
 
     public function postList(Request $request)
     {
-        
+        if (!Auth::guard('admin')->user()->hasPermissionTo('post-view-all')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $posts = Post::with('category', 'subcategory', 'addedBy')->latest();
             // Format data for DataTables

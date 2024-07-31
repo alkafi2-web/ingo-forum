@@ -39,7 +39,6 @@
         <!-- Default Banner -->
         <div class="item">
             <div class="hero-section ptb-70" style="background-image: url('{{ asset('public/frontend/images/banner/bg.png') }}'); background-color: #D7E8E0;">
-                <div class="hero-overlay" style="background-color: rgba(0, 0, 0, 0.5);"></div>
                 <div class="container">
                     <div class="row d-flex align-items-center">
                         <div class="col-lg-6 hero-left mb-2 lg-mb-0">

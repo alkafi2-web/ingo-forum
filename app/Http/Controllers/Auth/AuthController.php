@@ -121,6 +121,9 @@ class AuthController extends Controller
 
     public function createUser(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('users-manage')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $users = User::where('role', '!=', 'super-admin')->latest()->get(); // Filter users by role
 

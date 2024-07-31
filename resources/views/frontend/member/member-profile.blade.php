@@ -23,7 +23,8 @@
                         <h4>{{ $memberinfo->sub_title }}</h4>
                         <p>{{$memberinfo->short_description}}</p>
                         <div class="d-flex align-items-center">
-                            <a href="{{ route('profile.download',['membership_id'=>$memberinfo->membership_id]) }}" class="ct-btn btn-yellow">Download Our Profile</a>
+                            <a href="{{ $memberinfo->profile_attachment ? route('profile.download', ['membership_id' => $memberinfo->membership_id]) : 'javascript:void(0)' }}" class="ct-btn btn-yellow">Download Our Profile</a>
+
                             <nav class="d-flex align-items-center profile-social ms-3">
                                 @isset($memberinfo->instagram)
                                     <a href="{{ $memberinfo->instagram }}" class="text-decoration-none" target="_blank"
@@ -33,6 +34,10 @@
                                 @isset($memberinfo->linkedin)
                                     <a href="{{ $memberinfo->linkedin }}" class="text-decoration-none" target="_blank"
                                         rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                                @endisset
+                                @isset($memberinfo->youtube)
+                                    <a href="{{ $memberinfo->youtube }}" class="text-decoration-none" target="_blank"
+                                        rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
                                 @endisset
 
                                 @isset($memberinfo->facebook)
