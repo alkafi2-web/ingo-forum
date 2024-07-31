@@ -166,10 +166,10 @@
                         $('#add_button').prop('checked', true);
                         $('#buttonRow').show();
                     } else {
-                        $('#button_text').val('');
-                        $('#button_bg_color').val('');
-                        $('#button_color').val('');
-                        $('#button_url').val('');
+                        $('#button_text').val(banner.button.text);
+                        $('#button_bg_color').val(banner.button.bg_color);
+                        $('#button_color').val(banner.button.color);
+                        $('#button_url').val(banner.button.url);
                         $('#add_button').prop('checked', false);
                         $('#buttonRow').hide();
                     }
