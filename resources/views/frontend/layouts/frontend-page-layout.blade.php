@@ -9,6 +9,7 @@
     {!! OpenGraph::generate() !!}
     {{-- {!! TwitterCard::generate() !!} --}}
     {!! JsonLd::generate() !!}
+    <link rel="shortcut icon" href="{{asset('public/frontend/images/'.$global['favicon'])}}" />
     <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
