@@ -9,6 +9,7 @@ use App\Models\Menu;
 use App\Models\Page;
 use App\Models\PostCategory;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\RouteExists;
 
 class MenuController extends Controller
 {
@@ -28,7 +29,7 @@ class MenuController extends Controller
             'menu_type' => 'required|in:page,post,route,url',
             'page_id' => 'required_if:menu_type,page|nullable|exists:pages,id',
             'postCat_id' => 'required_if:menu_type,post|nullable|exists:post_categories,id',
-            'route_name' => 'required_if:menu_type,route|nullable|string|max:255',
+            'route_name' => ['required_if:menu_type,route', 'nullable', 'string', 'max:255', new RouteExists],
             'custom_url' => 'required_if:menu_type,url|nullable|url|max:255',
         ]);
 
@@ -138,7 +139,7 @@ class MenuController extends Controller
             'menu_type' => 'required|in:page,post,route,url',
             'page_id' => 'required_if:menu_type,page|nullable|exists:pages,id',
             'postCat_id' => 'required_if:menu_type,post|nullable|exists:post_categories,id',
-            'route_name' => 'required_if:menu_type,route|nullable|string|max:255',
+            'route_name' => ['required_if:menu_type,route', 'nullable', 'string', 'max:255', new RouteExists],
             'custom_url' => 'required_if:menu_type,url|nullable|max:255',
         ]);
 
