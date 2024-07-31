@@ -1441,6 +1441,7 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
 .newsletter-padding {
   padding: 60px 0;
 }
+/*  */
 .cs-pt-sub {
   padding-top: 70px;
 }
