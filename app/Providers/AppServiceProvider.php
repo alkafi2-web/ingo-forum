@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Menu;
+use App\Models\Publication;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -124,15 +125,9 @@ class AppServiceProvider extends ServiceProvider
 
                 $global['posts'] = $posts;
 
-                // $photos = MediaGallery::where('type', 'photo')
-                //     ->whereHas('mediaAlbum', function ($query) {
-                //         $query->where('status', 1);
-                //     })
-                //     ->with(['mediaAlbum' => function ($query) {
-                //         $query->where('status', 1);
-                //     }])
-                //     ->latest()->take(3)->get();
-                // $global['photos'] = $photos;
+                $publications = Publication::with('addedBy', 'category')->where('status', 1)->take(3)->get();
+                $global['publications'] = $publications;
+                
 
                 $albums = MediaAlbum::with([
                     'mediaGalleries' => function ($query) {

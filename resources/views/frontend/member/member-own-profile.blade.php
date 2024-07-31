@@ -5,19 +5,23 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3 mb-3 mb-md-0">
-                    <div class="members-profile-image h-100 text-center">
+                    <div class="members-profile-image h-100 text-center position-relative">
                         <img src="{{ asset('public/frontend/images/member/') }}/{{ $memberinfo->info->logo ?? 'logo.png' }}"
                             alt="Profile Image" class="mb-3">
                         <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->info->membership_id }}</span>
                         <span
                             class="d-block w-100 text-bold">({{ $memberinfo->info->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
+                            
+                            <a href="{{ route('member.profile') }}" type="button" class="ct-btn btn-yellow py-2 px-3 position-absolute end-0 top-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Profile">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                              </a>
                     </div>
                 </div>
                 <div class="col-md-9">
                     <div class="profile-content text-white pb-3">
                         <div class="d-flex align-item-center justify-content-between">
                             <h2 class="section-title">{{ $memberinfo->info->title }}</h2>
-                            <a href="{{ route('member.profile') }}" class="ct-btn btn-yellow">Edit Profile</a>
+                            {{-- <a href="{{ route('member.profile') }}" class="ct-btn btn-yellow">Edit Profile</a> --}}
                         </div>
                         
                         <h4>{{ $memberinfo->info->sub_title }}</h4>
@@ -77,9 +81,16 @@
                             <p class="fw-semibold">Address :</p>
                             <p>{{ $memberinfo->info->organisation_address }} </p>
                         </div>
-                        <a href="{{ $memberinfo->info->organisation_website }}" target="_blank"
-                            class="ct-btn btn-yellow w-100 mt-3">Visit Our Website</a>
-                        
+                        {{-- <a href="{{ $memberinfo->info->organisation_website }}" target="_blank"
+                            class="ct-btn btn-yellow w-100 mt-3">Visit Our Website</a> --}}
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="{{ $memberinfo->info->organisation_website }}" type="button" class="ct-btn btn-yellow w-100 mt-3 py-2 px-3 me-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Visit Our Website" target="__blank">
+                                <i class="fa-solid fa-globe"></i>
+                              </a>
+                            <a href="" type="button" class="ct-btn btn-yellow w-100 mt-3 py-2 px-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Join Our Forum" target="__blank">
+                                <i class="fa-solid fa-paperclip"></i>
+                              </a>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-9">
