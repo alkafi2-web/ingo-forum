@@ -84,7 +84,7 @@ use App\Helpers\Helper;
         </div>
       </div>
       <div class="col-lg-6 ps-lg-5 mt-4 mt-lg-0">
-        <div class="about-text">
+        <div class="about-text add-list-style">
           <h5 class="sub-title">About Us</h5>
           <h2 class="section-title">{{ $global['aboutus_content']->title ?? 'Please Upload It From Admin' }}
           </h2>

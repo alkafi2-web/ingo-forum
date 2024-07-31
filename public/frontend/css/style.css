@@ -76,6 +76,10 @@ a {
   color: var(--white);
   background-color: var(--secondary);
 }
+.add-list-style ul li,
+.add-list-style ol li {
+  list-style: circle !important;
+}
 
 .section-title {
   font-weight: 700;
