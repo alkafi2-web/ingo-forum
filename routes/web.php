@@ -48,6 +48,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
         Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+        Route::post('/dashboard/filter-visitors', [DashboardController::class, 'filterVisitors'])->name('dashboard.filterVisitors');
         // Other routes that require authentication
 
         //user managment start
