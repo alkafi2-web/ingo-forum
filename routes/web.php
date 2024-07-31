@@ -30,6 +30,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Frontend\Publication\FrontnedPublicationController;
 use App\Http\Controllers\Publication\PublicationController;
 use App\Http\Controllers\VisitorController;
+use App\Http\Controllers\Frontend\Event\EventController as FrontendEventController;
 
 // robot & sitemap 
 Route::get('/robots.txt', [RobotsController::class, 'index']);
@@ -323,5 +324,9 @@ Route::middleware(['trackvisitor'])->group(function () {
 
     Route::get('/question/answer', [IndexController::class, 'faqs'])->name('frontend.faqs');
     Route::get('/publication/list', [FrontnedPublicationController::class, 'index'])->name('frontend.publication');
+
+    // events route 
+Route::get('/event/explore', [FrontendEventController::class, 'index'])->name('frontend.events');
+Route::get('/events/explore/{date}', [FrontendEventController::class, 'show'])->name('frontend.event.show');
 });
 // frontend route end
