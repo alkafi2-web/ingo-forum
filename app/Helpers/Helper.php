@@ -18,9 +18,5 @@ class Helper
             'user_agent' => request()->userAgent(),
         ]);
     }
-    public static function removeImageTags($content)
-    {
-        // Use regular expression to remove <img> tags
-        return preg_replace('/<img[^>]+\>/i', '', $content);
-    }
+    
 }

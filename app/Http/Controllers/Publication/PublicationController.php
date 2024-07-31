@@ -149,7 +149,7 @@ class PublicationController extends Controller
             'author' => 'required|string|max:255',
             'publisher' => 'required|string|max:255',
             'short_description' => 'required|string',
-            'file' => 'required|file|mimes:pdf,docx,ppt',
+            'file' => 'required|file|mimes:pdf,docx,ppt|max:16384',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'publish_date' => 'required|date',
         ], [
@@ -164,7 +164,7 @@ class PublicationController extends Controller
             'short_description.string' => 'The short description must be a string.',
             'file.file' => 'The file must be a valid file.',
             'file.mimes' => 'The file must be a type of: pdf, docx, ppt.',
-            'file.max' => 'The file may not be greater than 2MB.',
+            'file.max' => 'The file may not be greater than 16MB.',
             'image.image' => 'The image must be an image.',
             'image.mimes' => 'The image must be a type of: jpeg, png, jpg, gif.',
             'image.max' => 'The image may not be greater than 2MB.',
