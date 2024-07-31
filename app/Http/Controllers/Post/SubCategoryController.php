@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
 use App\Models\PostSubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
