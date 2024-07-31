@@ -77,6 +77,7 @@ class BannerController extends Controller
     
     public function bannerCreateOrUpdate(Request $request)
     {
+        // return request()->all();
         $rules = [
             'background_type' => 'required',
             'overlay_color' => 'nullable',
@@ -129,73 +130,107 @@ class BannerController extends Controller
             $request->merge(['position' => $lastPosition + 1]);
         }
 
+        // for banner title 
         $banner->title = json_encode([
-            'status' => $request->input('titleSwitch') === 'on' ? 1 : 0,
+            'status' => ($request->has('titleSwitch') && $request->input('titleSwitch') === 'on') ? 1 : 0,
             'text' => $request->input('title'),
             'color' => $request->input('title_color')
         ]);
 
+        // for banner description 
         $banner->description = json_encode([
-            'status' => $request->input('descriptionSwitch') === 'on' ? 1 : 0,
+            'status' => ($request->has('descriptionSwitch') && $request->input('descriptionSwitch') === 'on') ? 1 : 0,
             'text' => $request->input('banner_description'),
             'color' => $request->input('description_color')
-        ]);
-
+        ]);    
+        
         $banner->background_color = json_encode([
             'status' => $request->input('background_type') === 'color' ? 1 : 0,
             'color' => $request->input('background_color')
         ]);
 
         $banner->overlay_color = json_encode([
-            'status' => $request->input('background_type') === 'image' ? 1 : 0,
+            'status' => ($request->has('overlaySwitch') && $request->input('overlaySwitch') === 'on' && $request->input('background_type') === 'image') ? 1 : 0,
             'color' => $request->input('overlay_color')
         ]);
 
-        if ($request->hasFile('bg_image')) {
-            if ($banner->bg_image) {
-                $oldBgImage = json_decode($banner->bg_image)->path;
-                if ($oldBgImage && file_exists(public_path('frontend/images/banner/' . $oldBgImage))) {
-                    unlink(public_path('frontend/images/banner/' . $oldBgImage));
+        // for background image 
+        if ($request->filled('id') && $request->input('background_type') === 'image') {
+            if ($request->hasFile('bg_image')) {
+                if ($banner->bg_image) {
+                    $oldBgImage = json_decode($banner->bg_image)->path;
+                    if ($oldBgImage && file_exists(public_path('frontend/images/banner/' . $oldBgImage))) {
+                        unlink(public_path('frontend/images/banner/' . $oldBgImage));
+                    }
+                }
+                $bgImageName = time() . '_bg.' . $request->bg_image->extension();
+                $request->bg_image->move(public_path('frontend/images/banner'), $bgImageName);
+                $banner->bg_image = json_encode([
+                    'status' => $request->input('background_type') === 'image' ? 1 : 0,
+                    'path' => $bgImageName
+                ]);
+            }
+            else{
+                $banner->bg_image = $banner->bg_image;
+            }
+        }
+        elseif($request->filled('id') && $request->input('background_type') === 'color'){
+            $existingBg = json_decode($banner->bg_image, true);
+            $existingBg['status'] = 0;
+            $banner->bg_image = json_encode($existingBg);
+        }
+        else{
+            if ($request->input('background_type') === 'image') {
+                if ($request->hasFile('bg_image')) {
+                    $bgImageName = time() . '_bg.' . $request->bg_image->extension();
+                    $request->bg_image->move(public_path('frontend/images/banner'), $bgImageName);
+                    $banner->bg_image = json_encode([
+                        'status' => $request->input('background_type') === 'image' ? 1 : 0,
+                        'path' => $bgImageName
+                    ]);
                 }
             }
-            $bgImageName = time() . '_bg.' . $request->bg_image->extension();
-            $request->bg_image->move(public_path('frontend/images/banner'), $bgImageName);
-            $banner->bg_image = json_encode([
-                'status' => $request->input('background_type') === 'image' ? 1 : 0,
-                'path' => $bgImageName
-            ]);
-        } elseif ($request->filled('id') && $request->input('background_type') !== 'color') {
-            $banner->bg_image = $banner->bg_image;
-        } else {
-            $banner->bg_image = json_encode([
-                'status' => $request->input('background_type') === 'image' ? 1 : 0,
-                'path' => null
-            ]);
         }
-
-        if ($request->hasFile('content_image')) {
-            if ($banner->content_image) {
-                $oldContentImage = json_decode($banner->content_image)->path;
-                if ($oldContentImage && file_exists(public_path('frontend/images/banner/' . $oldContentImage))) {
-                    unlink(public_path('frontend/images/banner/' . $oldContentImage));
+        
+        // for content image 
+        if ($request->filled('id') && $request->has('contentImageSwitch') && $request->input('contentImageSwitch') === 'on') {
+            if ($request->hasFile('content_image')) {
+                if ($banner->content_image) {
+                    $oldContentImage = json_decode($banner->content_image)->path;
+                    if ($oldContentImage && file_exists(public_path('frontend/images/banner/' . $oldContentImage))) {
+                        unlink(public_path('frontend/images/banner/' . $oldContentImage));
+                    }
                 }
+                $contentImageName = time() . '_content.' . $request->content_image->extension();
+                $request->content_image->move(public_path('frontend/images/banner'), $contentImageName);
+                $banner->content_image = json_encode([
+                    'status' => $request->input('contentImageSwitch') === 'on' ? 1 : 0,
+                    'path' => $contentImageName
+                ]);
             }
-            $contentImageName = time() . '_content.' . $request->content_image->extension();
-            $request->content_image->move(public_path('frontend/images/banner'), $contentImageName);
-            $banner->content_image = json_encode([
-                'status' => $request->input('contentImageSwitch') === 'on' ? 1 : 0,
-                'path' => $contentImageName
-            ]);
-        } elseif ($request->filled('id') && $request->input('contentImageSwitch') !== 'on') {
-            $banner->content_image = $banner->content_image;
-        } else {
-            $banner->content_image = json_encode([
-                'status' => $request->input('contentImageSwitch') === 'on' ? 1 : 0,
-                'path' => null
-            ]);
+            else{
+                $existingContImg = json_decode($banner->content_image, true);
+                $existingContImg['status'] = 1;
+                $banner->content_image = json_encode($existingContImg);
+            }
         }
-
-        if ($request->has('add_button') && $request->input('add_button') == 'on') {
+        elseif($request->filled('id') && empty($request->has('contentImageSwitch'))){
+            $existingContImg = json_decode($banner->content_image, true);
+            $existingContImg['status'] = 0;
+            $banner->content_image = json_encode($existingContImg);
+        }
+        else{
+            if ($request->hasFile('content_image')) {
+                $contentImageName = time() . '_content.' . $request->content_image->extension();
+                $request->content_image->move(public_path('frontend/images/banner'), $contentImageName);
+                $banner->content_image = json_encode([
+                    'status' => $request->input('contentImageSwitch') === 'on' ? 1 : 0,
+                    'path' => $contentImageName
+                ]);
+            }
+        }
+        
+        if ($request->filled('id') && $request->has('add_button') && $request->input('add_button') === 'on') {
             $banner->button = json_encode([
                 'status' => 1,
                 'text' => $request->input('button_text'),
@@ -203,8 +238,22 @@ class BannerController extends Controller
                 'color' => $request->input('button_color'),
                 'url' => $request->input('button_url'),
             ]);
+        } elseif($request->filled('id') && !$request->has('add_button') || $request->input('add_button') !== 'on'){
+            $banner->button = json_encode([
+                'status' => 0,
+                'text' => $request->input('button_text'),
+                'bg_color' => $request->input('button_bg_color'),
+                'color' => $request->input('button_color'),
+                'url' => $request->input('button_url'),
+            ]);
         } else {
-            $banner->button = json_encode(['status' => 0]);
+            $banner->button = json_encode([
+                'status' => $request->input('add_button') === 'on' ? 1 : 0,
+                'text' => $request->input('button_text'),
+                'bg_color' => $request->input('button_bg_color'),
+                'color' => $request->input('button_color'),
+                'url' => $request->input('button_url'),
+            ]);
         }
 
         $banner->position = $request->input('position');
@@ -294,7 +343,7 @@ class BannerController extends Controller
         }
     
         // Delete the content image file if it exists
-        if ($banner->content_image) {
+        if ($banner->content_image && json_decode($banner->content_image)->path) {
             $contentImagePath = public_path('/frontend/images/banner/') . json_decode($banner->content_image)->path;
             if (file_exists($contentImagePath)) {
                 unlink($contentImagePath);

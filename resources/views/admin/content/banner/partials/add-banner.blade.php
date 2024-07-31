@@ -151,8 +151,8 @@
                 $('#title_color').prop('readonly', false);
                 $('#titleColorRow').show();
             } else {
-                $('#title').val().prop('readonly', true);
-                $('#title_color').val().prop('readonly', true);
+                $('#title').prop('readonly', true);
+                $('#title_color').prop('readonly', true);
                 $('#titleColorRow').hide();
             }
         });
@@ -203,6 +203,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
+                    console.log(response);
                     toastr.success(response.success);
                     $('#bannerForm')[0].reset();
                     $('#pp').attr('src', '');
