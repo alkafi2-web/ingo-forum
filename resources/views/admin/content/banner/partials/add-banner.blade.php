@@ -59,7 +59,7 @@
             <div class="form-group">
                 <label for="bg_image" class="text-3xl text-nowrap">Background Image</label>
                 <input type="file" class="form-control" id="bg_image" name="bg_image" value="" oninput="pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
-                <p class="text-danger">The banner image must be exactly 1920X768 pixels.</p>
+                <p class="text-danger">The backgrouind image size 1920 X 768px</p>
                 <img id="pp" width="100" class="float-start mt-3" src="">
             </div>
         </div>
@@ -92,6 +92,7 @@
                     <input type="checkbox" id="contentImageSwitch" class="form-switch" name="contentImageSwitch" checked>
                 </div>
                 <input type="file" class="form-control" id="content_image" name="content_image" value="" oninput="content_pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
+                <p class="text-danger">The content image size 640 X 550px</p>
                 <img id="content_pp" width="100" class="float-start mt-3" src="">
             </div>
         </div>

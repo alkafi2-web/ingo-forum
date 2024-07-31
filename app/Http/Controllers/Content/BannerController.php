@@ -100,12 +100,12 @@ class BannerController extends Controller
 
         // Background type validation
         if ($request->filled('id')) {
-            $rules['bg_image'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048';
-            $rules['content_image'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+            $rules['bg_image'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1920,height=768';
+            $rules['content_image'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=640,height=550';
         }
         else{
-            $rules['bg_image'] = 'required_if:background_type,image|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
-            $rules['content_image'] = 'required_if:contentImageSwitch,on|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+            $rules['bg_image'] = 'required_if:background_type,image|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1920,height=768';
+            $rules['content_image'] = 'required_if:contentImageSwitch,on|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=640,height=550';
         }
         $rules['background_color'] = 'required_if:background_type,color|max:7';
 
@@ -291,44 +291,44 @@ class BannerController extends Controller
 
     
     
-    public function bannerCreate(Request $request)
-    {
+    // public function bannerCreate(Request $request)
+    // {
 
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'image' => 'required|image|max:2048|dimensions:width=640,height=550',
-        ], [
-            'image.dimensions' => 'The image must be exactly 640x550 pixels.',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
-        }
-        $data = $request->only(['title', 'description']);
-        if (isset($request->image)) {
-            $image = $request->file('image');
-            $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
-            $dir = public_path('/frontend/images/banner/');
+    //     $validator = Validator::make($request->all(), [
+    //         'title' => 'required|string|max:255',
+    //         'description' => 'required|string',
+    //         'image' => 'required|image|max:2048|dimensions:width=640,height=550',
+    //     ], [
+    //         'image.dimensions' => 'The image must be exactly 640x550 pixels.',
+    //     ]);
+    //     if ($validator->fails()) {
+    //         return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
+    //     }
+    //     $data = $request->only(['title', 'description']);
+    //     if (isset($request->image)) {
+    //         $image = $request->file('image');
+    //         $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
+    //         $dir = public_path('/frontend/images/banner/');
 
-            if (!File::exists($dir)) {
-                File::makeDirectory($dir, 0755, true);
-            } 
+    //         if (!File::exists($dir)) {
+    //             File::makeDirectory($dir, 0755, true);
+    //         } 
 
-            // Resize the image to 415x415
-            $img = Image::make($image);
-            $img->save($dir . $imageName);
+    //         // Resize the image to 415x415
+    //         $img = Image::make($image);
+    //         $img->save($dir . $imageName);
 
-            $data['image'] = $imageName;
-        }
-        $data['added_by'] = Auth::guard('admin')->user()->id;
-        Banner::updateOrCreate(
-            ['title' => $data['title']], // Adjust the condition as needed
-            $data
-        );
-        Helper::log('Banner create');
-        // Toastr::success('You have successfully Create Banner!', 'success');
-        return response()->json(['success' => ['success' => 'You have successfully Create Banner!']]);
-    }
+    //         $data['image'] = $imageName;
+    //     }
+    //     $data['added_by'] = Auth::guard('admin')->user()->id;
+    //     Banner::updateOrCreate(
+    //         ['title' => $data['title']], // Adjust the condition as needed
+    //         $data
+    //     );
+    //     Helper::log('Banner create');
+    //     // Toastr::success('You have successfully Create Banner!', 'success');
+    //     return response()->json(['success' => ['success' => 'You have successfully Create Banner!']]);
+    // }
 
     public function bannerDelete(Request $request)
     {
