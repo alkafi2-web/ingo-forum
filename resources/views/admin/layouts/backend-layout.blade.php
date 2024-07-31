@@ -16,7 +16,6 @@
     <meta property="og:url" content="" />
     <meta property="og:site_name" content="INGO Forum" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{-- <link rel="canonical" href="https://preview.keenthemes.com/metronic8" /> --}}
     <link rel="shortcut icon" href="{{asset('public/frontend/images/'.$global['favicon'])}}" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
