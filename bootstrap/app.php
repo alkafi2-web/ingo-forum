@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => adminMiddleware::class,
             'auth.member' => \App\Http\Middleware\MemberMiddleware::class,
             'updateLastActivity' => \App\Http\Middleware\UpdateLastActivity::class,
+            'trackvisitor' => \App\Http\Middleware\TrackVisitor::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

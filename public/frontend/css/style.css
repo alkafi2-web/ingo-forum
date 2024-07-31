@@ -76,6 +76,10 @@ a {
   color: var(--white);
   background-color: var(--secondary);
 }
+.add-list-style ul li,
+.add-list-style ol li {
+  list-style: circle !important;
+}
 
 .section-title {
   font-weight: 700;
@@ -424,6 +428,11 @@ a {
   font-size: 30px;
   margin-top: 5px;
   margin-bottom: 0;
+}
+.counter span,
+.counter a {
+  text-decoration: none;
+  color: var(--secondary);
 }
 
 .counter p {

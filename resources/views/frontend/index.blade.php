@@ -1,6 +1,5 @@
 @extends('frontend.layouts.frontend-page-layout')
 @section('frontend-section')
-
 @php
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -39,7 +38,8 @@ use App\Helpers\Helper;
                 </div>
                 <div class="fixture-text">
                   <h3>Coordination</h3>
-                  <span>The Forum Secretariat facilitates information sharing and mutual understanding among our members.</span>
+                  <span>The Forum Secretariat facilitates information sharing and mutual
+                    understanding among our members.</span>
                 </div>
               </div>
             </div>
@@ -50,7 +50,8 @@ use App\Helpers\Helper;
                 </div>
                 <div class="fixture-text">
                   <h3>Advocacy</h3>
-                  <span>We mobilise the INGO Forum members on collective positioning on critical humanitarian issues.</span>
+                  <span>We mobilise the INGO Forum members on collective positioning on critical
+                    humanitarian issues.</span>
                 </div>
               </div>
             </div>
@@ -62,7 +63,8 @@ use App\Helpers\Helper;
                 </div>
                 <div class="fixture-text">
                   <h3>Safety and security</h3>
-                  <span>The members of the INGO Forum are convinced that security, safety and well-being of humanitarian personnel prevail.</span>
+                  <span>The members of the INGO Forum are convinced that security, safety and
+                    well-being of humanitarian personnel prevail.</span>
                 </div>
               </div>
             </div>
@@ -74,7 +76,8 @@ use App\Helpers\Helper;
                 </div>
                 <div class="fixture-text">
                   <h3>Liaison with national NGOs</h3>
-                  <span>The INGO members are committed to strengthening relationships, linkages and collaborative efforts .</span>
+                  <span>The INGO members are committed to strengthening relationships, linkages
+                    and collaborative efforts .</span>
                 </div>
               </div>
             </div>
@@ -84,7 +87,7 @@ use App\Helpers\Helper;
         </div>
       </div>
       <div class="col-lg-6 ps-lg-5 mt-4 mt-lg-0">
-        <div class="about-text">
+        <div class="about-text add-list-style">
           <h5 class="sub-title">About Us</h5>
           <h2 class="section-title">{{ $global['aboutus_content']->title ?? 'Please Upload It From Admin' }}
           </h2>
@@ -98,32 +101,40 @@ use App\Helpers\Helper;
     </div>
     <div class="member-count-area">
       <div class="row">
-        <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
-          <div class="counter border-right">
-            <img src="{{ asset('public/frontend/images/member-badge.png') }}" alt="">
-            <h3 class="text-white count-number" data-count="150">0</h3>
-            <p class="text-white">Total Members</p>
+        <div class="col-12 col-md-4 mb-3 mb-md-0">
+          <div class="counter d-flex align-items-center">
+            <img src="{{ asset('public/frontend/images/icons/globe.png') }}" alt="">
+            <div class="d-flex align-items-start flex-column ms-2">
+              <p class="text-white">Working for 17 SDG Goal</p>
+              <a href="#" class="d-flex align-items-center">
+                <span>Values and principles</span>
+                <i class="fa-solid fa-angle-right ms-1"></i>
+              </a>
+            </div>
           </div>
         </div>
-        <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
-          <div class="counter border-right mobile-border-none">
-            <img src="{{ asset('public/frontend/images/member-badge.png') }}" alt="">
-            <h3 class="text-white count-number" data-count="120">0</h3>
-            <p class="text-white">Total Members</p>
+        <div class="col-12 col-md-4 text-center mb-3 mb-md-0">
+          <div class="counter d-flex align-items-center">
+            <img src="{{ asset('public/frontend/images/icons/bird.png') }}" alt="">
+            <div class="d-flex align-items-start flex-column ms-2">
+              <p class="text-white">Member Organisation's 94</p>
+              <a href="#" class="d-flex align-items-center">
+                <span>Be a Member</span>
+                <i class="fa-solid fa-angle-right ms-1"></i>
+              </a>
+            </div>
           </div>
         </div>
-        <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
-          <div class="counter border-right">
-            <img src="{{ asset('public/frontend/images/member-badge.png') }}" alt="">
-            <h3 class="text-white count-number" data-count="170">0</h3>
-            <p class="text-white">Total Members</p>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 text-center mb-4 mb-md-0">
-          <div class="counter">
-            <img src="{{ asset('public/frontend/images/member-badge.png') }}" alt="">
-            <h3 class="text-white count-number" data-count="100">0</h3>
-            <p class="text-white">Total Members</p>
+        <div class="col-12 col-md-4 text-center mb-3 mb-md-0">
+          <div class="counter d-flex align-items-center">
+            <img src="{{ asset('public/frontend/images/icons/alert.png') }}" alt="">
+            <div class="d-flex align-items-start flex-column ms-2">
+              <p class="text-white">Committed to Peace since 2000</p>
+              <a href="#" class="d-flex align-items-center">
+                <span>Governance and structure</span>
+                <i class="fa-solid fa-angle-right ms-1"></i>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -140,7 +151,7 @@ use App\Helpers\Helper;
       <div class="col-lg-6">
         <div class="text-center">
           <h5 class="sub-title">Our Members</h5>
-          <h2 class="section-title">Hands in Together, Hearts in Unison</h2>
+          <h2 class="section-title">Hands in Together</h2>
         </div>
       </div>
       <div class="col-lg-3"></div>
@@ -279,8 +290,8 @@ use App\Helpers\Helper;
       <div class="col-lg-3"></div>
       <div class="col-lg-6">
         <div class="text-center">
-          <h5 class="sub-title">Our latest news & blogs</h5>
-          <h2 class="section-title">Check all our latest news and blogs</h2>
+          <h5 class="sub-title">Blog & News</h5>
+          <h2 class="section-title">Moments of INGO</h2>
         </div>
       </div>
       <div class="col-lg-3"></div>
@@ -302,7 +313,8 @@ use App\Helpers\Helper;
               </div>
               <div class="col-sm-12 col-md-6 text-end post-overview">
                 <i class="fas fa-comments text-secondary"></i>&nbsp;
-                <small style="color: #999">{{ $post->total_comments_and_replies }}</small> &nbsp;&nbsp;
+                <small style="color: #999">{{ $post->total_comments_and_replies }}</small>
+                &nbsp;&nbsp;
                 <i class="fas fa-book-reader text-success"></i> &nbsp;
                 <small style="color: #999">{{ $post->total_reads }}</small> &nbsp;
               </div>
@@ -310,10 +322,10 @@ use App\Helpers\Helper;
             <h3 class="blog-title line-clamp-2"><a
                 href="{{ route('single.post', ['categorySlug' => $post->category->slug, 'postSlug' => $post->slug]) }}">{{ $post->title }}</a>
             </h3>
-            
 
-            <p class="line-clamp-3" style="height: 60px; text-align:justify">{!! \Illuminate\Support\Str::limit(htmlspecialchars_decode(strip_tags($post->long_des)), 200) !!}</p>
-          
+            <p class="line-clamp-3" style="height: 60px;">{!!
+              \Illuminate\Support\Str::limit(htmlspecialchars_decode(strip_tags($post->long_des)), 200) !!}</p>
+
             <div class="blog-publice py-1">
               <div class="row pb-1">
                 <div class="col-6 border-right">
@@ -455,6 +467,74 @@ use App\Helpers\Helper;
 </section>
 @endif
 <!-- Blog Section End  -->
+<!-- Publication Section Start  -->
+@if ($global['publications']->count() > 0)
+<section class="blog-section ptb-70 bg-gray">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="text-center">
+          <h5 class="sub-title">Publications</h5>
+          <h2 class="section-title">Insights and Innovations from INGO</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row gy-3 gy-md-4 gx-3 gx-md-4 pt-5">
+      @forelse ($global['publications'] as $publication)
+      <div class="col-6 col-md-4">
+        <div class="blog-card h-100">
+          <div class="blog-img" style="max-height: 230px; overflow: hidden;">
+            <a href="{{ asset('public/frontend/images/publication/') }}/{{ $publication->file }}" target="__blank">
+              <img src="{{ asset("public/frontend/images/publication/{$publication->image}") }}" alt=""
+                style="width: 100%; height: auto; object-fit: cover;">
+            </a>
+          </div>
+          <div class="blog-content">
+            <div class="col-sm-12 col-md-12 postcat-initials">
+              <span class="mini-title">#{{ $publication->category->name }}</span>
+            </div>
+            <h3 class="blog-title line-clamp-2">
+              <a href="{{ asset('public/frontend/images/publication/') }}/{{ $publication->file }}"
+                target="__blank">{{ $publication->title }}</a>
+            </h3>
+            <div class="blog-text line-clamp-3" style="text-align: justify;">
+              {!! \Illuminate\Support\Str::limit(htmlspecialchars_decode(strip_tags($publication->short_description)),
+              200) !!}
+            </div>
+            <div class="blog-publice py-1">
+              <div class="row pb-1">
+                <div class="col-6 border-right">
+                  <div class="d-flex align-items-center">
+                    <img src="{{ asset('public/frontend/images/icons/calender.png') }}" alt="">
+                    <div class="ms-2">
+                      <span class="d-block fw-semibold">Date:</span>
+                      <span class="blog-date-admin">{{ $publication->publish_date }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <img src="{{ asset('public/frontend/images/icons/profile.png') }}" alt="">
+                    <div class="ms-2">
+                      <span class="d-block fw-semibold">Author:</span>
+                      <span class="blog-date-admin">{{ $publication->author }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      @empty
+      <h6>Not Found!</h6>
+      @endforelse
+
+    </div>
+  </div>
+</section>
+@endif
+<!-- publication Section End  -->
 <!-- Photo Gallery Section start  -->
 @if ($global['albums']->count() > 0)
 <section class="gallery-section ptb-70">
@@ -464,7 +544,7 @@ use App\Helpers\Helper;
       <div class="col-lg-6">
         <div class="text-center">
           <h5 class="sub-title">Photo Gallery</h5>
-          <h2 class="section-title">Showcasing Our Best Moments</h2>
+          <h2 class="section-title">Snapshots of INGO Moments</h2>
         </div>
       </div>
       <div class="col-lg-3"></div>
@@ -476,7 +556,7 @@ use App\Helpers\Helper;
         <div class="gallery-card h-100">
           <div class="gallery-img">
             @forelse ($album->mediaGalleries->where('status', 1)->take(3) as $photo)
-            <a href="{{route('singleAlbum',['id'=>$album->id])}}"><img
+            <a href="{{ route('singleAlbum', ['id' => $album->id]) }}"><img
                 src="{{ asset('public/frontend/images/photo-gallery/') }}/{{ $photo->media }}" alt=""></a>
             @empty
             <a href=""><img src="{{ asset('public/frontend/images/gallery1.png') }}" alt=""></a>
@@ -488,8 +568,10 @@ use App\Helpers\Helper;
           <div class="blog-content">
             <span class="mini-title">#{{ $album->albumtype }}</span>
             <h3 class="blog-title line-clamp-2"><a
-                href="{{route('singleAlbum',['id'=>$album->id])}}">{{ $album->title }}</a></h3>
-            <p class="line-clamp-3" style="height: 60px; text-align:justify">{{ Str::limit($album->subcontent ?? '', 150) }}</p>
+                href="{{ route('singleAlbum', ['id' => $album->id]) }}">{{ $album->title }}</a>
+            </h3>
+            <p class="line-clamp-3" style="height: 60px;">
+              {{ Str::limit($album->subcontent ?? '', 150) }}</p>
             <div class="blog-publice py-1">
               <div class="row pb-1">
                 <div class="col-6 border-right">
@@ -532,7 +614,7 @@ use App\Helpers\Helper;
       <div class="col-lg-6">
         <div class="text-center">
           <h5 class="sub-title">Video Gallery</h5>
-          <h2 class="section-title">Showcasing Our Best Moments</h2>
+          <h2 class="section-title">Live Moments of INGO</h2>
         </div>
       </div>
       <div class="col-lg-3"></div>
@@ -555,7 +637,7 @@ use App\Helpers\Helper;
                   data-title="{{ $video->name }}">{{ $video->name }}</a>
 
               </h3>
-              <p class="line-clamp-3" style="height: 60px; text-align:justify">{{ $video->content }}
+              <p class="line-clamp-3" style="height: 60px;">{{ $video->content }}
               </p>
               <div class="blog-publice py-1">
                 <div class="row pb-1">
@@ -589,5 +671,4 @@ use App\Helpers\Helper;
 </section>
 @endif
 <!-- Video Section End  -->
-
 @endsection
