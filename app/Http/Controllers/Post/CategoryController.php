@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
@@ -14,6 +15,9 @@ class CategoryController extends Controller
 {
     public function category(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('post-category-manage')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $categoryies = PostCategory::latest();;
 

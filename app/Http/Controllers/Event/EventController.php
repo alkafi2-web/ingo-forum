@@ -15,7 +15,9 @@ class EventController extends Controller
 {
     public function event(Request $request)
     {
-
+        if (!Auth::guard('admin')->user()->hasPermissionTo('event-view')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $events = Event::latest();;
 

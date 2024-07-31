@@ -18,4 +18,5 @@ class Helper
             'user_agent' => request()->userAgent(),
         ]);
     }
+    
 }

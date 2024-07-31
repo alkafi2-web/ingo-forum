@@ -18,6 +18,9 @@ class PublicationController extends Controller
 {
     public function category(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('publication-category-manage')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $categoryies = PublicationCategory::latest();;
 
@@ -128,6 +131,9 @@ class PublicationController extends Controller
     // publicatiuon start
     public function publicationCreate()
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('publication-add')) {
+            abort(401);
+        }
         // return $posts = Post::with(['category', 'subcategory','addedBy'])->where('status',1)->latest()->get();
         $categories = PublicationCategory::where('status', 1)->get();
         return view('admin.publication.publication-add', [
@@ -143,7 +149,7 @@ class PublicationController extends Controller
             'author' => 'required|string|max:255',
             'publisher' => 'required|string|max:255',
             'short_description' => 'required|string',
-            'file' => 'required|file|mimes:pdf,docx,ppt',
+            'file' => 'required|file|mimes:pdf,docx,ppt|max:16384',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'publish_date' => 'required|date',
         ], [
@@ -158,7 +164,7 @@ class PublicationController extends Controller
             'short_description.string' => 'The short description must be a string.',
             'file.file' => 'The file must be a valid file.',
             'file.mimes' => 'The file must be a type of: pdf, docx, ppt.',
-            'file.max' => 'The file may not be greater than 2MB.',
+            'file.max' => 'The file may not be greater than 16MB.',
             'image.image' => 'The image must be an image.',
             'image.mimes' => 'The image must be a type of: jpeg, png, jpg, gif.',
             'image.max' => 'The image may not be greater than 2MB.',
@@ -212,6 +218,9 @@ class PublicationController extends Controller
 
     public function publicationList(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('publication-view-all')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $publication = Publication::with('addedBy', 'category')->latest();
             // Format data for DataTables
@@ -349,7 +358,8 @@ class PublicationController extends Controller
         $publication->publisher = $request->publisher;
         $publication->publish_date = $request->publish_date;
         $publication->save();
-        return $request->all();
+        Helper::log("$publication->title publication update");
+        return response()->json(['success' => ['success' => 'Publication Update Successfully']]);
     }
     // publicatiuon end
 }
