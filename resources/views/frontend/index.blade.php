@@ -312,7 +312,7 @@ use App\Helpers\Helper;
             </h3>
             
 
-            <p class="line-clamp-3" style="height: 60px">{!! \Illuminate\Support\Str::limit(htmlspecialchars_decode(strip_tags($post->long_des)), 200) !!}</p>
+            <p class="line-clamp-3" style="height: 60px; text-align:justify">{!! \Illuminate\Support\Str::limit(htmlspecialchars_decode(strip_tags($post->long_des)), 200) !!}</p>
           
             <div class="blog-publice py-1">
               <div class="row pb-1">
@@ -489,7 +489,7 @@ use App\Helpers\Helper;
             <span class="mini-title">#{{ $album->albumtype }}</span>
             <h3 class="blog-title line-clamp-2"><a
                 href="{{route('singleAlbum',['id'=>$album->id])}}">{{ $album->title }}</a></h3>
-            <p class="line-clamp-3" style="height: 60px">{{ Str::limit($album->subcontent ?? '', 150) }}</p>
+            <p class="line-clamp-3" style="height: 60px; text-align:justify">{{ Str::limit($album->subcontent ?? '', 150) }}</p>
             <div class="blog-publice py-1">
               <div class="row pb-1">
                 <div class="col-6 border-right">
@@ -555,7 +555,7 @@ use App\Helpers\Helper;
                   data-title="{{ $video->name }}">{{ $video->name }}</a>
 
               </h3>
-              <p class="line-clamp-3" style="height: 60px">{{ $video->content }}
+              <p class="line-clamp-3" style="height: 60px; text-align:justify">{{ $video->content }}
               </p>
               <div class="blog-publice py-1">
                 <div class="row pb-1">

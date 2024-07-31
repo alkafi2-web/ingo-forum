@@ -358,7 +358,8 @@ class PublicationController extends Controller
         $publication->publisher = $request->publisher;
         $publication->publish_date = $request->publish_date;
         $publication->save();
-        return $request->all();
+        Helper::log("$publication->title publication update");
+        return response()->json(['success' => ['success' => 'Publication Update Successfully']]);
     }
     // publicatiuon end
 }
