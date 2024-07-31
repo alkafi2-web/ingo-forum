@@ -68,6 +68,7 @@ class SubCategoryController extends Controller
             'category_id' => $request->category,
             'name' => $request->name,
             'slug' => Str::slug($request->name, '-'),
+            'status' => 1,
         ]);
         Helper::log("Create post subcategory $subcategory->name");
         return response()->json(['success' => ['success' => 'Sub Category saved successfully!']]);
