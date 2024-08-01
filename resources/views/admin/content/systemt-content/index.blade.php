@@ -1,6 +1,6 @@
 @extends('admin.layouts.backend-layout')
 @section('breadcame')
-    Systemt Content
+    Systemt Setting
 @endsection
 @section('admin-content')
     <div class="row">
@@ -10,34 +10,51 @@
                     <form id="myForm" action="{{ route('system.post') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-3">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="name" class="text-3xl required">System Name</label>
+                                    <label for="name" class="text-3xl required">Name</label>
                                     <input type="text" class="form-control" id="name" name="name" value="{{ old('name')??$global['website_name'] }}">
                                 </div>
                             </div>
+                        </div>
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="fileInput" class="text-3xl">System Logo</label>
+                                    <label for="fileInput" class="text-3xl">Logo</label>
                                     <input type="file" class="form-control" id="fileInput" name="logo"
                                            oninput="pp.src=window.URL.createObjectURL(this.files[0])">
                                     <img id="pp" width="100" class="float-start mt-3" src="{{asset('public/frontend/images/'.$global['logo'])}}">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="content" class="text-3xl required">System Short Content</label>
-                                    <input type="text" class="form-control" id="content" name="short_content" value="{{ old('short_content') ?? $global['short_content']  }}">
+                                    <label for="favicon" class="text-3xl">Favicon</label>
+                                    <input type="file" class="form-control" id="favicon" name="favicon"
+                                           oninput="ppp.src=window.URL.createObjectURL(this.files[0])">
+                                    <img id="ppp" width="100" class="float-start mt-3" src="{{asset('public/frontend/images/'.$global['favicon'])}}">
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="address" class="text-3xl required">Address </label>
+                                    <label for="content" class="text-3xl required">Short Content</label>
+                                    <textarea class="form-control" id="content" name="short_content" rows="4" cols="50">{{ old('short_content') ?? $global['short_content'] }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address" class="text-3xl required">Address</label>
                                     <input type="text" class="form-control" id="address" name="address" value="{{ old('address') ?? $global['address']  }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address_embaded" class="text-3xl required">Address Emaded Code</label>
+                                    <input type="text" class="form-control" id="address_embaded" name="address_embaded" value="{{ old('address_embaded') ?? $global['address_embaded']  }}">
                                 </div>
                             </div>
                         </div>
@@ -90,7 +107,6 @@
             </div>
         </div>
     </div>
-
     {{-- @push('custom-js')
         <script>
             $(document).ready(function() {

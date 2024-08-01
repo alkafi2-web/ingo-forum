@@ -7,31 +7,36 @@
                 <div class="col-md-6 mb-4 mb-md-0 bg-white p-3">
                     <div class="contact-form">
                         <h2>Get In Touch</h2>
-                        <form class="row g-2">
+                        <form id="contactForm" class="row g-2">
                             <div class="col-12">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="email" class="form-control" id="name" placeholder="Your Name">
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Your Name">
                             </div>
                             <div class="col-md-6">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="Your Email">
                             </div>
                             <div class="col-md-6">
                                 <label for="phone" class="form-label">Phone</label>
-                                <input type="text" class="form-control" id="phone" placeholder="Your Phone">
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                    placeholder="Your Phone">
                             </div>
                             <div class="col-12">
                                 <label for="subject" class="form-label">Subject</label>
-                                <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                <input type="text" class="form-control" id="subject" name="subject"
+                                    placeholder="Subject">
                             </div>
                             <div class="col-12">
-                                <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="3"></textarea>
                             </div>
                             <div class="col-12 pt-2">
-                                <button type="submit" class="ct-btn btn-yellow">Sign in</button>
+                                <button type="submit" id="contact-submit" class="ct-btn btn-yellow">Submit</button>
                             </div>
                         </form>
+
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -44,7 +49,7 @@
                                     </div>
                                     <div class="d-flex flex-column">
                                         <h6>Phone</h6>
-                                        <a href="tel:01315256454">{{$global['phone']}}</a>
+                                        <a href="tel:01315256454">{{ $global['phone'] }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +60,7 @@
                                     </div>
                                     <div class="d-flex flex-column">
                                         <h6>Email</h6>
-                                        <a href="mailto:{{$global['email']}}">{{$global['email']}}</a>
+                                        <a href="mailto:{{ $global['email'] }}">{{ $global['email'] }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -66,16 +71,23 @@
                                     </div>
                                     <div class="d-flex flex-column">
                                         <h6>Address</h6>
-                                        <p>{{$global['address']}}</p>
+                                        <p>{{ $global['address'] }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        @php
+                            $embeddedAddress = $global['address_embaded'];
+                            $src = '';
+                            if (preg_match('/src="([^"]+)"/', $embeddedAddress, $match)) {
+                                $src = $match[1];
+                            }
+                        @endphp
+
                         <div class="map mt-3">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8684.678039702163!2d90.36168459766252!3d23.766724173655497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c09f9ba3d447%3A0x1babce9f1c6c95a3!2sMohammadpur%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1719827661161!5m2!1sen!2sbd"
-                                width="100%" height="290" style="border:0;" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            {{-- {{ $global['address_embaded'] }} --}}
+                            <iframe src="{{ $src }}" width="100%" height="290" style="border:0;"
+                                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                 </div>
@@ -84,3 +96,40 @@
     </section>
 
 @endsection
+
+@push('custom-js')
+    <script>
+        $('#contact-submit').on('click', function(e) {
+            e.preventDefault();
+            let url = "{{ route('frontend.contact.info') }}";
+            let formData = new FormData($('#contactForm')[0]);
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: formData,
+                contentType: false,
+                processData: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log(response);
+                    var success = response.success;
+                    $.each(success, function(key, value) {
+                        toastr.success(value); // Displaying each success message
+                    });
+                    $('#contactForm')[0].reset();
+                },
+                error: function(xhr) {
+                    var errors = xhr.responseJSON.errors;
+                    // Iterate through each error and display it
+                    $.each(errors, function(key, value) {
+                        console.log(key, value);
+                        toastr.error(value); // Displaying each error message
+                    });
+                }
+            });
+        });
+    </script>
+@endpush

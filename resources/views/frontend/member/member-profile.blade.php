@@ -1,4 +1,4 @@
-@extends('frontend.layouts.front-end-layout')
+@extends('frontend.layouts.frontend-page-layout')
 @section('frontend-section')
     <!-- Profile Content Section start here  -->
     <section class="members-profile-content bg-green">
@@ -15,14 +15,17 @@
                 </div>
                 <div class="col-md-9">
                     <div class="profile-content text-white pb-3">
-                        <h2 class="section-title">{{ $memberinfo->title }}</h2>
+                        <div class="d-flex align-item-center justify-content-between">
+                            <h2 class="section-title">{{ $memberinfo->title }}</h2>
+                            {{-- <a href="{{ route('member.profile') }}" class="ct-btn btn-yellow">Edit Profile</a> --}}
+                        </div>
+
                         <h4>{{ $memberinfo->sub_title }}</h4>
-                        <p>Lorem ipsum, or&nbsp;lipsum&nbsp;as it is sometimes known, is dummy text used in laying out
-                            print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th
-                            century who is thought to have scrambled parts of Cicero's&nbsp;De Finibus Bonorum et
-                            Malorum&nbsp;for use in a type specimen book. It usually begins with:</p>
+                        <p>{{ $memberinfo->short_description }}</p>
                         <div class="d-flex align-items-center">
-                            <a href="" class="ct-btn btn-yellow">Download Our Profile</a>
+                            <a href="{{ $memberinfo->profile_attachment ? route('profile.download', ['membership_id' => $memberinfo->membership_id]) : 'javascript:void(0)' }}"
+                                class="ct-btn btn-yellow">Download Our Profile</a>
+
                             <nav class="d-flex align-items-center profile-social ms-3">
                                 @isset($memberinfo->instagram)
                                     <a href="{{ $memberinfo->instagram }}" class="text-decoration-none" target="_blank"
@@ -32,6 +35,11 @@
                                 @isset($memberinfo->linkedin)
                                     <a href="{{ $memberinfo->linkedin }}" class="text-decoration-none" target="_blank"
                                         rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                                @endisset
+
+                                @isset($memberinfo->youtube)
+                                    <a href="{{ $memberinfo->youtube }}" class="text-decoration-none" target="_blank"
+                                        rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
                                 @endisset
 
                                 @isset($memberinfo->facebook)
@@ -72,8 +80,19 @@
                             <p class="fw-semibold">Address :</p>
                             <p>{{ $memberinfo->organisation_address }} </p>
                         </div>
-                        <a href="{{ $memberinfo->organisation_website }}" target="_blank"
-                            class="ct-btn btn-yellow w-100 mt-3">Visit Our Website</a>
+                        {{-- <a href="{{ $memberinfo->organisation_website }}" target="_blank"
+                            class="ct-btn btn-yellow w-100 mt-3">Visit Our Website</a> --}}
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="{{ $memberinfo->organisation_website }}" type="button"
+                                class="ct-btn btn-yellow w-100 mt-3 py-2 px-3 me-1" data-bs-toggle="tooltip"
+                                data-bs-placement="top" data-bs-title="Visit Our Website" target="__blank">
+                                <i class="fa-solid fa-globe"></i>
+                            </a>
+                            <a href="" type="button" class="ct-btn btn-yellow w-100 mt-3 py-2 px-3"
+                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Join Our Forum" target="__blank">
+                                <i class="fa-solid fa-paperclip"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-9">

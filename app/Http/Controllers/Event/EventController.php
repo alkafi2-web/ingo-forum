@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Event;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
@@ -9,12 +10,15 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
     public function event(Request $request)
     {
-
+        if (!Auth::guard('admin')->user()->hasPermissionTo('event-view')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $events = Event::latest();;
 
@@ -75,6 +79,7 @@ class EventController extends Controller
             'location' => $request->location,
             'media' => $imageName ?? null, // Save image name or path to database
         ]);
+        Helper::log("Create $request->title event");
         return response()->json(['success' => ['success' => 'You have successfully Create Event!']]);
     }
 
@@ -89,7 +94,7 @@ class EventController extends Controller
 
         // Delete the banner record
         $event->delete();
-
+        Helper::log("Delete $event->title event");
         return response()->json(['success' => 'Event deleted successfully']);
     }
 
@@ -106,7 +111,10 @@ class EventController extends Controller
 
         // Save the changes to the database
         $event->save();
-
+        $statusMessage = $newStatus == 0 
+        ? "$event->title event status deactive" 
+        : "$event->title event status active";
+        Helper::log($statusMessage);
         return response()->json(['success' => 'Event status updated successfully']);
     }
 
@@ -193,7 +201,7 @@ class EventController extends Controller
             'reg_dead_line' => $request->deadline_date,
             'location' => $request->location,
         ]);
-
+        Helper::log("Update $event->title event");
         return response()->json(['success' => ['success' => 'Event updated successfully']]);
     }
 }

@@ -7,7 +7,6 @@
         <div class="d-flex justify-content-between align-items-center py-3 px-3 border-bottom">
             <div id="view-header-container" class="d-flex justify-content-between align-items-center" style="width: 92%;">
                 @include('admin.member.partials.view-header')
-
             </div>
             <div>
                 <a href="{{ url()->previous() }}">
@@ -20,9 +19,9 @@
         <div id="profile-image-name">
             @include('admin.member.partials.profile-image-name')
         </div>
-
-
-        <div class="card-body">
+    </div>
+    <div class="card">
+        <div class="card-body border-bottom">
             <div class="row">
                 <!-- Organisation Details Section -->
                 <div class="col-lg-6 mb-3 mb-lg-0">
@@ -151,7 +150,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     <div class="row">
         <div class="col-md-6">

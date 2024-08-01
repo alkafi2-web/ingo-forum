@@ -200,77 +200,40 @@ $(document).ready(function(){
 
 
 
+// Advance Filter toggle start here
+$(document).ready(function(){
+  $('[data-bs-toggle="tooltip"]').tooltip();
 
+  $('.filter-toggle1').click(function(){
+    $('.filter-box').slideToggle();
+  });
+  
 
+  $('.filter-toggle2').click(function() {
+    // Toggle visibility of the filter-box
+    $('.filter-box').slideToggle(function() {
+        // Check if .filter-box is visible after the slideToggle animation
+        if ($('.filter-box').is(':visible')) {
+            // If .filter-box is visible, show the 'fa-xmark' icon and hide 'fa-angle-down'
+            $('.filter-toggle2 .fa-angle-down').hide();
+            $('.filter-toggle2 .fa-xmark').show();
+        } else {
+            // If .filter-box is hidden, show the 'fa-angle-down' icon and hide 'fa-xmark'
+            $('.filter-toggle2 .fa-angle-down').show();
+            $('.filter-toggle2 .fa-xmark').hide();
+        }
+    });
+    
+    // Ensure initial icon state matches the visibility of .filter-box
+    if ($('.filter-box').is(':visible')) {
+        $('.filter-toggle2 .fa-angle-down').hide();
+        $('.filter-toggle2 .fa-xmark').show();
+    } else {
+        $('.filter-toggle2 .fa-angle-down').show();
+        $('.filter-toggle2 .fa-xmark').hide();
+    }
+});
+  
+});
 
-
-
-
-
-
-
-// //Tinymce 
-// tinymce.init({
-//   selector: '#description',
-//   plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
-//   toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-//   tinycomments_mode: 'embedded',
-//   tinycomments_author: 'Author name',
-//   mergetags_list: [
-//     { value: 'First.Name', title: 'First Name' },
-//     { value: 'Email', title: 'Email' },
-//   ],
-//   ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
-// });
-// // Mission 
-// tinymce.init({
-//   selector: '#mission',
-//   plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
-//   toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-//   tinycomments_mode: 'embedded',
-//   tinycomments_author: 'Author name',
-//   mergetags_list: [
-//     { value: 'First.Name', title: 'First Name' },
-//     { value: 'Email', title: 'Email' },
-//   ],
-//   ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
-// });
-// // Vision 
-// tinymce.init({
-//   selector: '#vision',
-//   plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
-//   toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-//   tinycomments_mode: 'embedded',
-//   tinycomments_author: 'Author name',
-//   mergetags_list: [
-//     { value: 'First.Name', title: 'First Name' },
-//     { value: 'Email', title: 'Email' },
-//   ],
-//   ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
-// });
-// // Values 
-// tinymce.init({
-//   selector: '#values',
-//   plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
-//   toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-//   tinycomments_mode: 'embedded',
-//   tinycomments_author: 'Author name',
-//   mergetags_list: [
-//     { value: 'First.Name', title: 'First Name' },
-//     { value: 'Email', title: 'Email' },
-//   ],
-//   ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
-// });
-// // Other Description 
-// tinymce.init({
-//   selector: '#other',
-//   plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
-//   toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-//   tinycomments_mode: 'embedded',
-//   tinycomments_author: 'Author name',
-//   mergetags_list: [
-//     { value: 'First.Name', title: 'First Name' },
-//     { value: 'Email', title: 'Email' },
-//   ],
-//   ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
-// });
+// Advance Filter toggle start end

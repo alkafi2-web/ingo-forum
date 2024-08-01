@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Content;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Page;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Validator;
 
@@ -18,11 +19,14 @@ class PageController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('page-view-all')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $data = Page::select(['id', 'title', 'slug', 'visibility'])->orderBy('id', 'DESC');
             return DataTables::of($data)
                 ->addColumn('actions', function($row){
-                    return '<a href="'.route('page.edit', $row->id).'" id="edit-page-button"><i class="fas fa-edit text-success"></i></a>&nbsp;<i class="fas fa-trash-alt text-danger" id="delete-page" data="'.$row->id.'"></i>';
+                    return '<a href="'.route('admin.page.update', $row->id).'"><i class="fas fa-edit text-success"></i></a>&nbsp;<i class="fas fa-trash-alt text-danger" id="delete-page" data="'.$row->id.'"></i>';
                 })
                 ->addColumn('status', function($row){
                     // Use the url() helper to generate the full URL
@@ -35,8 +39,22 @@ class PageController extends Controller
                 ->make(true);
         }
 
-        return view('admin.content.page.index');
+        return view('admin.content.page.allpage');
     }
+
+    public function showCreatePage(){
+        if (!Auth::guard('admin')->user()->hasPermissionTo('page-add')) {
+            abort(401);
+        }
+        $page=[];
+        return view('admin.content.page.create-page', compact('page'));
+    }
+
+    public function showUpdatePage(){
+        $page = Page::where('id', request('page_id'))->first();
+        return view('admin.content.page.create-page', compact('page'));
+    }
+
 
     public function storeOrUpdate(Request $request)
     {
@@ -84,8 +102,15 @@ class PageController extends Controller
     public function verifySlug(Request $request)
     {
         $slug = $request->input('slug');
-        $exists = Page::where('slug', $slug)->exists();
-        return response()->json(['exists' => $exists]);
+        
+        if ($request->page_id) {
+            $exists = Page::where('slug', $slug)->where('id', '!=', $request->page_id)->exists();
+            return response()->json(['exists' => $exists]);
+        }
+        else{
+            $exists = Page::where('slug', $slug)->exists();
+            return response()->json(['exists' => $exists]);
+        }
     }
     
     public function toggleVisibility(Request $request)

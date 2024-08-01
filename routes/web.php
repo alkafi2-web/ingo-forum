@@ -23,16 +23,32 @@ use App\Http\Controllers\Frontend\Page\PageController as FrontendPageController;
 use App\Http\Controllers\Member\MemberController as AdminMemberController;
 use App\Http\Controllers\Menu\MenuController;
 use App\Http\Controllers\Frontend\Post\PostController as FrontendPostController;
+use App\Http\Controllers\RobotsController;
+use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Frontend\Publication\FrontnedPublicationController;
+use App\Http\Controllers\Publication\PublicationController;
+use App\Http\Controllers\VisitorController;
+use App\Http\Controllers\Frontend\Event\EventController as FrontendEventController;
+
+// robot & sitemap 
+Route::get('/robots.txt', [RobotsController::class, 'index']);
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
+
+Route::get('/track-visitor', [VisitorController::class, 'track']);
+Route::get('/visitor-stats', [VisitorController::class, 'stats']);
 
 Route::prefix('admin')->group(function () {
     Route::get('/', [AuthController::class, 'login'])->name('login');
     Route::post('/', [AuthController::class, 'loginPost']);
-    Route::middleware(['admin'])->group(function () {
+    Route::middleware(['admin','updateLastActivity'])->group(function () {
 
         Route::post('/register', [AuthController::class, 'register'])->name('register');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-        Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+        Route::post('/dashboard/filter-visitors', [DashboardController::class, 'filterVisitors'])->name('dashboard.filterVisitors');
         // Other routes that require authentication
 
         //user managment start
@@ -47,6 +63,9 @@ Route::prefix('admin')->group(function () {
         Route::post('/user-restore', [AuthController::class, 'userRestore'])->name('user.restore');
         Route::post('/user-per-delete', [AuthController::class, 'userParDelete'])->name('user.par.delete');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+        
+        Route::get('/user-activity', [UserController::class, 'activityList'])->name('activity.list');
+        
         //user managment end
 
         // menu route start
@@ -59,12 +78,16 @@ Route::prefix('admin')->group(function () {
 
         // page route start
         Route::prefix('page')->group(function () {
-            Route::get('/', [PageController::class, 'index'])->name('admin.page');
+            Route::get('/all', [PageController::class, 'index'])->name('admin.page');
+            Route::get('/create-new-page', [PageController::class, 'showCreatePage'])->name('admin.page.create');
+            Route::get('/update/{page_id}', [PageController::class, 'showUpdatePage'])->name('admin.page.update');
+
             Route::get('/slug-verify', [PageController::class, 'verifySlug'])->name('slug.verify');
             Route::get('/edit/{id}', [PageController::class, 'edit'])->name('page.edit');
             Route::post('/storeOrupdate-page', [PageController::class, 'storeOrUpdate'])->name('page.storeOrUpdate');
             Route::post('page/toggle-visibility', [PageController::class, 'toggleVisibility'])->name('page.toggleVisibility');
             Route::delete('/admin/content/page', [PageController::class, 'destroy'])->name('page.destroy');
+
             // Route for getting the page list
             Route::get('/menu/pages', [PageController::class, 'getPages'])->name('menu.pages');
             Route::post('menu/update-order', [MenuController::class, 'updateOrder'])->name('menu.updateOrder');
@@ -79,10 +102,12 @@ Route::prefix('admin')->group(function () {
         // banner route start
         Route::prefix('banner')->group(function () {
             Route::get('/', [BannerController::class, 'index'])->name('banner');
+            Route::post('/create-or-update', [BannerController::class, 'bannerCreateOrUpdate'])->name('banner.createOrUpdate');
+
             Route::post('/create', [BannerController::class, 'bannerCreate'])->name('banner.create');
             Route::post('/delete', [BannerController::class, 'bannerDelete'])->name('banner.delete');
             Route::post('/status', [BannerController::class, 'bannerStatus'])->name('banner.status');
-            Route::post('/edit', [BannerController::class, 'bannerEdit'])->name('banner.edit');
+            Route::post('/get-banner-info', [BannerController::class, 'bannerInfo'])->name('banner.info');
             Route::post('/update', [BannerController::class, 'bannerUpdate'])->name('banner.update');
         });
         // banner route end
@@ -142,12 +167,36 @@ Route::prefix('admin')->group(function () {
                 Route::post('/store', [PostController::class, 'postStore'])->name('post.store');
                 Route::get('/list', [PostController::class, 'postList'])->name('post.list');
                 Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
+                Route::post('/comment', [PostController::class, 'postComment'])->name('post.comment');
                 Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');
                 Route::get('/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
                 Route::post('/update', [PostController::class, 'postUpdate'])->name('post.update');
             });
         });
         // post menagement route end
+
+        // Publication menagement route start
+        Route::prefix('publication')->group(function () {
+            Route::prefix('category')->group(function () {
+                Route::get('/', [PublicationController::class, 'category'])->name('publication.category');
+                Route::post('/category-create', [PublicationController::class, 'categoryCreate'])->name('publication.category.create');
+                Route::post('/category-delete', [PublicationController::class, 'categoryDelete'])->name('publication.category.delete');
+                Route::post('/category-status', [PublicationController::class, 'categoryStatus'])->name('publication.category.status');
+                Route::post('/category-edit', [PublicationController::class, 'categoryEdit'])->name('publication.category.edit');
+                Route::post('/category-update', [PublicationController::class, 'categoryUpdate'])->name('publication.category.update');
+            });
+            
+            Route::prefix('/')->group(function () {
+                Route::get('/', [PublicationController::class, 'publicationCreate'])->name('publication.create');
+                Route::post('/store', [PublicationController::class, 'publicationStore'])->name('publication.store');
+                Route::get('/list', [PublicationController::class, 'publicationList'])->name('publication.list');
+                Route::post('/delete', [PublicationController::class, 'publicationDelete'])->name('publication.delete');
+                Route::post('/status', [PublicationController::class, 'publicationStatus'])->name('publication.status');
+                Route::get('/edit/{id}', [PublicationController::class, 'publicationEdit'])->name('publication.edit');
+                Route::post('/update', [PublicationController::class, 'publicationUpdate'])->name('publication.update');
+            });
+        });
+        // Publication menagement route end
 
         // event managment route start
         Route::prefix('event')->group(function () {
@@ -211,55 +260,74 @@ Route::prefix('admin')->group(function () {
             // Route::post('/view', [AdminMemberController::class, 'memberView'])->name('member.view');
         });
         // member route end
+
+        // contact list route start
+        // Route::prefix('member')->group(function () {
+            Route::get('/contact/list', [SystemController::class, 'contactList'])->name('contact.list');
+            Route::post('/contact/list/delete', [SystemController::class, 'contactListDelete'])->name('contact.list.delete');
+        // });
+        // contact list route end
     });
 });
 
 // frontend route start
 
-Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
+Route::middleware(['trackvisitor'])->group(function () {
+    Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
 
-Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('frontend.static.page');
+    Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('frontend.static.page');
 
-Route::get('/member/login', [FrontAuthController::class, 'login'])->name('frontend.login');
-Route::post('/login/post', [FrontAuthController::class, 'loginPost'])->name('frontend.login.post');
+    Route::get('/member/login', [FrontAuthController::class, 'login'])->name('frontend.login');
+    Route::post('/login/post', [FrontAuthController::class, 'loginPost'])->name('frontend.login.post');
 
 
-Route::prefix('member')->group(function () {
-    Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
-    Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
+    Route::prefix('member')->group(function () {
+        Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
+        Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
 
-    Route::middleware(['auth.member'])->group(function () {
-        Route::get('/profile', [MemberController::class, 'memberProfile'])->name('member.profile');
-        Route::post('/profile', [MemberController::class, 'profileUpdate'])->name('member.profile.update');
-        Route::post('/profile/summary', [MemberController::class, 'profileUpdateSummary'])->name('member.profile.update.summary');
-        Route::post('/profile/social', [MemberController::class, 'profileUpdateSocial'])->name('member.profile.update.social');
-        Route::post('/profile/image', [MemberController::class, 'uploadProfileImage'])->name('upload.profile.image');
-        Route::get('/logout', [MemberController::class, 'logout'])->name('member.logout');
+        Route::middleware(['auth.member'])->group(function () {
+            Route::get('/profile-own', [MemberController::class, 'memberOwnProfile'])->name('member.own.profile');
+            Route::get('/profile-edit', [MemberController::class, 'memberProfile'])->name('member.profile');
+            Route::post('/profile', [MemberController::class, 'profileUpdate'])->name('member.profile.update');
+            Route::post('/profile/summary', [MemberController::class, 'profileUpdateSummary'])->name('member.profile.update.summary');
+            Route::post('/profile/social', [MemberController::class, 'profileUpdateSocial'])->name('member.profile.update.social');
+            Route::post('/profile/image', [MemberController::class, 'uploadProfileImage'])->name('upload.profile.image');
+            Route::get('/logout', [MemberController::class, 'logout'])->name('member.logout');
+        });
+
+        Route::get('/ours/member', [FrontAuthController::class, 'oursMember'])->name('frontend.ours.member');
+        Route::get('/{membership_id}', [FrontAuthController::class, 'profileShow'])->name('frontend.member.show');
+        Route::get('profile/download/{membership_id}', [FrontAuthController::class, 'profileDownload'])->name('profile.download');
     });
 
-    Route::get('/ours/member', [FrontAuthController::class, 'oursMember'])->name('frontend.ours.member');
-    Route::get('/{membership_id}', [FrontAuthController::class, 'profileShow'])->name('frontend.member.show');
+    // post routes start
+    Route::get('/post/{categorySlug}', [FrontendPostController::class, 'index'])->name('frontend.blog.news');
+    Route::get('/post/{categorySlug}/{postSlug}', [FrontendPostController::class, 'showSinglePost'])->name('single.post');
+
+    Route::post('/comments', [FrontendPostController::class, 'storeComment'])->name('comments.store');
+    Route::post('/replies', [FrontendPostController::class, 'storeReply'])->name('replies.store');
+    Route::post('/reactions', [FrontendPostController::class, 'storeReaction'])->name('reactions.react');
+    Route::post('/delete', [FrontendPostController::class, 'deleteCommentOrReply'])->name('commentOrReply.delete');
+    // post routes end
+
+    //photo gallery start
+    Route::prefix('gallery')->group(function () {
+        Route::get('/photo', [FrontendGalleryController::class, 'photoGallery'])->name('frontend.photo.gallery');
+        Route::get('/photo/{id}', [FrontendGalleryController::class, 'singlePhotoGallery'])->name('singleAlbum');
+        Route::get('/video', [FrontendGalleryController::class, 'videoGallery'])->name('frontend.video.gallery');
+    });
+
+    //photo gallery end
+    Route::prefix('contact')->group(function () {
+        Route::get('/us', [IndexController::class, 'contact'])->name('frontend.contact');
+        Route::post('/us/info', [IndexController::class, 'contactInfo'])->name('frontend.contact.info');
+    });
+
+    Route::get('/question/answer', [IndexController::class, 'faqs'])->name('frontend.faqs');
+    Route::get('/publication/list', [FrontnedPublicationController::class, 'index'])->name('frontend.publication');
+
+    // events route 
+Route::get('/event/explore', [FrontendEventController::class, 'index'])->name('frontend.events');
+Route::get('/events/explore/{date}', [FrontendEventController::class, 'show'])->name('frontend.event.show');
 });
-
-// post routes start
-Route::get('/post/{categorySlug}', [FrontendPostController::class, 'index']);
-Route::get('/post/{categorySlug}/{postSlug}', [FrontendPostController::class, 'showSinglePost'])->name('single.post');
-
-Route::post('/comments', [FrontendPostController::class, 'storeComment'])->name('comments.store');
-Route::post('/replies', [FrontendPostController::class, 'storeReply'])->name('replies.store');
-Route::post('/reactions', [FrontendPostController::class, 'storeReaction'])->name('reactions.react');
-Route::post('/delete', [FrontendPostController::class, 'deleteCommentOrReply'])->name('commentOrReply.delete');
-// post routes end
-
-//photo gallery start
-Route::prefix('gallery')->group(function () {
-    Route::get('/photo', [FrontendGalleryController::class, 'photoGallery'])->name('frontend.photo.gallery');
-    Route::get('/photo/{id}', [FrontendGalleryController::class, 'singlePhotoGallery'])->name('singleAlbum');
-    Route::get('/video', [FrontendGalleryController::class, 'videoGallery'])->name('frontend.video.gallery');
-});
-
-//photo gallery end
-Route::get('/contact/us', [IndexController::class, 'contact'])->name('frontend.contact');
-
-Route::get('/question/answer', [IndexController::class, 'faqs'])->name('frontend.faqs');
 // frontend route end

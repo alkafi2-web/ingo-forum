@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Content;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\MainContent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
@@ -14,6 +16,9 @@ class AboutusController extends Controller
 {
     public static function index(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('about-us-content-manage')) {
+            abort(401);
+        }
         $mainContent = MainContent::where('name', 'aboutus-content')->first();
         if ($request->ajax()) {
 
@@ -32,6 +37,9 @@ class AboutusController extends Controller
     }
     public function aboutusCreate(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('about-us-content-manage')) {
+            abort(401);
+        }
         // Custom error messages
         $messages = [
             'title.required' => 'The About Us Title is required.',
@@ -75,6 +83,7 @@ class AboutusController extends Controller
                 'content' => json_encode($content_array),
             ]
         );
+        Helper::log("Create or update about us content");
         return response()->json(['success' => ['success' => 'About us content save successfully']]);
     }
 
@@ -85,6 +94,7 @@ class AboutusController extends Controller
 
     public function aboutusFeatureCreate(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'subtitle' => 'required|string|max:255',
@@ -140,7 +150,7 @@ class AboutusController extends Controller
             ['name' => 'aboutus-feature'],
             ['content' => json_encode($content_array)]
         );
-
+        Helper::log("Create or update about us feature");
         return response()->json(['success' => ['success' => 'About us feature saved successfully']]);
     }
 
@@ -206,7 +216,7 @@ class AboutusController extends Controller
                     // Save the updated content back to the database
                     $mainContent->content = json_encode($content);
                     $mainContent->save();
-
+                    Helper::log("Delete about us feature");
                     return response()->json(['success' => 'Feature deleted successfully']);
                 }
             }
@@ -240,7 +250,8 @@ class AboutusController extends Controller
                     // Save the updated content back to the database
                     $mainContent->content = json_encode($content);
                     $mainContent->save();
-
+                    $statusMessage = $status == 1 ? "About Us feature is deactive" : "About Us feature is active";
+                    Helper::log($statusMessage);
                     return response()->json(['success' => 'Feature status updated successfully']);
                 }
             }
@@ -271,7 +282,7 @@ class AboutusController extends Controller
 
     public function featureUpdate(Request $request)
     {
-        
+
         $validator = Validator::make($request->all(), [
             'oldTitle' => 'required|string|max:255',
             'title' => 'nullable|string|max:255',
@@ -309,7 +320,6 @@ class AboutusController extends Controller
                         $found = true;
                         $feature['title'] = $newTitle; // Update title if changed
                         $feature['subtitle'] = $subtitle;
-
                         // Check if there's a new icon file
                         // if ($request->hasFile('icon')) {
                         //     // Delete the old icon file
@@ -328,7 +338,6 @@ class AboutusController extends Controller
 
                         //     $feature['icon_name'] = $imageName;
                         // }
-
                         break;
                     }
                 }
@@ -337,7 +346,7 @@ class AboutusController extends Controller
                     // Save the updated content back to the database
                     $mainContent->content = json_encode($content);
                     $mainContent->save();
-
+                    Helper::log('About us feature update');
                     return response()->json(['success' => 'Feature updated successfully']);
                 }
             }

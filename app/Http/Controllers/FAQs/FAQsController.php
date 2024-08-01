@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\FAQs;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Faqs;
 use Illuminate\Http\Request;
@@ -13,6 +14,9 @@ class FAQsController extends Controller
 {
     public function index(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('faqs-manage')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $banners = Faqs::latest();
 
@@ -54,6 +58,7 @@ class FAQsController extends Controller
                 'answer' => $request->input('answer'),
                 'added_by' => Auth::guard('admin')->id(),
             ]);
+            Helper::log("Create FAQs");
             return response()->json(['success' => ['success' => 'You have successfully Create FAQ!']]);
         } catch (\Exception $e) {
             // Return an error response
@@ -70,6 +75,10 @@ class FAQsController extends Controller
         $newStatus = $request->status == 0 ? 1 : 0;
         $faq->status = $newStatus;
         $faq->save();
+        $statusMessage = $newStatus == 0 
+        ? "$faq->question FAQs status deactive" 
+        : "$faq->question FAQs status active";
+        Helper::log($statusMessage);
         return response()->json(['success' => 'FAQ status updated successfully']);
     }
 
@@ -77,6 +86,7 @@ class FAQsController extends Controller
     {
         $faq = Faqs::findOrFail($request->id);
         $faq->delete();
+        Helper::log("Delete $faq->question FAQs");
         return response()->json(['success' => 'FAQ deleted successfully']);
     }
 
@@ -124,7 +134,7 @@ class FAQsController extends Controller
                 'answer' => $request->input('answer'),
                 'updated_by' => Auth::guard('admin')->id(), // You might want to update who made the changes
             ]);
-
+            Helper::log("Update FAQs");
             // Return a success response
             return response()->json(['success' => ['success' => 'You have successfully updated the FAQ!']]);
         } catch (\Exception $e) {

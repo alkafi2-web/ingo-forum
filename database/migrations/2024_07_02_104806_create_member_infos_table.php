@@ -28,6 +28,7 @@ return new class extends Migration
 
             $table->text('title')->nullable(); // Mission statement
             $table->text('sub_title')->nullable(); // Mission statement
+            $table->longText('short_description')->nullable(); // Mission statement
             $table->longText('mission')->nullable(); // Mission statement
             $table->longText('vision')->nullable(); // Vision statement
             $table->longText('value')->nullable(); // Values of the organization

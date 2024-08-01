@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Content;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\MediaAlbum;
 use App\Models\MediaGallery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
@@ -15,13 +17,10 @@ class MediaController extends Controller
 {
     public function mediaAlbum(Request $request)
     {
-        // return $albums = MediaAlbum::with(['mediaGalleries' => function ($query) {
-        //     $query->where('status', 1);
-        // }])
-        //     ->where('status', 1)
-        //     ->take(3)
-        //     ->get();
-        //  $albums->media_galleries;
+        if (!Auth::guard('admin')->user()->hasPermissionTo('photo-album-manage')) {
+            abort(401);
+        }
+        
         $albums = MediaAlbum::with([
             'mediaGalleries' => function ($query) {
                 $query->where('status', 1);
@@ -68,6 +67,7 @@ class MediaController extends Controller
         }
         $request->merge(['added_by' => auth()->id()]);
         $mediaAlbum = MediaAlbum::create($request->all());
+        Helper::log('Photo album create');
         return response()->json(['success' => ['success' => 'You have successfully Create Media Album!']]);
     }
 
@@ -76,7 +76,7 @@ class MediaController extends Controller
         $album = MediaAlbum::findOrFail($request->id);
         // Delete the banner record
         $album->delete();
-
+        Helper::log('Photo album delete');
         return response()->json(['success' => 'Media Album deleted successfully']);
     }
 
@@ -93,7 +93,8 @@ class MediaController extends Controller
 
         // Save the changes to the database
         $album->save();
-
+        $statusMessage = $newStatus == 0 ? 'Photo album deactive' : 'Photo album active';
+        Helper::log($statusMessage);
         return response()->json(['success' => 'Album status updated successfully']);
     }
     public function albumEdit(Request $request)
@@ -135,12 +136,15 @@ class MediaController extends Controller
 
         // Update the MediaAlbum with validated data
         $mediaAlbum->update($request->all());
+        Helper::log('Photo album update');
         return response()->json(['success' => ['success' => 'You have successfully Update Media Album!']]);
     }
 
     public function photoIndex(Request $request)
     {
-
+        if (!Auth::guard('admin')->user()->hasPermissionTo('photo-gallery-manage')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $album_filter = $request->input('album_filter');
             $status_filter = $request->input('status_filter');
@@ -183,7 +187,7 @@ class MediaController extends Controller
     public function photoCreate(Request $request)
     {
         $messages = [
-            'album_id.required' => 'The album ID is required.',
+            'album_id.required' => 'The album  is required.',
             'album_id.exists' => 'The selected album does not exist.',
             'images.required' => 'At least one image is required.',
             'images.max' => 'You may not upload more than 10 images.',
@@ -196,7 +200,7 @@ class MediaController extends Controller
         $validator = Validator::make($request->all(), [
             'album_id' => 'required|exists:media_albums,id',
             'images' => 'required|array|max:10',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ], $messages);
 
         // Check if validation fails
@@ -219,6 +223,8 @@ class MediaController extends Controller
                 'added_by' => auth()->id(),
             ]);
         }
+        $mediaAlbum = MediaAlbum::findOrFail($request->album_id);
+        Helper::log("Photo add in $mediaAlbum->title album");
         return response()->json(['success' => ['success' => 'You have successfully Add Photo In Album!']]);
     }
 
@@ -233,15 +239,17 @@ class MediaController extends Controller
 
         // Delete the banner record
         $photo->delete();
-
+        $mediaAlbum = MediaAlbum::findOrFail($photo->album_id);
+        Helper::log("Photo delete from $mediaAlbum->title album");
         return response()->json(['success' => 'Photo deleted successfully']);
     }
     public function photoStatus(Request $request)
     {
+        // Find the photo by ID or throw an exception if not found
         $photo = MediaGallery::findOrFail($request->id);
 
-        // Toggle the status
-        $newStatus = $request->status == 0 ? 1 : 0;
+        // Determine the new status
+        $newStatus = $photo->status == 0 ? 1 : 0;
 
         // Update the status attribute
         $photo->status = $newStatus;
@@ -249,6 +257,16 @@ class MediaController extends Controller
         // Save the changes to the database
         $photo->save();
 
+        // Find the media album by the photo's album_id
+        $mediaAlbum = MediaAlbum::findOrFail($photo->album_id);
+
+        // Log the status change with the appropriate message
+        $statusMessage = $newStatus == 0
+            ? "Photo deactive from $mediaAlbum->title album"
+            : "Photo active from $mediaAlbum->title album";
+        Helper::log($statusMessage);
+
+        // Return a JSON response
         return response()->json(['success' => 'Photo status updated successfully']);
     }
     public function photoEdit(Request $request)
@@ -308,13 +326,17 @@ class MediaController extends Controller
         $photo->update([
             'album_id' => $request->album_id,
         ]);
+        $mediaAlbum = MediaAlbum::findOrFail($photo->album_id);
+        Helper::log("Photo update from $mediaAlbum->title album");
         return response()->json(['success' => ['success' => 'You have successfully Update Photo In Album!']]);
     }
 
 
     public function videoIndex(Request $request)
     {
-
+        if (!Auth::guard('admin')->user()->hasPermissionTo('video-gallery-manage')) {
+            abort(401);
+        }
         if ($request->ajax()) {
             $videos = MediaGallery::where('type', 'video')->latest()->get();
 
@@ -381,6 +403,7 @@ class MediaController extends Controller
             'media' => $imageName,
             'added_by' => auth()->id(),
         ]);
+        Helper::log("Video add in gallery");
         return response()->json(['success' => ['success' => 'You have successfully Upload Video!']]);
     }
 
@@ -395,7 +418,7 @@ class MediaController extends Controller
 
         // Delete the banner record
         $video->delete();
-
+        Helper::log("Video delete from gallery");
         return response()->json(['success' => 'Video deleted successfully']);
     }
     public function videoStatus(Request $request)
@@ -410,7 +433,10 @@ class MediaController extends Controller
 
         // Save the changes to the database
         $video->save();
-
+        $statusMessage = $newStatus == 0 
+        ? "Video deactive" 
+        : "Video active ";
+        Helper::log($statusMessage);
         return response()->json(['success' => 'Video status updated successfully']);
     }
     public function videoEdit(Request $request)
@@ -480,6 +506,7 @@ class MediaController extends Controller
             'url' => $request->url,
             'content' => $request->content,
         ]);
+        Helper::log("Video update in gallery");
         return response()->json(['success' => ['success' => 'You have successfully Update Video!']]);
     }
 }

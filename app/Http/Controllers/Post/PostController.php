@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Post;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\PostCategory;
@@ -18,6 +19,9 @@ class PostController extends Controller
 {
     public function postCreate()
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('post-add')) {
+            abort(401);
+        }
         // return $posts = Post::with(['category', 'subcategory','addedBy'])->where('status',1)->latest()->get();
         $categories = PostCategory::where('status', 1)->with('subcategories')->get();
         return view('admin.post.post-create', [
@@ -85,13 +89,17 @@ class PostController extends Controller
             'banner' => $bannerName,
             'added_by' => Auth::guard('admin')->user()->id,
         ]);
+        Helper::log("$request->title post create");
         return response()->json(['success' => ['success' => 'Post Added Successfully']]);
     }
 
     public function postList(Request $request)
     {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('post-view-all')) {
+            abort(401);
+        }
         if ($request->ajax()) {
-            $posts = Post::with('category', 'subcategory', 'addedBy')->get();
+            $posts = Post::with('category', 'subcategory', 'addedBy')->latest();
             // Format data for DataTables
             return DataTables::of($posts)
                 ->addColumn('category_name', function ($post) {
@@ -126,8 +134,26 @@ class PostController extends Controller
 
         // Delete the banner record
         $post->delete();
-
+        Helper::log("$post->title post delete");
         return response()->json(['success' => 'Post deleted successfully']);
+    }
+    public function postComment(Request $request)
+    {
+        // Find the banner by ID or throw an exception if not found
+        $post = Post::findOrFail($request->id);
+        if ($post->comment_permission  == 0) {
+            $post->comment_permission = 1;
+            // Save the changes to the database
+            $post->save();
+            Helper::log("$post->title post comment enabled");
+            return response()->json(['success' => 'Post Comment Enable successfully!']);
+        } else {
+            $post->comment_permission = 0;
+            // Save the changes to the database
+            $post->save();
+            Helper::log("$post->title post comment disabled");
+            return response()->json(['success' => 'Post Comment Disable successfully!']);
+        }
     }
 
     public function postStatus(Request $request)
@@ -143,7 +169,8 @@ class PostController extends Controller
 
         // Save the changes to the database
         $post->save();
-
+        $statusMessage = $newStatus == 0 ? "Unpublished $post->title post" : "Published $post->title post";
+        Helper::log($statusMessage);
         return response()->json(['success' => 'Post status updated successfully']);
     }
 
@@ -169,7 +196,7 @@ class PostController extends Controller
                 'nullable',
                 'string',
                 'max:255',
-                'unique:posts,slug,' . $request->id, // Ensure slug is unique except for current post
+                // 'unique:posts,slug,' . $request->id, // Ensure slug is unique except for current post
                 // Regex pattern to allow only alphanumeric characters and dashes
                 'regex:/^[a-zA-Z0-9\-]*$/u',
             ],
@@ -224,6 +251,7 @@ class PostController extends Controller
             $post->banner = $bannerName;
         }
         $post->save();
+        Helper::log("$request->title post updated");
         return response()->json(['success' => ['success' => 'Post Update Successfully']]);
     }
 }

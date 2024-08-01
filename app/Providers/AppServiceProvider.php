@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Menu;
+use App\Models\Publication;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,7 +43,8 @@ class AppServiceProvider extends ServiceProvider
             // Define default values or fallbacks if content is not found
             $global = [
                 'logo' => $mainContent['logo'] ?? 'logo.png',
-                'website_name' => $mainContent['name'] ?? '',
+                'favicon' => $mainContent['favicon'] ?? 'logo.png',
+                'website_name' => $mainContent['name'] ?? 'Ingo Forum',
                 'short_content' => $mainContent['short_content'] ?? '',
                 'facebook' => $mainContent['facebook'] ?? '',
                 'linkedin' => $mainContent['linkedin'] ?? '',
@@ -51,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
                 'email' => $mainContent['email'] ?? '',
                 'phone' => $mainContent['phone'] ?? '',
                 'address' => $mainContent['address'] ?? '',
+                'address_embaded' => $mainContent['address_embaded'] ?? '',
             ];
             // Check the current route name
             $currentRouteName = Route::currentRouteName();
@@ -58,7 +61,17 @@ class AppServiceProvider extends ServiceProvider
             // Conditional logic to add banner data for specific routes
             if ($currentRouteName === 'frontend.index') {
                 // Fetch Banner data
-                $banners  = Banner::where('status', 1)->get();
+                $banners  = Banner::where('status', 1)->get()->map(function ($banner) {
+                    $banner->background_color = json_decode($banner->background_color, true);
+                    $banner->overlay_color = json_decode($banner->overlay_color, true);
+                    $banner->title = json_decode($banner->title, true);
+                    $banner->description = json_decode($banner->description, true);
+                    $banner->button = json_decode($banner->button, true);
+                    $banner->bg_image = json_decode($banner->bg_image, true);
+                    $banner->content_image = json_decode($banner->content_image, true);
+                    return $banner;
+                });
+                
                 $global['banner'] = $banners;
 
                 $mainContent = MainContent::where('name', 'aboutus-content')->first();
@@ -99,18 +112,23 @@ class AppServiceProvider extends ServiceProvider
                 $events = Event::where('status', 1)->latest()->take(3)->get();
                 $global['events'] = $events;
 
-                $posts = Post::with(['category', 'subcategory', 'addedBy'])->where('status', 1)->latest()->get();
+                $posts = Post::with(['category', 'subcategory', 'addedBy', 'comments', 'replies', 'totalRead'])
+                    ->where('status', 1)
+                    ->latest()
+                    ->take(3) // Limit to 3 posts
+                    ->get();
+
+                foreach ($posts as $post) {
+                    // Summing up the counts of comments and replies
+                    $post->total_comments_and_replies = $post->comments->count() + $post->replies->count();
+                    $post->total_reads = $post->totalRead->count();
+                }
+
                 $global['posts'] = $posts;
 
-                // $photos = MediaGallery::where('type', 'photo')
-                //     ->whereHas('mediaAlbum', function ($query) {
-                //         $query->where('status', 1);
-                //     })
-                //     ->with(['mediaAlbum' => function ($query) {
-                //         $query->where('status', 1);
-                //     }])
-                //     ->latest()->take(3)->get();
-                // $global['photos'] = $photos;
+                $publications = Publication::with('addedBy', 'category')->where('status', 1)->take(3)->get();
+                $global['publications'] = $publications;
+                
 
                 $albums = MediaAlbum::with([
                     'mediaGalleries' => function ($query) {

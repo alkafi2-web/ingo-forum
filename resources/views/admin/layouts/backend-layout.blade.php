@@ -16,8 +16,7 @@
     <meta property="og:url" content="" />
     <meta property="og:site_name" content="INGO Forum" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{-- <link rel="canonical" href="https://preview.keenthemes.com/metronic8" /> --}}
-    <link rel="shortcut icon" href="{{ asset('public/frontend/images/logo.png') }}" />
+    <link rel="shortcut icon" href="{{asset('public/frontend/images/'.$global['favicon'])}}" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!-- jQuery UI -->
@@ -74,7 +73,7 @@
                                     <span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
                                     <!--end::Separator-->
                                     <!--begin::Description-->
-                                    <small class="text-muted fs-7 fw-bold my-1 ms-1">#XRS-45670</small>
+                                    {{-- <small class="text-muted fs-7 fw-bold my-1 ms-1">#XRS-45670</small> --}}
                                     <!--end::Description-->
                                 </h1>
                                 <!--end::Title-->
@@ -140,6 +139,9 @@
     <script src="{{ asset('public/admin/js/ekko-lightbox.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.rawgit.com/mjsarfatti/nestedSortable/master/jquery.mjs.nestedSortable.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.5/jscolor.min.js"></script>
+    <script src="{{ asset('public/admin/js/custom/widgets.js') }}"></script>
+
     @stack('custom-js')
     <!-- Initialize Toastr -->
     {!! Toastr::message() !!}
