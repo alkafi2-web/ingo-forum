@@ -12,8 +12,8 @@
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Status') }}
                 </th>
-                <th class="text-end min-w-140px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
-                    {{ __('Action') }}</th>
+                {{-- <th class="text-end min-w-140px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
+                    {{ __('Action') }}</th> --}}
             </tr>
         </thead>
         <tbody>
@@ -32,7 +32,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('contact.list') }}",
+                    url: "{{ route('subscriber.list') }}",
                     type: 'GET',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -41,55 +41,41 @@
                 columns: [{
                         orderable: true,
                         sortable: false,
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        orderable: true,
-                        sortable: false,
                         data: 'email',
                         name: 'email'
                     },
                     {
+                        data: 'status',
+                        name: 'status',
                         orderable: true,
                         sortable: false,
-                        data: 'phone',
-                        name: 'phone'
-                    },
-                    {
-                        orderable: true,
-                        sortable: false,
-                        data: 'subject',
-                        name: 'subject'
-                    },
-                    {
-                        orderable: true,
-                        sortable: false,
-                        data: 'message',
-                        name: 'message'
+                        render: function(data, type, row) {
+
+                            return `<span class="status badge badge-light-${data == 1 ? 'success' : 'danger'}" data-status="${data}" data-id="${row.id}">${data == 1 ? 'Subcribed' : 'Unsubscribed'}</span>`;
+                        }
                     },
                     
-                    {
-                        data: null,
-                        name: 'actions',
-                        orderable: false,
-                        searchable: false,
-                        render: function(data, type, row) {
-                            var editRoute = '{{ route('post.edit', ':id') }}'.replace(':id', row
-                            .id);
-                            var singlePostRoute =
-                                '{{ route('single.post', ['categorySlug' => ':categorySlug', 'postSlug' => ':postSlug']) }}'
-                                .replace(':categorySlug', row.category_slug)
-                                .replace(':postSlug', row.slug);
+                    // {
+                    //     data: null,
+                    //     name: 'actions',
+                    //     orderable: false,
+                    //     searchable: false,
+                    //     render: function(data, type, row) {
+                    //         var editRoute = '{{ route('post.edit', ':id') }}'.replace(':id', row
+                    //         .id);
+                    //         var singlePostRoute =
+                    //             '{{ route('single.post', ['categorySlug' => ':categorySlug', 'postSlug' => ':postSlug']) }}'
+                    //             .replace(':categorySlug', row.category_slug)
+                    //             .replace(':postSlug', row.slug);
 
-                            return `<div style="display: flex; align-items: center;">
+                    //         return `<div style="display: flex; align-items: center;">
                             
-                            <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}" style="margin-right: 10px;">
-                                <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
-                            </a>
-                        </div>`;
-                        }
-                    }
+                    //         <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}" style="margin-right: 10px;">
+                    //             <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
+                    //         </a>
+                    //     </div>`;
+                    //     }
+                    // }
 
 
                 ],

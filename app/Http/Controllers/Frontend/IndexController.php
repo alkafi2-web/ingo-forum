@@ -67,29 +67,5 @@ class IndexController extends Controller
         return view('frontend.page.static.membership-criteria');
     }
 
-    public function newslaterSubscribe(Request $request)
-    {
-        $messages = [
-            'email.required' => 'Email is required',
-            'email.email' => 'Please provide a valid email address',
-            'email.max' => 'Email should not be more than 255 characters',
-        ];
-
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:255',
-        ], $messages);
-
-        if ($validator->fails()) {
-            // Return a JSON response with validation errors
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-        // Store the validated email in the database
-        $subscriber = new Subsciber();
-        $subscriber->email = $request->input('email');
-        $subscriber->save();
-        return response()->json(['success' => ['success' => 'You have successfull subscribe INGO Forum']]);
-    }
+    
 }
