@@ -81,16 +81,16 @@
                             <p class="fw-semibold">Address :</p>
                             <p>{{ $memberinfo->info->organisation_address }} </p>
                         </div>
-                        {{-- <a href="{{ $memberinfo->info->organisation_website }}" target="_blank"
-                            class="ct-btn btn-yellow w-100 mt-3">Visit Our Website</a> --}}
-                        <div class="d-flex align-items-center justify-content-between">
+                        <a href="{{ $memberinfo->info->organisation_website }}" target="_blank"
+                            class="ct-btn btn-yellow w-100 mt-3">Visit Our Website</a>
+                        {{-- <div class="d-flex align-items-center justify-content-between">
                             <a href="{{ $memberinfo->info->organisation_website }}" type="button" class="ct-btn btn-yellow w-100 mt-3 py-2 px-3 me-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Visit Our Website" target="__blank">
                                 <i class="fa-solid fa-globe"></i>
                               </a>
                             <a href="" type="button" class="ct-btn btn-yellow w-100 mt-3 py-2 px-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Join Our Forum" target="__blank">
                                 <i class="fa-solid fa-paperclip"></i>
                               </a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-lg-9">
