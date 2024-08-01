@@ -188,14 +188,13 @@ use App\Helpers\Helper;
     <div class="row pt-4 ">
       <div class="col-lg-6 mb-3 mb-lg-0">
         <div class="single-big-event">
-          <div class="event-info">
-            <img src="{{ asset('public/frontend/images/' . $global['logo']) }}" alt="logo">
-            <h4>{{ $global['aboutus_content']->title ?? 'Please Upload It From Admin' }}</h4>
-            <p>{!! $global['aboutus_content']->description ?? 'Please Upload It From Admin' !!}</p>
+          <div class="event-info1">
+            <img src="{{ asset('public/frontend/images/events/' . $global['latest_event']->media) }}" alt="logo" style="width:100%">
+            {{-- <h4>{{ $global['aboutus_content']->title ?? 'Please Upload It From Admin' }}</h4>
+            <p>{!! $global['aboutus_content']->description ?? 'Please Upload It From Admin' !!}</p> --}}
           </div>
           <div class="single-event">
-            <span
-              class="mini-title mb-2 d-block">#Event{{ Carbon::parse($global['latest_event']->start_date ?? '')->format('Y') }}</span>
+            {{-- <span class="mini-title mb-2 d-block">#Event{{ Carbon::parse($global['latest_event']->start_date ?? '')->format('Y') }}</span> --}}
             <h4 class="event-title"><a href="">{{ $global['latest_event']->title ?? '' }}</a>
             </h4>
             <p class="line-clamp-3">{{ Str::limit($global['latest_event']->details ?? '', 200) }}</p>
@@ -233,8 +232,7 @@ use App\Helpers\Helper;
             <div class="event-item">
               <div class="row">
                 <div class="col-9">
-                  <span
-                    class="mini-title mb-2 d-block">#Event{{ Carbon::parse($event->start_date)->format('Y') }}</span>
+                  {{-- <span class="mini-title mb-2 d-block">#Event{{ Carbon::parse($event->start_date)->format('Y') }}</span> --}}
                   <h4 class="event-title"><a href="">{{ $event->title }}</a></h4>
                   <p class="line-clamp-2 mb-0 pb-1">{{ Str::limit($event->details, 150) }}
                   </p>
