@@ -1397,6 +1397,14 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
 .newsletter-box h4 {
   margin-bottom: 0px;
 }
+.btn-subscribe {
+  color: var(--white);
+  background-color: var(--secondary);
+}
+.btn-subscribe:hover {
+  color: var(--white) !important;
+  background-color: var(--secondary) !important;
+}
 .main-box input[type="text"] {
   border-top-left-radius: 5px !important;
   border-bottom-left-radius: 5px !important;
