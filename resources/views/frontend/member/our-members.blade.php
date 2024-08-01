@@ -5,7 +5,7 @@
     <!-- Partners Area start here  -->
     <section class="ptb-70">
         <div class="container">
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-lg-3"></div>
                 <div class="col-lg-6">
                     <div class="text-center">
@@ -13,7 +13,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3"></div>
-            </div>
+            </div> --}}
             <div class="row pt-5">
                 <div class="partners">
                     @forelse ($membersInfos as $member)

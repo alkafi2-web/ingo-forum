@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\ContactInfo;
 use App\Models\Faqs;
+use App\Models\Subsciber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -68,16 +69,27 @@ class IndexController extends Controller
 
     public function newslaterSubscribe(Request $request)
     {
-        // Custom validation messages
         $messages = [
-            'email.required' => 'Email is Required',
-            
+            'email.required' => 'Email is required',
+            'email.email' => 'Please provide a valid email address',
+            'email.max' => 'Email should not be more than 255 characters',
         ];
 
-        // Create a validator instance with custom messages
         $validator = Validator::make($request->all(), [
-            'email' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
         ], $messages);
-        return $request->all();
+
+        if ($validator->fails()) {
+            // Return a JSON response with validation errors
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+        // Store the validated email in the database
+        $subscriber = new Subsciber();
+        $subscriber->email = $request->input('email');
+        $subscriber->save();
+        return response()->json(['success' => ['success' => 'You have successfull subscribe INGO Forum']]);
     }
 }

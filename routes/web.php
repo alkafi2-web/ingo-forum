@@ -31,6 +31,7 @@ use App\Http\Controllers\Frontend\Publication\FrontnedPublicationController;
 use App\Http\Controllers\Publication\PublicationController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\Frontend\Event\EventController as FrontendEventController;
+use App\Http\Controllers\Subscriber\SubscriberController;
 
 // robot & sitemap 
 Route::get('/robots.txt', [RobotsController::class, 'index']);
@@ -260,6 +261,11 @@ Route::prefix('admin')->group(function () {
             // Route::post('/view', [AdminMemberController::class, 'memberView'])->name('member.view');
         });
         // member route end
+        // subscriber route start
+        Route::prefix('subscriber')->group(function () {
+            Route::get('/', [SubscriberController::class, 'subscriberlist'])->name('subscriber.list');
+        });
+        // subscriber route end
 
         // contact list route start
         // Route::prefix('member')->group(function () {
