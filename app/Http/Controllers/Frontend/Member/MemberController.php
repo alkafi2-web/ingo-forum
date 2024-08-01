@@ -32,6 +32,7 @@ class MemberController extends Controller
             'org_website' => 'required|string|max:255',
             'org_email' => 'required|email|max:255',
             'org_type' => ['required', Rule::in(['1', '2'])],
+            'ngo_reg_number' => 'required|string|max:255',
             'org_address' => 'required|string|max:255',
             'director_name' => 'required|string|max:255',
             'director_email' => 'required|email|max:255',
@@ -43,6 +44,7 @@ class MemberController extends Controller
 
         // Define custom error messages
         $messages = [
+            'ngo_reg_number.required' => 'The NGO buro Registration Number is required.',
             'org_name.required' => 'The organisation name is required.',
             'org_website.required' => 'The organisation website is required.',
             'org_website.url' => 'The organisation website is invalid url.',
@@ -79,6 +81,7 @@ class MemberController extends Controller
             'organisation_email' => $request->org_email,
             'organisation_type' => $request->org_type,
             'organisation_website' => $request->org_website,
+            'organisation_ngo_reg' => $request->ngo_reg_number,
             'organisation_address' => $request->org_address,
 
             'director_name' => $request->director_name,

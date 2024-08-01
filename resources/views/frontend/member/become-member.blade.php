@@ -70,6 +70,17 @@
                                 <div class="col-12 mb-3">
                                     <div class="row align-items-center">
                                         <div class="col-md-4">
+                                            <label for="ngo_reg_number" class="form-label required">NGO Buro Reg Number</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" name="ngo_reg_number" class="form-control" id="ngo_reg_number"
+                                                placeholder="Organisation NGO Buro Registration Number" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-4">
                                             <label for="org_address" class="form-label required">Organisation
                                                 Address</label>
                                         </div>
