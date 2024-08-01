@@ -68,6 +68,18 @@
                         <div class="col-12 mb-3">
                             <div class="row align-items-center">
                                 <div class="col-md-4">
+                                    <label for="organisation_ngo_reg" class="form-label">NGO Bureau Number</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="email" name="organisation_ngo_reg" class="form-control" id="organisation_ngo_reg"
+                                        placeholder="Organisation Email" readonly
+                                        value="{{ $member->memberInfos[0]['organisation_ngo_reg'] }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
                                     <label for="org_type" class="form-label">Organisation Type</label>
                                 </div>
                                 <div class="col-md-8">

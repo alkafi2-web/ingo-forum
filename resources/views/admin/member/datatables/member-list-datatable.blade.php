@@ -9,7 +9,10 @@
                     {{ __('Organisation Name') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Director') }}
+                    {{ __('Country Head') }}
+                </th>
+                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                    {{ __('NGO Bureau Number') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Organisation Type') }}
@@ -63,6 +66,12 @@
                     {
                         orderable: true,
                         sortable: false,
+                        data: 'organisation_ngo_reg',
+                        name: 'organisation_ngo_reg'
+                    },
+                    {
+                        orderable: true,
+                        sortable: false,
                         data: 'org_type',
                         name: 'org_type',
                         render: function(data, type, row) {
@@ -110,13 +119,11 @@
                         render: function(data, type, row) {
                             var url = "{{ route('member.view', ':id') }}".replace(':id', row.id);
                             return `
-                                <a href="${url}" class="text-info mr-2 me-2" data-id="${row.id}">
-                                    <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
-                                </a>`;
+                        <a href="${url}" class="text-info mr-2 me-2" data-id="${row.id}">
+                            <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
+                        </a>`;
                         }
                     }
-
-
                 ],
                 lengthMenu: [
                     [5, 10, 30, 50, -1],
@@ -131,7 +138,12 @@
                         extend: 'colvis',
                         columns: ':not(:first-child)' // Exclude first column (serial)
                     },
-                    // 'excel', 'print', 'copy'
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':visible' // Export only visible columns
+                        }
+                    }
                 ],
                 language: {
                     search: '<div class="input-group">' +
@@ -154,14 +166,15 @@
                         searchable: true,
                         orderable: true
                     }
-                ],
-                // responsive: true,
-
+                ]
             });
+
             $('#organization, #status_filter').on('change', function() {
                 table.ajax.reload(null, false);
             });
         });
+
+
         $(document).on('click', '.view', function(e) {
             e.preventDefault(); // Prevent default link behavior
 

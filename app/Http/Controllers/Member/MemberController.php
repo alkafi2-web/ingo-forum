@@ -40,6 +40,9 @@ class MemberController extends Controller
                 ->addColumn('director_name', function ($member) {
                     return optional($member->memberInfos->first())->director_name ?? 'N/A';
                 })
+                ->addColumn('organisation_ngo_reg', function ($member) {
+                    return optional($member->memberInfos->first())->organisation_ngo_reg ?? 'N/A';
+                })
                 ->addColumn('org_type', function ($member) {
                     return optional($member->memberInfos->first())->organisation_type ?? 'N/A';
                 })
@@ -61,6 +64,9 @@ class MemberController extends Controller
                 })
                 ->addColumn('director_name', function ($member) {
                     return optional($member->memberInfos->first())->director_name ?? 'N/A';
+                })
+                ->addColumn('organisation_ngo_reg', function ($member) {
+                    return optional($member->memberInfos->first())->organisation_ngo_reg ?? 'N/A';
                 })
                 ->addColumn('org_type', function ($member) {
                     return optional($member->memberInfos->first())->organisation_type ?? 'N/A';

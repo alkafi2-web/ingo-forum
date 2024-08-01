@@ -50,7 +50,14 @@
                                         {{ $member->memberInfos[0]['membership_id'] }}
                                     </span>
                                 @endif
-                            
+                            <div class="mt-2">
+                                @if ($member->memberInfos[0]['organisation_ngo_reg'] != null)
+                                    <span class="membership-id me-2 ">
+                                        <i class="fas fa-id-badge fa-lg text-primary"></i>
+                                        {{ $member->memberInfos[0]['organisation_ngo_reg'] }}
+                                    </span>
+                                @endif
+                            </div>
                             <div class="mt-2">
                                 @if ($member->memberInfos[0]['org_type'] == 1)
                                 <span class="badge badge-secondary"><i class="fas fa-info-circle fa-lg text-mute mt-1"></i>&nbsp; Registered with NGO Affairs Bureau (NGOAB) as an INGO</span>
@@ -59,6 +66,7 @@
                                         structures</span>
                                 @endif
                             </div>
+                            
     
     
                         </div>
