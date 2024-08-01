@@ -1464,6 +1464,9 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
 .img-text-content-img {
   width: 100%;
 }
+.img-text-content-title {
+  font-size: 18px;
+}
 /* About us page design end here  */
 
 /* Footer Design Start Here  */
