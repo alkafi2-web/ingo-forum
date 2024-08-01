@@ -88,7 +88,7 @@
         <p>Initially, the forum focused on providing input on the act's revision and establishing its own structure and membership criteria. A significant event in 2011 solidified the forum's presence - a collaborative celebration of Bangladesh's independence with partner national NGOs.</p>
       </div>
       <div class="col-md-6 img-text-right">
-        <img class="img-text-content-img" src="{{ asset('public/frontend/images/contact.png') }}" alt="">
+        <img class="img-text-content-img" src="{{ asset('public/frontend/images/history-img.png') }}" alt="">
       </div>
     </div>
   </div>
