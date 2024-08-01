@@ -572,7 +572,7 @@ use App\Helpers\Helper;
             </h3>
             <p class="line-clamp-3" style="height: 60px;">
               {{ Str::limit($album->subcontent ?? '', 150) }}</p>
-            <div class="blog-publice py-1">
+            {{-- <div class="blog-publice py-1">
               <div class="row pb-1">
                 <div class="col-6 border-right">
                   <div class="d-flex align-items-center">
@@ -593,7 +593,7 @@ use App\Helpers\Helper;
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
           </div>
         </div>
       </div>
@@ -639,7 +639,7 @@ use App\Helpers\Helper;
               </h3>
               <p class="line-clamp-3" style="height: 60px;">{{ $video->content }}
               </p>
-              <div class="blog-publice py-1">
+              {{-- <div class="blog-publice py-1">
                 <div class="row pb-1">
                   <div class="col-6 border-right">
                     <div class="d-flex align-items-center">
@@ -660,7 +660,7 @@ use App\Helpers\Helper;
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> --}}
             </div>
           </div>
         </div>
