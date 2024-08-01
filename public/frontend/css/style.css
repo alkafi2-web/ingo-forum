@@ -1016,7 +1016,7 @@ a {
   border-radius: 5px;
 }
 
-body :is(input[type="text"], select, input[type="email"], input[type="password"], input[type="file"]) {
+body :is(input[type="text"], select, textarea, input[type="email"], input[type="password"], input[type="file"],input[type="datetime-local"],input[type="date"]) {
   background-color: #F4F0E9;
   border: 1px solid #F4F0E9 !important;
 }
@@ -1273,12 +1273,15 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
   cursor: pointer;
 }
 
+.nav-pills.sub-profile-tabs .nav-link.active,
+.nav-pills.sub-profile-tabs .show>.nav-link,
 .nav-pills .all-profile-tabs .nav-link.active,
 .nav-pills .all-profile-tabs .show>.nav-link {
   color: var(--white) !important;
   background-color: var(--secondary) !important;
 }
 
+.sub-profile-tabs .nav-link,
 .all-profile-tabs .nav-link {
   font-size: 16px;
   font-weight: 600;
@@ -1287,6 +1290,8 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
   margin-bottom: 2px;
 }
 
+.sub-profile-tabs .nav-link:focus,
+.sub-profile-tabs .nav-link:hover,
 .all-profile-tabs .nav-link:focus,
 .all-profile-tabs .nav-link:hover {
   background-color: var(--orange-light);
@@ -1505,6 +1510,7 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
   margin-bottom: 5px;
 }
 /* About us page design end here  */
+
 
 /* Footer Design Start Here  */
 .footer {
@@ -1768,12 +1774,14 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
     flex-direction: row !important;
     padding-left: 5px !important;
     padding-right: 5px !important;
-    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap !important;
   }
 
   .all-profile-tabs .nav-link {
     font-size: 15px;
-    padding: 8px;
+    padding: 8px 25px;
+    margin-bottom: 4px;
   }
   .gallery-card .gallery-img img {
     height: 180px;
