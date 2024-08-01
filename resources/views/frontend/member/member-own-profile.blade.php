@@ -6,15 +6,17 @@
             <div class="row">
                 <div class="col-md-3 mb-3 mb-md-0">
                     <div class="members-profile-image h-100 text-center position-relative">
-                        <img src="{{ asset('public/frontend/images/member/') }}/{{ $memberinfo->info->logo ?? 'logo.png' }}"
+                        <img src="{{ asset('public/frontend/images/member/' . ($member->memberInfos[0]['logo'] ?? 'placeholder.jpg')) }}"
                             alt="Profile Image" class="mb-3">
+                        <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->info->organisation_name }}</span>
+                        <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->info->organisation_ngo_reg }}</span>
                         <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->info->membership_id }}</span>
                         <span
                             class="d-block w-100 text-bold">({{ $memberinfo->info->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
                             
-                            <a href="{{ route('member.profile') }}" type="button" class="ct-btn btn-yellow py-2 px-3 position-absolute end-0 top-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Profile">
+                            {{-- <a href="{{ route('member.profile') }}" type="button" class="ct-btn btn-yellow py-2 px-3 position-absolute end-0 top-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Profile">
                                 <i class="fa-solid fa-pen-to-square"></i>
-                              </a>
+                              </a> --}}
                     </div>
                 </div>
                 <div class="col-md-9">
