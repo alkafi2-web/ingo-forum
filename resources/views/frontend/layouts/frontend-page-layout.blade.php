@@ -9,6 +9,7 @@
     {!! OpenGraph::generate() !!}
     {{-- {!! TwitterCard::generate() !!} --}}
     {!! JsonLd::generate() !!}
+    <link rel="shortcut icon" href="{{asset('public/frontend/images/'.$global['favicon'])}}" />
     <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
@@ -62,6 +63,7 @@
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('public/js/share.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     
     <script src="{{ asset('public/frontend/js/main.js') }}"></script>
     <script>

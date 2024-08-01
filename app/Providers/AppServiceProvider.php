@@ -43,7 +43,8 @@ class AppServiceProvider extends ServiceProvider
             // Define default values or fallbacks if content is not found
             $global = [
                 'logo' => $mainContent['logo'] ?? 'logo.png',
-                'website_name' => $mainContent['name'] ?? '',
+                'favicon' => $mainContent['favicon'] ?? 'logo.png',
+                'website_name' => $mainContent['name'] ?? 'Ingo Forum',
                 'short_content' => $mainContent['short_content'] ?? '',
                 'facebook' => $mainContent['facebook'] ?? '',
                 'linkedin' => $mainContent['linkedin'] ?? '',

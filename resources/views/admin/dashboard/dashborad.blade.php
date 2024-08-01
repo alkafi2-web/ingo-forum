@@ -172,37 +172,80 @@ Dashboard
     <div class="row g-5">
       <div class="col-12">
         <div class="card">
-          <div class="card-header pt-5">
-            <h3 class="card-label fw-bold text-gray-900">Contact Request</h3>
-          </div>
-          <div class="card-body pt-5">
-            <div class="row gx-3">
-              <div class="col-4">
-                <div class="d-flex flex-column bg-light-info px-6 py-8 rounded-2 h-lg-100">
-                  <i class="fas fa-address-book fs-2x text-info my-2"></i>
-                  <span
-                    class="text-info fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $totalContactRequests }}</span>
-                  <a href="#" class="text-info fw-semibold fs-5">Total Requests</a>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="d-flex flex-column bg-light-dark px-6 py-8 rounded-2 h-lg-100">
-                  <i class="fas fa-calendar-day fs-2x text-dark my-2"></i>
-                  <span
-                    class="text-dark fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $todayContactRequests }}</span>
-                  <a href="#" class="text-dark fw-semibold fs-5">Today Requests</a>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="d-flex flex-column bg-light-warning px-6 py-8 rounded-2 h-lg-100">
-                  <i class="fas fa-calendar-day fs-2x text-warning my-2"></i>
-                  <span
-                    class="text-warning fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $currentMonthContactRequests }}</span>
-                  <a href="#" class="text-warning fw-semibold fs-5">Current Month Requests</a>
-                </div>
-              </div>
+            <div class="card-header pt-5">
+                <h3 class="card-label fw-bold text-gray-900">Website Visitor</h3>
             </div>
-          </div>
+            <div class="card-body pt-5">
+                <div class="row gx-3">
+                    <div class="col-3">
+                        <div class="d-flex flex-column bg-light-info px-6 py-8 rounded-2 h-lg-100">
+                            <span class="text-info fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $totalVisitors }}</span>
+                            <a href="#" class="text-info fw-semibold fs-5">Total Visitor</a>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="d-flex flex-column bg-light-dark px-6 py-8 rounded-2 h-lg-100">
+                            <span class="text-dark fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $todayVisitors }}</span>
+                            <a href="#" class="text-dark fw-semibold fs-5">Today Visit</a>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="d-flex flex-column bg-light-warning px-6 py-8 rounded-2 h-lg-100">
+                            <span class="text-warning fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $uniqueVisitors }}</span>
+                            <a href="#" class="text-warning fw-semibold fs-5">Unique Visitor</a>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="d-flex flex-column bg-light-primary px-6 py-8 rounded-2 h-lg-100">
+                            <span class="text-primary fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $newVisitors }}</span>
+                            <a href="#" class="text-primary fw-semibold fs-5">New Visitor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-xl-stretch mb-xl-8">
+                    <!--begin::Body-->
+                    <div class="card-body">
+                        <!--begin::Chart-->
+                        <div id="visitor_chart" style="height: 350px"></div>
+                        <!--end::Chart-->
+                    </div>
+                    <!--end::Body-->
+            </div>
+            @push('custom-js')
+            <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    var visitorsData = @json($visitorsData);
+            
+                    var options = {
+                        chart: {
+                            type: 'line',
+                            height: 350
+                        },
+                        series: [{
+                            name: 'Visitors',
+                            data: visitorsData.map(data => data.count)
+                        }],
+                        xaxis: {
+                            categories: visitorsData.map(data => data.date)
+                        },
+                        yaxis: {
+                            title: {
+                                text: 'Visitor Count'
+                            }
+                        },
+                        title: {
+                            text: 'Visitors by Date',
+                            align: 'left'
+                        }
+                    };
+            
+                    var chart = new ApexCharts(document.querySelector("#visitor_chart"), options);
+                    chart.render();
+                });
+            </script>
+            @endpush
         </div>
       </div>
       <div class="col-12">

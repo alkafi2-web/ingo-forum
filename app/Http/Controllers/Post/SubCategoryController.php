@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
 use App\Models\PostSubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -67,6 +68,7 @@ class SubCategoryController extends Controller
             'category_id' => $request->category,
             'name' => $request->name,
             'slug' => Str::slug($request->name, '-'),
+            'status' => 1,
         ]);
         Helper::log("Create post subcategory $subcategory->name");
         return response()->json(['success' => ['success' => 'Sub Category saved successfully!']]);
