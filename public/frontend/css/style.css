@@ -1467,6 +1467,43 @@ body :is(input[type="text"], select, input[type="email"], input[type="password"]
 .img-text-content-title {
   font-size: 18px;
 }
+.member-card {
+  border: 1px solid #DEE2E6;
+  border-radius: 0.5rem;
+  padding: 15px;
+  margin-bottom: 20px;
+  transition: all .3s ease-in-out;
+}
+.member-card:hover {
+  box-shadow: #f8ead4 0px 8px 24px;
+}
+.member-card-profile-info .member-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 0.5rem;
+}
+.section-header {
+  border-bottom: 2px solid #007BFF;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+.member-card-profile-info h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.member-card-profile-info h4 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+.member-card-profile-info h5 {
+  font-size: 16px;
+}
+.member-desc {
+  margin-bottom: 5px;
+}
 /* About us page design end here  */
 
 /* Footer Design Start Here  */
