@@ -48,8 +48,20 @@ class IndexController extends Controller
         return view('frontend.faqs.faqs', compact('faqs'));
     }
 
-    public function customePage()
+    public function aboutUs()
     {
-        return view('frontend.page.static.custom-page');
+        return view('frontend.page.static.about-us');
+    }
+    public function whyIngo()
+    {
+        return view('frontend.page.static.why-ingo-forum');
+    }
+    public function executiveCommittee()
+    {
+        return view('frontend.page.static.executive-committee');
+    }
+    public function memberCriteria()
+    {
+        return view('frontend.page.static.membership-criteria');
     }
 }

@@ -327,9 +327,13 @@ Route::middleware(['trackvisitor'])->group(function () {
     Route::get('/publication/list', [FrontnedPublicationController::class, 'index'])->name('frontend.publication');
 
     // events route 
-Route::get('/event/explore', [FrontendEventController::class, 'index'])->name('frontend.events');
-Route::get('/events/explore/{date}', [FrontendEventController::class, 'show'])->name('frontend.event.show');
+    Route::get('/event/explore', [FrontendEventController::class, 'index'])->name('frontend.events');
+    Route::get('/events/explore/{date}', [FrontendEventController::class, 'show'])->name('frontend.event.show');
 
-    Route::get('/test/custom-page', [IndexController::class, 'customePage'])->name('frontend.custom.page');
-});
+    Route::get('/about/us', [IndexController::class, 'aboutUs'])->name('frontend.aboutus');
+    Route::get('/why/ingo', [IndexController::class, 'whyIngo'])->name('frontend.why.ingo');
+    Route::get('/member/criteria', [IndexController::class, 'memberCriteria'])->name('frontend.member.criteria');
+    Route::get('/executive/committee', [IndexController::class, 'executiveCommittee'])->name('frontend.executive.committee');
+
+}); 
 // frontend route end
