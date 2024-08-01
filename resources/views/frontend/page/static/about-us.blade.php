@@ -93,38 +93,4 @@
     </div>
   </div>
 </section>
-<section class="ptb-50 img-text-content">
-  <div class="container">
-    <div class="container">
-      <div class="row flex-column-reverse flex-md-row align-items-center">
-        <div class="col-md-6 img-text-left">
-          <img class="img-text-content-img" src="{{ asset('public/frontend/images/contact.png') }}" alt="">
-        </div>
-        <div class="col-md-6 img-text-right">
-          <h2 class="section-title">Why INGO Forum?</h2>
-          <p>The INGO Forum provides a unique space for INGOs in Bangladesh to:</p>
-          <ul>
-            <li class="d-flex align-items-start mb-1">
-              <i class="fa-solid fa-check me-1" style="margin-top: 2px"></i>
-              <span>Share best practices and expertise for improved program delivery.</span>
-            </li>
-            <li class="d-flex align-items-start mb-1">
-              <i class="fa-solid fa-check me-1" style="margin-top: 2px"></i>
-              <span>Advocate for collective interests and influence policy decisions.</span>
-            </li>
-            <li class="d-flex align-items-start mb-1">
-              <i class="fa-solid fa-check me-1" style="margin-top: 2px"></i>
-              <span>Coordinate efforts to maximize impact and avoid duplication.</span>
-            </li>
-            <li class="d-flex align-items-start mb-1">
-              <i class="fa-solid fa-check me-1" style="margin-top: 2px"></i>
-              <span>Promote transparency and accountability within the INGO sector.</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    
-  </div>
-</section>
 @endsection

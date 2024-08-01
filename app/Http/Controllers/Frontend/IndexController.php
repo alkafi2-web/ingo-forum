@@ -62,6 +62,7 @@ class IndexController extends Controller
     }
     public function memberCriteria()
     {
+        // return 'amit';
         return view('frontend.page.static.membership-criteria');
     }
 }
