@@ -31,7 +31,7 @@
       <div class="col-12">
         <div class="member-card">
           <div class="d-flex align-items-center mb-2 member-card-profile-info">
-            <img src="{{ asset('public/frontend/images/Ashish Demble.jpg')}}"
+            <img src="{{ asset('public/frontend/images/Ashish Demble.jpg')}}" 
               alt="Mr Ashish Damle" class="member-image me-2">
             <div>
               <h3>Mr Ashish Damle</h3>
