@@ -118,7 +118,7 @@ use App\Helpers\Helper;
             <img src="{{ asset('public/frontend/images/icons/bird.png') }}" alt="">
             <div class="d-flex align-items-start flex-column ms-2">
               <p class="text-white">Member Organisation's 94</p>
-              <a href="#" class="d-flex align-items-center">
+              <a href="{{route('member')}}" class="d-flex align-items-center">
                 <span>Be a Member</span>
                 <i class="fa-solid fa-angle-right ms-1"></i>
               </a>
@@ -685,7 +685,7 @@ use App\Helpers\Helper;
                 <div class="input-group">
                   <i class="fa-regular fa-envelope position-absolute"></i>
                   <input type="text" class="form-control" id="" aria-describedby="" placeholder="Enter your email">
-                  <button class="btn btn-yellow" type="button" id="">Subscribe</button>
+                  <button class="btn btn-subscribe" type="button" id="">Subscribe</button>
                 </div>
             </form>
           </div>
@@ -708,7 +708,7 @@ use App\Helpers\Helper;
                 <span class="be-2">Express Your Interest</span>
               </div>
               <div class="col-md-6">
-                <a href="" class="btn join-btn w-100">Join With Us</a>
+                <a href="{{route('member')}}" class="btn join-btn w-100">Join With Us</a>
               </div>
             </div>
           </div>
