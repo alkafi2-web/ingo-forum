@@ -37,7 +37,7 @@
                     <nav class="footer-menu">
                         @foreach ($menus as $menu)
                             <ul>
-                                @if ($menu->name === 'About Us' && $menu->subMenus->count())
+                                @if ($menu->name === 'About' && $menu->subMenus->count())
                                     @foreach ($menu->subMenus as $child)
                                         <li>
                                             @if ($child->type == 'route')
