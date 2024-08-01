@@ -335,5 +335,7 @@ Route::middleware(['trackvisitor'])->group(function () {
     Route::get('/member/criteria', [IndexController::class, 'memberCriteria'])->name('frontend.member.criteria');
     Route::get('/executive/committee', [IndexController::class, 'executiveCommittee'])->name('frontend.executive.committee');
 
+    Route::post('/newslater/post', [IndexController::class, 'newslaterSubscribe'])->name('frontend.newslater.store');
+
 }); 
 // frontend route end

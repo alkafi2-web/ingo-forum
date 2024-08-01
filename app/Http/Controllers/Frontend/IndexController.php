@@ -64,4 +64,19 @@ class IndexController extends Controller
     {
         return view('frontend.page.static.membership-criteria');
     }
+
+    public function newslaterSubscribe(Request $request)
+    {
+        // Custom validation messages
+        $messages = [
+            'email.required' => 'Email is Required',
+            
+        ];
+
+        // Create a validator instance with custom messages
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|max:255',
+        ], $messages);
+        return $request->all();
+    }
 }
