@@ -115,11 +115,11 @@ use App\Helpers\Helper;
         </div>
         <div class="col-12 col-md-4 text-center mb-3 mb-md-0">
           <div class="counter d-flex align-items-center">
-            <img src="{{ asset('public/frontend/images/icons/bird.png') }}" alt="">
+            <img src="{{ asset('public/frontend/images/icons/alert.png') }}" alt="">
             <div class="d-flex align-items-start flex-column ms-2">
-              <p class="text-white">Member Organisation's 94</p>
-              <a href="{{route('member')}}" class="d-flex align-items-center">
-                <span>Be a Member</span>
+              <p class="text-white">Committed to Peace since 2000</p>
+              <a href="#" class="d-flex align-items-center">
+                <span>Governance and structure</span>
                 <i class="fa-solid fa-angle-right ms-1"></i>
               </a>
             </div>
@@ -127,11 +127,11 @@ use App\Helpers\Helper;
         </div>
         <div class="col-12 col-md-4 text-center mb-3 mb-md-0">
           <div class="counter d-flex align-items-center">
-            <img src="{{ asset('public/frontend/images/icons/alert.png') }}" alt="">
+            <img src="{{ asset('public/frontend/images/icons/bird.png') }}" alt="">
             <div class="d-flex align-items-start flex-column ms-2">
-              <p class="text-white">Committed to Peace since 2000</p>
+              <p class="text-white">Member Organisation's 94</p>
               <a href="#" class="d-flex align-items-center">
-                <span>Governance and structure</span>
+                <span>Be a Member</span>
                 <i class="fa-solid fa-angle-right ms-1"></i>
               </a>
             </div>
