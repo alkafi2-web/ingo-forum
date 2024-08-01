@@ -1,0 +1,8 @@
+[14-Jul-2024 22:07:37 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/webasein/public_html/ingo.webase.info/config/database.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/webasein/public_html/ingo.webase.info/config/database.php on line 19
+[15-Jul-2024 01:01:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/webasein/public_html/ingo.webase.info/config/database.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/webasein/public_html/ingo.webase.info/config/database.php on line 19
