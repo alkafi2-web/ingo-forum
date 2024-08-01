@@ -323,5 +323,7 @@ Route::middleware(['trackvisitor'])->group(function () {
 
     Route::get('/question/answer', [IndexController::class, 'faqs'])->name('frontend.faqs');
     Route::get('/publication/list', [FrontnedPublicationController::class, 'index'])->name('frontend.publication');
+
+    Route::get('/test/custom-page', [IndexController::class, 'customePage'])->name('frontend.custom.page');
 });
 // frontend route end

@@ -47,4 +47,9 @@ class IndexController extends Controller
         $faqs = Faqs::where('status', 1)->get();
         return view('frontend.faqs.faqs', compact('faqs'));
     }
+
+    public function customePage()
+    {
+        return view('frontend.page.static.custom-page');
+    }
 }
