@@ -80,7 +80,7 @@
                             <span class="menu-section text-muted text-uppercase fs-8 ls-1">Member Management</span>
                         </div>
                     </div>
-                    {{-- <div data-kt-menu-trigger="click"
+                    <div data-kt-menu-trigger="click"
                         class="menu-item menu-accordion {{ Route::currentRouteName() == 'member.request' || Route::currentRouteName() == 'member.view' || Route::currentRouteName() == 'member.list' ? 'hover show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
@@ -142,7 +142,7 @@
                             @endcan
                         </div>
                     </div>
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteName() == 'system' ? 'active' : '' }}"
                             href="{{ route('system') }}">
                             <span class="menu-icon">
