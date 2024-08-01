@@ -47,4 +47,37 @@ class IndexController extends Controller
         $faqs = Faqs::where('status', 1)->get();
         return view('frontend.faqs.faqs', compact('faqs'));
     }
+
+    public function aboutUs()
+    {
+        return view('frontend.page.static.about-us');
+    }
+    public function whyIngo()
+    {
+        return view('frontend.page.static.why-ingo-forum');
+    }
+    public function executiveCommittee()
+    {
+        return view('frontend.page.static.executive-committee');
+    }
+    public function memberCriteria()
+    {
+        // return 'amit';
+        return view('frontend.page.static.membership-criteria');
+    }
+
+    public function newslaterSubscribe(Request $request)
+    {
+        // Custom validation messages
+        $messages = [
+            'email.required' => 'Email is Required',
+            
+        ];
+
+        // Create a validator instance with custom messages
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|max:255',
+        ], $messages);
+        return $request->all();
+    }
 }
