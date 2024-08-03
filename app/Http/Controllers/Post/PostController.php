@@ -31,7 +31,7 @@ class PostController extends Controller
 
     public function postStore(Request $request)
     {
-
+        
         $validator = Validator::make($request->all(), [
             'category' => 'required', // Example validation rule
             'subcategory' => 'required',
@@ -79,6 +79,7 @@ class PostController extends Controller
             $img = Image::make($banner);
             $img->save($dir . $bannerName);
         }
+        
         Post::create([
             'category_id' => $request->category,
             'sub_category_id' => $request->subcategory,
@@ -87,7 +88,8 @@ class PostController extends Controller
             // 'short_des' => $request->short_description,
             'long_des' => $request->long_description,
             'banner' => $bannerName,
-            'added_by' => Auth::guard('admin')->user()->id,
+            'added_by' => $request->add_type === 'member' ? null : Auth::guard('admin')->id(), // Set to null if $request->add_type is not null, otherwise use the member ID
+            'member_id' => $request->add_type === 'member' ? Auth::guard('member')->id() : null,
         ]);
         Helper::log("$request->title post create");
         return response()->json(['success' => ['success' => 'Post Added Successfully']]);
@@ -112,7 +114,7 @@ class PostController extends Controller
                     return $post->subcategory->name;
                 })
                 ->addColumn('added_by', function ($post) {
-                    return $post->addedBy->name;
+                    return $post->addedBy->name??null;
                 })
                 // ->addColumn('long_des2', function ($post) {
                 //     $sanitizedContent = Purify::clean($post->long_des);
@@ -183,10 +185,17 @@ class PostController extends Controller
             'categories' => $categories,
         ]);
     }
+    public function memberPostEdit($id)
+    {
+        $categories = PostCategory::where('status', 1)->with('subcategories')->get();
+        return $post = Post::with(['category', 'subcategory'])->where('id', $id)->firstOrFail();
+        
+    }
+
 
     public function postUpdate(Request $request)
     {
-
+        
         // Validate incoming request data
         $validator = Validator::make($request->all(), [
             'category' => 'required', // Example validation rule

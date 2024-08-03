@@ -26,6 +26,10 @@ class Post extends Model
     {
         return $this->belongsTo(User::class, 'added_by'); // Assuming 'added_by' is the foreign key in your posts table
     }
+    public function addedBy_member()
+    {
+        return $this->belongsTo(MemberInfo::class, 'member_id','member_id'); // Assuming 'added_by' is the foreign key in your posts table
+    }
     
     public function comments()
     {

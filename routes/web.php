@@ -309,6 +309,7 @@ Route::middleware(['trackvisitor'])->group(function () {
                 });
                 Route::prefix('post')->group(function () {
                     Route::get('/', [FrontendPostController::class, 'memberPostIndex'])->name('member.post.index');
+                    Route::get('/edit/{id}', [PostController::class, 'memberPostEdit'])->name('member.post.edit');
                 });
                 Route::prefix('publication')->group(function () {
                     Route::get('/', [FrontnedPublicationController::class, 'memberPublicationIndex'])->name('member.publication.index');

@@ -16,7 +16,7 @@
                         <div class="single-blog-details pt-4">
                             <h2 class="single-post-title pb-1 fw-bold">{{ $post->title }}</h2>
                             <h5 class="text-dark fw-bold author-name"><i
-                                    class="fas fa-pen-nib"></i>&nbsp;{{ $post->addedBy->name }}</h5>
+                                    class="fas fa-pen-nib"></i>&nbsp;{{ $post->addedBy->name??$post->addedBy_member->organisation_name }}</h5>
                             <div class="w-100 d-flex justify-content-between">
                                 <h6 class="m-0 publish-title d-flex align-items-center"><i
                                         class="fas fa-globe-asia"></i>&nbsp;{{ $post->created_at->format('d F Y h:i A') }}&nbsp;&nbsp;

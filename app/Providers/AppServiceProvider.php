@@ -112,7 +112,7 @@ class AppServiceProvider extends ServiceProvider
                 $events = Event::where('status', 1)->latest()->take(3)->get();
                 $global['events'] = $events;
 
-                $posts = Post::with(['category', 'subcategory', 'addedBy', 'comments', 'replies', 'totalRead'])
+                $posts = Post::with(['category', 'subcategory', 'addedBy', 'comments', 'replies', 'totalRead','addedBy_member'])
                     ->where('status', 1)
                     ->latest()
                     ->take(3) // Limit to 3 posts

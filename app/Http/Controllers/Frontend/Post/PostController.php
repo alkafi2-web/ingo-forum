@@ -17,10 +17,11 @@ use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\TwitterCard;
 use Artesaos\SEOTools\Facades\JsonLd;
+use Yajra\DataTables\DataTables;
 
 class PostController extends Controller
 {
-    
+
 
     public function index(Request $request, $categorySlug)
     {
@@ -40,8 +41,8 @@ class PostController extends Controller
             $searchTerm = $request->input('search');
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('title', 'like', "%{$searchTerm}%")
-                  ->orWhere('long_des', 'like', "%{$searchTerm}%")
-                  ;
+                    ->orWhere('long_des', 'like', "%{$searchTerm}%")
+                ;
             });
         }
         if ($request->input('category')) {
@@ -80,7 +81,7 @@ class PostController extends Controller
             ->whereHas('category', function ($query) use ($categorySlug) {
                 $query->where('slug', $categorySlug);
             })
-            ->with('category', 'comments', 'comments.replies', 'totalRead') // Eager load comments and their replies
+            ->with('category', 'comments', 'comments.replies', 'totalRead','addedBy_member') // Eager load comments and their replies
             ->firstOrFail();
 
         $latestPosts = Post::where('status', 1)
@@ -386,9 +387,29 @@ class PostController extends Controller
 
     public function memberPostIndex(Request $request)
     {
-        return view('frontend.member.dashboard.partials.blog.blog-index');
+        $categories = PostCategory::where('status', 1)->with('subcategories')->get();
+        if ($request->ajax()) {
+            $posts = Post::with('category', 'subcategory', 'addedBy','addedBy_member')->where('member_id',Auth::guard('member')->id())->latest();
+            // Format data for DataTables
+            return DataTables::of($posts)
+                ->addColumn('category_name', function ($post) {
+                    return $post->category->name;
+                })
+                ->addColumn('category_slug', function ($post) {
+                    return $post->category->slug;
+                })
+                ->addColumn('subcategory_name', function ($post) {
+                    return $post->subcategory->name;
+                })
+                ->addColumn('added_by', function ($post) {
+                    return $post->addedBy->name ?? null;
+                })
+                // ->addColumn('long_des2', function ($post) {
+                //     $sanitizedContent = Purify::clean($post->long_des);
+                //     return $sanitizedContent;
+                // })
+                ->make(true);
+        }
+        return view('frontend.member.dashboard.partials.post.post-index', compact('categories'));
     }
-
-
-
 }

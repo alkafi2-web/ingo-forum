@@ -70,8 +70,8 @@
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'short_des',
-                        name: 'short_des',
+                        data: 'long_des',
+                        name: 'long_des',
                         render: function(data, type, row, meta) {
                             console.log("Render Function Data: ", data);
                             return $('<div/>').html(data).text();
