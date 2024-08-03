@@ -53,4 +53,8 @@ class FrontnedPublicationController extends Controller
 
         return view('frontend.publication.publication', compact('publications', 'categories', 'authorsAndPublishers'));
     }
+
+    public function memberPublicationIndex(Request $request) {
+        return view('frontend.member.dashboard.partials.publication.publication-index');
+    }
 }

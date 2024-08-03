@@ -98,6 +98,7 @@ class MemberController extends Controller
     public function memberProfile()
     {
         $member = Auth::guard('member')->user()->load('memberInfos');
+        // return view('frontend.member.dashboard.partials.profile-update', compact('member'));
         return view('frontend.member.profile-update', compact('member'));
     }
 
@@ -116,6 +117,7 @@ class MemberController extends Controller
             'org_website' => 'required|string|max:255',
             'org_email' => 'required|email|max:255',
             'org_type' => ['required', Rule::in(['1', '2'])],
+            'ngo_reg_number' => 'required|string|max:255',
             'org_address' => 'required|string|max:255',
             'director_name' => 'required|string|max:255',
             'director_email' => 'required|email|max:255',
@@ -127,6 +129,7 @@ class MemberController extends Controller
 
         // Define custom error messages
         $messages = [
+            'ngo_reg_number.required' => 'The NGO buro Registration Number is required.',
             'org_name.required' => 'The organisation name is required.',
             'org_website.required' => 'The organisation website is required.',
             'org_email.required' => 'The organisation email is required.',
@@ -166,6 +169,7 @@ class MemberController extends Controller
         $memberInfo->organisation_name = $request->org_name;
         $memberInfo->organisation_email = $request->org_email;
         $memberInfo->organisation_type = $request->org_type;
+        $memberInfo->organisation_ngo_reg = $request->ngo_reg_number;
         $memberInfo->organisation_website = $request->org_website;
         $memberInfo->organisation_address = $request->org_address;
         $memberInfo->director_name = $request->director_name;

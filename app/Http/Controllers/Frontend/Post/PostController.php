@@ -383,4 +383,12 @@ class PostController extends Controller
         // Return the first 10 keywords
         return array_slice($keywords, 0, 10);
     }
+
+    public function memberPostIndex(Request $request)
+    {
+        return view('frontend.member.dashboard.partials.blog.blog-index');
+    }
+
+
+
 }

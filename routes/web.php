@@ -43,7 +43,7 @@ Route::get('/visitor-stats', [VisitorController::class, 'stats']);
 Route::prefix('admin')->group(function () {
     Route::get('/', [AuthController::class, 'login'])->name('login');
     Route::post('/', [AuthController::class, 'loginPost']);
-    Route::middleware(['admin','updateLastActivity'])->group(function () {
+    Route::middleware(['admin', 'updateLastActivity'])->group(function () {
 
         Route::post('/register', [AuthController::class, 'register'])->name('register');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -64,9 +64,9 @@ Route::prefix('admin')->group(function () {
         Route::post('/user-restore', [AuthController::class, 'userRestore'])->name('user.restore');
         Route::post('/user-per-delete', [AuthController::class, 'userParDelete'])->name('user.par.delete');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-        
+
         Route::get('/user-activity', [UserController::class, 'activityList'])->name('activity.list');
-        
+
         //user managment end
 
         // menu route start
@@ -186,7 +186,7 @@ Route::prefix('admin')->group(function () {
                 Route::post('/category-edit', [PublicationController::class, 'categoryEdit'])->name('publication.category.edit');
                 Route::post('/category-update', [PublicationController::class, 'categoryUpdate'])->name('publication.category.update');
             });
-            
+
             Route::prefix('/')->group(function () {
                 Route::get('/', [PublicationController::class, 'publicationCreate'])->name('publication.create');
                 Route::post('/store', [PublicationController::class, 'publicationStore'])->name('publication.store');
@@ -269,8 +269,8 @@ Route::prefix('admin')->group(function () {
 
         // contact list route start
         // Route::prefix('member')->group(function () {
-            Route::get('/contact/list', [SystemController::class, 'contactList'])->name('contact.list');
-            Route::post('/contact/list/delete', [SystemController::class, 'contactListDelete'])->name('contact.list.delete');
+        Route::get('/contact/list', [SystemController::class, 'contactList'])->name('contact.list');
+        Route::post('/contact/list/delete', [SystemController::class, 'contactListDelete'])->name('contact.list.delete');
         // });
         // contact list route end
     });
@@ -292,13 +292,28 @@ Route::middleware(['trackvisitor'])->group(function () {
         Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
 
         Route::middleware(['auth.member'])->group(function () {
-            Route::get('/profile-own', [MemberController::class, 'memberOwnProfile'])->name('member.own.profile');
-            Route::get('/profile-edit', [MemberController::class, 'memberProfile'])->name('member.profile');
-            Route::post('/profile', [MemberController::class, 'profileUpdate'])->name('member.profile.update');
-            Route::post('/profile/summary', [MemberController::class, 'profileUpdateSummary'])->name('member.profile.update.summary');
-            Route::post('/profile/social', [MemberController::class, 'profileUpdateSocial'])->name('member.profile.update.social');
-            Route::post('/profile/image', [MemberController::class, 'uploadProfileImage'])->name('upload.profile.image');
-            Route::get('/logout', [MemberController::class, 'logout'])->name('member.logout');
+            Route::prefix('dashboard')->group(function () {
+
+                Route::prefix('profile')->group(function () {
+                    Route::get('/own', [MemberController::class, 'memberOwnProfile'])->name('member.own.profile');
+                    Route::get('/edit', [MemberController::class, 'memberProfile'])->name('member.profile');
+                    Route::post('/profile', [MemberController::class, 'profileUpdate'])->name('member.profile.update');
+                    Route::post('/summary', [MemberController::class, 'profileUpdateSummary'])->name('member.profile.update.summary');
+                    Route::post('/social', [MemberController::class, 'profileUpdateSocial'])->name('member.profile.update.social');
+                    Route::post('/image', [MemberController::class, 'uploadProfileImage'])->name('upload.profile.image');
+                    Route::get('/logout', [MemberController::class, 'logout'])->name('member.logout');
+                });
+
+                Route::prefix('event')->group(function () {
+                    Route::get('/', [FrontendEventController::class, 'memberEventIndex'])->name('member.event.index');
+                });
+                Route::prefix('post')->group(function () {
+                    Route::get('/', [FrontendPostController::class, 'memberPostIndex'])->name('member.post.index');
+                });
+                Route::prefix('publication')->group(function () {
+                    Route::get('/', [FrontnedPublicationController::class, 'memberPublicationIndex'])->name('member.publication.index');
+                });
+            });
         });
 
         Route::get('/ours/member', [FrontAuthController::class, 'oursMember'])->name('frontend.ours.member');
@@ -342,6 +357,5 @@ Route::middleware(['trackvisitor'])->group(function () {
     Route::get('/executive/committee', [IndexController::class, 'executiveCommittee'])->name('frontend.executive.committee');
 
     Route::post('/newslater/post', [SubscriberController::class, 'newslaterSubscribe'])->name('frontend.newslater.store');
-
 }); 
 // frontend route end
