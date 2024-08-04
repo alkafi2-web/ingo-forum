@@ -167,6 +167,7 @@ Route::prefix('admin')->group(function () {
                 Route::get('/', [PostController::class, 'postCreate'])->name('post.create');
                 Route::post('/store', [PostController::class, 'postStore'])->name('post.store')->withoutMiddleware('admin');
                 Route::get('/list', [PostController::class, 'postList'])->name('post.list');
+                Route::get('/request/list', [PostController::class, 'postRequestList'])->name('post.request.list');
                 Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
                 Route::post('/comment', [PostController::class, 'postComment'])->name('post.comment');
                 Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');

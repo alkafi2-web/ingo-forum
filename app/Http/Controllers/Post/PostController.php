@@ -90,6 +90,7 @@ class PostController extends Controller
             'banner' => $bannerName,
             'added_by' => $request->add_type === 'member' ? null : Auth::guard('admin')->id(), // Set to null if $request->add_type is not null, otherwise use the member ID
             'member_id' => $request->add_type === 'member' ? Auth::guard('member')->id() : null,
+            'approval_status' => $request->add_type === 'member' ? 0 : null
         ]);
         Helper::log("$request->title post create");
         return response()->json(['success' => ['success' => 'Post Added Successfully']]);
@@ -262,5 +263,34 @@ class PostController extends Controller
         $post->save();
         Helper::log("$request->title post updated");
         return response()->json(['success' => ['success' => 'Post Update Successfully']]);
+    }
+
+    public function postRequestList(Request $request)
+    {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('post-view-all')) {
+            abort(401);
+        }
+        if ($request->ajax()) {
+            $posts = Post::with('category', 'subcategory', 'addedBy','addedBy_member')->where('approval_status',0)->latest();
+            // Format data for DataTables
+            return DataTables::of($posts)
+                ->addColumn('category_name', function ($post) {
+                    return $post->category->name;
+                })
+                ->addColumn('category_slug', function ($post) {
+                    return $post->category->slug;
+                })
+                ->addColumn('subcategory_name', function ($post) {
+                    return $post->subcategory->name;
+                })
+                ->addColumn('added_by', function ($post) {
+                    return $post->addedBy->name??null;
+                })
+                ->addColumn('added_by_member', function ($post) {
+                    return $post->addedBy_member->organisation_name??null;
+                })
+                ->make(true);
+        }
+        return view('admin.post.post-request-list');
     }
 }

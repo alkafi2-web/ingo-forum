@@ -76,8 +76,7 @@ class PostController extends Controller
      */
     public function showSinglePost(Request $request, $categorySlug, $postSlug)
     {
-        $post = Post::where('status', 1)
-            ->where('slug', $postSlug)
+        $post = Post::where('slug', $postSlug)
             ->whereHas('category', function ($query) use ($categorySlug) {
                 $query->where('slug', $categorySlug);
             })
