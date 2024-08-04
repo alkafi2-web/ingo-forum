@@ -27,11 +27,14 @@
                         <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                             {{ __('Subcategory') }}
                         </th>
-                        <th class="min-w-150px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        {{-- <th class="min-w-150px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                             {{ __('Description') }}
-                        </th>
+                        </th> --}}
                         <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                             {{ __('Banner') }}
+                        </th>
+                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                            {{ __('Request Status') }}
                         </th>
                         <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                             {{ __('Status') }}
@@ -112,11 +115,11 @@
                             <div class="form-group mt-3">
                                 <input type="hidden" name="id" id="post_id">
                                 <input type="hidden" name="type" id="add_type" value="member">
-                                <button type="" id="submit" class="btn btn-primary mt-4"> <i
-                                        class="fas fa-upload"></i> Submit</button>
-                                <button type="" id="update" class="btn btn-primary mt-4 d-none"> <i
-                                        class="fas fa-save"></i> Update</button>
-                                <button type="" id="refresh" class="btn btn-mute mt-4 d-none"> <i
+                                <button type="" id="submit" class="submit-btn mt-4"> <i
+                                        class="fas fa-save"></i> Submit</button>
+                                <button type="" id="update" class="submit-btn mt-4 d-none"> <i
+                                        class="fas fa-update"></i> Update</button>
+                                <button type="" id="refresh" class="submit-btn mt-4 d-none"> <i
                                         class="fas fa-refresh"></i> Refresh</button>
                             </div>
                         </div>
@@ -246,27 +249,27 @@
                         orderable: true,
                         sortable: false
                     },
-                    {
-                        data: 'long_des',
-                        name: 'long_des',
-                        orderable: true,
-                        sortable: false,
-                        render: function(data, type, row, meta) {
-                            console.log("Render Function Data: ", data);
+                    // {
+                    //     data: 'long_des',
+                    //     name: 'long_des',
+                    //     orderable: true,
+                    //     sortable: false,
+                    //     render: function(data, type, row, meta) {
+                    //         console.log("Render Function Data: ", data);
 
-                            // Decode HTML entities
-                            var decodedData = $('<div/>').html(data).text();
+                    //         // Decode HTML entities
+                    //         var decodedData = $('<div/>').html(data).text();
 
-                            // Strip HTML tags
-                            var strippedData = $('<div/>').html(decodedData).text();
+                    //         // Strip HTML tags
+                    //         var strippedData = $('<div/>').html(decodedData).text();
 
-                            // Limit text to 200 characters
-                            var limitedData = strippedData.length > 150 ? strippedData.substring(0,
-                                150) + '...' : strippedData;
+                    //         // Limit text to 200 characters
+                    //         var limitedData = strippedData.length > 150 ? strippedData.substring(0,
+                    //             150) + '...' : strippedData;
 
-                            return limitedData;
-                        }
-                    },
+                    //         return limitedData;
+                    //     }
+                    // },
                     {
                         data: 'banner',
                         name: 'banner',
@@ -275,6 +278,45 @@
                         render: function(data, type, row) {
                             let basePath = '{{ asset('public/frontend/images/posts/') }}/'
                             return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
+                        }
+                    },
+                    {
+                        data: 'approval_status',
+                        name: 'approval_status',
+                        orderable: true,
+                        sortable: false,
+                        render: function(data, type, row) {
+                            // Function to generate badge class and text
+                            const getBadge = (status) => {
+                                const statusMap = {
+                                    0: {
+                                        class: 'bg-warning',
+                                        text: 'Pending'
+                                    },
+                                    1: {
+                                        class: 'bg-success',
+                                        text: 'Approved'
+                                    },
+                                    2: {
+                                        class: 'bg-danger',
+                                        text: 'Rejected'
+                                    },
+                                    4: {
+                                        class: 'bg-secondary',
+                                        text: 'Suspended'
+                                    }
+                                };
+
+                                // Return the status badge or default to 'Unknown'
+                                return statusMap[status] || {
+                                    class: 'bg-light',
+                                    text: 'Unknown'
+                                };
+                            };
+
+                            const badge = getBadge(data);
+
+                            return `<span class="badge ${badge.class}" data-status="${data}" data-id="${row.id}">${badge.text}</span>`;
                         }
                     },
                     {
@@ -417,9 +459,7 @@
                     CKEDITOR.instances['long_description'].setData(response.long_des);
                     let basePath = '{{ asset('public/frontend/images/posts/') }}/'
                     $('#pp').attr('src', `${basePath + response.banner}`);
-                    $('#submit').text('Update').removeClass('btn-primary').addClass('btn-warning').find(
-                            'i').removeClass('fas fa-upload')
-                        .addClass('fas fa-save'); // Use the save icon
+                    // Use the save icon
                 },
                 error: function(xhr) {
                     console.error('Error fetching data:', xhr);
@@ -473,10 +513,10 @@
                         var success = response.success;
                         $.each(success, function(key, value) {
                             Swal.fire('Success!', value,
-                            'success'); // Displaying each error message
+                                'success'); // Displaying each error message
                         });
                         $('#member-post-list').DataTable().ajax.reload(null, false);
-                        
+
                         $('#add-blog-news-tab').removeClass('active').text('Add Blog/News');
                         $('#add-blog-news').removeClass('show active');
                         $('#all-blog-news-tab').addClass('active');
@@ -494,7 +534,7 @@
 
             });
         });
-        
+
         $(document).on('click', '.delete', function(e) {
             e.preventDefault(); // Prevent default link behavior
 
@@ -564,6 +604,22 @@
                     sendAjaxReq(id, status, url);
                 }
             });
+        });
+        $(document).on('click', '#refresh', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+            $('#submit').removeClass('d-none');
+
+            // Show the update and refresh buttons
+            $('#update, #refresh').addClass('d-none');
+            $('#postForm')[0].reset();
+            var long_description = CKEDITOR.instances['long_description'];
+            long_description.setData('');
+            long_description.focus();
+            $('#pp').attr('src', '');
+            $('#add-blog-news-tab').removeClass('active').text('Add Blog/News');
+            $('#add-blog-news').removeClass('show active');
+            $('#all-blog-news-tab').addClass('active');
+            $('#all-blog-news').addClass('show active');
         });
 
         function sendAjaxReq(id, status, url) {
