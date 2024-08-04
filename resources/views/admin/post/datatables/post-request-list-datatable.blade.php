@@ -44,6 +44,16 @@
 
 @push('custom-js')
     <script>
+        $('#reset-filters').click(function() {
+            $('#category').val('');
+            $('#subcategory').val('');
+            $('#status_filter').val('');
+            $('#member').val('');
+            $('#user').val('');
+            $('#post-list-data').DataTable().ajax.reload(null, false);
+            // Optionally trigger a search or data reload if needed
+            // e.g., $('#yourTableId').DataTable().ajax.reload();
+        });
         $(document).ready(function() {
             var table = $('#post-list-data').DataTable({
                 processing: true,
@@ -51,6 +61,14 @@
                 ajax: {
                     url: "{{ route('post.request.list') }}",
                     type: 'GET',
+                    data: function(data) {
+                        data.category = $('#category').val();
+                        data.subcategory = $('#subcategory').val();
+                        data.member_id = $('#member').val();
+                        data.user_id = $('#user').val();
+                        data.status = $('#status_filter').val();
+                        return data;
+                    },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
@@ -195,6 +213,9 @@
                 ],
                 responsive: true,
 
+            });
+            $('#category, #subcategory, #status_filter, #member, #user').on('change', function() {
+                table.ajax.reload(null, false);
             });
         });
         $(document).on('click', '.delete', function(e) {

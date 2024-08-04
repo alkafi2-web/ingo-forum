@@ -14,11 +14,14 @@
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Subcategory') }}
                 </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                {{-- <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Description') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Banner') }}
+                </th> --}}
+                <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                    {{ __('Added By') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Status') }}
@@ -38,13 +41,32 @@
 
 @push('custom-js')
     <script>
+        $('#reset-filters').click(function() {
+            $('#category').val('');
+            $('#subcategory').val('');
+            $('#status_filter').val('');
+            $('#member').val('');
+            $('#user').val('');
+            $('#post-list-data').DataTable().ajax.reload(null, false);
+            // Optionally trigger a search or data reload if needed
+            // e.g., $('#yourTableId').DataTable().ajax.reload();
+        });
         $(document).ready(function() {
             var table = $('#post-list-data').DataTable({
                 processing: true,
                 serverSide: true,
+
                 ajax: {
                     url: "{{ route('post.list') }}",
                     type: 'GET',
+                    data: function(data) {
+                        data.category = $('#category').val();
+                        data.subcategory = $('#subcategory').val();
+                        data.member_id = $('#member').val();
+                        data.user_id = $('#user').val();
+                        data.status = $('#status_filter').val();
+                        return data;
+                    },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
@@ -70,12 +92,8 @@
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'long_des',
-                        name: 'long_des',
-                        render: function(data, type, row, meta) {
-                            console.log("Render Function Data: ", data);
-                            return $('<div/>').html(data).text();
-                        }
+                        data: 'added_by',
+                        name: 'added_by'
                     },
                     // {
                     //     orderable: true,
@@ -84,31 +102,20 @@
                     //     name: 'long_des',
                     //     render: function(data, type, row, meta) {
                     //         console.log("Render Function Data: ", data);
-
-                    //         // Create a temporary DOM element to work with HTML content
-                    //         var tempDiv = $('<div/>').html(data);
-
-                    //         // Remove image tags from the content
-                    //         tempDiv.find('img').remove();
-
-                    //         // Get the text content and truncate it to 300 characters
-                    //         var textContent = tempDiv.text();
-                    //         var truncatedText = textContent.length > 300 ? textContent.substring(0,
-                    //             300) + '...' : textContent;
-
-                    //         return truncatedText;
+                    //         return $('<div/>').html(data).text();
                     //     }
                     // },
-                    {
-                        data: 'banner',
-                        name: 'banner',
-                        orderable: true,
-                        sortable: false,
-                        render: function(data, type, row) {
-                            let basePath = '{{ asset('public/frontend/images/posts/') }}/'
-                            return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
-                        }
-                    },
+
+                    // {
+                    //     data: 'banner',
+                    //     name: 'banner',
+                    //     orderable: true,
+                    //     sortable: false,
+                    //     render: function(data, type, row) {
+                    //         let basePath = '{{ asset('public/frontend/images/posts/') }}/'
+                    //         return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
+                    //     }
+                    // },
                     {
                         data: 'status',
                         name: 'status',
@@ -126,7 +133,7 @@
                         searchable: false,
                         render: function(data, type, row) {
                             var editRoute = '{{ route('post.edit', ':id') }}'.replace(':id', row
-                            .id);
+                                .id);
                             var singlePostRoute =
                                 '{{ route('single.post', ['categorySlug' => ':categorySlug', 'postSlug' => ':postSlug']) }}'
                                 .replace(':categorySlug', row.category_slug)
@@ -195,6 +202,9 @@
                 ],
                 responsive: true,
 
+            });
+            $('#category, #subcategory, #status_filter, #member, #user').on('change', function() {
+                table.ajax.reload(null, false);
             });
         });
         $(document).on('click', '.delete', function(e) {

@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Post;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Member;
+use App\Models\MemberInfo;
 use App\Models\Post;
 use App\Models\PostCategory;
+use App\Models\PostSubCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -101,8 +105,39 @@ class PostController extends Controller
         if (!Auth::guard('admin')->user()->hasPermissionTo('post-view-all')) {
             abort(401);
         }
+
+        $posts = Post::with('category', 'subcategory', 'addedBy', 'addedBy_member')
+            ->where(function ($query) {
+                $query->where('approval_status', 1)
+                    ->orWhere('approval_status', 2)
+                    ->orWhereNull('approval_status');
+            })
+            ->latest();
         if ($request->ajax()) {
-            $posts = Post::with('category', 'subcategory', 'addedBy')->latest();
+            $category = $request->category;
+            $subcategory = $request->subcategory;
+            $status = $request->status;
+
+            // Apply filters if provided
+            if ($category) {
+                $posts->where('category_id', $category);
+            }
+
+            if ($subcategory) {
+                $posts->where('sub_category_id', $subcategory);
+            }
+
+            if ($status !== null) {
+                $posts->where('status', $status);
+            }
+            if ($request->user_id) {
+                $posts->where('added_by', 1);
+            }
+            if ($request->member_id) {
+                $posts->where('member_id', 1);
+            }
+
+
             // Format data for DataTables
             return DataTables::of($posts)
                 ->addColumn('category_name', function ($post) {
@@ -115,15 +150,17 @@ class PostController extends Controller
                     return $post->subcategory->name;
                 })
                 ->addColumn('added_by', function ($post) {
-                    return $post->addedBy->name ?? null;
+                    return $post->addedBy->name ?? $post->addedBy_member->organisation_name ?? null;
                 })
-                // ->addColumn('long_des2', function ($post) {
-                //     $sanitizedContent = Purify::clean($post->long_des);
-                //     return $sanitizedContent;
-                // })
                 ->make(true);
         }
-        return view('admin.post.post-list');
+        $categories = PostCategory::where('status', 1)->with('subcategories')->get();
+        $subcategories = PostSubCategory::where('status', 1)->with('category')->get();
+        // Fetch addedBy users and addedBy_members for select options
+        $addedByUsers = User::whereIn('id', Post::pluck('added_by'))->pluck('name', 'id');
+
+        $addedByMembers = MemberInfo::whereIn('member_id', Post::pluck('member_id'))->pluck('organisation_name', 'id');
+        return view('admin.post.post-list', compact('categories', 'subcategories', 'addedByUsers', 'addedByMembers'));
     }
 
     public function postDelete(Request $request)
@@ -269,8 +306,30 @@ class PostController extends Controller
         if (!Auth::guard('admin')->user()->hasPermissionTo('post-view-all')) {
             abort(401);
         }
+        $posts = Post::with('category', 'subcategory', 'addedBy', 'addedBy_member')->where('member_id', '!=', null)->latest();
         if ($request->ajax()) {
-            $posts = Post::with('category', 'subcategory', 'addedBy', 'addedBy_member')->where('member_id', '!=' ,null)->latest();
+            $category = $request->category;
+            $subcategory = $request->subcategory;
+            $status = $request->status;
+
+            // Apply filters if provided
+            if ($category) {
+                $posts->where('category_id', $category);
+            }
+
+            if ($subcategory) {
+                $posts->where('sub_category_id', $subcategory);
+            }
+
+            if ($status !== null) {
+                $posts->where('approval_status', $status);
+            }
+            if ($request->user_id) {
+                $posts->where('added_by', 1);
+            }
+            if ($request->member_id) {
+                $posts->where('member_id', 1);
+            }
             // Format data for DataTables
             return DataTables::of($posts)
                 ->addColumn('category_name', function ($post) {
@@ -290,7 +349,10 @@ class PostController extends Controller
                 })
                 ->make(true);
         }
-        return view('admin.post.post-request-list');
+        $categories = PostCategory::where('status', 1)->with('subcategories')->get();
+        $subcategories = PostSubCategory::where('status', 1)->with('category')->get();
+        $addedByMembers = MemberInfo::whereIn('member_id', Post::pluck('member_id'))->pluck('organisation_name', 'id');
+        return view('admin.post.post-request-list', compact('categories', 'subcategories', 'addedByMembers'));
     }
 
     public function postRequestView(Request $request, $categorySlug, $postSlug)
@@ -304,7 +366,7 @@ class PostController extends Controller
     }
     public function approved(Request $request)
     {
-        
+
         // Find the post by the provided ID
         $post = Post::findOrFail($request->id);
 
@@ -321,7 +383,7 @@ class PostController extends Controller
     }
     public function reject(Request $request)
     {
-        
+
         // Find the post by the provided ID
         $post = Post::findOrFail($request->id);
 
@@ -338,7 +400,7 @@ class PostController extends Controller
     }
     public function suspended(Request $request)
     {
-        
+
         // Find the post by the provided ID
         $post = Post::findOrFail($request->id);
 
