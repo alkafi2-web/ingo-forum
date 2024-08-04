@@ -98,11 +98,11 @@
                                     },
                                     2: {
                                         class: 'bg-danger',
-                                        text: 'Rejected'
-                                    },
-                                    4: {
-                                        class: 'bg-secondary',
                                         text: 'Suspended'
+                                    },
+                                    3: {
+                                        class: 'bg-danger',
+                                        text: 'Rejected'
                                     }
                                 };
 
@@ -134,9 +134,9 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            
-                            var singlePostRoute =
-                                '{{ route('single.post', ['categorySlug' => ':categorySlug', 'postSlug' => ':postSlug']) }}'
+
+                            var requestPostRoute =
+                                '{{ route('post.request.view', ['categorySlug' => ':categorySlug', 'postSlug' => ':postSlug']) }}'
                                 .replace(':categorySlug', row.category_slug)
                                 .replace(':postSlug', row.slug);
 
@@ -144,7 +144,8 @@
                             return `<div style="display: flex; align-items: center;">
 
                             
-                            <a href="${singlePostRoute}" class="view text-info mr-2 me-2" data-id="${row.id}">
+                            
+                            <a href="${requestPostRoute}" class="view text-info mr-2 me-2" data-id="${row.id}">
                                 <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
                             </a>
                             

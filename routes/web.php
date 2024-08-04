@@ -167,12 +167,17 @@ Route::prefix('admin')->group(function () {
                 Route::get('/', [PostController::class, 'postCreate'])->name('post.create');
                 Route::post('/store', [PostController::class, 'postStore'])->name('post.store')->withoutMiddleware('admin');
                 Route::get('/list', [PostController::class, 'postList'])->name('post.list');
-                Route::get('/request/list', [PostController::class, 'postRequestList'])->name('post.request.list');
                 Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
                 Route::post('/comment', [PostController::class, 'postComment'])->name('post.comment');
                 Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');
                 Route::get('/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
                 Route::post('/update', [PostController::class, 'postUpdate'])->name('post.update')->withoutMiddleware('admin');
+
+                Route::get('/request/list', [PostController::class, 'postRequestList'])->name('post.request.list');
+                Route::get('/request/view/{categorySlug}/{postSlug}', [PostController::class, 'postRequestView'])->name('post.request.view');
+                Route::post('/approved', [PostController::class, 'approved'])->name('post.approved');
+                Route::post('/reject', [PostController::class, 'reject'])->name('post.reject');
+                Route::post('/suspended', [PostController::class, 'suspended'])->name('post.suspend');
             });
         });
         // post menagement route end

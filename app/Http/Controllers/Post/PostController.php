@@ -31,7 +31,7 @@ class PostController extends Controller
 
     public function postStore(Request $request)
     {
-        
+
         $validator = Validator::make($request->all(), [
             'category' => 'required', // Example validation rule
             'subcategory' => 'required',
@@ -79,7 +79,7 @@ class PostController extends Controller
             $img = Image::make($banner);
             $img->save($dir . $bannerName);
         }
-        
+
         Post::create([
             'category_id' => $request->category,
             'sub_category_id' => $request->subcategory,
@@ -115,7 +115,7 @@ class PostController extends Controller
                     return $post->subcategory->name;
                 })
                 ->addColumn('added_by', function ($post) {
-                    return $post->addedBy->name??null;
+                    return $post->addedBy->name ?? null;
                 })
                 // ->addColumn('long_des2', function ($post) {
                 //     $sanitizedContent = Purify::clean($post->long_des);
@@ -190,13 +190,12 @@ class PostController extends Controller
     {
         $categories = PostCategory::where('status', 1)->with('subcategories')->get();
         return $post = Post::with(['category', 'subcategory'])->where('id', $id)->firstOrFail();
-        
     }
 
 
     public function postUpdate(Request $request)
     {
-        
+
         // Validate incoming request data
         $validator = Validator::make($request->all(), [
             'category' => 'required', // Example validation rule
@@ -271,7 +270,7 @@ class PostController extends Controller
             abort(401);
         }
         if ($request->ajax()) {
-            $posts = Post::with('category', 'subcategory', 'addedBy','addedBy_member')->where('approval_status',0)->latest();
+            $posts = Post::with('category', 'subcategory', 'addedBy', 'addedBy_member')->where('member_id', '!=' ,null)->latest();
             // Format data for DataTables
             return DataTables::of($posts)
                 ->addColumn('category_name', function ($post) {
@@ -284,13 +283,74 @@ class PostController extends Controller
                     return $post->subcategory->name;
                 })
                 ->addColumn('added_by', function ($post) {
-                    return $post->addedBy->name??null;
+                    return $post->addedBy->name ?? null;
                 })
                 ->addColumn('added_by_member', function ($post) {
-                    return $post->addedBy_member->organisation_name??null;
+                    return $post->addedBy_member->organisation_name ?? null;
                 })
                 ->make(true);
         }
         return view('admin.post.post-request-list');
+    }
+
+    public function postRequestView(Request $request, $categorySlug, $postSlug)
+    {
+        $post = Post::with('addedBy_member', 'category', 'subcategory')->where('slug', $postSlug)
+            ->whereHas('category', function ($query) use ($categorySlug) {
+                $query->where('slug', $categorySlug);
+            })
+            ->firstOrFail();
+        return view('admin.post.post-view', compact('post'));
+    }
+    public function approved(Request $request)
+    {
+        
+        // Find the post by the provided ID
+        $post = Post::findOrFail($request->id);
+
+        // Update the approved_status to 1
+        $post->approval_status = 1;
+
+        // Save the changes
+        $post->save();
+        $viewHeader = view('admin.post.partials.view-header', compact('post'))->render();
+        return response()->json([
+            'success' => 'Post Approved successfully',
+            'viewHeader' => $viewHeader,
+        ]);
+    }
+    public function reject(Request $request)
+    {
+        
+        // Find the post by the provided ID
+        $post = Post::findOrFail($request->id);
+
+        // Update the approved_status to 1
+        $post->approval_status = 3;
+
+        // Save the changes
+        $post->save();
+        $viewHeader = view('admin.post.partials.view-header', compact('post'))->render();
+        return response()->json([
+            'success' => 'Post Reject successfully',
+            'viewHeader' => $viewHeader,
+        ]);
+    }
+    public function suspended(Request $request)
+    {
+        
+        // Find the post by the provided ID
+        $post = Post::findOrFail($request->id);
+
+        // Update the approved_status to 1
+        $post->approval_status = 2;
+
+        // Save the changes
+        $post->save();
+        $viewHeader = view('admin.post.partials.view-header', compact('post'))->render();
+        return response()->json([
+            'success' => 'Post Suspend successfully',
+            'viewHeader' => $viewHeader,
+        ]);
     }
 }

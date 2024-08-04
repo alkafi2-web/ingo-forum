@@ -300,11 +300,11 @@
                                     },
                                     2: {
                                         class: 'bg-danger',
-                                        text: 'Rejected'
-                                    },
-                                    4: {
-                                        class: 'bg-secondary',
                                         text: 'Suspended'
+                                    },
+                                    3: {
+                                        class: 'bg-secondary',
+                                        text: 'Rejected'
                                     }
                                 };
 
@@ -355,8 +355,7 @@
                         searchable: false,
                         render: function(data, type, row) {
                             var editRoute = '{{ route('member.post.edit', ':id') }}'.replace(':id',
-                                row
-                                .id);
+                                row.id);
                             var singlePostRoute =
                                 '{{ route('single.post', ['categorySlug' => ':categorySlug', 'postSlug' => ':postSlug']) }}'
                                 .replace(':categorySlug', row.category_slug)
@@ -368,20 +367,24 @@
                             var commentTitle = row.comment_permission ? 'Comments Enabled' :
                                 'Comments Disabled';
 
-                            return `<div style="display: flex; align-items: center;">
-                        <a href="javascript:void(0)" class="text-danger comment" data-id="${row.id}" style="margin-right: 10px;">
-                            <i class="fas ${commentIcon}" title="${commentTitle}" style="font-size: 16px;"></i>
-                        </a>
-                        <a href="${singlePostRoute}" class="view text-info mr-2 me-2" data-id="${row.id}">
-                            <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
-                        </a>
-                        <a href="javascript:void(0)" class="edit text-primary mr-2 me-2" data-id="${row.id}" style="margin-right: 10px;">
-                            <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
-                        </a>
-                        <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}" style="margin-right: 10px;">
-                            <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
-                        </a>
-                    </div>`;
+                            // Conditional edit button based on approval_status
+                            var editButton = row.approval_status != 1 ? `
+                            <a href="${editRoute}" class="edit text-primary mr-2 me-2" data-id="${row.id}" style="margin-right: 10px;">
+                                <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
+                            </a>` : '';
+
+                                            return `<div style="display: flex; align-items: center;">
+                            <a href="javascript:void(0)" class="text-danger comment" data-id="${row.id}" style="margin-right: 10px;">
+                                <i class="fas ${commentIcon}" title="${commentTitle}" style="font-size: 16px;"></i>
+                            </a>
+                            <a href="${singlePostRoute}" class="view text-info mr-2 me-2" data-id="${row.id}">
+                                <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
+                            </a>
+                            ${editButton}
+                            <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}" style="margin-right: 10px;">
+                                <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
+                            </a>
+                        </div>`;
                         }
                     }
                 ],
