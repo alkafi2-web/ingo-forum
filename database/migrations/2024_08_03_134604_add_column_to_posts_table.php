@@ -15,9 +15,6 @@ return new class extends Migration
             // Drop the foreign key constraint on added_by
             $table->dropForeign(['added_by']);
 
-            // Drop the index associated with the added_by column if it exists
-            $table->dropIndex(['added_by']);
-
             // Make the added_by column nullable
             $table->unsignedBigInteger('added_by')->nullable()->change();
 
@@ -40,8 +37,7 @@ return new class extends Migration
             // Make the added_by column non-nullable again
             $table->unsignedBigInteger('added_by')->nullable(false)->change();
 
-            // Re-add the index and foreign key constraint on added_by
-            $table->index('added_by'); // Re-add the index if it was dropped
+            // Re-add the foreign key constraint on added_by
             $table->foreign('added_by')->references('id')->on('users')->onDelete('cascade');
         });
     }

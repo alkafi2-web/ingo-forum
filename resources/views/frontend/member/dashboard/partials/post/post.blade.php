@@ -190,6 +190,7 @@
                             toastr.success(value); // Displaying each error message
                         });
                         $('#postForm')[0].reset();
+                        $('#member-post-list').DataTable().ajax.reload(null, false);
                         var long_description = CKEDITOR.instances['long_description'];
                         long_description.setData('');
                         long_description.focus();
