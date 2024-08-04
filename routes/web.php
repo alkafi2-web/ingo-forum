@@ -165,13 +165,13 @@ Route::prefix('admin')->group(function () {
             });
             Route::prefix('/')->group(function () {
                 Route::get('/', [PostController::class, 'postCreate'])->name('post.create');
-                Route::post('/store', [PostController::class, 'postStore'])->name('post.store')->withoutMiddleware('admin');;
+                Route::post('/store', [PostController::class, 'postStore'])->name('post.store')->withoutMiddleware('admin');
                 Route::get('/list', [PostController::class, 'postList'])->name('post.list');
                 Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
                 Route::post('/comment', [PostController::class, 'postComment'])->name('post.comment');
                 Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');
                 Route::get('/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
-                Route::post('/update', [PostController::class, 'postUpdate'])->name('post.update');
+                Route::post('/update', [PostController::class, 'postUpdate'])->name('post.update')->withoutMiddleware('admin');
             });
         });
         // post menagement route end
