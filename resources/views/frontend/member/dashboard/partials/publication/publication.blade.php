@@ -16,36 +16,36 @@
         <div class="tab-pane fade show active" id="all-publication" role="tabpanel"
             aria-labelledby="all-publication-tab" tabindex="0">
             <!--begin::Table-->
-            <table class="table election-datatable align-middle table-bordered fs-6 gy-5 m-auto display responsive"
-                id="post-list-data">
+            <table class="table align-middle fs-6 gy-5 m-auto display responsive"
+                id="publication-list-data">
                 <!--begin::Table head-->
                 <thead>
-                    <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
-                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                    <tr class="text-start text-muted text-uppercase gs-0" style="background: #fff;">
+                        <th class="min-w-50px"  >
                             {{ __('Category') }}
                         </th>
-                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        <th class="min-w-50px"  >
                             {{ __('Title') }}
                         </th>
-                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        <th class="min-w-50px "  >
                             {{ __('Author') }}
                         </th>
-                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        <th class="min-w-50px "  >
                             {{ __('Publisher') }}
                         </th>
-                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        <th class="min-w-50px "  >
                             {{ __('Publish Date') }}
                         </th>
-                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        <th class="min-w-50px "  >
                             {{ __('File') }}
                         </th>
-                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        <th class="min-w-50px "  >
                             {{ __('Image') }}
                         </th>
-                        <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                        <th class="min-w-50px  "  >
                             {{ __('Status') }}
                         </th>
-                        <th class="text-end min-w-140px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
+                        <th class="text-end min-w-140px lastTheadColumn"  >
                             {{ __('Action') }}</th>
                     </tr>
                 </thead>
@@ -184,7 +184,7 @@
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
                         });
-                        $('#post-list-data').DataTable().ajax.reload(null, false);
+                        $('#publication-list-data').DataTable().ajax.reload(null, false);
                         $('#publicationForm')[0].reset();
                         $('#pp').attr('src', '');
                     },
@@ -202,7 +202,7 @@
         });
 
         $(document).ready(function() {
-            var table = $('#post-list-data').DataTable({
+            var table = $('#publication-list-data').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -482,7 +482,7 @@
                             Swal.fire('Success!', value,
                                 'success');
                         });
-                        $('#post-list-data').DataTable().ajax.reload(null, false);
+                        $('#publication-list-data').DataTable().ajax.reload(null, false);
 
                     },
                     error: function(xhr) {
@@ -564,7 +564,7 @@
                 data: requestData, // You can send additional data if needed
                 success: function(response) {
 
-                    $('#post-list-data').DataTable().ajax.reload(null, false);
+                    $('#publication-list-data').DataTable().ajax.reload(null, false);
                     Swal.fire('Success!', response.success,
                         'success');
                     // toastr.success(response.success);

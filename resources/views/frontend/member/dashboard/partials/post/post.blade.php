@@ -14,7 +14,7 @@
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="all-blog-news" role="tabpanel" aria-labelledby="all-blog-news-tab"
             tabindex="0">
-            <table class="table election-datatable align-middle table-bordered fs-6 gy-5 m-auto display responsive"
+            <table class="table align-middle fs-6 gy-5 m-auto display responsive"
                 id="member-post-list">
                 <thead>
                     <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
