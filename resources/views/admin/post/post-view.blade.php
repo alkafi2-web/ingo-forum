@@ -193,10 +193,10 @@
                         //     'success');
                         $('#view-header-container').html(response.viewHeader);
                         // $('#profile-image-name').html(response.profileImageName);
-                        // $.get(window.location.href, function(data) {
-                        //     var pendingMemberCount = $(data).find('.pendingMemberCount').html();
-                        //     $('.pendingMemberCount').html(pendingMemberCount);
-                        // });
+                        $.get(window.location.href, function(data) {
+                            var pendingPostCount = $(data).find('.pendingPostCount').html();
+                            $('.pendingPostCount').html(pendingPostCount);
+                        });
                         toastr.success(response.success);
                     },
                     error: function(xhr, status, error) {

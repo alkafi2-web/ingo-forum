@@ -151,6 +151,9 @@ class AppServiceProvider extends ServiceProvider
             }
             $pendingMemberCount = Member::where('status', 0)->with('memberInfos')->count();
             $global['pendingMemberCount'] = $pendingMemberCount;
+
+            $pendingZPostCount = Post::where('approval_status', 0)->count();
+            $global['pendingZPostCount'] = $pendingZPostCount;
             $view->with(compact('global', 'menus'));
         });
     }
