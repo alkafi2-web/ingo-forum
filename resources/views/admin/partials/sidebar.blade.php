@@ -186,9 +186,9 @@
                             </span>
                             <span class="menu-title">Post</span>
                             
-                            <div class="pendingZPostCount">
-                                @if ($global['pendingZPostCount'] > 0)
-                                    <span class="badge badge-light-danger">{{ $global['pendingZPostCount'] }}</span>
+                            <div class="pendingPostCount">
+                                @if ($global['pendingPostCount'] > 0)
+                                    <span class="badge badge-light-danger">{{ $global['pendingPostCount'] }}</span>
                                 @endif
                             </div>
                             <span class="menu-arrow"></span>
@@ -226,9 +226,9 @@
                                             <span class="bullet bullet-dot"></span>
                                         </span>
                                         <span class="menu-title">Request Post</span>
-                                        <div class="pendingZPostCount">
-                                            @if ($global['pendingZPostCount'] > 0)
-                                                <span class="badge badge-light-danger">{{ $global['pendingZPostCount'] }}</span>
+                                        <div class="pendingPostCount">
+                                            @if ($global['pendingPostCount'] > 0)
+                                                <span class="badge badge-light-danger">{{ $global['pendingPostCount'] }}</span>
                                             @endif
                                         </div>
                                     </span>
