@@ -126,6 +126,10 @@
                                 File</label>
                             <input type="file" id="file" name="file" class="form-control"
                                 required="">
+                            <!-- Container to display the file preview -->
+                            <div id="file-preview" class="mt-3">
+
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -379,7 +383,71 @@
 
                     let basePath = '{{ asset('public/frontend/images/publication/') }}/'
                     $('#pp').attr('src', `${basePath + response.image}`);
-                    // Use the save icon
+
+
+                    var existingFileUrl = `${basePath}${response.file}`;
+                    var $previewContainer = $('#file-preview');
+                    if (existingFileUrl) {
+                        var existingFileName = response.file;
+                        var fileExtension = existingFileName.split('.').pop().toLowerCase();
+                        var fileType;
+                        switch (fileExtension) {
+                            case 'jpg':
+                            case 'jpeg':
+                            case 'png':
+                            case 'gif':
+                                fileType = 'image/' + fileExtension;
+                                break;
+                            case 'pdf':
+                                fileType = 'application/pdf';
+                                break;
+                            case 'docx':
+                                fileType =
+                                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                                break;
+                            case 'pptx':
+                                fileType =
+                                    'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+                                break;
+                            default:
+                                fileType = 'application/octet-stream';
+                        }
+                        previewFile(existingFileUrl, fileType, existingFileName);
+
+                        function previewFile(fileUrl, fileType, fileName) {
+                            $previewContainer.empty();
+                            if (fileType.startsWith('image/')) {
+                                var $img = $('<img>').attr('src', fileUrl).css('max-width', '100%');
+                                $previewContainer.append($img);
+                            } else if (fileType === 'application/pdf') {
+                                var $iframe = $('<iframe>').attr({
+                                    src: fileUrl,
+                                    type: 'application/pdf',
+                                    width: '100%',
+                                    height: '300px' // Adjust the height as needed
+                                });
+                                $previewContainer.append($iframe);
+                            } else if (fileType ===
+                                'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                                fileType ===
+                                'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+                                ) {
+                                // For DOCX and PPT files, provide a link to open the file in a new tab
+                                var $link = $('<a>').attr({
+                                    href: fileUrl,
+                                    target: '_blank'
+                                }).text('Open file: ' + fileName);
+                                $previewContainer.append($link);
+                            } else {
+                                // For other file types, provide a link to open the file in a new tab
+                                // var $link = $('<a>').attr({
+                                //     href: fileUrl,
+                                //     target: '_blank'
+                                // }).text('Open file: ' + fileName);
+                                // $previewContainer.append($link);
+                            }
+                        }
+                    }
                 },
                 error: function(xhr) {
                     console.error('Error fetching data:', xhr);
@@ -412,10 +480,10 @@
                         $.each(success, function(key, value) {
                             // toastr.success(value);
                             Swal.fire('Success!', value,
-                            'success');
+                                'success');
                         });
                         $('#post-list-data').DataTable().ajax.reload(null, false);
-                        
+
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
@@ -519,6 +587,83 @@
             $('#add-publication').removeClass('show active');
             $('#all-publication-tab').addClass('active');
             $('#all-publication').addClass('show active');
+        });
+        $(document).ready(function() {
+            var existingFileUrl =
+                "{{ asset('public/frontend/images/publication/' . ($member->memberInfos[0]['profile_attachment'] ?? '')) }}";
+            var $previewContainer = $('#file-preview');
+            // Function to preview a file
+            function previewFile(fileUrl, fileType, fileName) {
+                $previewContainer.empty();
+                if (fileType.startsWith('image/')) {
+                    var $img = $('<img>').attr('src', fileUrl).css('max-width', '100%');
+                    $previewContainer.append($img);
+                } else if (fileType === 'application/pdf') {
+                    var $iframe = $('<iframe>').attr({
+                        src: fileUrl,
+                        type: 'application/pdf',
+                        width: '100%',
+                        height: '300px' // Adjust the height as needed
+                    });
+                    $previewContainer.append($iframe);
+                } else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                    fileType === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+                    // For DOCX and PPT files, provide a link to open the file in a new tab
+                    var $link = $('<a>').attr({
+                        href: fileUrl,
+                        target: '_blank'
+                    }).text('Open file: ' + fileName);
+                    $previewContainer.append($link);
+                } else {
+                    // For other file types, provide a link to open the file in a new tab
+                    // var $link = $('<a>').attr({
+                    //     href: fileUrl,
+                    //     target: '_blank'
+                    // }).text('Open file: ' + fileName);
+                    // $previewContainer.append($link);
+                }
+            }
+            // Preview existing file if it exists
+            if (existingFileUrl) {
+                var existingFileName = "{{ $member->memberInfos[0]['profile_attachment'] ?? '' }}";
+                var fileExtension = existingFileName.split('.').pop().toLowerCase();
+                var fileType;
+                switch (fileExtension) {
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                    case 'gif':
+                        fileType = 'image/' + fileExtension;
+                        break;
+                    case 'pdf':
+                        fileType = 'application/pdf';
+                        break;
+                    case 'docx':
+                        fileType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                        break;
+                    case 'pptx':
+                        fileType = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+                        break;
+                    default:
+                        fileType = 'application/octet-stream';
+                }
+                previewFile(existingFileUrl, fileType, existingFileName);
+            }
+            // Set up event listener for file input change
+            $('#file').on('change', function() {
+                var file = this.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        var blob = new Blob([e.target.result], {
+                            type: file.type
+                        });
+                        var url = URL.createObjectURL(blob);
+                        previewFile(url, file.type, file.name);
+                    };
+                    reader.readAsArrayBuffer(file);
+                }
+            });
         });
     </script>
 @endpush

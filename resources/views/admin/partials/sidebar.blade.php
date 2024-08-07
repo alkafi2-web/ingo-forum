@@ -282,6 +282,11 @@
                                 <!--end::Svg Icon-->
                             </span>
                             <span class="menu-title">Publication</span>
+                            <div class="pendingPublicationCount">
+                                @if ($global['pendingPublicationCount'] > 0)
+                                    <span class="badge badge-light-danger">{{ $global['pendingPublicationCount'] }}</span>
+                                @endif
+                            </div>
                             <span class="menu-arrow"></span>
                         </span>
                         <div
@@ -317,6 +322,11 @@
                                             <span class="bullet bullet-dot"></span>
                                         </span>
                                         <span class="menu-title">Request Publication</span>
+                                        <div class="pendingPublicationCount">
+                                            @if ($global['pendingPublicationCount'] > 0)
+                                                <span class="badge badge-light-danger">{{ $global['pendingPublicationCount'] }}</span>
+                                            @endif
+                                        </div>
                                     </span>
                                 </a>
                             @endcan

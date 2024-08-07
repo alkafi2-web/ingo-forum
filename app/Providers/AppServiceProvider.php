@@ -158,6 +158,9 @@ class AppServiceProvider extends ServiceProvider
 
             $pendingPostCount = Post::where('approval_status', 0)->count();
             $global['pendingPostCount'] = $pendingPostCount;
+
+            $pendingPublicationCount = Publication::where('approval_status', 0)->count();
+            $global['pendingPublicationCount'] = $pendingPublicationCount;
             $view->with(compact('global', 'menus'));
         });
     }
