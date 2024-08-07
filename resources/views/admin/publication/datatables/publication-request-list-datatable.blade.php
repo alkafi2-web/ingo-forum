@@ -150,9 +150,17 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            var editRoute = '{{ route('publication.edit', ':id') }}'.replace(':id', row
+                            var editRoute = '{{ route('publication.edit', ':id') }}'.replace(':id',
+                                row
                                 .id);
+                            var requestPublicationRoute = '{{ route('publication.view', ':id') }}'.replace(':id',
+                                row
+                                .id);
+
                             return `<div style="display: flex; align-items: center;">
+                                <a href="${requestPublicationRoute}" class="view text-info mr-2 me-2" data-id="${row.id}">
+                                <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
+                            </a>
                             <a href="${editRoute}" class="edit text-primary mr-2 me-2" data-id="${row.id}" style="margin-right: 10px;">
                                 <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
                             </a>
@@ -251,6 +259,7 @@
                 }
             });
         });
+
         function sendAjaxReq(id, status, url) {
             var requestData = {
                 id: id,

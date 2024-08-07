@@ -386,4 +386,63 @@ class PublicationController extends Controller
         }
         return view('admin.publication.publication-request-list');
     }
+
+    public function publicationView($id)
+    {
+        $publication = Publication::with('addedBy', 'category','addedBy_member')->where('id',$id)->first();
+        return view('admin.publication.publication-view',compact('publication'));
+    }
+    public function approved(Request $request)
+    {
+
+        // Find the post by the provided ID
+        $publication = Publication::findOrFail($request->id);
+
+        // Update the approved_status to 1
+        $publication->approval_status = 1;
+        $publication->approval_status_changed_by = Auth::guard('admin')->id();
+
+        // Save the changes
+        $publication->save();
+        $viewHeader = view('admin.publication.partials.view-header', compact('publication'))->render();
+        return response()->json([
+            'success' => 'Publication Approved successfully',
+            'viewHeader' => $viewHeader,
+        ]);
+    }
+    public function reject(Request $request)
+    {
+
+        // Find the post by the provided ID
+        $publication = Publication::findOrFail($request->id);
+
+        // Update the approved_status to 1
+        $publication->approval_status = 3;
+        $publication->approval_status_changed_by = Auth::guard('admin')->id();
+
+        // Save the changes
+        $publication->save();
+        $viewHeader = view('admin.publication.partials.view-header', compact('publication'))->render();
+        return response()->json([
+            'success' => 'Publication Reject successfully',
+            'viewHeader' => $viewHeader,
+        ]);
+    }
+    public function suspended(Request $request)
+    {
+
+        // Find the post by the provided ID
+        $publication = Publication::findOrFail($request->id);
+
+        // Update the approved_status to 1
+        $publication->approval_status = 2;
+        $publication->approval_status_changed_by = Auth::guard('admin')->id();
+        // Save the changes
+        $publication->save();
+        $viewHeader = view('admin.publication.partials.view-header', compact('publication'))->render();
+        return response()->json([
+            'success' => 'Publication Suspend successfully',
+            'viewHeader' => $viewHeader,
+        ]);
+    }
 }
