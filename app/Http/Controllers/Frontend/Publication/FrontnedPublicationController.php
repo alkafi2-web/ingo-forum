@@ -55,6 +55,7 @@ class FrontnedPublicationController extends Controller
     }
 
     public function memberPublicationIndex(Request $request) {
-        return view('frontend.member.dashboard.partials.publication.publication-index');
+        $categories = PublicationCategory::where('status',1)->get();
+        return view('frontend.member.dashboard.partials.publication.publication-index',compact('categories'));
     }
 }
