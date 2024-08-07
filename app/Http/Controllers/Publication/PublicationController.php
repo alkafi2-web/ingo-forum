@@ -225,7 +225,7 @@ class PublicationController extends Controller
             abort(401);
         }
         if ($request->ajax()) {
-            $publication = Publication::with('addedBy', 'category')->latest();
+            $publication = Publication::with('addedBy', 'category','addedBy_member')->latest();
             // Format data for DataTables
             return DataTables::of($publication)
                 ->addColumn('category_name', function ($publication) {
@@ -360,9 +360,30 @@ class PublicationController extends Controller
         $publication->author = $request->author;
         $publication->publisher = $request->publisher;
         $publication->publish_date = $request->publish_date;
+        $publication->short_description = $request->short_description;
         $publication->save();
         Helper::log("$publication->title publication update");
         return response()->json(['success' => ['success' => 'Publication Update Successfully']]);
     }
     // publicatiuon end
+
+    public function publicationRequestList(Request $request)
+    {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('publication-view-all')) {
+            abort(401);
+        }
+        if ($request->ajax()) {
+            $publication = Publication::with('addedBy', 'category','addedBy_member')->where('approval_status',0)->latest();
+            // Format data for DataTables
+            return DataTables::of($publication)
+                ->addColumn('category_name', function ($publication) {
+                    return $publication->category->name;
+                })
+                ->addColumn('added_by', function ($publication) {
+                    return $publication->addedBy->name ?? $publication->addedBy_member->organisation_name ?? null;
+                })
+                ->make(true);
+        }
+        return view('admin.publication.publication-request-list');
+    }
 }

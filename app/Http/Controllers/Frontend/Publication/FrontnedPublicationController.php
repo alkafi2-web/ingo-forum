@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Publication;
 use App\Models\PublicationCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
 class FrontnedPublicationController extends Controller
 {
@@ -55,7 +57,25 @@ class FrontnedPublicationController extends Controller
     }
 
     public function memberPublicationIndex(Request $request) {
+        if ($request->ajax()) {
+            $publication = Publication::with('addedBy', 'category','addedBy_member')->where('member_id',Auth::guard('member')->id())->latest();
+            // Format data for DataTables
+            return DataTables::of($publication)
+                ->addColumn('category_name', function ($publication) {
+                    return $publication->category->name;
+                })
+                ->addColumn('added_by', function ($publication) {
+                    return $publication->addedBy->name ?? $publication->addedBy_member->organisation_name ?? null;
+                })
+                ->make(true);
+        }
         $categories = PublicationCategory::where('status',1)->get();
         return view('frontend.member.dashboard.partials.publication.publication-index',compact('categories'));
     }
+
+    public function memberPublicationEdit($id){
+        return $publication = Publication::with('addedBy', 'category','addedBy_member')->where('member_id',Auth::guard('member')->id())->first();
+    }
+
+
 }

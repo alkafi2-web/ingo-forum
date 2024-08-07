@@ -27,7 +27,7 @@
                     {{ __('Image') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
-                    {{ __('Status') }}
+                    {{ __('Approval Status') }}
                 </th>
                 <th class="text-end min-w-140px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
                     {{ __('Action') }}</th>
@@ -49,7 +49,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('publication.list') }}",
+                    url: "{{ route('publication.request.list') }}",
                     type: 'GET',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -106,13 +106,42 @@
                         }
                     },
                     {
-                        data: 'status',
-                        name: 'status',
+                        data: 'approval_status',
+                        name: 'approval_status',
                         orderable: true,
                         sortable: false,
                         render: function(data, type, row) {
+                            // Function to generate badge class and text
+                            const getBadge = (status) => {
+                                const statusMap = {
+                                    0: {
+                                        class: 'bg-warning',
+                                        text: 'Pending'
+                                    },
+                                    1: {
+                                        class: 'bg-success',
+                                        text: 'Approved'
+                                    },
+                                    2: {
+                                        class: 'bg-danger',
+                                        text: 'Suspended'
+                                    },
+                                    3: {
+                                        class: 'bg-danger',
+                                        text: 'Rejected'
+                                    }
+                                };
 
-                            return `<span class="status badge badge-light-${data == 1 ? 'success' : 'danger'}" data-status="${data}" data-id="${row.id}">${data == 1 ? 'Published' : 'Unpublished'}</span>`;
+                                // Return the status badge or default to 'Unknown'
+                                return statusMap[status] || {
+                                    class: 'bg-light',
+                                    text: 'Unknown'
+                                };
+                            };
+
+                            const badge = getBadge(data);
+
+                            return `<span class="badge ${badge.class}" data-status="${data}" data-id="${row.id}">${badge.text}</span>`;
                         }
                     },
                     {

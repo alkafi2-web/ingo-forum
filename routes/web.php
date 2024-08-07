@@ -197,6 +197,7 @@ Route::prefix('admin')->group(function () {
                 Route::get('/', [PublicationController::class, 'publicationCreate'])->name('publication.create');
                 Route::post('/store', [PublicationController::class, 'publicationStore'])->name('publication.store');
                 Route::get('/list', [PublicationController::class, 'publicationList'])->name('publication.list');
+                Route::get('/request/list', [PublicationController::class, 'publicationRequestList'])->name('publication.request.list');
                 Route::post('/delete', [PublicationController::class, 'publicationDelete'])->name('publication.delete');
                 Route::post('/status', [PublicationController::class, 'publicationStatus'])->name('publication.status');
                 Route::get('/edit/{id}', [PublicationController::class, 'publicationEdit'])->name('publication.edit');
@@ -319,6 +320,7 @@ Route::middleware(['trackvisitor'])->group(function () {
                 });
                 Route::prefix('publication')->group(function () {
                     Route::get('/', [FrontnedPublicationController::class, 'memberPublicationIndex'])->name('member.publication.index');
+                    Route::get('/edit/{id}', [FrontnedPublicationController::class, 'memberPublicationEdit'])->name('member.publication.edit');
                 });
             });
         });

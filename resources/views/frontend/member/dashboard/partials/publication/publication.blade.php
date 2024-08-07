@@ -15,35 +15,46 @@
 
         <div class="tab-pane fade show active" id="all-publication" role="tabpanel"
             aria-labelledby="all-publication-tab" tabindex="0">
-            <table class="table table-striped">
+            <!--begin::Table-->
+            <table class="table election-datatable align-middle table-bordered fs-6 gy-5 m-auto display responsive"
+                id="post-list-data">
+                <!--begin::Table head-->
                 <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                    <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
+                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                            {{ __('Category') }}
+                        </th>
+                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                            {{ __('Title') }}
+                        </th>
+                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                            {{ __('Author') }}
+                        </th>
+                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                            {{ __('Publisher') }}
+                        </th>
+                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                            {{ __('Publish Date') }}
+                        </th>
+                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                            {{ __('File') }}
+                        </th>
+                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                            {{ __('Image') }}
+                        </th>
+                        <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                            {{ __('Status') }}
+                        </th>
+                        <th class="text-end min-w-140px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
+                            {{ __('Action') }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
+
                 </tbody>
+                <!--end::Table head-->
             </table>
+            <!--end::Table-->
         </div>
         <div class="tab-pane fade " id="add-publication" role="tabpanel" aria-labelledby="add-publication-tab"
             tabindex="0">
@@ -86,8 +97,8 @@
                         <!-- Subcategory -->
                         <div class="form-group mt-3">
                             <label for="publisher" class="required form-label">Publisher</label>
-                            <input type="text" id="publisher" name="publisher" class="form-control" required=""
-                                spellcheck="false" data-ms-editor="true">
+                            <input type="text" id="publisher" name="publisher" class="form-control"
+                                required="" spellcheck="false" data-ms-editor="true">
                         </div>
                     </div>
                     <div class="col-md-4 ">
@@ -107,19 +118,19 @@
                     <textarea id="short_description" name="short_description" class="form-control " rows="7" required=""
                         spellcheck="false" data-ms-editor="true"></textarea>
                 </div>
-
                 <!-- Banner -->
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mt-3">
-                            <label for="file" class="required form-label">Publication File</label>
+                            <label for="file" id="file_label" class="required form-label">Publication
+                                File</label>
                             <input type="file" id="file" name="file" class="form-control"
                                 required="">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mt-3">
-                            <label for="image" class="required form-label">Image</label>
+                            <label for="image" id="image_label" class="required form-label">Image</label>
                             <input type="file" id="image" name="image" class="form-control" required=""
                                 oninput="pp.src=window.URL.createObjectURL(this.files[0])">
                             <img id="pp" width="200" class="float-start" src="">
@@ -169,6 +180,7 @@
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
                         });
+                        $('#post-list-data').DataTable().ajax.reload(null, false);
                         $('#publicationForm')[0].reset();
                         $('#pp').attr('src', '');
                     },
@@ -183,6 +195,330 @@
                 });
 
             });
+        });
+
+        $(document).ready(function() {
+            var table = $('#post-list-data').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('member.publication.index') }}",
+                    type: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                },
+                columns: [{
+                        orderable: true,
+                        sortable: false,
+                        data: 'category_name',
+                        name: 'category_name'
+                    },
+                    {
+                        orderable: true,
+                        sortable: false,
+                        data: 'title',
+                        name: 'title'
+                    },
+                    {
+                        orderable: true,
+                        sortable: false,
+                        data: 'author',
+                        name: 'author'
+                    },
+                    {
+                        orderable: true,
+                        sortable: false,
+                        data: 'publisher',
+                        name: 'publisher'
+                    },
+                    {
+                        orderable: true,
+                        sortable: false,
+                        data: 'publish_date',
+                        name: 'publish_date'
+                    },
+                    {
+                        data: 'file',
+                        name: 'file',
+                        orderable: true,
+                        sortable: false,
+                        render: function(data, type, row) {
+                            let basePath = '{{ asset('public/frontend/images/publication/') }}/';
+                            return `<a href="${basePath + data}" target="_blank">Open File</a>`;
+                        }
+                    },
+                    {
+                        data: 'image',
+                        name: 'image',
+                        orderable: true,
+                        sortable: false,
+                        render: function(data, type, row) {
+                            let basePath = '{{ asset('public/frontend/images/publication/') }}/'
+                            return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
+                        }
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: true,
+                        sortable: false,
+                        render: function(data, type, row) {
+                            // Map status values to badge classes and texts
+                            const badgeMap = {
+                                1: {
+                                    class: 'bg-success',
+                                    text: 'Published'
+                                },
+                                0: {
+                                    class: 'bg-danger',
+                                    text: 'Unpublished'
+                                },
+                                // Add additional mappings as needed
+                            };
+
+                            // Default to 'bg-light' if status is not in the badgeMap
+                            const badge = badgeMap[data] || {
+                                class: 'bg-light',
+                                text: 'Unknown'
+                            };
+
+                            return `<span class="badge ${badge.class} status" data-status="${data}" data-id="${row.id}">${badge.text}</span>`;
+                        }
+                    },
+                    {
+                        data: null,
+                        name: 'actions',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            var editRoute = '{{ route('member.publication.edit', ':id') }}'
+                                .replace(':id',
+                                    row
+                                    .id);
+                            return `<div style="display: flex; align-items: center;">
+                            <a href="${editRoute}" class="edit text-primary mr-2 me-2" data-id="${row.id}" style="margin-right: 10px;">
+                                <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
+                            </a>
+                            <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}" style="margin-right: 10px;">
+                                <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
+                            </a>
+                        </div>`;
+                        }
+                    }
+                ],
+                lengthMenu: [
+                    [5, 10, 30, 50, -1],
+                    [5, 10, 30, 50, "All"]
+                ], // Add 'All' option
+                pageLength: 5, // Set default page length
+                dom: "<'row'<'col-sm-4'l><'col-sm-4 d-flex justify-content-center 'B><'col-sm-4 text-end'f>>" +
+                    "<'row'<'col-sm-12'tr>>" + // Table rows
+                    "<'row mt-3'<'col-sm-5'i><'col-sm-7 text-end'p>>", // Information and pagination
+                buttons: [{
+                        extend: 'colvis',
+                        columns: ':not(:first-child)' // Exclude first column (serial)
+                    },
+                    // 'excel', 'print', 'copy'
+                ],
+                language: {
+                    search: '<div class="input-group">' +
+                        '<span class="input-group-text">' +
+                        '<i class="fas fa-search"></i>' +
+                        '</span>' +
+                        '_INPUT_' +
+                        '</div>'
+                },
+                columnDefs: [{
+                        targets: '_all',
+                        searchable: true
+                    },
+                    {
+                        targets: -1, // Target the last column (actions column)
+                        className: 'text-center', // Optional: Center align the content in this column
+                    },
+                    {
+                        targets: '_all',
+                        searchable: true,
+                        orderable: true
+                    }
+                ],
+                responsive: true,
+
+            });
+        });
+        $(document).on('click', '.edit', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+            // Handle edit button click
+            var id = $(this).data('id');
+            $.ajax({
+                url: "{{ route('member.publication.edit', ':id') }}".replace(':id', id),
+                type: 'GET',
+                success: function(response) {
+                    console.log(response)
+                    // Assuming response contains the data to populate the form
+                    // Activate the "add-blog-news" tab and change the text to "Update Blog/News"
+                    $('#submit').addClass('d-none');
+
+                    // Show the update and refresh buttons
+                    $('#update, #refresh').removeClass('d-none');
+                    $('#add-publication-tab').addClass('active').text('Update Publication');
+                    $('#add-publication').addClass('show active');
+                    $('#all-publication-tab').removeClass('active');
+                    $('#all-publication').removeClass('show active');
+                    $('#image_label').removeClass('required');
+                    $('#file_label').removeClass('required');
+                    $('#category').val(response.category_id).trigger('change');
+                    // Other form fields can be populated here as needed
+                    $('#title').val(response.title);
+                    $('#author').val(response.author);
+                    $('#publisher').val(response.publisher);
+                    $('#publish_date').val(response.publish_date);
+                    $('#short_description').val(response.short_description);
+                    $('#publication_id').val(response.id);
+
+                    let basePath = '{{ asset('public/frontend/images/publication/') }}/'
+                    $('#pp').attr('src', `${basePath + response.image}`);
+                    // Use the save icon
+                },
+                error: function(xhr) {
+                    console.error('Error fetching data:', xhr);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Failed to fetch data. Please try again.',
+                        icon: 'error'
+                    });
+                }
+            });
+        });
+        $(document).ready(function() {
+            $('#update').on('click', function(e) {
+                e.preventDefault();
+                let url = "{{ route('publication.update') }}";
+                let form = $('#publicationForm')[0];
+                let formData = new FormData(form);
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    processData: false, // Prevent jQuery from processing the data
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        // console.log(response);
+                        var success = response.success;
+                        $.each(success, function(key, value) {
+                            // toastr.success(value);
+                            Swal.fire('Success!', value,
+                            'success');
+                        });
+                        $('#post-list-data').DataTable().ajax.reload(null, false);
+                        
+                    },
+                    error: function(xhr) {
+                        var errors = xhr.responseJSON.errors;
+                        // Iterate through each error and display it
+                        $.each(errors, function(key, value) {
+                            // console.log(key, value);
+                            toastr.error(value); // Displaying each error message
+                        });
+                    }
+                });
+
+            });
+        });
+        $(document).on('click', '.delete', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+
+            var id = $(this).attr('data-id');
+            var url = "{{ route('publication.delete') }}";
+            // Show SweetAlert confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This action will delete this publication!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Send AJAX request
+                    // sendAjaxRequest(url, row);
+
+                    sendAjaxReq(id, status = null, url);
+                }
+            });
+        });
+        $(document).on('click', '.status', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+
+            var id = $(this).attr('data-id'); // Get the URL from the href attribute
+            var status = $(this).attr('data-status');
+            var url = "{{ route('publication.status') }}";
+            // Show SweetAlert confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This action will change status of this publication!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Change it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Send AJAX request
+                    // sendAjaxRequest(url, row);
+
+                    sendAjaxReq(id, status, url);
+                }
+            });
+        });
+
+        function sendAjaxReq(id, status, url) {
+            var requestData = {
+                id: id,
+                // Optionally include status if it's provided
+            };
+
+            // Check if status is defined and not null
+            if (typeof status !== 'undefined' && status !== null) {
+                requestData.status = status;
+            }
+            $.ajax({
+                url: url,
+                type: 'POST', // or 'GET' depending on your server endpoint
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: requestData, // You can send additional data if needed
+                success: function(response) {
+
+                    $('#post-list-data').DataTable().ajax.reload(null, false);
+                    Swal.fire('Success!', response.success,
+                        'success');
+                    // toastr.success(response.success);
+                },
+                error: function(xhr, status, error) {
+                    // Handle AJAX error
+                    Swal.fire('Error!', 'An error occurred.', 'error');
+                }
+            });
+        }
+        $(document).on('click', '#refresh', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+            $('#submit').removeClass('d-none');
+
+            // Show the update and refresh buttons
+            $('#update, #refresh').addClass('d-none');
+            $('#publicationForm')[0].reset();
+            $('#pp').attr('src', '');
+            $('#add-publication-tab').removeClass('active').text('Add Publication');
+            $('#add-publication').removeClass('show active');
+            $('#all-publication-tab').addClass('active');
+            $('#all-publication').addClass('show active');
         });
     </script>
 @endpush
