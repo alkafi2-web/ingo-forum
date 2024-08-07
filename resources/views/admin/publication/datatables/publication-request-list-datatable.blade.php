@@ -1,7 +1,7 @@
 <div class="table-responsive table-container">
     <!--begin::Table-->
     <table class="table election-datatable align-middle table-bordered fs-6 gy-5 m-auto display responsive"
-        id="post-list-data">
+        id="publication-list-data">
         <!--begin::Table head-->
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
@@ -44,13 +44,30 @@
 
 @push('custom-js')
     <script>
+        $('#reset-filters').click(function() {
+            $('#category').val('');
+            $('#author').val('');
+            $('#publisher').val('');
+            $('#status_filter').val('');
+            $('#member').val('');
+            $('#user').val('');
+            $('#publication-list-data').DataTable().ajax.reload(null, false);
+        });
         $(document).ready(function() {
-            var table = $('#post-list-data').DataTable({
+            var table = $('#publication-list-data').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
                     url: "{{ route('publication.request.list') }}",
                     type: 'GET',
+                    data: function(data) {
+                        data.category = $('#category').val();
+                        data.author = $('#author').val();
+                        data.publisher = $('#publisher').val();
+                        data.member_id = $('#member').val();
+                        data.status = $('#status_filter').val();
+                        return data;
+                    },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
@@ -211,6 +228,9 @@
                 responsive: true,
 
             });
+            $('#category, #author, #publisher, #status_filter, #member').on('change', function() {
+                table.ajax.reload(null, false);
+            });
         });
         $(document).on('click', '.delete', function(e) {
             e.preventDefault(); // Prevent default link behavior
@@ -279,7 +299,7 @@
                 data: requestData, // You can send additional data if needed
                 success: function(response) {
 
-                    $('#post-list-data').DataTable().ajax.reload(null, false);
+                    $('#publication-list-data').DataTable().ajax.reload(null, false);
                     // Swal.fire('Success!', response.success,
                     //     'success');
                     toastr.success(response.success);
