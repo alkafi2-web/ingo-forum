@@ -232,7 +232,7 @@ class PublicationController extends Controller
                     return $publication->category->name;
                 })
                 ->addColumn('added_by', function ($publication) {
-                    return $publication->addedBy->name;
+                    return $publication->addedBy->name ?? $publication->addedBy_member->organisation_name ?? null;
                 })
                 ->make(true);
         }
