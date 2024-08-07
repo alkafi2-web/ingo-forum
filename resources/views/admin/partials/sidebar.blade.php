@@ -165,7 +165,7 @@
                 {{-- post sidebar start --}}
                 @if (Auth::guard('admin')->user()->hasAnyPermission(['post-add', 'post-view-all', 'post-category-manage', 'post-subcategory-manage']))
                     <div data-kt-menu-trigger="click"
-                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'subcategory' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'post.edit' || Route::currentRouteName() == 'post.request.list'  ? 'hover show' : '' }}">
+                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'subcategory' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'post.edit' || Route::currentRouteName() == 'post.request.list' || Route::currentRouteName() == 'post.request.view'   ? 'hover show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -185,10 +185,16 @@
                                 <!--end::Svg Icon-->
                             </span>
                             <span class="menu-title">Post</span>
+                            
+                            <div class="pendingPostCount">
+                                @if ($global['pendingPostCount'] > 0)
+                                    <span class="badge badge-light-danger">{{ $global['pendingPostCount'] }}</span>
+                                @endif
+                            </div>
                             <span class="menu-arrow"></span>
                         </span>
                         <div
-                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'subcategory' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'post.request.list'  ? 'hover show' : '' }}">
+                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'subcategory' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'post.request.list' || Route::currentRouteName() == 'post.request.view' ? 'hover show' : '' }}">
 
                             @can('post-add')
                                 <a class="menu-item menu-accordion" href="{{ route('post.create') }}">
@@ -215,11 +221,16 @@
                             @can('post-view-all')
                                 <a class="menu-item menu-accordion" href="{{ route('post.request.list') }}">
                                     <span
-                                        class="menu-link {{ Route::currentRouteName() == 'post.request.list' ? 'active' : '' }}">
+                                        class="menu-link {{ Route::currentRouteName() == 'post.request.list' || Route::currentRouteName() == 'post.request.view' ? 'active' : '' }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
                                         <span class="menu-title">Request Post</span>
+                                        <div class="pendingPostCount">
+                                            @if ($global['pendingPostCount'] > 0)
+                                                <span class="badge badge-light-danger">{{ $global['pendingPostCount'] }}</span>
+                                            @endif
+                                        </div>
                                     </span>
                                 </a>
                             @endcan
