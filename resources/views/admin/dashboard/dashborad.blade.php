@@ -154,7 +154,7 @@ Dashboard
                 <a href="javascript:void(0)" class="fw-bold text-gray-800 text-hover-primary fs-6"><i
                     class="fas fa-hand-point-right fw-bold text-gray-800"></i>&nbsp;{{ $activity->activity }}</a>
                 <span class="text-muted fw-semibold d-block"><i
-                    class="fas fa-user"></i>&nbsp;{{ $activity->user->name }} &nbsp;&nbsp; <i
+                    class="fas fa-user"></i>&nbsp;{{ $activity->user->name ?? $activity->member->organisation_name }} &nbsp;&nbsp; <i
                     class="fab fa-chrome"></i>&nbsp;{{ $activity->ip_address }}</span>
               </div>
               <span class="fw-bold text-success py-1">{{ $activity->created_at->diffForHumans() }}</span>

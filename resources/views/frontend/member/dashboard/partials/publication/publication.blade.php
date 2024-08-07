@@ -45,6 +45,9 @@
                         <th class="min-w-50px  "  >
                             {{ __('Status') }}
                         </th>
+                        <th class="min-w-50px  "  >
+                            {{ __('Request Status') }}
+                        </th>
                         <th class="text-end min-w-140px lastTheadColumn"  >
                             {{ __('Action') }}</th>
                     </tr>
@@ -288,6 +291,45 @@
                             };
 
                             return `<span class="badge ${badge.class} status" data-status="${data}" data-id="${row.id}">${badge.text}</span>`;
+                        }
+                    },
+                    {
+                        data: 'approval_status',
+                        name: 'approval_status',
+                        orderable: true,
+                        sortable: false,
+                        render: function(data, type, row) {
+                            // Function to generate badge class and text
+                            const getBadge = (status) => {
+                                const statusMap = {
+                                    0: {
+                                        class: 'bg-warning',
+                                        text: 'Pending'
+                                    },
+                                    1: {
+                                        class: 'bg-success',
+                                        text: 'Approved'
+                                    },
+                                    2: {
+                                        class: 'bg-danger',
+                                        text: 'Suspended'
+                                    },
+                                    3: {
+                                        class: 'bg-secondary',
+                                        text: 'Rejected'
+                                    }
+                                };
+
+                                // Return the status badge or default to 'Unknown'
+                                return statusMap[status] || {
+                                    class: 'bg-light',
+                                    text: 'Unknown'
+                                };
+                            };
+
+                            const badge = getBadge(data);
+
+                            return `<span class="badge ${badge.class}" data-status="${data}" data-id="${row.id}">${badge.text}</span>`;
                         }
                     },
                     {
