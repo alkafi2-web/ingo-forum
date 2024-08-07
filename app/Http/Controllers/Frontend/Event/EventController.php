@@ -11,7 +11,9 @@ class EventController extends Controller
 {
     public function index(Request $request)
     {
-        return view('frontend.event.event');
+        // Fetch the latest 12 events and paginate them
+        $events = Event::with('participants.member')->where('status', 1)->latest()->paginate(1);
+        return view('frontend.event.event', compact('events'));
     }
 
     public function show($date)

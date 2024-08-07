@@ -4,9 +4,38 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Event extends Model
 {
     use HasFactory;
-    protected $guarded = ['id'];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'title',
+        'details',
+        'media',
+        'start_date',
+        'end_date',
+        'location',
+        'type',
+        'reg_dead_line',
+        'ref_fees',
+        'status',
+    ];
+    
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+        'reg_dead_line' => 'datetime',
+    ];
+
+    public function participants()
+    {
+        return $this->hasMany(EventRegistration::class);
+    }
 }

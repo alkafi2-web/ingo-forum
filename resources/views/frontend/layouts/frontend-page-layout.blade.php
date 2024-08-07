@@ -14,6 +14,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/owl-carousel/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/owl-carousel/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/fontawesome.min.css') }}">
