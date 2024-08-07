@@ -32,7 +32,7 @@
                                 <img src="{{ asset('public/frontend/images/icons/profile.png') }}" alt="">
                                 <div class="ms-2">
                                     <span class="d-block fw-semibold">By:</span>
-                                    <span class="blog-date-admin">{{ $post->addedBy->name }}</span>
+                                    <span class="blog-date-admin">{{ $post->addedBy->name??$post->addedBy_member->organisation_name }}</span>
                                 </div>
                             </div>
                         </div>

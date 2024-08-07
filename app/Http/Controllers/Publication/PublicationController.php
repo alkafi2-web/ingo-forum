@@ -143,6 +143,7 @@ class PublicationController extends Controller
 
     public function publicationStore(Request $request)
     {
+        // return $request->all();
         $validator = Validator::make($request->all(), [
             'category' => 'required|exists:publication_categories,id|integer',
             'title' => 'required|string|max:255',
@@ -209,7 +210,9 @@ class PublicationController extends Controller
             'short_description' => $request->input('short_description'),
             'file' => $fileName ?? null,
             'image' => $imageName ?? null,
-            'added_by' => Auth::guard('admin')->id(),
+            'added_by' => $request->add_type === 'member' ? null : Auth::guard('admin')->id(), // Set to null if $request->add_type is not null, otherwise use the member ID
+            'member_id' => $request->add_type === 'member' ? Auth::guard('member')->id() : null,
+            'approval_status' => $request->add_type === 'member' ? 0 : null
         ]);
         Helper::log("$publication->title publication create");
         return response()->json(['success' => ['success' => 'Publication Added Successfully']]);

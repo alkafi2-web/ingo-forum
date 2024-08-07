@@ -71,7 +71,7 @@ class AppServiceProvider extends ServiceProvider
                     $banner->content_image = json_decode($banner->content_image, true);
                     return $banner;
                 });
-                
+
                 $global['banner'] = $banners;
 
                 $mainContent = MainContent::where('name', 'aboutus-content')->first();
@@ -112,8 +112,12 @@ class AppServiceProvider extends ServiceProvider
                 $events = Event::where('status', 1)->latest()->take(3)->get();
                 $global['events'] = $events;
 
-                $posts = Post::with(['category', 'subcategory', 'addedBy', 'comments', 'replies', 'totalRead','addedBy_member'])
+                $posts = Post::with(['category', 'subcategory', 'addedBy', 'comments', 'replies', 'totalRead', 'addedBy_member'])
                     ->where('status', 1)
+                    ->where(function ($query) {
+                        $query->where('approval_status', 1)
+                            ->orWhereNull('approval_status');
+                    })
                     ->latest()
                     ->take(3) // Limit to 3 posts
                     ->get();
@@ -128,7 +132,7 @@ class AppServiceProvider extends ServiceProvider
 
                 $publications = Publication::with('addedBy', 'category')->where('status', 1)->take(3)->get();
                 $global['publications'] = $publications;
-                
+
 
                 $albums = MediaAlbum::with([
                     'mediaGalleries' => function ($query) {

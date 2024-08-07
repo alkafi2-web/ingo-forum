@@ -155,7 +155,7 @@ class PostController extends Controller
                 ->make(true);
         }
         $categories = PostCategory::where('status', 1)->with('subcategories')->get();
-        $subcategories = PostSubCategory::where('status', 1)->with('category')->get();
+        return $subcategories = PostSubCategory::where('status', 1)->with('category')->get();
         // Fetch addedBy users and addedBy_members for select options
         $addedByUsers = User::whereIn('id', Post::pluck('added_by'))->pluck('name', 'id');
 
