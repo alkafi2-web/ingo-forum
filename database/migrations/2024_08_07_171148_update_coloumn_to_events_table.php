@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('events', function (Blueprint $table) {
             // Add polymorphic columns
-            $table->morphs('creator')->after('id'); // This will create `creator_id` and `creator_type` columns
+            $table->morphs('creator'); // This will create `creator_id` and `creator_type` columns
         });
     }
 
