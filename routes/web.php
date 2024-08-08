@@ -372,6 +372,7 @@ Route::middleware(['trackvisitor'])->group(function () {
     Route::get('/event/explore', [FrontendEventController::class, 'index'])->name('frontend.events');
     // Route::get('/events/explore/{date}', [FrontendEventController::class, 'show'])->name('frontend.event.show');
     Route::get('/event/{slug}', [FrontendEventController::class, 'show'])->name('frontend.event.show');
+    Route::post('/event/join', [FrontendEventController::class, 'joinEvent'])->name('join.event');
 
     Route::get('/about/us', [IndexController::class, 'aboutUs'])->name('frontend.aboutus');
     Route::get('/why/ingo', [IndexController::class, 'whyIngo'])->name('frontend.why.ingo');

@@ -201,7 +201,13 @@
      font-size: 15px;
      font-weight: 400;
    }
-   .inputGuestWrapper{
-    
-   }
+}
+#addNewInputGuestWrapper{
+  font-size: 30px;
+  color: #e4e6ef;
+  transition: 0.5s;
+  &:hover{
+    color: green;
+    transform: scale(1.1);
+  }
 }

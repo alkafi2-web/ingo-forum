@@ -16,14 +16,14 @@ class EventRegistration extends Model
     protected $fillable = [
         'event_id',
         'member_id',
-        'representive_name',
-        'representive_email',
-        'representive_phone',
+        'attendee_name',        // Updated from 'representive_name'
+        'attendee_email',       // Updated from 'representive_email'
+        'attendee_phone',       // Updated from 'representive_phone'
         'guest_info',
         'total_participant',
-        'reg_fees_status',
+        'reg_fees_status',      // Updated with new default value
+        'reg_fees',             // New attribute
     ];
-    
     public function event()
     {
         return $this->belongsTo(Event::class);
