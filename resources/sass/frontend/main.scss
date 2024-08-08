@@ -42,3 +42,33 @@ input::placeholder {
   font-size: 13px;
   color: rgba(180, 180, 180, 1)!important;
 }
+// socials
+
+.publish-title{
+    color: #000000ad;
+    font-size: 14px;
+}
+.author-name{
+    font-size: 17px;
+}
+#social-links ul{
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+#social-links ul li{
+    margin-left: 8px;
+}
+#social-links ul li a svg{
+    font-size: 20px;
+}
+.fa-whatsapp{
+    color: green;
+}
+.fa-twitter{
+    color: #1C96E8;
+}
+.fa-linkedin{
+    color: #0073B1;
+}

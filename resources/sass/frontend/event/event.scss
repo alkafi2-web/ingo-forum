@@ -138,6 +138,14 @@
      opacity: 0;
      transition: all 300ms ease-out;
      transform: translateY(-5px);
+     #social-links{
+      ul{
+        display: flex;
+        li{
+          margin-left: 10px;
+        }
+      }
+     }
    }
    
    .card-media:hover .card-media-body-top-icons {
@@ -229,5 +237,19 @@
     font-family: 'Roboto', sans-serif;
     line-height: 1;
     margin: 8px 0px 7px 22px;
+    font-size: 12px;
   }
+}
+
+.event-details-socials{
+  #social-links{
+    ul{
+      li{
+        margin-left: 10px;
+      }
+    }
+   }
+   p{
+    margin: 0;
+   }
 }

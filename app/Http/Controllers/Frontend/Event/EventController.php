@@ -10,6 +10,13 @@ use App\Models\MemberInfo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
+use App\Helpers\Helper;
+// seo 
+use Illuminate\Support\Str;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\TwitterCard;
+use Artesaos\SEOTools\Facades\JsonLd;
 
 class EventController extends Controller
 {
@@ -23,6 +30,33 @@ class EventController extends Controller
     public function show($slug)
     {
         $event = Event::with('creator')->where('slug', $slug)->where('status', 1)->firstOrFail();
+        
+        // Generate keywords from the description
+        $description = Str::limit(htmlspecialchars_decode(strip_tags($event->details)), 500);
+        $keywords = Helper::generateKeywords($description);
+
+        // Set SEO meta tags
+        SEOMeta::setTitle($event->title);
+        SEOMeta::setDescription(Str::limit(htmlspecialchars_decode(strip_tags($event->details)), 200));
+        SEOMeta::addMeta('article:published_time', $event->created_at->toW3CString(), 'property');
+        SEOMeta::addKeyword($keywords);
+
+        OpenGraph::setDescription(Str::limit(htmlspecialchars_decode(strip_tags($event->details)), 200));
+        OpenGraph::setTitle($event->title);
+        OpenGraph::setUrl(route('frontend.event.show', $event->slug));
+        OpenGraph::addProperty('type', 'article');
+        OpenGraph::addImage(asset("public/frontend/images/events"."/".($event->media??"frontend/images/placeholder.jpg")));
+
+        TwitterCard::setTitle($event->title);
+        TwitterCard::setSite('@your_twitter_handle');
+        TwitterCard::setDescription(Str::limit(htmlspecialchars_decode(strip_tags($event->details)), 200));
+        TwitterCard::setImage(asset("public/frontend/images/events"."/".$event->media??"frontend/images/placeholder.jpg"));
+
+        JsonLd::setTitle($event->title);
+        JsonLd::setDescription(Str::limit(htmlspecialchars_decode(strip_tags($event->details)), 200));
+        JsonLd::setType('Article');
+        JsonLd::addImage(asset("public/frontend/images/events"."/".$event->media??"frontend/images/placeholder.jpg"));
+
         if ($event) {
             return view('frontend.event.details', compact('event'));
         } else {

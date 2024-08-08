@@ -4,14 +4,30 @@
 <section class="event-details-wrapper pt-5 pb-5">
     <div class="container">
         <h1 class="display-4">{{ $event->title }}</h1>
-        <div class="mb-4 sub-heading">
-            <p><i class="fas fa-at"></i>&nbsp;{{ $event->creator->name??$event->creator->info->organisation_name }}</p>
-            <p><i class="fas fa-map-marker-alt"></i> {{ $event->location }}</p>
+        <div class="mb-1 sub-heading d-flex justify-content-between align-items-center">
         </div>
         <div class="row">
             <div class="col-md-8">
+                <div class="event-details-socials row w-100 m-0">
+                    <div class="info col-sm-12 col-md-4">
+                        @php
+                            if ($event->creator->info) {
+                                $route = route('frontend.member.show', $event->creator->info->membership_id);
+                            } else {
+                                $route = "javascript:void(0)";
+                            }
+                        @endphp
+                        <p><a href="{{ $route }}" class="text-dark text-decoration-none"><i class="fas fa-feather"></i>&nbsp;{{ $event->creator->name??$event->creator->info->organisation_name }}</a></p>
+                    </div>
+                    <div class="published-time col-sm-12 col-md-4 d-md-flex justify-content-center">
+                        <p><i class="fas fa-globe"></i>&nbsp;{{ $event->created_at->format('D, M d, h:i A') }}</p>
+                    </div>
+                    <div class="col-sm-12 col-md-4 d-md-flex justify-content-end">
+                        {!! Share::page(route('frontend.event.show', $event->slug), $event->title)->facebook()->twitter()->linkedin()->whatsapp() !!}
+                    </div>
+                </div>
                 @if($event->media)
-                    <img src="{{ asset('public/frontend/images/events/' . $event->media) }}" class="img-fluid mb-4" alt="{{ $event->title }}">
+                    <img src="{{ asset('public/frontend/images/events/' . $event->media) }}" class="img-fluid mt-1 mb-4" alt="{{ $event->title }}">
                 @endif
                 <div>{!! $event->details !!}</div>
             </div>
@@ -29,12 +45,14 @@
                         @else
                             <button class="btn btn-success btn-block mb-3" disabled><i class="fas fa-info-circle"></i> Ongoing</button>
                         @endif
-
-                        <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Schedule</h5>
+                        @if ($event->reg_dead_line)
+                        <h6 class="card-title"><i class="far fa-clock"></i> Deadline : {{ $event->reg_dead_line->format('D, M d')}}</h6>
+                        @endif
+                        <h6 class="card-title"><i class="fas fa-calendar-alt"></i> Schedule</h6>
                         <p class="card-text"><strong>Start:</strong> {{ $event->start_date->format('D, M d, h:i A') }}</p>
                         <p class="card-text"><strong>End:</strong> {{ $event->end_date->format('D, M d, h:i A') }}</p>
                         
-                        <h5 class="card-title"><i class="fas fa-map-marker-alt"></i> Location</h5>
+                        <h6 class="card-title"><i class="fas fa-map-marker-alt"></i> Location</h6>
                         <p class="card-text">{{ $event->location }}</p>
                     </div>
                 </div>
