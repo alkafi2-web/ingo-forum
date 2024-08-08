@@ -27,7 +27,7 @@
                     <button class="btn btn-primary btn-block mb-3 join-member-btn"><i class="fas fa-user-plus"></i> Join as Member</button>
                     @else
                     <button class="btn btn-primary btn-block mb-3 join-member-btn"><i class="fas fa-user-plus"></i> Join as Member</button>
-                    <button class="btn btn-secondary btn-block mb-3 join-guest-btn"><i class="fas fa-user-friends"></i> Join as Guest</button>
+                    <button class="btn btn-secondary btn-block mb-3 join-form-btn"><i class="fas fa-user-friends"></i> Join as Guest</button>
                     @endauth
                 @else
                     <button class="btn btn-success btn-block mb-3" disabled><i class="fas fa-info-circle"></i> Ongoing</button>
@@ -50,8 +50,7 @@
             </div>
         </div>
     </div>
-    @include('frontend.event.partials.join-member-popup')
-    @include('frontend.event.partials.join-guest-popup')
+    @include('frontend.event.partials.join-form')
 </section>
 @endsection
 
@@ -66,8 +65,8 @@
             @endif
         });
 
-        $('.join-guest-btn').click(function() {
-            $('#joinGuestModal').modal('show');
+        $('.join-form-btn').click(function() {
+            $('#joinFormModal').modal('show');
         });
 
         $("#participant_number_member").on("keyup change", function(e) {
