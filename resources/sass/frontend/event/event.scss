@@ -213,4 +213,13 @@
 }
 .event-details-card{
   border: 1px solid #e4e6ef;
+
+  h4, h5, h6, p, span {
+    font-family: 'Roboto', sans-serif;
+  }
+  p{
+    font-size: 14px;
+    line-height: 1;
+    margin: 8px 0px 7px 22px;
+  }
 }

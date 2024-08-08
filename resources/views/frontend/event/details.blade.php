@@ -5,7 +5,7 @@
     <div class="container">
         <h1 class="display-4">{{ $event->title }}</h1>
         <div class="mb-4">
-            <p><i class="fas fa-calendar-alt"></i> {{ $event->start_date->format('D, M d, h:i A') }} - {{ $event->end_date->format('D, M d, h:i A') }}</p>
+            <p><i class="fas fa-at"></i>{{ $event->start_date->format('D, M d, h:i A') }} - {{ $event->end_date->format('D, M d, h:i A') }}</p>
             <p><i class="fas fa-map-marker-alt"></i> {{ $event->location }}</p>
         </div>
         <div class="row">
@@ -30,11 +30,11 @@
                             <button class="btn btn-success btn-block mb-3" disabled><i class="fas fa-info-circle"></i> Ongoing</button>
                         @endif
 
-                        <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Event Schedule</h5>
+                        <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Schedule</h5>
                         <p class="card-text"><strong>Start:</strong> {{ $event->start_date->format('D, M d, h:i A') }}</p>
                         <p class="card-text"><strong>End:</strong> {{ $event->end_date->format('D, M d, h:i A') }}</p>
                         
-                        <h5 class="card-title"><i class="fas fa-map-marker-alt"></i> Event Location</h5>
+                        <h5 class="card-title"><i class="fas fa-map-marker-alt"></i> Location</h5>
                         <p class="card-text">{{ $event->location }}</p>
                     </div>
                 </div>

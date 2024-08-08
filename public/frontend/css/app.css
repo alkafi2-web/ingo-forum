@@ -517,3 +517,11 @@ input::placeholder {
 .event-details-card {
   border: 1px solid #e4e6ef;
 }
+.event-details-card h4, .event-details-card h5, .event-details-card h6, .event-details-card p, .event-details-card span {
+  font-family: "Roboto", sans-serif;
+}
+.event-details-card p {
+  font-size: 14px;
+  line-height: 1;
+  margin: 8px 0px 7px 22px;
+}
