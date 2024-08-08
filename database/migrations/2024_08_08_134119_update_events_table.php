@@ -17,7 +17,7 @@ return new class extends Migration
             
             // Adding new columns
             $table->tinyInteger('reg_enable_status')->nullable();
-            $table->tinyInteger('capacity')->nullable();
+            $table->integer('capacity')->nullable();
         });
     }
 

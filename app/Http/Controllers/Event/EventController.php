@@ -37,9 +37,10 @@ class EventController extends Controller
             'des' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
-            'deadline_date' => 'required|date|before:end_date',
+            'deadline_date' => $request->has('check_deadline') ? 'required|date|before:end_date' : 'nullable|date|before:end_date',
             'location' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
+            'capacity' => 'nullable|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             // Custom error messages
             'title.required' => 'Title is required.',
@@ -49,15 +50,17 @@ class EventController extends Controller
             'end_date.required' => 'End Date is required.',
             'end_date.date' => 'End Date must be a valid date.',
             'end_date.after' => 'End Date must be after Start Date.',
-            'deadline_date.required' => 'Deadline Date is required.',
+            'deadline_date.required' => 'Deadline Date is required when the checkbox is checked.',
             'deadline_date.date' => 'Deadline Date must be a valid date.',
-            'deadline_date.after' => 'Deadline Date must be after End Date.',
+            'deadline_date.before' => 'Deadline Date must be before End Date.',
             'location.required' => 'Location Fee is required.',
             'image.required' => 'Image is required.',
             'image.image' => 'Image must be an image file.',
             'image.mimes' => 'Image must be a JPEG, PNG, JPG, or GIF image.',
             'image.max' => 'Image size should not exceed 2MB.',
         ]);
+
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422); // Validation failed
         }
@@ -70,14 +73,23 @@ class EventController extends Controller
             }
             $image->move($dir, $imageName);
         }
+        // return $regDeadline = $request->check_deadline ? $request->deadline_date : null;
+        $regEnableStatus = $request->has('check_deadline') ? 1 : 0;
+
+        // Create the event
         Event::create([
             'title' => $request->title,
+            'slug' => Str::slug($request->title, '-'),
             'details' => $request->des,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'reg_dead_line' => $request->deadline_date,
+            'reg_enable_status' => $regEnableStatus,
             'location' => $request->location,
+            'capacity' => $request->capacity, // Include capacity field
             'media' => $imageName ?? null, // Save image name or path to database
+            'creator_type' => $request->creator_type,
+            'creator_id' => $request->creator_type == 'admin' ? Auth::guard('admin')->id() : Auth::guard('member')->id(),
         ]);
         Helper::log("Create $request->title event");
         return response()->json(['success' => ['success' => 'You have successfully Create Event!']]);
@@ -111,9 +123,9 @@ class EventController extends Controller
 
         // Save the changes to the database
         $event->save();
-        $statusMessage = $newStatus == 0 
-        ? "$event->title event status deactive" 
-        : "$event->title event status active";
+        $statusMessage = $newStatus == 0
+            ? "$event->title event status deactive"
+            : "$event->title event status active";
         Helper::log($statusMessage);
         return response()->json(['success' => 'Event status updated successfully']);
     }
@@ -129,21 +141,22 @@ class EventController extends Controller
 
     public function eventUpdate(Request $request)
     {
+        // return $request->all();
         // Validate incoming request
         $validator = Validator::make($request->all(), [
             'id' => 'required|exists:events,id',
             'title' => 'required|string|max:255',
             'des' => 'required|string',
             'start_date' => 'required|date',
-            'location' => 'required|string',
             'end_date' => 'required|date|after:start_date',
-            'deadline_date' => 'required|date|before:end_date',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
+            'deadline_date' => $request->has('check_deadline') ? 'required|date|before:end_date' : 'nullable|date|before:end_date',
+            'location' => 'required|string',
+            'capacity' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             // Custom error messages
             'id.required' => 'Event ID is required.',
             'id.exists' => 'Event not found.',
-            'location.required' => 'Location Fee is required.',
             'title.required' => 'Title is required.',
             'des.required' => 'Description is required.',
             'start_date.required' => 'Start Date is required.',
@@ -151,17 +164,17 @@ class EventController extends Controller
             'end_date.required' => 'End Date is required.',
             'end_date.date' => 'End Date must be a valid date.',
             'end_date.after' => 'End Date must be after Start Date.',
-            'deadline_date.required' => 'Deadline Date is required.',
+            'deadline_date.required' => 'Deadline Date is required when the checkbox is checked.',
             'deadline_date.date' => 'Deadline Date must be a valid date.',
             'deadline_date.before' => 'Deadline Date must be before End Date.',
-
+            'location.required' => 'Location is required.',
             'image.image' => 'Image must be an image file.',
             'image.mimes' => 'Image must be a JPEG, PNG, JPG, or GIF image.',
             'image.max' => 'Image size should not exceed 2MB.',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422); // Validation failed
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
         // Find the event by ID
@@ -200,8 +213,11 @@ class EventController extends Controller
             'end_date' => $request->end_date,
             'reg_dead_line' => $request->deadline_date,
             'location' => $request->location,
+            'capacity' => $request->capacity,
+            'reg_enable_status' => $request->has('check_deadline') ? 1 : 0,
         ]);
-        Helper::log("Update $event->title event");
+
+        Helper::log("Update {$event->title} event");
         return response()->json(['success' => ['success' => 'Event updated successfully']]);
     }
 }

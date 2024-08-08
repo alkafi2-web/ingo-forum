@@ -3,10 +3,12 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="title" class="text-3xl required">Event Title</label>
+                <input type="hidden" name="creator_type" value="admin">
                 <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
             </div>
         </div>
     </div>
+
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
@@ -18,8 +20,16 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
+                <label for="capacity" class="text-3xl">Event Capacity</label>
+                <input type="number" class="form-control" id="capacity" name="capacity">{{ old('capacity') }}</input>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="form-group">
                 <label for="location" class="text-3xl required">Event Location</label>
-                <textarea class="form-control" id="location" name="location" rows="2">{{ old('location') }}</textarea>
+                <input type="text" class="form-control" id="location" name="location">{{ old('location') }}</input>
             </div>
         </div>
     </div>
@@ -42,24 +52,30 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="deadline_date" class="text-3xl required">Registrtaion Deadline</label>
+                <label>
+                    <input type="checkbox" name="check_deadline" id="toggle-deadline" />
+                    Enable Registration Deadline
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3" id="deadline-container" style="display: none;">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="deadline_date" class="text-3xl required">Registration Deadline</label>
                 <input type="datetime-local" class="form-control" id="deadline_date" name="deadline_date"
                     value="{{ old('deadline_date') }}">
             </div>
         </div>
-        {{-- <div class="col-md-6">
-            <div class="form-group">
-                <label for="reg_fee" class="text-3xl">Registration Fee</label>
-                <input type="text" class="form-control" id="reg_fee" name="reg_fee" value="{{ old('reg_fee') }}">
-            </div>
-        </div> --}}
     </div>
+
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
                 <label for="image" class="text-3xl required">Event Image</label>
                 <input type="file" class="form-control" id="image" name="image" value=""
-                    oninput="pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
+                    oninput="pp.src=window.URL.createObjectURL(this.files[0])">
                 <img id="pp" width="100" class="float-start mt-3" src="">
             </div>
         </div>
@@ -73,12 +89,15 @@
 
 @push('custom-js')
     <script>
+        CKEDITOR.replace('des');
         $(document).ready(function() {
 
             $('#event-submit').on('click', function(e) {
                 e.preventDefault();
                 let url = "{{ route('event.create') }}";
                 let formData = new FormData($('#eventForm')[0]);
+                let des = CKEDITOR.instances['des'].getData();
+                formData.append('des', des);
                 $.ajax({
                     type: 'POST',
                     url: url,
@@ -95,7 +114,11 @@
                             toastr.success(value); // Displaying each error message
                         });
                         $('#eventForm')[0].reset();
+                        var des = CKEDITOR.instances['des'];
+                        des.setData('');
+                        des.focus();
                         $('#pp').attr('src', '');
+                        $('#deadline-container').hide();
                         $('#event-data').DataTable().ajax.reload(null, false);
                     },
                     error: function(xhr) {
@@ -115,6 +138,8 @@
                 let id = $(this).attr('data-id');
                 let formData = new FormData($('#eventForm')[0]);
                 formData.append('id', id);
+                let des = CKEDITOR.instances['des'].getData();
+                formData.append('des', des);
                 $.ajax({
                     type: 'POST',
                     url: url,
@@ -132,6 +157,9 @@
                         });
                         $('#add-header').text('Add Event');
                         $('#eventForm')[0].reset();
+                        var des = CKEDITOR.instances['des'];
+                        des.setData('');
+                        des.focus();
                         $('#pp').attr('src', '');
                         $('#event-data').DataTable().ajax.reload(null, false);
                         $('#event-submit').removeClass('d-none');
@@ -153,11 +181,29 @@
                 e.preventDefault();
                 $('#add-header').text('Add Event');
                 $('#eventForm')[0].reset();
+                var des = CKEDITOR.instances['des'];
+                des.setData('');
+                des.focus();
                 $('#pp').attr('src', '');
                 $('#event-submit').removeClass('d-none');
                 $('#event-update ').addClass('d-none');
                 $('#page-refresh').addClass('d-none');
             });
+        });
+        $(document).ready(function() {
+            // When the checkbox is clicked
+            $('#toggle-deadline').on('change', function() {
+                if ($(this).is(':checked')) {
+                    $('#deadline-container').show(); // Show the deadline input
+                } else {
+                    $('#deadline-container').hide(); // Hide the deadline input
+                }
+            });
+
+            // Check if the checkbox is already checked on page load
+            if ($('#toggle-deadline').is(':checked')) {
+                $('#deadline-container').show(); // Show the deadline input
+            }
         });
     </script>
 @endpush

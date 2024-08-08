@@ -113,7 +113,7 @@
                     },
                     {
                         targets: -1, // Target the last column (actions column)
-                        className: 'text-center', // Optional: Center align the content in this column
+                        className: '', // Optional: Center align the content in this column
                     },
                     {
                         targets: '_all',
