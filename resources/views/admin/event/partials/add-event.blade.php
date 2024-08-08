@@ -10,6 +10,14 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <div class="form-group">
+                <label for="event_type" class="text-3xl required">Event Type</label>
+                <select name="event_type" id=""></select>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="form-group">
                 <label for="des" class="text-3xl required">Event Description</label>
                 <textarea class="form-control" id="des" name="des" rows="4">{{ old('des') }}</textarea>
             </div>
@@ -19,7 +27,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="location" class="text-3xl required">Event Location</label>
-                <textarea class="form-control" id="location" name="location" rows="2">{{ old('location') }}</textarea>
+                <input type="text" class="form-control" id="location" name="location">{{ old('location') }}</input>
             </div>
         </div>
     </div>
@@ -73,6 +81,7 @@
 
 @push('custom-js')
     <script>
+        CKEDITOR.replace('des');
         $(document).ready(function() {
 
             $('#event-submit').on('click', function(e) {

@@ -32,7 +32,7 @@
 </form>
 
 @push('custom-js')
-<script>
+<script> 
     CKEDITOR.replace('page_details');
     $(document).ready(function() {
         // Function to generate slug
