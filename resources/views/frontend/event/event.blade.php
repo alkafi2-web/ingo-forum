@@ -24,7 +24,7 @@
                     <ul class="card-media-object-social-list">
                         @foreach($event->participants->take(2) as $participant)
                             <li>
-                                <img src="{{ $participant->member->info->logo }}" class="">
+                                <img src="{{ asset('public/frontend/images/events')."/".($participant->member?$participant->member->info->logo?$participant->member->info->logo:"placeholder.jpg":"placeholder.jpg")  }}" class="">
                             </li>
                         @endforeach
                         @if($event->participants->count() > 2)

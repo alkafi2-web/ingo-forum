@@ -404,12 +404,13 @@ input::placeholder {
   border-radius: 50%;
   display: inline-block;
   height: 30px;
-  margin-right: 6px;
+  margin-right: -14px;
   opacity: 0;
   overflow: hidden;
   transform: translateY(5px);
   transition: all 300ms ease-out;
   width: 30px;
+  background-color: #F99E1F;
 }
 .event-wrapper .card-media:hover .card-media-object-social-list li {
   opacity: 1;
@@ -522,6 +523,12 @@ input::placeholder {
 }
 .event-details-card p {
   font-size: 14px;
+  line-height: 1;
+  margin: 8px 0px 7px 22px;
+}
+
+.sub-heading p {
+  font-family: "Roboto", sans-serif;
   line-height: 1;
   margin: 8px 0px 7px 22px;
 }

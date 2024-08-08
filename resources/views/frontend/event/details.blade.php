@@ -4,8 +4,8 @@
 <section class="event-details-wrapper pt-5 pb-5">
     <div class="container">
         <h1 class="display-4">{{ $event->title }}</h1>
-        <div class="mb-4">
-            <p><i class="fas fa-at"></i>{{ $event->start_date->format('D, M d, h:i A') }} - {{ $event->end_date->format('D, M d, h:i A') }}</p>
+        <div class="mb-4 sub-heading">
+            <p><i class="fas fa-at"></i>&nbsp;{{ $event->creator->name??$event->creator->info->organisation_name }}</p>
             <p><i class="fas fa-map-marker-alt"></i> {{ $event->location }}</p>
         </div>
         <div class="row">

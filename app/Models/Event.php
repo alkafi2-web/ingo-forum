@@ -45,4 +45,10 @@ class Event extends Model
     {
         return $this->hasMany(EventRegistration::class);
     }
+    
+    public function creator()
+    {
+        return $this->morphTo(null, 'creator_type', 'creator_id');
+    }
+    
 }

@@ -15,13 +15,13 @@ class EventController extends Controller
     public function index(Request $request)
     {
         // Fetch the latest 12 events and paginate them
-        $events = Event::with('participants.member')->where('status', 1)->latest()->paginate(1);
+        $events = Event::with('participants.member', 'creator')->where('status', 1)->latest()->paginate(12);
         return view('frontend.event.event', compact('events'));
     }
 
     public function show($slug)
     {
-        $event = Event::where('slug', $slug)->where('status', 1)->firstOrFail();
+        $event = Event::with('creator')->where('slug', $slug)->where('status', 1)->firstOrFail();
         if ($event) {
             return view('frontend.event.details', compact('event'));
         }
