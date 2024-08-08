@@ -165,19 +165,23 @@ Route::prefix('admin')->group(function () {
             });
             Route::prefix('/')->group(function () {
                 Route::get('/', [PostController::class, 'postCreate'])->name('post.create');
-                Route::post('/store', [PostController::class, 'postStore'])->name('post.store')->withoutMiddleware('admin');
                 Route::get('/list', [PostController::class, 'postList'])->name('post.list');
-                Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
-                Route::post('/comment', [PostController::class, 'postComment'])->name('post.comment');
-                Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');
+
                 Route::get('/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
-                Route::post('/update', [PostController::class, 'postUpdate'])->name('post.update')->withoutMiddleware('admin');
 
                 Route::get('/request/list', [PostController::class, 'postRequestList'])->name('post.request.list');
-                Route::get('/request/view/{categorySlug}/{postSlug}', [PostController::class, 'postRequestView'])->name('post.request.view');
-                Route::post('/approved', [PostController::class, 'approved'])->name('post.approved');
-                Route::post('/reject', [PostController::class, 'reject'])->name('post.reject');
-                Route::post('/suspended', [PostController::class, 'suspended'])->name('post.suspend');
+
+                Route::middleware('adminOrMember')->withoutMiddleware('admin')->group(function () {
+                    Route::post('/comment', [PostController::class, 'postComment'])->name('post.comment');
+                    Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');
+                    Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
+                    Route::post('/store', [PostController::class, 'postStore'])->name('post.store');
+                    Route::post('/update', [PostController::class, 'postUpdate'])->name('post.update');
+                    Route::get('/request/view/{categorySlug}/{postSlug}', [PostController::class, 'postRequestView'])->name('post.request.view');
+                    Route::post('/approved', [PostController::class, 'approved'])->name('post.approved');
+                    Route::post('/reject', [PostController::class, 'reject'])->name('post.reject');
+                    Route::post('/suspended', [PostController::class, 'suspended'])->name('post.suspend');
+                });
             });
         });
         // post menagement route end
@@ -195,12 +199,20 @@ Route::prefix('admin')->group(function () {
 
             Route::prefix('/')->group(function () {
                 Route::get('/', [PublicationController::class, 'publicationCreate'])->name('publication.create');
-                Route::post('/store', [PublicationController::class, 'publicationStore'])->name('publication.store');
                 Route::get('/list', [PublicationController::class, 'publicationList'])->name('publication.list');
-                Route::post('/delete', [PublicationController::class, 'publicationDelete'])->name('publication.delete');
-                Route::post('/status', [PublicationController::class, 'publicationStatus'])->name('publication.status');
-                Route::get('/edit/{id}', [PublicationController::class, 'publicationEdit'])->name('publication.edit');
-                Route::post('/update', [PublicationController::class, 'publicationUpdate'])->name('publication.update');
+
+                Route::middleware('adminOrMember')->withoutMiddleware('admin')->group(function () {
+                    Route::post('/delete', [PublicationController::class, 'publicationDelete'])->name('publication.delete');
+                    Route::post('/status', [PublicationController::class, 'publicationStatus'])->name('publication.status');
+                    Route::get('/edit/{id}', [PublicationController::class, 'publicationEdit'])->name('publication.edit');
+                    Route::post('/update', [PublicationController::class, 'publicationUpdate'])->name('publication.update');
+                    Route::post('/store', [PublicationController::class, 'publicationStore'])->name('publication.store');
+                    Route::get('/request/list', [PublicationController::class, 'publicationRequestList'])->name('publication.request.list');
+                    Route::get('/request/view/{id}', [PublicationController::class, 'publicationView'])->name('publication.view');
+                    Route::post('/approved', [PublicationController::class, 'approved'])->name('publication.approved');
+                    Route::post('/reject', [PublicationController::class, 'reject'])->name('publication.reject');
+                    Route::post('/suspended', [PublicationController::class, 'suspended'])->name('publication.suspend');
+                });
             });
         });
         // Publication menagement route end
@@ -319,6 +331,7 @@ Route::middleware(['trackvisitor'])->group(function () {
                 });
                 Route::prefix('publication')->group(function () {
                     Route::get('/', [FrontnedPublicationController::class, 'memberPublicationIndex'])->name('member.publication.index');
+                    Route::get('/edit/{id}', [FrontnedPublicationController::class, 'memberPublicationEdit'])->name('member.publication.edit');
                 });
             });
         });

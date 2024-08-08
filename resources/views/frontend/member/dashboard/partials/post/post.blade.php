@@ -14,32 +14,32 @@
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="all-blog-news" role="tabpanel" aria-labelledby="all-blog-news-tab"
             tabindex="0">
-            <table class="table election-datatable align-middle table-bordered fs-6 gy-5 m-auto display responsive"
-                id="member-post-list">
+            <table class="table table-hover table-sm align-middle fs-6 gy-5 m-auto table-responsive"
+                id="member-post-list" style="width: 100%;">
                 <thead>
                     <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
-                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        <th class="" >
                             {{ __('Title') }}
                         </th>
-                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        <th class="" >
                             {{ __('Category') }}
                         </th>
-                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        <th class="" >
                             {{ __('Subcategory') }}
                         </th>
-                        {{-- <th class="min-w-150px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        {{-- <th class="min-w-150px fw-bold text-dark firstTheadColumn" >
                             {{ __('Description') }}
                         </th> --}}
-                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        <th class="" >
                             {{ __('Banner') }}
                         </th>
-                        <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        <th class="" >
                             {{ __('Request Status') }}
                         </th>
-                        <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                        <th class="" >
                             {{ __('Status') }}
                         </th>
-                        <th class="text-end min-w-140px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
+                        <th class="" >
                             {{ __('Action') }}</th>
                     </tr>
                 </thead>
@@ -395,7 +395,7 @@
                 pageLength: 5, // Set default page length
                 dom: "<'row'<'col-sm-4'l><'col-sm-4 d-flex justify-content-center 'B><'col-sm-4 text-end'f>>" +
                     "<'row'<'col-sm-12'tr>>" + // Table rows
-                    "<'row mt-3'<'col-sm-5'i><'col-sm-7 text-end'p>>", // Information and pagination
+                    "<'row mt-3'<'col-sm-6 'i><'col-sm-6 text-end'p>>", // Information and pagination
                 buttons: [{
                         extend: 'colvis',
                         columns: ':not(:first-child)'
@@ -416,7 +416,7 @@
                     },
                     {
                         targets: -1,
-                        className: 'text-center'
+                        className: ''
                     }, // Center align the actions column
                     {
                         targets: '_all',

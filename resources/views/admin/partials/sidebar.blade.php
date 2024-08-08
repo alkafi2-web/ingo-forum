@@ -262,7 +262,7 @@
                 {{-- publication sidebar start --}}
                 @if (Auth::guard('admin')->user()->hasAnyPermission(['publication-add', 'publication-view-all', 'publication-category-manage']))
                     <div data-kt-menu-trigger="click"
-                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'publication.create' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'post.edit' || Route::currentRouteName() == 'publication.category' ? 'hover show' : '' }}">
+                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'publication.create' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'post.edit' || Route::currentRouteName() == 'publication.category' || Route::currentRouteName() == 'publication.request.list' ? 'hover show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -282,10 +282,15 @@
                                 <!--end::Svg Icon-->
                             </span>
                             <span class="menu-title">Publication</span>
+                            <div class="pendingPublicationCount">
+                                @if ($global['pendingPublicationCount'] > 0)
+                                    <span class="badge badge-light-danger">{{ $global['pendingPublicationCount'] }}</span>
+                                @endif
+                            </div>
                             <span class="menu-arrow"></span>
                         </span>
                         <div
-                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'publication.category' || Route::currentRouteName() == 'publication.create' || Route::currentRouteName() == 'publication.list' || Route::currentRouteName() == 'post.list' ? 'hover show' : '' }}">
+                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'publication.category' || Route::currentRouteName() == 'publication.create' || Route::currentRouteName() == 'publication.list' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'publication.request.list' ? 'hover show' : '' }}">
 
                             @can('publication-add')
                                 <a class="menu-item menu-accordion" href="{{ route('publication.create') }}">
@@ -306,6 +311,22 @@
                                             <span class="bullet bullet-dot"></span>
                                         </span>
                                         <span class="menu-title">All Publication</span>
+                                    </span>
+                                </a>
+                            @endcan
+                            @can('publication-view-all')
+                                <a class="menu-item menu-accordion" href="{{ route('publication.request.list') }}">
+                                    <span
+                                        class="menu-link {{ Route::currentRouteName() == 'publication.request.list' ? 'active' : '' }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Request Publication</span>
+                                        <div class="pendingPublicationCount">
+                                            @if ($global['pendingPublicationCount'] > 0)
+                                                <span class="badge badge-light-danger">{{ $global['pendingPublicationCount'] }}</span>
+                                            @endif
+                                        </div>
                                     </span>
                                 </a>
                             @endcan

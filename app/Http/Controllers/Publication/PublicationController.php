@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Publication;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\MemberInfo;
 use App\Models\Publication;
 use App\Models\PublicationCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -224,8 +226,29 @@ class PublicationController extends Controller
         if (!Auth::guard('admin')->user()->hasPermissionTo('publication-view-all')) {
             abort(401);
         }
+        $publication = Publication::with('addedBy', 'category', 'addedBy_member')->latest();
         if ($request->ajax()) {
-            $publication = Publication::with('addedBy', 'category')->latest();
+            // Apply filters if provided
+            if ($request->category) {
+                $publication->where('category_id', $request->category);
+            }
+
+            if ($request->author) {
+                $publication->where('author', $request->author);
+            }
+            if ($request->publisher) {
+                $publication->where('publisher', $request->publisher);
+            }
+
+            if ($request->status !== null) {
+                $publication->where('status', $request->status);
+            }
+            if ($request->user_id) {
+                $publication->where('added_by', 1);
+            }
+            if ($request->member_id) {
+                $publication->where('member_id', 1);
+            }
             // Format data for DataTables
             return DataTables::of($publication)
                 ->addColumn('category_name', function ($publication) {
@@ -236,7 +259,17 @@ class PublicationController extends Controller
                 })
                 ->make(true);
         }
-        return view('admin.publication.publication-list');
+        $categories = PublicationCategory::where('status', 1)->get();
+        $authors = Publication::select('author')
+            ->distinct()
+            ->pluck('author');
+        $publishers = Publication::select('publisher')
+            ->distinct()
+            ->pluck('publisher');
+        $addedByUsers = User::whereIn('id', Publication::pluck('added_by'))->pluck('name', 'id');
+
+        $addedByMembers = MemberInfo::whereIn('member_id', Publication::pluck('member_id'))->pluck('organisation_name', 'id');
+        return view('admin.publication.publication-list', compact('categories', 'authors', 'publishers', 'addedByUsers', 'addedByMembers'));
     }
 
     public function publicationDelete(Request $request)
@@ -287,7 +320,7 @@ class PublicationController extends Controller
         ]);
     }
 
-    public function publicationUpdate(Request $request) 
+    public function publicationUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'category' => 'required|exists:publication_categories,id|integer',
@@ -320,7 +353,7 @@ class PublicationController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422); // Validation failed
         }
-        $publication = Publication::where('id',$request->id)->first();
+        $publication = Publication::where('id', $request->id)->first();
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
@@ -360,9 +393,116 @@ class PublicationController extends Controller
         $publication->author = $request->author;
         $publication->publisher = $request->publisher;
         $publication->publish_date = $request->publish_date;
+        $publication->short_description = $request->short_description;
         $publication->save();
         Helper::log("$publication->title publication update");
         return response()->json(['success' => ['success' => 'Publication Update Successfully']]);
     }
     // publicatiuon end
+
+    public function publicationRequestList(Request $request)
+    {
+        if (!Auth::guard('admin')->user()->hasPermissionTo('publication-view-all')) {
+            abort(401);
+        }
+        $publication = Publication::with('addedBy', 'category', 'addedBy_member')->where('approval_status', 0)->latest();
+        if ($request->ajax()) {
+            if ($request->category) {
+                $publication->where('category_id', $request->category);
+            }
+
+            if ($request->author) {
+                $publication->where('author', $request->author);
+            }
+            if ($request->publisher) {
+                $publication->where('publisher', $request->publisher);
+            }
+
+            if ($request->status !== null) {
+                $publication->where('approval_status', $request->status);
+            }
+            
+            if ($request->member_id) {
+                $publication->where('member_id', 1);
+            }
+            return DataTables::of($publication)
+                ->addColumn('category_name', function ($publication) {
+                    return $publication->category->name;
+                })
+                ->addColumn('added_by', function ($publication) {
+                    return $publication->addedBy->name ?? $publication->addedBy_member->organisation_name ?? null;
+                })
+                ->make(true);
+        }
+        $categories = PublicationCategory::where('status', 1)->get();
+        $authors = Publication::select('author')
+            ->distinct()
+            ->pluck('author');
+        $publishers = Publication::select('publisher')
+            ->distinct()
+            ->pluck('publisher');
+        // $addedByUsers = User::whereIn('id', Publication::pluck('added_by'))->pluck('name', 'id');
+
+        $addedByMembers = MemberInfo::whereIn('member_id', Publication::pluck('member_id'))->pluck('organisation_name', 'id');
+        return view('admin.publication.publication-request-list', compact('categories','authors', 'addedByMembers','publishers'));
+    }
+
+    public function publicationView($id)
+    {
+        $publication = Publication::with('addedBy', 'category', 'addedBy_member')->where('id', $id)->first();
+        return view('admin.publication.publication-view', compact('publication'));
+    }
+    public function approved(Request $request)
+    {
+
+        // Find the post by the provided ID
+        $publication = Publication::findOrFail($request->id);
+
+        // Update the approved_status to 1
+        $publication->approval_status = 1;
+        $publication->approval_status_changed_by = Auth::guard('admin')->id();
+
+        // Save the changes
+        $publication->save();
+        $viewHeader = view('admin.publication.partials.view-header', compact('publication'))->render();
+        return response()->json([
+            'success' => 'Publication Approved successfully',
+            'viewHeader' => $viewHeader,
+        ]);
+    }
+    public function reject(Request $request)
+    {
+
+        // Find the post by the provided ID
+        $publication = Publication::findOrFail($request->id);
+
+        // Update the approved_status to 1
+        $publication->approval_status = 3;
+        $publication->approval_status_changed_by = Auth::guard('admin')->id();
+
+        // Save the changes
+        $publication->save();
+        $viewHeader = view('admin.publication.partials.view-header', compact('publication'))->render();
+        return response()->json([
+            'success' => 'Publication Reject successfully',
+            'viewHeader' => $viewHeader,
+        ]);
+    }
+    public function suspended(Request $request)
+    {
+
+        // Find the post by the provided ID
+        $publication = Publication::findOrFail($request->id);
+
+        // Update the approved_status to 1
+        $publication->approval_status = 2;
+        $publication->approval_status_changed_by = Auth::guard('admin')->id();
+        // Save the changes
+        $publication->save();
+        $viewHeader = view('admin.publication.partials.view-header', compact('publication'))->render();
+        return response()->json([
+            'success' => 'Publication Suspend successfully',
+            'viewHeader' => $viewHeader,
+        ]);
+    }
 }

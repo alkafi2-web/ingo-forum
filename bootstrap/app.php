@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => adminMiddleware::class,
             'auth.member' => \App\Http\Middleware\MemberMiddleware::class,
+            'adminOrMember' => \App\Http\Middleware\AdminOrMember::class,
             'updateLastActivity' => \App\Http\Middleware\UpdateLastActivity::class,
             'trackvisitor' => \App\Http\Middleware\TrackVisitor::class,
         ]);
