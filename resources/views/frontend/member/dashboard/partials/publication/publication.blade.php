@@ -16,7 +16,7 @@
         <div class="tab-pane fade show active" id="all-publication" role="tabpanel"
             aria-labelledby="all-publication-tab" tabindex="0">
             <!--begin::Table-->
-            <table class="table align-middle fs-6 gy-5 m-auto display responsive"
+            <table class="table table-hover align-middle fs-6 gy-5 m-auto display table-responsive"
                 id="publication-list-data">
                 <!--begin::Table head-->
                 <thead>
@@ -48,7 +48,7 @@
                         <th class="min-w-50px  "  >
                             {{ __('Request Status') }}
                         </th>
-                        <th class="text-end min-w-140px lastTheadColumn"  >
+                        <th class="text start"  >
                             {{ __('Action') }}</th>
                     </tr>
                 </thead>
@@ -378,10 +378,6 @@
                 columnDefs: [{
                         targets: '_all',
                         searchable: true
-                    },
-                    {
-                        targets: -1, // Target the last column (actions column)
-                        className: 'text-center', // Optional: Center align the content in this column
                     },
                     {
                         targets: '_all',
