@@ -211,8 +211,11 @@
                         console.log(response);
                         var success = response.success;
                         $.each(success, function(key, value) {
-                            toastr.success(value); // Displaying each error message
+                            // toastr.success(value); // Displaying each error message
+                            Swal.fire('Success!', value,
+                        'success');
                         });
+
                         $('#add-header').text('Add Event');
                         $('#eventForm')[0].reset();
                         var des = CKEDITOR.instances['des'];
@@ -255,9 +258,6 @@
                 $('#all-event-tab').addClass('active');
                 $('#all-event').addClass('show active');
             });
-        });
-        $(document).ready(function() {
-            // When the checkbox is clicked
             $('#toggle-deadline').on('change', function() {
                 if ($(this).is(':checked')) {
                     $('#deadline-container').show(); // Show the deadline input
@@ -265,19 +265,15 @@
                     $('#deadline-container').hide(); // Hide the deadline input
                 }
             });
-
             // Check if the checkbox is already checked on page load
             if ($('#toggle-deadline').is(':checked')) {
                 $('#deadline-container').show(); // Show the deadline input
             }
-        });
-
-        $(document).ready(function() {
             var table = $('#event-data').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('event') }}",
+                    url: "{{ route('member.event.list') }}",
                     type: 'GET',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

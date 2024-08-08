@@ -122,8 +122,8 @@ class EventController extends Controller
 
     public function memberEventList(Request $request)
     {
+        $events = Event::where('creator_type','\App\Models\Member')->where('creator_id',Auth::guard('member')->id())->latest();
         if ($request->ajax()) {
-            $events = Event::where('creator_type','Member')->where('creator_id',Auth::guard('member')->id())->latest();;
 
             return DataTables::of($events)
                 ->make(true);

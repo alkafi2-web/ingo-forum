@@ -221,12 +221,16 @@ Route::prefix('admin')->group(function () {
         // event managment route start
         Route::prefix('event')->group(function () {
             Route::get('/', [EventController::class, 'event'])->name('event');
-            Route::post('/create', [EventController::class, 'eventCreate'])->name('event.create');
-            Route::post('/delete', [EventController::class, 'eventDelete'])->name('event.delete');
-            Route::post('/status', [EventController::class, 'eventStatus'])->name('event.status');
-            Route::post('/edit', [EventController::class, 'eventEdit'])->name('event.edit');
-            Route::post('/update', [EventController::class, 'eventUpdate'])->name('event.update');
+
             Route::get('/member-list', [EventController::class, 'memberEventList'])->name('event.member.list');
+
+            Route::middleware('adminOrMember')->withoutMiddleware('admin')->group(function () {
+                Route::post('/create', [EventController::class, 'eventCreate'])->name('event.create');
+                Route::post('/delete', [EventController::class, 'eventDelete'])->name('event.delete');
+                Route::post('/status', [EventController::class, 'eventStatus'])->name('event.status');
+                Route::post('/edit', [EventController::class, 'eventEdit'])->name('event.edit');
+                Route::post('/update', [EventController::class, 'eventUpdate'])->name('event.update');
+            });
         });
         // event managment route end
 
