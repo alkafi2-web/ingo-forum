@@ -20,9 +20,13 @@ class EventController extends Controller
             abort(401);
         }
         if ($request->ajax()) {
-            $events = Event::latest();;
+            $events = Event::latest();
 
             return DataTables::of($events)
+                ->addColumn('creator', function ($event) {
+                    return $event->approval_status;
+                })
+                
                 ->make(true);
         }
         return view('admin.event.index');
@@ -89,8 +93,8 @@ class EventController extends Controller
             'capacity' => $request->capacity, // Include capacity field
             'media' => $imageName ?? null, // Save image name or path to database
             'creator_type' => $request->creator_type,
-            'creator_id' => $request->creator_type == 'admin' ? Auth::guard('admin')->id() : Auth::guard('member')->id(),
-            'approval_status' = > $request->
+            'creator_id' => $request->creator_type == '\App\Models\User' ? Auth::guard('admin')->id() : Auth::guard('member')->id(),
+            'approval_status' => $request->creator_type == '\App\Models\User' ? null : 0,
         ]);
         Helper::log("Create $request->title event");
         return response()->json(['success' => ['success' => 'You have successfully Create Event!']]);
@@ -220,5 +224,17 @@ class EventController extends Controller
 
         Helper::log("Update {$event->title} event");
         return response()->json(['success' => ['success' => 'Event updated successfully']]);
+    }
+
+    public function memberEventList(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $events = Event::latest();;
+
+            return DataTables::of($events)
+                ->make(true);
+        }
+        return view('admin.event.index');
     }
 }

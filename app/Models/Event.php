@@ -34,7 +34,7 @@ class Event extends Model
         'approval_status',
         'approval_status_changed_by'
     ];
-    
+
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
@@ -45,4 +45,6 @@ class Event extends Model
     {
         return $this->hasMany(EventRegistration::class);
     }
+
+    
 }

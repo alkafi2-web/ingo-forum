@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="title" class="text-3xl required">Event Title</label>
-                <input type="hidden" name="creator_type" value="admin">
+                <input type="hidden" name="creator_type" value="\App\Models\User">
                 <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
             </div>
         </div>

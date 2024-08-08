@@ -8,9 +8,9 @@
                 <th class="fw-bold text-dark" style="font-weight: 900">
                     {{ __('Title') }}
                 </th>
-                {{-- <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Details') }}
-                </th> --}}
+                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                    {{ __('Creator') }}
+                </th>
                 <th class="min-w-150px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Event Date') }}
                 </th>
@@ -52,12 +52,12 @@
                         data: 'title',
                         name: 'title'
                     },
-                    // {
-                    //     orderable: true,
-                    //     sortable: false,
-                    //     data: 'details',
-                    //     name: 'details'
-                    // },
+                    {
+                        orderable: true,
+                        sortable: false,
+                        data: 'creator',
+                        name: 'creator'
+                    },
                     {
                         orderable: true,
                         sortable: false,

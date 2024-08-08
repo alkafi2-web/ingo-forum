@@ -9,6 +9,7 @@ use App\Models\EventRegistration;
 use App\Models\MemberInfo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class EventController extends Controller
 {
@@ -24,8 +25,7 @@ class EventController extends Controller
         $event = Event::where('slug', $slug)->where('status', 1)->firstOrFail();
         if ($event) {
             return view('frontend.event.details', compact('event'));
-        }
-        else{
+        } else {
             abort(404);
         }
     }
@@ -46,22 +46,22 @@ class EventController extends Controller
             'have_guest' => 'required|in:yes,no',
             'are_you_member' => 'required|in:yes,no',
         ];
-    
+
         // If the user has a guest, validate the guest fields
         if ($request->have_guest === 'yes') {
             $rules['guest_name.*'] = 'required|string|max:255';
             $rules['guest_email.*'] = 'required|email|max:255';
             $rules['guest_phone.*'] = 'required|string|max:15';
         }
-    
+
         // If the user is a member, validate the membership ID
         if ($request->are_you_member === 'yes') {
             $rules['membership_id'] = 'required|string|max:20';
         }
-    
+
         // Validate the request input
         $validator = Validator::make($request->all(), $rules);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
@@ -73,8 +73,7 @@ class EventController extends Controller
             $memberFound = MemberInfo::where('membership_id', request('membership_id'))->first();
             if ($memberFound) {
                 $member_id = $memberFound->member_id;
-            }
-            else{
+            } else {
                 // Return success response
                 return response()->json([
                     'success' => false,
@@ -93,10 +92,10 @@ class EventController extends Controller
                 ];
             }
         }
-    
+
         // Calculate total participants
         $totalParticipants = 1 + count($guestInfo); // Default attendee + guests
-    
+
         // Prepare data for insertion
         $registrationData = [
             'event_id' => $request->event_id,
@@ -109,14 +108,26 @@ class EventController extends Controller
             'reg_fees' => 0, // Assuming reg_fees is set to 0 by default
             'reg_fees_status' => 1, // Assuming reg_fees_status is set to 1 by default
         ];
-    
+
         // Create the event registration
         $registration = EventRegistration::create($registrationData);
-    
+
         // Return success response
         return response()->json([
             'success' => true,
             'msg' => "Join form has been submitted",
         ]);
+    }
+
+
+    public function memberEventList(Request $request)
+    {
+        if ($request->ajax()) {
+            $events = Event::where('creator_type','Member')->where('creator_id',Auth::guard('member')->id())->latest();;
+
+            return DataTables::of($events)
+                ->make(true);
+        }
+        return view('frontend.member.dashboard.partials.event.event-index');
     }
 }

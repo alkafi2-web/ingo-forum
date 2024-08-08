@@ -14,33 +14,33 @@
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="all-event" role="tabpanel" aria-labelledby="all-event-tab"
             tabindex="0">
-            <table class="table table-striped">
+            <table class="table table-hover table-sm align-middle fs-6 gy-5 m-auto table-responsive"
+                id="event-data" style="width: 100%;">
                 <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                    <th class="fw-bold text-dark" style="font-weight: 900">
+                        {{ __('Title') }}
+                    </th>
+                    {{-- <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                        {{ __('Details') }}
+                    </th> --}}
+                    <th class="min-w-150px fw-bold text-dark" style="font-weight: 900">
+                        {{ __('Event Date') }}
+                    </th>
+                    <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                        {{ __('Event Image') }}
+                    </th>
+                    <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                        {{ __('Status') }}
+                    </th>
+                    <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                        {{ __('Approval Status') }}
+                    </th>
+                    <th class="text-end min-w-100px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
+                        {{ __('Action') }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -50,7 +50,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="title" class="text-3xl required">Event Title</label>
-                            <input type="hidden" name="creator_type" value="member">
+                            <input type="hidden" name="creator_type" value="\App\Models\Member">
                             <input type="text" class="form-control" id="title" name="title" value="">
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group mt-3">
@@ -265,63 +265,89 @@
         });
 
         $(document).ready(function() {
-            var table = $('#member-post-list').DataTable({
+            var table = $('#event-data').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('member.post.index') }}",
+                    url: "{{ route('event') }}",
                     type: 'GET',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 },
                 columns: [{
+                        orderable: true,
+                        sortable: false,
                         data: 'title',
-                        name: 'title',
-                        orderable: true,
-                        sortable: false
-                    },
-                    {
-                        data: 'category_name',
-                        name: 'category_name',
-                        orderable: true,
-                        sortable: false
-                    },
-                    {
-                        data: 'subcategory_name',
-                        name: 'subcategory_name',
-                        orderable: true,
-                        sortable: false
+                        name: 'title'
                     },
                     // {
-                    //     data: 'long_des',
-                    //     name: 'long_des',
                     //     orderable: true,
                     //     sortable: false,
-                    //     render: function(data, type, row, meta) {
-                    //         console.log("Render Function Data: ", data);
-
-                    //         // Decode HTML entities
-                    //         var decodedData = $('<div/>').html(data).text();
-
-                    //         // Strip HTML tags
-                    //         var strippedData = $('<div/>').html(decodedData).text();
-
-                    //         // Limit text to 200 characters
-                    //         var limitedData = strippedData.length > 150 ? strippedData.substring(0,
-                    //             150) + '...' : strippedData;
-
-                    //         return limitedData;
-                    //     }
+                    //     data: 'details',
+                    //     name: 'details'
                     // },
                     {
-                        data: 'banner',
-                        name: 'banner',
+                        orderable: true,
+                        sortable: false,
+                        name: 'event_details',
+                        render: function(data, type, row) {
+                            // Format dates
+                            const startDate = new Date(row.start_date).toLocaleDateString();
+                            const endDate = new Date(row.end_date).toLocaleDateString();
+                            const deadlineDate = row.reg_dead_line ? new Date(row.reg_dead_line)
+                                .toLocaleDateString() : null;
+
+                            // Format registration fee if applicable
+                            const regFee = row.reg_fee ? `$${parseFloat(row.reg_fees).toFixed(2)}` :
+                                'Free';
+
+                            // Return formatted string with user-friendly text
+                            return `
+                                    <div>
+                                        <div><strong>Start Date:</strong> ${startDate}</div>
+                                        <div><strong>End Date:</strong> ${endDate}</div>
+                                        ${deadlineDate ? `<div><strong>Registration Deadline:</strong> ${deadlineDate}</div>` : ''}
+                                    </div>
+                                `;
+                        }
+                    },
+                    {
+                        data: 'media',
+                        name: 'media',
                         orderable: true,
                         sortable: false,
                         render: function(data, type, row) {
-                            let basePath = '{{ asset('public/frontend/images/posts/') }}/'
+                            let basePath = '{{ asset('public/frontend/images/events/') }}/'
                             return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
+                        }
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: true,
+                        sortable: false,
+                        render: function(data, type, row) {
+                            // Map status values to badge classes and texts
+                            const badgeMap = {
+                                1: {
+                                    class: 'bg-success',
+                                    text: 'Active'
+                                },
+                                0: {
+                                    class: 'bg-danger',
+                                    text: 'Deactive'
+                                },
+                                // Add additional mappings as needed
+                            };
+
+                            // Default to 'bg-light' if status is not in the badgeMap
+                            const badge = badgeMap[data] || {
+                                class: 'bg-light',
+                                text: 'Unknown'
+                            };
+
+                            return `<span class="badge ${badge.class} status" data-status="${data}" data-id="${row.id}">${badge.text}</span>`;
                         }
                     },
                     {
@@ -353,7 +379,7 @@
 
                                 // Return the status badge or default to 'Unknown'
                                 return statusMap[status] || {
-                                    class: 'bg-light',
+                                    class: 'bg-info',
                                     text: 'Unknown'
                                 };
                             };
@@ -364,72 +390,25 @@
                         }
                     },
                     {
-                        data: 'status',
-                        name: 'status',
-                        orderable: true,
-                        sortable: false,
-                        render: function(data, type, row) {
-                            // Map status values to badge classes and texts
-                            const badgeMap = {
-                                1: {
-                                    class: 'bg-success',
-                                    text: 'Published'
-                                },
-                                0: {
-                                    class: 'bg-danger',
-                                    text: 'Unpublished'
-                                },
-                                // Add additional mappings as needed
-                            };
-
-                            // Default to 'bg-light' if status is not in the badgeMap
-                            const badge = badgeMap[data] || {
-                                class: 'bg-light',
-                                text: 'Unknown'
-                            };
-
-                            return `<span class="badge ${badge.class} status" data-status="${data}" data-id="${row.id}">${badge.text}</span>`;
-                        }
-                    },
-                    {
                         data: null,
                         name: 'actions',
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            var editRoute = '{{ route('member.post.edit', ':id') }}'.replace(':id',
-                                row.id);
-                            var singlePostRoute =
-                                '{{ route('single.post', ['categorySlug' => ':categorySlug', 'postSlug' => ':postSlug']) }}'
-                                .replace(':categorySlug', row.category_slug)
-                                .replace(':postSlug', row.slug);
-
-                            // Determine the comment icon based on comment_permission
-                            var commentIcon = row.comment_permission ? 'fa-comments text-success' :
-                                'fa-comment-slash text-muted';
-                            var commentTitle = row.comment_permission ? 'Comments Enabled' :
-                                'Comments Disabled';
-
-                            // Conditional edit button based on approval_status
-                            var editButton = row.approval_status != 1 ? `
-                            <a href="${editRoute}" class="edit text-primary mr-2 me-2" data-id="${row.id}" style="margin-right: 10px;">
-                                <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
-                            </a>` : '';
-
-                            return `<div style="display: flex; align-items: center;">
-                            <a href="javascript:void(0)" class="text-danger comment" data-id="${row.id}" style="margin-right: 10px;">
-                                <i class="fas ${commentIcon}" title="${commentTitle}" style="font-size: 16px;"></i>
-                            </a>
-                            <a href="${singlePostRoute}" class="view text-info mr-2 me-2" data-id="${row.id}">
+                            return `
+                            <a href="javascript:void(0)" class="view text-info mr-2 me-2" data-id="${row.id}">
                                 <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
                             </a>
-                            ${editButton}
-                            <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}" style="margin-right: 10px;">
-                                <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
+                            <a href="javascript:void(0)" class="edit text-primary mr-2 me-2 " data-id="${row.id}">
+                                <i class="fas fa-edit text-primary" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
                             </a>
-                        </div>`;
+                            <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}">
+                                <i class="fas fa-trash text-danger" style="font-size: 16px;"></i> <!-- Adjust font-size here -->
+                            </a>`;
                         }
                     }
+
+
                 ],
                 lengthMenu: [
                     [5, 10, 30, 50, -1],
@@ -441,9 +420,9 @@
                     "<'row mt-3'<'col-sm-6 'i><'col-sm-6 text-end'p>>", // Information and pagination
                 buttons: [{
                         extend: 'colvis',
-                        columns: ':not(:first-child)'
+                        columns: ':not(:first-child)' // Exclude first column (serial)
                     },
-                    // Add more buttons as needed, e.g., 'excel', 'print', 'copy'
+                    // 'excel', 'print', 'copy'
                 ],
                 language: {
                     search: '<div class="input-group">' +
@@ -458,19 +437,18 @@
                         searchable: true
                     },
                     {
-                        targets: -1,
-                        className: ''
-                    }, // Center align the actions column
+                        targets: -1, // Target the last column (actions column)
+                        className: '', // Optional: Center align the content in this column
+                    },
                     {
                         targets: '_all',
                         searchable: true,
                         orderable: true
                     }
                 ],
-                responsive: true // Enable responsive behavior
+                // responsive: true,
+
             });
-
-
         });
 
         $(document).on('click', '.edit', function(e) {

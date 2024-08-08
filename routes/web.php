@@ -226,6 +226,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/status', [EventController::class, 'eventStatus'])->name('event.status');
             Route::post('/edit', [EventController::class, 'eventEdit'])->name('event.edit');
             Route::post('/update', [EventController::class, 'eventUpdate'])->name('event.update');
+            Route::get('/member-list', [EventController::class, 'memberEventList'])->name('event.member.list');
         });
         // event managment route end
 
@@ -325,6 +326,7 @@ Route::middleware(['trackvisitor'])->group(function () {
 
                 Route::prefix('event')->group(function () {
                     Route::get('/', [FrontendEventController::class, 'memberEventIndex'])->name('member.event.index');
+                    Route::get('/list', [FrontendEventController::class, 'memberEventList'])->name('member.event.list');
                 });
                 Route::prefix('post')->group(function () {
                     Route::get('/', [FrontendPostController::class, 'memberPostIndex'])->name('member.post.index');
