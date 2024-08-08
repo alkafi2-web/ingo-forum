@@ -16,33 +16,24 @@
                 <div>{!! $event->details !!}</div>
             </div>
             <div class="col-md-4">
-                @php
-                    $now = \Carbon\Carbon::now();
-                @endphp
-
-                @if ($event->end_date < $now)
-                    <button class="btn btn-danger btn-block mb-3" disabled><i class="fas fa-info-circle"></i> Expired</button>
-                @elseif ($event->start_date->diffInDays($now) <= 1)
-                    @auth('member')
-                    <button class="btn btn-primary btn-block mb-3 join-member-btn"><i class="fas fa-user-plus"></i> Join as Member</button>
-                    @else
-                    <button class="btn btn-primary btn-block mb-3 join-member-btn"><i class="fas fa-user-plus"></i> Join as Member</button>
-                    <button class="btn btn-secondary btn-block mb-3 join-form-btn"><i class="fas fa-user-friends"></i> Join as Guest</button>
-                    @endauth
-                @else
-                    <button class="btn btn-success btn-block mb-3" disabled><i class="fas fa-info-circle"></i> Ongoing</button>
-                @endif
-
-                <div class="card mb-4">
+                <div class="card event-details-card mb-4">
                     <div class="card-body">
+                        @php
+                            $now = \Carbon\Carbon::now();
+                        @endphp
+
+                        @if ($event->end_date < $now)
+                            <button class="btn btn-danger btn-block mb-3" disabled><i class="fas fa-info-circle"></i> Expired</button>
+                        @elseif ($event->start_date->diffInDays($now) <= 1)
+                            <button class="btn btn-warning btn-block mb-3 join-form-btn"><i class="fas fa-user-friends"></i> Join</button>
+                        @else
+                            <button class="btn btn-success btn-block mb-3" disabled><i class="fas fa-info-circle"></i> Ongoing</button>
+                        @endif
+
                         <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Event Schedule</h5>
                         <p class="card-text"><strong>Start:</strong> {{ $event->start_date->format('D, M d, h:i A') }}</p>
                         <p class="card-text"><strong>End:</strong> {{ $event->end_date->format('D, M d, h:i A') }}</p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
+                        
                         <h5 class="card-title"><i class="fas fa-map-marker-alt"></i> Event Location</h5>
                         <p class="card-text">{{ $event->location }}</p>
                     </div>

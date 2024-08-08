@@ -513,3 +513,7 @@ input::placeholder {
   color: green;
   transform: scale(1.1);
 }
+
+.event-details-card {
+  border: 1px solid #e4e6ef;
+}
