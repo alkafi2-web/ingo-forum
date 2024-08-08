@@ -26,7 +26,9 @@ class Event extends Model
         'type',
         'reg_dead_line',
         'ref_fees',
-        'status'
+        'status',
+        'reg_enable_status',
+        'capacity'
     ];
     
     protected $casts = [
