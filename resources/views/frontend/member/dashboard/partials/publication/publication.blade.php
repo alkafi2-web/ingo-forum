@@ -386,7 +386,6 @@
                     }
                 ],
                 responsive: true,
-
             });
         });
         $(document).on('click', '.edit', function(e) {

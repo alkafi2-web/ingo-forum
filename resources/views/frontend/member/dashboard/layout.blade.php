@@ -22,6 +22,8 @@
                                 <span
                                     class="d-block w-100 text-orange fw-semibold fs-">{{ $member->memberInfos[0]['membership_id'] }}</span>
                                 <span
+                                    class="d-block w-100 text-orange fw-semibold fs-">{{ $member->memberInfos[0]['organisation_name'] }}</span>
+                                <span
                                     class="d-block w-100">({{ $member->memberInfos[0]['org_type'] == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
                             </div>
                             <div class="all-profile-tabs d-flex flex-column mt-4 bg-white py-4 px-3">

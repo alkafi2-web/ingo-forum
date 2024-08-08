@@ -106,8 +106,7 @@ class MemberController extends Controller
             }
 
             // Generate the new membership_id in the format 'AF-05-04-143'
-            $newMembershipId = 'AF-05-04-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
-
+            $newMembershipId = date('y-m-d') . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
             // Update the memberInfo with the new membership_id
             $memberInfo = $member->memberInfos[0];
             $memberInfo->membership_id = $newMembershipId;
