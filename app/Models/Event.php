@@ -17,6 +17,7 @@ class Event extends Model
      */
     protected $fillable = [
         'title',
+        'slug',
         'details',
         'media',
         'start_date',
@@ -25,7 +26,7 @@ class Event extends Model
         'type',
         'reg_dead_line',
         'ref_fees',
-        'status',
+        'status'
     ];
     
     protected $casts = [

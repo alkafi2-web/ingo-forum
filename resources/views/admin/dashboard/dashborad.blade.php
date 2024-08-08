@@ -83,7 +83,7 @@ Dashboard
                     alt="event" />
                 </div>
                 <div class="flex-grow-1">
-                  <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">{{ $event->title }}</a>
+                  <a href="{{ route('frontend.event.show', $event->slug) }}" class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">{{ $event->title }}</a>
                   <span class="text-gray-500 fw-semibold d-block fs-6">
                     <i
                       class="fas fa-calendar-alt"></i>&nbsp;{{ \Carbon\Carbon::parse($event->start_date)->format('d M Y') }}
@@ -92,7 +92,7 @@ Dashboard
                   </span>
                 </div>
               </div>
-              <a href="javascript:void(0)"
+              <a href="{{ route('frontend.event.show', $event->slug) }}"
                 class="btn btn-icon btn-sm h-auto btn-color-gray-500 btn-active-color-primary justify-content-end"
                 target="_blank">
                 <i class="fas fa-external-link-alt"></i>

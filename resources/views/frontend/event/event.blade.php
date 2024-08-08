@@ -53,7 +53,7 @@
                     </div>
                     <div class="card-media-body-supporting-bottom card-media-body-supporting-bottom-reveal">
                         <span class="card-media-body-supporting-bottom-text subtle">#INGO Forum Bangladesh #Event</span>
-                        <a href="#/" class="card-media-body-supporting-bottom-text card-media-link u-float-right">VIEW DETAILS</a>
+                        <a href="{{ route('frontend.event.show', $event->slug) }}" class="card-media-body-supporting-bottom-text card-media-link u-float-right">VIEW DETAILS</a>
                     </div>
                 </div>
             </div>

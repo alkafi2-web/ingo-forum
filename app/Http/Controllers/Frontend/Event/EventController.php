@@ -16,12 +16,15 @@ class EventController extends Controller
         return view('frontend.event.event', compact('events'));
     }
 
-    public function show($date)
+    public function show($slug)
     {
-        $events = Event::whereDate('start_date', '<=', $date)
-                       ->whereDate('end_date', '>=', $date)
-                       ->get();
-        return response()->json(['events' => $events]);
+        $event = Event::where('slug', $slug)->where('status', 1)->firstOrFail();
+        if ($event) {
+            return view('frontend.event.details', compact('event'));
+        }
+        else{
+            abort(404);
+        }
     }
 
     public function memberEventIndex(Request $request)
