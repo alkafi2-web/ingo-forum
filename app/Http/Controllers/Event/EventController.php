@@ -20,11 +20,11 @@ class EventController extends Controller
             abort(401);
         }
         if ($request->ajax()) {
-            $events = Event::latest();
+            $events = Event::with('creator')->latest();
 
             return DataTables::of($events)
                 ->addColumn('creator', function ($event) {
-                    return $event->approval_status;
+                    return $event->creator->name ?? $event->creator->info->organisation_name;
                 })
                 
                 ->make(true);

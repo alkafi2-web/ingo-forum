@@ -14,8 +14,8 @@
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="all-event" role="tabpanel" aria-labelledby="all-event-tab"
             tabindex="0">
-            <table class="table table-hover table-sm align-middle fs-6 gy-5 m-auto table-responsive"
-                id="event-data" style="width: 100%;">
+            <table class="table table-hover table-sm align-middle fs-6 gy-5 m-auto table-responsive" id="event-data"
+                style="width: 100%;">
                 <thead>
                     <th class="fw-bold text-dark" style="font-weight: 900">
                         {{ __('Title') }}
@@ -278,8 +278,8 @@
                 columns: [{
                         orderable: true,
                         sortable: false,
-                        data: 'title',
-                        name: 'title'
+                        data: 'slug',
+                        name: 'slug'
                     },
                     // {
                     //     orderable: true,
@@ -395,8 +395,12 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
+                            var singleEventRoute =
+                                '{{ route('frontend.event.show', ':slug') }}'
+                                .replace(':slug', row.slug);
+
                             return `
-                            <a href="javascript:void(0)" class="view text-info mr-2 me-2" data-id="${row.id}">
+                            <a href="${singleEventRoute}" class="view text-info mr-2 me-2" data-id="${row.id}">
                                 <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
                             </a>
                             <a href="javascript:void(0)" class="edit text-primary mr-2 me-2 " data-id="${row.id}">
@@ -560,41 +564,95 @@
             });
         });
 
+        $(document).on('click', '.edit', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+
+            var id = $(this).attr('data-id');
+            var url = "{{ route('event.edit') }}";
+            $.ajax({
+                url: url,
+                type: 'POST', // or 'GET' depending on your server endpoint
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    id: id
+                }, // You can send additional data if needed
+                success: function(response) {
+                    console.log(response.event);
+                    var event = response.event;
+                    $('#add-header').text('Update Event');
+                    $('#title').val(event.title);
+                    $('#des').val(event.details);
+                    var des = CKEDITOR.instances['des'];
+                    des.setData(event.des);
+                    des.focus();
+                    $('#location').val(event.location);
+                    $('#capacity').val(event.capacity);
+
+                    function formatDateForInput(dateString) {
+                        if (!dateString) {
+                            return ''; // Return empty string if dateString is null or undefined
+                        }
+
+                        const date = new Date(dateString);
+
+                        if (isNaN(date.getTime())) {
+                            return ''; // Return empty string if dateString is invalid
+                        }
+
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const hours = String(date.getHours()).padStart(2, '0');
+                        const minutes = String(date.getMinutes()).padStart(2, '0');
+
+                        return `${year}-${month}-${day}T${hours}:${minutes}`;
+                    }
+
+
+                    // Set the values for form fields
+                    $('#start_date').val(formatDateForInput(event.start_date) || '');
+                    $('#end_date').val(formatDateForInput(event.end_date) || '');
+                    $('#deadline_date').val(formatDateForInput(event.reg_dead_line) || '');
+
+                    // Set the checkbox state and display the deadline container if needed
+                    $('#toggle-deadline').prop('checked', event.reg_enable_status == 1);
+                    $('#deadline-container').css('display', event.reg_enable_status == 1 ? 'block' :
+                        'none');
+
+                    // Toggle the visibility of the deadline container based on checkbox change
+                    $('#toggle-deadline').change(function() {
+                        $('#deadline-container').css('display', $(this).is(':checked') ?
+                            'block' : 'none');
+                    });
+                    let basePath = '{{ asset('public/frontend/images/events/') }}/'
+                    var imagePath = basePath + event.media;
+                    $('#pp').attr('src', imagePath);
+                    $('#event-update').removeClass('d-none');
+                    $('#event-update').attr('data-id', event.id);
+                    $('#event-submit').addClass('d-none');
+                    $('#page-refresh').removeClass('d-none');
+                },
+                error: function(xhr, status, error) {
+                    // Handle AJAX error
+                    Swal.fire('Error!', 'An error occurred.', 'error');
+                }
+            });
+        });
+
         $(document).on('click', '.delete', function(e) {
             e.preventDefault(); // Prevent default link behavior
 
             var id = $(this).attr('data-id');
-            var url = "{{ route('post.delete') }}";
+            var url = "{{ route('event.delete') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will delete this Post!',
+                text: 'This action will delete this event!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Send AJAX request
-                    // sendAjaxRequest(url, row);
-
-                    sendAjaxReq(id, status = null, url);
-                }
-            });
-        });
-        $(document).on('click', '.comment', function(e) {
-            e.preventDefault(); // Prevent default link behavior
-
-            var id = $(this).attr('data-id');
-            var url = "{{ route('post.comment') }}";
-            // Show SweetAlert confirmation dialog
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'This action will be change comment permission this Post!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, change it!',
                 cancelButtonText: 'No, cancel!',
                 reverseButtons: true
             }).then((result) => {
@@ -611,11 +669,11 @@
 
             var id = $(this).attr('data-id'); // Get the URL from the href attribute
             var status = $(this).attr('data-status');
-            var url = "{{ route('post.status') }}";
+            var url = "{{ route('event.status') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will change status of this Post!',
+                text: 'This action will change status of this event!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, Change it!',
@@ -629,22 +687,6 @@
                     sendAjaxReq(id, status, url);
                 }
             });
-        });
-        $(document).on('click', '#refresh', function(e) {
-            e.preventDefault(); // Prevent default link behavior
-            $('#submit').removeClass('d-none');
-
-            // Show the update and refresh buttons
-            $('#update, #refresh').addClass('d-none');
-            $('#postForm')[0].reset();
-            var long_description = CKEDITOR.instances['long_description'];
-            long_description.setData('');
-            long_description.focus();
-            $('#pp').attr('src', '');
-            $('#add-blog-news-tab').removeClass('active').text('Add Blog/News');
-            $('#add-blog-news').removeClass('show active');
-            $('#all-blog-news-tab').addClass('active');
-            $('#all-blog-news').addClass('show active');
         });
 
         function sendAjaxReq(id, status, url) {
@@ -666,10 +708,10 @@
                 data: requestData, // You can send additional data if needed
                 success: function(response) {
 
-                    $('#member-post-list').DataTable().ajax.reload(null, false);
-                    Swal.fire('Success!', response.success,
-                        'success');
-                    // toastr.success(response.success);
+                    $('#event-data').DataTable().ajax.reload(null, false);
+                    // Swal.fire('Success!', response.success,
+                    //     'success');
+                    toastr.success(response.success);
                 },
                 error: function(xhr, status, error) {
                     // Handle AJAX error
@@ -677,5 +719,22 @@
                 }
             });
         }
+
+        $(document).on('click', '#refresh', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+            $('#submit').removeClass('d-none');
+
+            // Show the update and refresh buttons
+            $('#update, #refresh').addClass('d-none');
+            $('#postForm')[0].reset();
+            var long_description = CKEDITOR.instances['long_description'];
+            long_description.setData('');
+            long_description.focus();
+            $('#pp').attr('src', '');
+            $('#add-blog-news-tab').removeClass('active').text('Add Blog/News');
+            $('#add-blog-news').removeClass('show active');
+            $('#all-blog-news-tab').addClass('active');
+            $('#all-blog-news').addClass('show active');
+        });
     </script>
 @endpush
