@@ -1017,7 +1017,7 @@ a {
 }
 
 body :is(input[type="text"], select, textarea, input[type="email"], input[type="password"], input[type="file"],input[type="datetime-local"],input[type="date"]) {
-  background-color: #F4F0E9;
+  background-color: #F4F0E9 !important;
   border: 1px solid #F4F0E9 !important;
 }
 
@@ -2013,4 +2013,9 @@ button.close {
 }
 table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th.dtr-control:before {
   top: 88% !important;
+}
+/* Modal  */
+.join_Guest_Modal input::placeholder {
+  font-size: 15px;
+  font-weight: 400;
 }

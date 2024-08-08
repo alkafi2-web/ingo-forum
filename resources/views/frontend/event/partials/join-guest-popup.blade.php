@@ -1,38 +1,90 @@
-<div class="modal fade" id="joinGuestModal" tabindex="-1" role="dialog" aria-labelledby="joinGuestModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="joinGuestModalLabel">Join as Guest</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group mb-2">
-                        <label for="org_name_guest" class="required">Organization Name</label>
-                        <input type="text" class="form-control" id="org_name_guest" name="org_name_guest">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="rep_name_guest" class="required">Representative Name</label>
-                        <input type="text" class="form-control" id="rep_name_guest" name="rep_name_guest">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="email_guest" class="required">Email</label>
-                        <input type="email" class="form-control" id="email_guest" name="email_guest">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="phone_guest" class="required">Phone</label>
-                        <input type="text" class="form-control" id="phone_guest" name="phone_guest">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="participant_number_guest" class="required">Number of Participants</label>
-                        <input type="number" class="form-control" id="participant_number_guest" name="participant_number_guest" min="1">
-                    </div>
-                    <div id="guest_participant_names"></div>
-                    <button type="button" class="btn btn-primary">Join Now</button>
-                </form>
-            </div>
+<div class="modal fade" id="joinGuestModal" tabindex="-1" role="dialog" aria-labelledby="joinGuestModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg join_Guest_Modal" role="document">
+    <div class="modal-content">
+      <div class="text-center pt-3 border-bottom">
+        <h3 class="modal-title" id="joinGuestModalLabel">Event Registration Form</h3>
+        <p>Last Registration Day - May 21, 2035</p>
+      </div>
+      <div class="modal-body">
+        <div class="text-center border-bottom">
+          <h5 class="modal-title" id="joinGuestModalLabel">Attendee Information</h5>
+          <p>Please fill name and contact information of attendees.</p>
         </div>
+        <form class="pt-3">
+          <div class="row g-2">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="org_name_guest" class="mb-1">Full Name</label>
+                <input type="text" class="form-control" id="org_name_guest" placeholder="Full Name">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="rep_name_guest" class="mb-1">Email Address</label>
+                <input type="email" class="form-control" id="rep_name_guest" placeholder="Email Address">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="rep_name_guest" class="mb-1">Contact Number</label>
+                <input type="text" class="form-control" id="rep_name_guest" placeholder="Contact Number">
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="" class="required">Will you have a guest with you?</label>
+              <div class="d-flex align-items-center pt-2">
+                <div class="me-4">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                    value="option1">
+                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                </div>
+                <div class="">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                    value="option1">
+                  <label class="form-check-label" for="inlineRadio1">No</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row g-2 pt-3 pb-2">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="org_name_guest" class="mb-1">Guest One</label>
+                <input type="text" class="form-control" id="org_name_guest" placeholder="Guest Name">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="rep_name_guest" class="mb-1">Email Address</label>
+                <input type="email" class="form-control" id="rep_name_guest" placeholder="Email Address">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="rep_name_guest" class="mb-1">Contact Number</label>
+                <input type="text" class="form-control" id="rep_name_guest" placeholder="Contact Number">
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="" class="required">Would you like to be updated about the upcoming events?</label>
+              <div class="d-flex align-items-center pt-2">
+                <div class="me-4">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                    value="option1">
+                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                </div>
+                <div class="">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                    value="option1">
+                  <label class="form-check-label" for="inlineRadio1">No</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary">Join Now</button>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
