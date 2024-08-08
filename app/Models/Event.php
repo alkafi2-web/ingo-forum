@@ -30,7 +30,9 @@ class Event extends Model
         'reg_enable_status',
         'capacity',
         'creator_type',
-        'creator_id'
+        'creator_id',
+        'approval_status',
+        'approval_status_changed_by'
     ];
     
     protected $casts = [

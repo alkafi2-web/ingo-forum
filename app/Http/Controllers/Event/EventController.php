@@ -90,6 +90,7 @@ class EventController extends Controller
             'media' => $imageName ?? null, // Save image name or path to database
             'creator_type' => $request->creator_type,
             'creator_id' => $request->creator_type == 'admin' ? Auth::guard('admin')->id() : Auth::guard('member')->id(),
+            'approval_status' = > $request->
         ]);
         Helper::log("Create $request->title event");
         return response()->json(['success' => ['success' => 'You have successfully Create Event!']]);
