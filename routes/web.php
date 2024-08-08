@@ -117,6 +117,7 @@ Route::prefix('admin')->group(function () {
         Route::prefix('system-content')->group(function () {
             Route::get('/', [SystemController::class, 'index'])->name('system');
             Route::post('/systempost', [SystemController::class, 'systemPost'])->name('system.post');
+            Route::get('/system-database', [SystemController::class, 'systemDatabase'])->name('system.database');
         });
         // content manegment route end
 

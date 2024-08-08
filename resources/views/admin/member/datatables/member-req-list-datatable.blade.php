@@ -6,7 +6,7 @@
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Organisation Name') }}
+                    {{ __('Organization Name') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Country Head') }}
@@ -15,7 +15,7 @@
                     {{ __('NGO Bureau Number') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
-                    {{ __('Organisation Type') }}
+                    {{ __('Organization Type') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Status') }}
