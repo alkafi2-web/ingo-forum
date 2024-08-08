@@ -28,7 +28,9 @@ class Event extends Model
         'ref_fees',
         'status',
         'reg_enable_status',
-        'capacity'
+        'capacity',
+        'creator_type',
+        'creator_id'
     ];
     
     protected $casts = [

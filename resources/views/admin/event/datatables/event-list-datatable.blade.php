@@ -5,13 +5,13 @@
         <!--begin::Table head-->
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                <th class="fw-bold text-dark" style="font-weight: 900">
                     {{ __('Title') }}
                 </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                {{-- <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Details') }}
-                </th>
-                <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                </th> --}}
+                <th class="min-w-150px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Event Date') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
@@ -20,7 +20,7 @@
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Status') }}
                 </th>
-                <th class="text-end min-w-140px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
+                <th class="text-end min-w-100px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
                     {{ __('Action') }}</th>
             </tr>
         </thead>
@@ -52,12 +52,12 @@
                         data: 'title',
                         name: 'title'
                     },
-                    {
-                        orderable: true,
-                        sortable: false,
-                        data: 'details',
-                        name: 'details'
-                    },
+                    // {
+                    //     orderable: true,
+                    //     sortable: false,
+                    //     data: 'details',
+                    //     name: 'details'
+                    // },
                     {
                         orderable: true,
                         sortable: false,
@@ -66,7 +66,8 @@
                             // Format dates
                             const startDate = new Date(row.start_date).toLocaleDateString();
                             const endDate = new Date(row.end_date).toLocaleDateString();
-                            const deadlineDate = new Date(row.reg_dead_line).toLocaleDateString();
+                            const deadlineDate = row.reg_dead_line ? new Date(row.reg_dead_line)
+                                .toLocaleDateString() : null;
 
                             // Format registration fee if applicable
                             const regFee = row.reg_fee ? `$${parseFloat(row.reg_fees).toFixed(2)}` :
@@ -77,7 +78,7 @@
                                     <div>
                                         <div><strong>Start Date:</strong> ${startDate}</div>
                                         <div><strong>End Date:</strong> ${endDate}</div>
-                                        <div><strong>Registration Deadline:</strong> ${deadlineDate}</div>
+                                        ${deadlineDate ? `<div><strong>Registration Deadline:</strong> ${deadlineDate}</div>` : ''}
                                     </div>
                                 `;
                         }
@@ -152,7 +153,7 @@
                     },
                     {
                         targets: -1, // Target the last column (actions column)
-                        className: 'text-center', // Optional: Center align the content in this column
+                        className: '', // Optional: Center align the content in this column
                     },
                     {
                         targets: '_all',
@@ -184,10 +185,48 @@
                     $('#add-header').text('Update Event');
                     $('#title').val(event.title);
                     $('#des').val(event.details);
+                    var des = CKEDITOR.instances['des'];
+                    des.setData(event.des);
+                    des.focus();
                     $('#location').val(event.location);
-                    $('#start_date').val(event.start_date);
-                    $('#end_date').val(event.end_date);
-                    $('#deadline_date').val(event.reg_dead_line);
+                    $('#capacity').val(event.capacity);
+
+                    function formatDateForInput(dateString) {
+                        if (!dateString) {
+                            return ''; // Return empty string if dateString is null or undefined
+                        }
+
+                        const date = new Date(dateString);
+
+                        if (isNaN(date.getTime())) {
+                            return ''; // Return empty string if dateString is invalid
+                        }
+
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const hours = String(date.getHours()).padStart(2, '0');
+                        const minutes = String(date.getMinutes()).padStart(2, '0');
+
+                        return `${year}-${month}-${day}T${hours}:${minutes}`;
+                    }
+
+
+                    // Set the values for form fields
+                    $('#start_date').val(formatDateForInput(event.start_date) || '');
+                    $('#end_date').val(formatDateForInput(event.end_date) || '');
+                    $('#deadline_date').val(formatDateForInput(event.reg_dead_line) || '');
+
+                    // Set the checkbox state and display the deadline container if needed
+                    $('#toggle-deadline').prop('checked', event.reg_enable_status == 1);
+                    $('#deadline-container').css('display', event.reg_enable_status == 1 ? 'block' :
+                        'none');
+
+                    // Toggle the visibility of the deadline container based on checkbox change
+                    $('#toggle-deadline').change(function() {
+                        $('#deadline-container').css('display', $(this).is(':checked') ?
+                            'block' : 'none');
+                    });
                     let basePath = '{{ asset('public/frontend/images/events/') }}/'
                     var imagePath = basePath + event.media;
                     $('#pp').attr('src', imagePath);
