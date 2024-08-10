@@ -232,8 +232,6 @@ class EventController extends Controller
         $events = Event::with('creator')->where('creator_type', '\App\Models\Member')->where('approval_status', 0)->latest();
         if ($request->ajax()) {
 
-            $events = Event::latest();
-
             return DataTables::of($events)
                 ->addColumn('creator', function ($event) {
                     return $event->creator->info->organisation_name;

@@ -133,11 +133,21 @@
                     <button class="btn btn-outline-warning dropdown-toggle" type="button" id="navbarDropdown"
                         data-bs-toggle="dropdown" aria-expanded="false">
 
-                        @if (Auth::guard('member')->check() && Auth::guard('member')->user()->status == 1)
-                            Profile
+                        @auth('member')
+                            @if (Auth::guard('member')->user()->status == 1)
+                                @php
+                                    $member = Auth::guard('member')->user();
+                                    $organisationName = $member->info
+                                        ? $member->info->organisation_name
+                                        : 'Not Available';
+                                @endphp
+                                {{ $organisationName }}
+                            @else
+                                Login / Be A Member
+                            @endif
                         @else
                             Login / Be A Member
-                        @endif
+                        @endauth
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         @if (Auth::guard('member')->check() && Auth::guard('member')->user()->status == 1)
@@ -148,8 +158,10 @@
                             <li><a class="dropdown-item" href="{{ route('member.logout') }}"><i
                                         class="fas fa-sign-out-alt"></i> Logout</a></li>
                         @else
-                            <li><a class="dropdown-item" href="{{ route('frontend.login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                            <li><a class="dropdown-item" href="{{ route('member') }}"><i class="fas fa-user-plus"></i> Be a Member</a></li>
+                            <li><a class="dropdown-item" href="{{ route('frontend.login') }}"><i
+                                        class="fas fa-sign-in-alt"></i> Login</a></li>
+                            <li><a class="dropdown-item" href="{{ route('member') }}"><i class="fas fa-user-plus"></i>
+                                    Be a Member</a></li>
                             {{-- <li><a href="{{ route('frontend.login') }}" >Login</a></li>
                             <li><a href="{{ route('member') }}" class="btn btn-outline-success">Be a Member</a></li> --}}
                         @endif
