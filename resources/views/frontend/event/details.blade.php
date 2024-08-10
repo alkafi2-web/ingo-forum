@@ -48,6 +48,7 @@
                         @if ($event->reg_dead_line)
                         <h6 class="card-title"><i class="far fa-clock"></i> Deadline : {{ $event->reg_dead_line->format('D, M d')}}</h6>
                         @endif
+                        
                         <h6 class="card-title"><i class="fas fa-calendar-alt"></i> Schedule</h6>
                         <p class="card-text"><strong>Start:</strong> {{ $event->start_date->format('D, M d, h:i A') }}</p>
                         <p class="card-text"><strong>End:</strong> {{ $event->end_date->format('D, M d, h:i A') }}</p>

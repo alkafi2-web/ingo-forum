@@ -29,7 +29,14 @@ class EventController extends Controller
 
     public function show($slug)
     {
-        $event = Event::with('creator')->where('slug', $slug)->where('status', 1)->firstOrFail();
+        $event = Event::with('creator')->where('slug', $slug);
+
+        if ((Auth::guard('admin')->check() && Auth::guard('admin')->user()->hasPermissionTo('event-view')) || (Auth::guard('member')->check() && Auth::guard('member')->user()->id == $event->first()->creator_id && $event->first()->creator_type == "\App\Models\Member")) {
+            $event = $event->firstOrFail();
+        }
+        else{
+            $event = $event->where('status', 1)->firstOrFail();
+        }
         
         // Generate keywords from the description
         $description = Str::limit(htmlspecialchars_decode(strip_tags($event->details)), 500);
