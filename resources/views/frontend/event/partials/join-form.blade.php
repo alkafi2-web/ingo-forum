@@ -85,19 +85,20 @@
                             <label for="" class="required">Are you already a member?</label>
                             <div class="d-flex align-items-center pt-2">
                                 <div class="me-4">
-                                    <input class="form-check-input are_you_member" type="radio" name="are_you_member" id="inlineRadio1" value="yes">
+                                    <input class="form-check-input are_you_member" type="radio" name="are_you_member" id="inlineRadio1" value="yes" {{ Auth::guard('member')->check()?'checked':'' }}>
                                     <label class="form-check-label" for="inlineRadio1">Yes</label>
                                 </div>
                                 <div class="">
-                                    <input class="form-check-input are_you_member" type="radio" name="are_you_member" id="inlineRadio2" value="no" checked>
+                                    <input class="form-check-input are_you_member" type="radio" name="are_you_member" id="inlineRadio2" value="no" {{ Auth::guard('member')->check()?'':'checked' }}>
                                     <label class="form-check-label" for="inlineRadio2">No</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12" id="memberIdWrapper" style="display: none;">
+                        <div class="col-md-12" id="memberIdWrapper" style="{{ Auth::guard('member')->check() ? '' : 'display: none;' }}">
+
                             <div class="form-group">
                                 <label for="membership_id" class="mb-1 required">Membership ID</label>
-                                <input type="text" class="form-control" id="membership_id" name="membership_id" placeholder="24-08-08001">
+                                <input type="text" class="form-control" id="membership_id" name="membership_id" placeholder="24-08-08001" value="{{ Auth::guard('member')->check()?Auth::guard('member')->user()->info->membership_id:"" }}">
                             </div>
                         </div>
                     </div>

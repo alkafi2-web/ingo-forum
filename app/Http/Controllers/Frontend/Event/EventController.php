@@ -122,6 +122,9 @@ class EventController extends Controller
                 ]);
             }
         }
+        else{
+            $member_id = null;
+        }
         // Prepare guest information as JSON
         $guestInfo = [];
         if ($request->have_guest === 'yes') {
