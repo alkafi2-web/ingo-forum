@@ -1,0 +1,33 @@
+.member-dashboard{
+    .card {
+        border: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        text-align: center;
+        padding-top: 20px;
+        margin-bottom: 18px;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .calender-icon {
+        color: #007BFF!important;
+        font-size: 40px!important;
+    }
+
+    .fa-newspaper {
+        color: #28A745;
+        font-size: 40px;
+    }
+
+    .fa-file-pdf {
+        color: #FFC107;
+        font-size: 40px;
+    }
+
+    .chart-container {
+        margin-top: 30px;
+    }
+}

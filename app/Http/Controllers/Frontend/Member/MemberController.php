@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Frontend\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use App\Models\Event;
+use App\Models\Post;
+use App\Models\Publication;
 use App\Models\MemberInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -354,9 +357,71 @@ class MemberController extends Controller
         return response()->json(['success' => true, 'message' => 'Social profile Update'], 200);
         return $request->all();
     }
-
+    
     public function memberDashboard()
     {
-        return view('frontend.member.dashboard.partials.dashboard.dashboard');
+        $userId = Auth::guard('member')->user()->id;
+    
+        $events = Event::with('participants', 'creator')
+            ->where('creator_type', '\App\Models\User')
+            ->where('creator_id', $userId)
+            ->get();
+    
+        $posts = Post::where('member_id', $userId)
+            ->withCount('totalRead') // Assuming totalRead is a relationship
+            ->get();
+    
+        $publications = Publication::where('member_id', $userId)->get();
+    
+        // Data for charts
+        $eventStatusCounts = Event::selectRaw('approval_status, count(*) as count')
+            ->where('creator_type', '\App\Models\User')
+            ->where('creator_id', $userId)
+            ->groupBy('approval_status')
+            ->pluck('count', 'approval_status')
+            ->toArray();
+    
+        $postStatusCounts = Post::selectRaw('approval_status, count(*) as count')
+            ->where('member_id', $userId)
+            ->groupBy('approval_status')
+            ->pluck('count', 'approval_status')
+            ->toArray();
+    
+        $publicationStatusCounts = Publication::selectRaw('approval_status, count(*) as count')
+            ->where('member_id', $userId)
+            ->groupBy('approval_status')
+            ->pluck('count', 'approval_status')
+            ->toArray();
+    
+
+        // Get first 3 words of titles for events and posts
+        $getFirstThreeWords = function ($text) {
+            return implode(' ', array_slice(explode(' ', $text), 0, 3));
+        };
+
+        $eventLabels = $events->take(5)->map(function ($event) use ($getFirstThreeWords) {
+            return $getFirstThreeWords($event->title);
+        })->toArray();
+
+        $postLabels = $posts->take(5)->map(function ($post) {
+            return substr($post->title, 0, 3);
+        })->toArray();
+    
+        // Get participant counts and read counts
+        $eventParticipantsCounts = $events->take(5)->map(function ($event) {
+            return $event->participants->count();
+        })->toArray();
+    
+        $postReadCounts = $posts->take(5)->map(function ($post) {
+            return $post->totalRead->count(); // Adjust this if needed based on your relationship setup
+        })->toArray();
+    
+        return view('frontend.member.dashboard.partials.dashboard.dashboard', compact(
+            'events', 'posts', 'publications', 
+            'eventStatusCounts', 'postStatusCounts', 'publicationStatusCounts',
+            'eventLabels', 'postLabels',
+            'eventParticipantsCounts', 'postReadCounts'
+        ));
     }
+    
 }
