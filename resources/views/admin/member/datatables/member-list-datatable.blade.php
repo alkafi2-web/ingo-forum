@@ -35,6 +35,12 @@
 
 @push('custom-js')
     <script>
+        $('#reset-filters').click(function() {
+            $('#organization').val('');
+            $('#status_filter').val('');
+            
+            $('#member-data').DataTable().ajax.reload(null, false);
+        });
         $(document).ready(function() {
             var table = $('#member-data').DataTable({
                 processing: true,

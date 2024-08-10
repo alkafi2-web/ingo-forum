@@ -18,21 +18,21 @@ Dashboard
                 <div class="d-flex flex-column bg-light-primary px-6 py-8 rounded-2 h-lg-100">
                   <i class="fas fa-users fs-2x text-primary my-2"></i>
                   <span class="text-primary fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $totalMembers }}</span>
-                  <a href="#" class="text-primary fw-semibold fs-5">Total Members</a>
+                  <a href="{{route('member.list')}}" class="text-primary fw-semibold fs-5">Total Members</a>
                 </div>
               </div>
               <div class="col-4">
                 <div class="d-flex flex-column bg-light-success px-6 py-8 rounded-2 h-lg-100">
                   <i class="fas fa-user-check fs-2x text-success my-2"></i>
                   <span class="text-success fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $activeMembers }}</span>
-                  <a href="#" class="text-success fw-semibold fs-5">Active Members</a>
+                  <a href="{{route('member.list')}}" class="text-success fw-semibold fs-5">Active Members</a>
                 </div>
               </div>
               <div class="col-4">
                 <div class="d-flex flex-column bg-light-danger px-6 py-8 rounded-2 h-lg-100">
                   <i class="fas fa-exclamation-circle fs-2x text-danger my-2"></i>
                   <span class="text-danger fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 mt-3">{{ $memberRequests }}</span>
-                  <a href="#" class="text-danger fw-semibold fs-5">Member Requests</a>
+                  <a href="{{route('member.request')}}" class="text-danger fw-semibold fs-5">Member Requests</a>
                 </div>
               </div>
             </div>

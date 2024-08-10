@@ -32,6 +32,12 @@
 
 @push('custom-js')
     <script>
+        $('#reset-filters').click(function() {
+            $('#album_filter').val('');
+            $('#status_filter').val('');
+            
+            $('#photo-data').DataTable().ajax.reload(null, false);
+        });
         $(document).ready(function() {
             $('#photo-data').on('click', '.select-all', function() {
                 // Get the checked status of the select all checkbox

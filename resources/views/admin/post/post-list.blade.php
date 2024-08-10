@@ -76,7 +76,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <button id="reset-filters" class="btn btn-secondary mt-6"><i class="fas fa-sync-alt"></i>Refresh Filter</button>
+                            <button id="reset-filters" class="btn btn-secondary mt-6"><i class="fas fa-sync-alt"></i></button>
                         </div>
                     </div>
                     

@@ -33,6 +33,9 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <button id="reset-filters" class="btn btn-secondary mt-2"><i class="fas fa-sync-alt"></i></button>
+                            </div>
                         </div>
                     </div>
                     @include('admin.media.datatables.photo-list-datatable')

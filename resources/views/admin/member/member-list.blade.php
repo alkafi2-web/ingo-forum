@@ -37,6 +37,9 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-6 mt-2">
+                            <button id="reset-filters" class="btn btn-secondary"><i class="fas fa-sync-alt"></i></button>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
