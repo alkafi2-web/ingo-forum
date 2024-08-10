@@ -357,7 +357,7 @@
                 @endif
                 @if (Auth::guard('admin')->user()->hasAnyPermission(['event-view']))
                     <div data-kt-menu-trigger="click"
-                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'subcategory' ? 'hover show' : '' }}">
+                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'event' || Route::currentRouteName() == 'event.request.list' ? 'hover show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -380,7 +380,7 @@
                             <span class="menu-arrow"></span>
                         </span>
                         <div
-                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'event' || Route::currentRouteName() == 'subcategory' ? 'hover show' : '' }}">
+                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'event' || Route::currentRouteName() == 'event.request.list' ? 'hover show' : '' }}">
                             @can('event-view')
                                 <a class="menu-item menu-accordion" href="{{ route('event') }}">
                                     <span class="menu-link {{ Route::currentRouteName() == 'event' ? 'active' : '' }}">
@@ -391,6 +391,14 @@
                                     </span>
                                 </a>
                             @endcan
+                            <a class="menu-item menu-accordion" href="{{ route('event.request.list') }}">
+                                <span class="menu-link {{ Route::currentRouteName() == 'event.request.list' ? 'active' : '' }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Events Request</span>
+                                </span>
+                            </a>
                         </div>
                     </div>
                 @endif

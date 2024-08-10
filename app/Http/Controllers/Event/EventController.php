@@ -26,7 +26,6 @@ class EventController extends Controller
                 ->addColumn('creator', function ($event) {
                     return $event->creator->name ?? $event->creator->info->organisation_name;
                 })
-                
                 ->make(true);
         }
         return view('admin.event.index');
@@ -226,15 +225,22 @@ class EventController extends Controller
         return response()->json(['success' => ['success' => 'Event updated successfully']]);
     }
 
-    public function memberEventList(Request $request)
+    public function memberEventRequestList(Request $request)
     {
 
+        $events = Event::with('creator')->where('creator_type','\App\Models\Member')->where('approval_status',0)->latest();
         if ($request->ajax()) {
-            $events = Event::latest();;
 
+            $events = Event::latest();
+
+            return DataTables::of($events)
+                ->addColumn('creator', function ($event) {
+                    return $event->creator->info->organisation_name;
+                })
+                ->make(true);
             return DataTables::of($events)
                 ->make(true);
         }
-        return view('admin.event.index');
+        return view('admin.event.request-index');
     }
 }
