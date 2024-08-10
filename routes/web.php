@@ -201,6 +201,9 @@ Route::prefix('admin')->group(function () {
             Route::prefix('/')->group(function () {
                 Route::get('/', [PublicationController::class, 'publicationCreate'])->name('publication.create');
                 Route::get('/list', [PublicationController::class, 'publicationList'])->name('publication.list');
+                Route::post('/approved', [PublicationController::class, 'approved'])->name('publication.approved');
+                Route::post('/reject', [PublicationController::class, 'reject'])->name('publication.reject');
+                Route::post('/suspended', [PublicationController::class, 'suspended'])->name('publication.suspend');
 
                 Route::middleware('adminOrMember')->withoutMiddleware('admin')->group(function () {
                     Route::post('/delete', [PublicationController::class, 'publicationDelete'])->name('publication.delete');
@@ -210,9 +213,6 @@ Route::prefix('admin')->group(function () {
                     Route::post('/store', [PublicationController::class, 'publicationStore'])->name('publication.store');
                     Route::get('/request/list', [PublicationController::class, 'publicationRequestList'])->name('publication.request.list');
                     Route::get('/request/view/{id}', [PublicationController::class, 'publicationView'])->name('publication.view');
-                    Route::post('/approved', [PublicationController::class, 'approved'])->name('publication.approved');
-                    Route::post('/reject', [PublicationController::class, 'reject'])->name('publication.reject');
-                    Route::post('/suspended', [PublicationController::class, 'suspended'])->name('publication.suspend');
                 });
             });
         });
@@ -231,6 +231,9 @@ Route::prefix('admin')->group(function () {
                 Route::post('/edit', [EventController::class, 'eventEdit'])->name('event.edit');
                 Route::post('/update', [EventController::class, 'eventUpdate'])->name('event.update');
             });
+            Route::post('/approved', [EventController::class, 'approved'])->name('event.approved');
+            Route::post('/reject', [EventController::class, 'reject'])->name('event.reject');
+            Route::post('/suspended', [EventController::class, 'suspended'])->name('event.suspend');
         });
         // event managment route end
 
