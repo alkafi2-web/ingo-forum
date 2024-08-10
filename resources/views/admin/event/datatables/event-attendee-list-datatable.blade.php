@@ -38,6 +38,11 @@
 
 @push('custom-js')
     <script>
+        $('#reset-filters').click(function() {
+            $('#event').val('');
+            
+            $('#event-data').DataTable().ajax.reload(null, false);
+        });
         $(document).ready(function() {
             var table = $('#event-data').DataTable({
                 processing: true,
@@ -45,6 +50,10 @@
                 ajax: {
                     url: "{{ route('event.attendee.list') }}",
                     type: 'GET',
+                    data: function(data) {
+                        data.event = $('#event').val();
+                        return data;
+                    },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
@@ -132,6 +141,9 @@
                 ],
                 // responsive: true,
 
+            });
+            $('#event').on('change', function() {
+                table.ajax.reload(null, false);
             });
         });
         $(document).on('click', '.edit', function(e) {

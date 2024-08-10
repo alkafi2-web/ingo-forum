@@ -230,7 +230,7 @@
             });
             $('#category, #author, #publisher, #status_filter, #member').on('change', function() {
                 table.ajax.reload(null, false);
-            });
+            }); 
         });
         $(document).on('click', '.delete', function(e) {
             e.preventDefault(); // Prevent default link behavior

@@ -307,8 +307,9 @@ class EventController extends Controller
     {
         $event_attendees = EventRegistration::with('event', 'member')->latest();
         if ($request->ajax()) {
-
-
+            if($request->event){
+                $event_attendees->where('event_id',$request->event);
+            }
             return DataTables::of($event_attendees)
                 ->addColumn('event_name', function ($event) {
                     return $event->event->title;
@@ -334,6 +335,7 @@ class EventController extends Controller
                 ->rawColumns(['guest_info'])
                 ->make(true);
         }
-        return view('admin.event.attendee-list');
+        $events = Event::where('status',1)->get();
+        return view('admin.event.attendee-list',compact('events'));
     }
 }
