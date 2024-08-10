@@ -207,3 +207,15 @@ table tbody tr:last-child td{
 }
 
 // Dashboard Page Design end here 
+// expand
+.expand, .compress{
+  i{
+    font-size: 17px;
+    padding: 4px;
+    color: #A1A5B7;
+    border-radius: 2px;
+    border: 1px solid;
+    cursor: pointer;
+    transition: 0.6s;
+  }
+}
