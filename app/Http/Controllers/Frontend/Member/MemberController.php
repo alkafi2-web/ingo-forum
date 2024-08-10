@@ -354,4 +354,9 @@ class MemberController extends Controller
         return response()->json(['success' => true, 'message' => 'Social profile Update'], 200);
         return $request->all();
     }
+
+    public function memberDashboard()
+    {
+        return view('frontend.member.dashboard.partials.dashboard.dashboard');
+    }
 }

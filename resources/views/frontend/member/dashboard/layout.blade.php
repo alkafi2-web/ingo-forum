@@ -27,25 +27,26 @@
                                     class="d-block w-100">({{ $member->memberInfos[0]['org_type'] == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
                             </div>
                             <div class="all-profile-tabs d-flex flex-column mt-4 bg-white py-4 px-3">
-                                {{-- <button class="nav-link active" id="profile-tab" data-bs-toggle="pill" data-bs-target="#profile"
-                type="button" role="tab" aria-controls="profile" aria-selected="true">Profile</button> --}}
+                                <a href="{{route('member.dashboard')}}" class="nav-link {{ Route::currentRouteName() == 'member.dashboard' ? 'active' : '' }}" id="dashboard">Dashboard</a>
 
-                                <a href="{{ route('member.profile') }}" class="nav-link {{ Route::currentRouteName() == 'member.profile' ? 'active' : '' }}" id="profile-tab"
-                                    type="button" aria-controls="profile" aria-selected="true">Profile</a>
+                                <a href="{{ route('member.profile') }}"
+                                    class="nav-link {{ Route::currentRouteName() == 'member.profile' ? 'active' : '' }}"
+                                    id="profile-tab" type="button" aria-controls="profile" aria-selected="true">Profile</a>
 
-                                <a href="{{ route('member.event.index') }}" class="nav-link {{ Route::currentRouteName() == 'member.event.index' ? 'active' : '' }}" type="button" role="tab"
-                                    aria-controls="event" aria-selected="false">Events</a>
+                                <a href="{{ route('member.event.index') }}"
+                                    class="nav-link {{ Route::currentRouteName() == 'member.event.index' ? 'active' : '' }}"
+                                    type="button" role="tab" aria-controls="event" aria-selected="false">Events</a>
 
-                                <a href="{{ route('member.post.index') }}" class="nav-link {{ Route::currentRouteName() == 'member.post.index' ? 'active' : '' }}" id="blog-news-tab" 
-                                    
-                                    aria-selected="true">Blog/News</a>
+                                <a href="{{ route('member.post.index') }}"
+                                    class="nav-link {{ Route::currentRouteName() == 'member.post.index' ? 'active' : '' }}"
+                                    id="blog-news-tab" aria-selected="true">Blog/News</a>
 
-                                <a href="{{ route('member.publication.index') }}" class="nav-link {{ Route::currentRouteName() == 'member.publication.index' ? 'active' : '' }}" id="publication-tab"
-                                    data-bs-target="#publication" type="button" role="tab" aria-controls="publication"
-                                    aria-selected="true">Publication</a>
+                                <a href="{{ route('member.publication.index') }}"
+                                    class="nav-link {{ Route::currentRouteName() == 'member.publication.index' ? 'active' : '' }}"
+                                    id="publication-tab" data-bs-target="#publication" type="button" role="tab"
+                                    aria-controls="publication" aria-selected="true">Publication</a>
 
-                                {{-- <button class="nav-link" id="user-section-tab" data-bs-toggle="pill" data-bs-target="#user-section"
-                type="button" role="tab" aria-controls="user-section" aria-selected="true">User Section</button> --}}
+
                             </div>
                         </div>
                         <div class="col-lg-9 tab-content bg-white p-3 rounded" id="v-pills-tabContent">
@@ -57,5 +58,5 @@
         </div>
     </section>
     <!-- Profile edit page end -->
-    
+
 @endsection

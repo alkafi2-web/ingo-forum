@@ -106,7 +106,7 @@
                         extend: 'colvis',
                         columns: ':not(:first-child)' // Exclude first column (serial)
                     },
-                    'excel', 'print', 'copy'
+                    'excel', 'print'
                 ],
                 language: {
                     search: '<div class="input-group">' +

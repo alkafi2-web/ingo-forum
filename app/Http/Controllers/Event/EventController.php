@@ -329,7 +329,7 @@ class EventController extends Controller
                         }
                         return $guestInfo;
                     }
-                    return 'N/A';
+                    return 'NO Guest Attendee';
                 })
                 ->rawColumns(['guest_info'])
                 ->make(true);

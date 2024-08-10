@@ -325,6 +325,8 @@ Route::middleware(['trackvisitor'])->group(function () {
 
                 Route::prefix('profile')->group(function () {
                     Route::get('/own', [MemberController::class, 'memberOwnProfile'])->name('member.own.profile');
+                    Route::get('/dashboard', [MemberController::class, 'memberDashboard'])->name('member.dashboard');
+
                     Route::get('/edit', [MemberController::class, 'memberProfile'])->name('member.profile');
                     Route::post('/profile', [MemberController::class, 'profileUpdate'])->name('member.profile.update');
                     Route::post('/summary', [MemberController::class, 'profileUpdateSummary'])->name('member.profile.update.summary');

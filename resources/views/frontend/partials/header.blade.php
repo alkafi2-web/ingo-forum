@@ -96,29 +96,30 @@
                             @if ($menu->subMenus->count())
                                 <ul class="dropdown-menu">
                                     @foreach ($menu->subMenus as $child)
-                                    @if($child->visibility == 1)
-                                        @if ($child->type == 'route')
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route($child->route) }}">{{ $child->name }}</a></li>
-                                        @elseif ($child->type == 'page' && $child->page)
-                                            <li><a class="dropdown-item"
-                                                    href="{{ url($child->page->slug) }}">{{ $child->name }}</a></li>
-                                        @elseif ($child->type == 'post' && $child->postCategory)
-                                            <li><a class="dropdown-item"
-                                                    href="{{ url('post/' . $child->postCategory->slug) }}">{{ $child->name }}</a>
-                                            </li>
-                                        @elseif ($child->type == 'url')
-                                            <li><a class="dropdown-item"
-                                                    href="{{ $child->url }}">{{ $child->name }}</a></li>
+                                        @if ($child->visibility == 1)
+                                            @if ($child->type == 'route')
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route($child->route) }}">{{ $child->name }}</a></li>
+                                            @elseif ($child->type == 'page' && $child->page)
+                                                <li><a class="dropdown-item"
+                                                        href="{{ url($child->page->slug) }}">{{ $child->name }}</a>
+                                                </li>
+                                            @elseif ($child->type == 'post' && $child->postCategory)
+                                                <li><a class="dropdown-item"
+                                                        href="{{ url('post/' . $child->postCategory->slug) }}">{{ $child->name }}</a>
+                                                </li>
+                                            @elseif ($child->type == 'url')
+                                                <li><a class="dropdown-item"
+                                                        href="{{ $child->url }}">{{ $child->name }}</a></li>
+                                            @endif
                                         @endif
-                                    @endif
                                     @endforeach
                                 </ul>
                             @endif
                         </li>
                     @endforeach
                 </ul>
-                <form class="navbar-btn" role="search">
+                {{-- <form class="navbar-btn" role="search">
                     @if (Auth::guard('member')->check() && Auth::guard('member')->user()->status == 1)
                         <a href="{{ route('member.profile') }}" class="btn btn-outline-success">Dashboard</a>
                         <a href="{{ route('member.own.profile') }}" class="btn btn-outline-success">Profile</a>
@@ -127,7 +128,33 @@
                         <a href="{{ route('frontend.login') }}" class="btn btn-outline-success">Login</a>
                         <a href="{{ route('member') }}" class="btn btn-outline-success">Be a Member</a>
                     @endif
-                </form>
+                </form> --}}
+                <div class="dropdown navbar-btn">
+                    <button class="btn btn-outline-warning dropdown-toggle" type="button" id="navbarDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+
+                        @if (Auth::guard('member')->check() && Auth::guard('member')->user()->status == 1)
+                            Profile
+                        @else
+                            Login / Be A Member
+                        @endif
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @if (Auth::guard('member')->check() && Auth::guard('member')->user()->status == 1)
+                            <li><a class="dropdown-item" href="{{ route('member.profile') }}"><i
+                                        class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{{ route('member.own.profile') }}"><i
+                                        class="fas fa-user"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ route('member.logout') }}"><i
+                                        class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        @else
+                            <li><a class="dropdown-item" href="{{ route('frontend.login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                            <li><a class="dropdown-item" href="{{ route('member') }}"><i class="fas fa-user-plus"></i> Be a Member</a></li>
+                            {{-- <li><a href="{{ route('frontend.login') }}" >Login</a></li>
+                            <li><a href="{{ route('member') }}" class="btn btn-outline-success">Be a Member</a></li> --}}
+                        @endif
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
