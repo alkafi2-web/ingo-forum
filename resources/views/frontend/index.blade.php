@@ -196,9 +196,20 @@
                                 {{-- <h4>{{ $global['aboutus_content']->title ?? 'Please Upload It From Admin' }}</h4>
             <p>{!! $global['aboutus_content']->description ?? 'Please Upload It From Admin' !!}</p> --}}
                             </div>
+                            @php
+                                if ($global['latest_event']->creator->info) {
+                                    $route = route('frontend.member.show', $global['latest_event']->creator->info->membership_id);
+                                } else {
+                                    $route = "javascript:void(0)";
+                                }
+                            @endphp
                             <div class="single-event">
-                                {{-- <span class="mini-title mb-2 d-block">#Event{{ Carbon::parse($global['latest_event']->start_date ?? '')->format('Y') }}</span> --}}
-                                <h4 class="event-title"><a href="">{{ $global['latest_event']->title ?? '' }}</a>
+                                <span class="mini-title mb-2 d-block"><a href="{{ $route }}" class="text-warning text-decoration-none"><i class="fas fa-feather"></i>&nbsp;{{ $global['latest_event']->creator->name??$global['latest_event']->creator->info->organisation_name }}</a> &nbsp; 
+                                    @if ($global['latest_event']->reg_enable_status == 1)
+                                    <i class="fas fa-users text-success"></i> <span class="text-success">{{ $global['latest_event']->participants->count() }}</span>
+                                    @endif
+                                </span>
+                                <h4 class="event-title"><a href="{{ route('frontend.event.show', $global['latest_event']->slug) }}">{{ $global['latest_event']->title ?? '' }}</a>
                                 </h4>
                                 <p class="line-clamp-3">{{ Str::limit($global['latest_event']->details ?? '', 200) }}</p>
                                 <div class="event-date-time py-2">
@@ -226,19 +237,30 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="" class="ct-btn btn-yellow d-block mt-3">Join Events</a>
+                                <a href="{{ route('frontend.event.show', $global['latest_event']->slug) }}" class="ct-btn btn-yellow d-block mt-3">View Details</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="row gy-3">
                             @forelse ($global['events'] as $event)
+                            @php
+                                if ($event->creator->info) {
+                                    $route = route('frontend.member.show', $event->creator->info->membership_id);
+                                } else {
+                                    $route = "javascript:void(0)";
+                                }
+                            @endphp
                                 <div class="col-12">
                                     <div class="event-item">
                                         <div class="row">
                                             <div class="col-9">
-                                                {{-- <span class="mini-title mb-2 d-block">#Event{{ Carbon::parse($event->start_date)->format('Y') }}</span> --}}
-                                                <h4 class="event-title"><a href="">{{ $event->title }}</a></h4>
+                                                <span class="mini-title mb-2 d-block"><a href="{{ $route }}" class="text-warning text-decoration-none"><i class="fas fa-feather"></i>&nbsp;{{ $event->creator->name??$event->creator->info->organisation_name }}</a> &nbsp; 
+                                                    @if ($event->reg_enable_status == 1)
+                                                    <i class="fas fa-users text-success"></i> <span class="text-success">{{ $event->participants->count() }}</span>
+                                                    @endif
+                                                </span>
+                                                <h4 class="event-title"><a href="{{ route('frontend.event.show', $event->slug) }}">{{ $event->title }}</a></h4>
                                                 <p class="line-clamp-2 mb-0 pb-1">{{ Str::limit($event->details, 150) }}
                                                 </p>
                                             </div>

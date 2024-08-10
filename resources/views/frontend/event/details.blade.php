@@ -37,18 +37,19 @@
                         @php
                             $now = \Carbon\Carbon::now();
                         @endphp
+                        @if ($event->reg_enable_status == 1)
+                            @if ($event->end_date < $now)
+                                <button class="btn btn-danger btn-block mb-3" disabled><i class="fas fa-info-circle"></i> Expired</button>
+                            @elseif ($event->start_date->diffInDays($now) <= 1)
+                                <button class="btn btn-warning btn-block mb-3 join-form-btn"><i class="fas fa-user-friends"></i> Join</button>
+                            @else
+                                <button class="btn btn-success btn-block mb-3" disabled><i class="fas fa-info-circle"></i> Ongoing</button>
+                            @endif
+                            @if ($event->reg_dead_line)
+                            <h6 class="card-title"><i class="far fa-clock"></i> Deadline : {{ $event->reg_dead_line->format('D, M d')}}</h6>
+                            @endif
+                        @endif
 
-                        @if ($event->end_date < $now)
-                            <button class="btn btn-danger btn-block mb-3" disabled><i class="fas fa-info-circle"></i> Expired</button>
-                        @elseif ($event->start_date->diffInDays($now) <= 1)
-                            <button class="btn btn-warning btn-block mb-3 join-form-btn"><i class="fas fa-user-friends"></i> Join</button>
-                        @else
-                            <button class="btn btn-success btn-block mb-3" disabled><i class="fas fa-info-circle"></i> Ongoing</button>
-                        @endif
-                        @if ($event->reg_dead_line)
-                        <h6 class="card-title"><i class="far fa-clock"></i> Deadline : {{ $event->reg_dead_line->format('D, M d')}}</h6>
-                        @endif
-                        
                         <h6 class="card-title"><i class="fas fa-calendar-alt"></i> Schedule</h6>
                         <p class="card-text"><strong>Start:</strong> {{ $event->start_date->format('D, M d, h:i A') }}</p>
                         <p class="card-text"><strong>End:</strong> {{ $event->end_date->format('D, M d, h:i A') }}</p>
