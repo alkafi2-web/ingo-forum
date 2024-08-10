@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Event;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\EventRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -228,7 +229,7 @@ class EventController extends Controller
     public function memberEventRequestList(Request $request)
     {
 
-        $events = Event::with('creator')->where('creator_type','\App\Models\Member')->where('approval_status',0)->latest();
+        $events = Event::with('creator')->where('creator_type', '\App\Models\Member')->where('approval_status', 0)->latest();
         if ($request->ajax()) {
 
             $events = Event::latest();
@@ -238,16 +239,14 @@ class EventController extends Controller
                     return $event->creator->info->organisation_name;
                 })
                 ->make(true);
-            return DataTables::of($events)
-                ->make(true);
         }
         return view('admin.event.request-index');
     }
 
     public function eventRequestView($id)
     {
-        $event = Event::with('creator')->where('id',$id)->first();
-        return view('admin.event.event-view',compact('event'));
+        $event = Event::with('creator')->where('id', $id)->first();
+        return view('admin.event.event-view', compact('event'));
     }
 
     public function approved(Request $request)
@@ -302,5 +301,39 @@ class EventController extends Controller
             'success' => 'Event Suspend successfully',
             'viewHeader' => $viewHeader,
         ]);
+    }
+
+    public function eventAttendeeList(Request $request)
+    {
+        $event_attendees = EventRegistration::with('event', 'member')->latest();
+        if ($request->ajax()) {
+
+
+            return DataTables::of($event_attendees)
+                ->addColumn('event_name', function ($event) {
+                    return $event->event->title;
+                })
+                ->addColumn('attendee_type', function ($event) {
+                    return $event->member_id == null ? 'Guest' : 'Member';
+                })
+                ->addColumn('guest_info', function ($event) {
+                    // Decode the attendee_guest JSON to an array if it's stored as a JSON string
+                    $guests = is_string($event->guest_info) ? json_decode($event->guest_info, true) : $event->attendee_guest;
+        
+                    if (!empty($guests) && is_array($guests)) {
+                        $guestInfo = '';
+                        foreach ($guests as $guest) {
+                            $guestInfo .= 'Name: ' . $guest['name'] . "<br>";
+                            $guestInfo .= 'Email: ' . $guest['email'] . "<br>";
+                            $guestInfo .= 'Phone: ' . $guest['phone'] . "<br><br>";
+                        }
+                        return $guestInfo;
+                    }
+                    return 'N/A';
+                })
+                ->rawColumns(['guest_info'])
+                ->make(true);
+        }
+        return view('admin.event.attendee-list');
     }
 }

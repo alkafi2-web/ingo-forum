@@ -234,6 +234,8 @@ Route::prefix('admin')->group(function () {
             Route::post('/approved', [EventController::class, 'approved'])->name('event.approved');
             Route::post('/reject', [EventController::class, 'reject'])->name('event.reject');
             Route::post('/suspended', [EventController::class, 'suspended'])->name('event.suspend');
+
+            Route::get('/attendee-list', [EventController::class, 'eventAttendeeList'])->name('event.attendee.list');
         });
         // event managment route end
 

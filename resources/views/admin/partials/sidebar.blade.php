@@ -380,7 +380,7 @@
                             <span class="menu-arrow"></span>
                         </span>
                         <div
-                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'event' || Route::currentRouteName() == 'event.request.list' ? 'hover show' : '' }}">
+                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'event' || Route::currentRouteName() == 'event.request.list' || Route::currentRouteName() == 'event.attendee.list' ? 'hover show' : '' }}">
                             @can('event-view')
                                 <a class="menu-item menu-accordion" href="{{ route('event') }}">
                                     <span class="menu-link {{ Route::currentRouteName() == 'event' ? 'active' : '' }}">
@@ -397,6 +397,14 @@
                                         <span class="bullet bullet-dot"></span>
                                     </span>
                                     <span class="menu-title">Events Request</span>
+                                </span>
+                            </a>
+                            <a class="menu-item menu-accordion" href="{{ route('event.attendee.list') }}">
+                                <span class="menu-link {{ Route::currentRouteName() == 'event.attendee.list' ? 'active' : '' }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Events Attendee List</span>
                                 </span>
                             </a>
                         </div>
