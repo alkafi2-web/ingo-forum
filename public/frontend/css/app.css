@@ -609,3 +609,19 @@ input::placeholder {
 .member-dashboard .chart-container {
   margin-top: 30px;
 }
+
+.member-profile-info .member-profile-input, .member-profile-info .member-profile-select {
+  background: transparent !important;
+  border: none !important;
+}
+.member-profile-info .member-profile-input:focus, .member-profile-info .member-profile-select:focus {
+  box-shadow: none;
+}
+.member-profile-info .edit-org-btn, .member-profile-info .edit-orgDirector-btn, .member-profile-info .edit-memberCreden-btn {
+  cursor: pointer !important;
+  transition: 0.6s;
+}
+.member-profile-info .edit-org-btn:hover, .member-profile-info .edit-orgDirector-btn:hover, .member-profile-info .edit-memberCreden-btn:hover {
+  transform: scale(1.2);
+  color: green;
+}

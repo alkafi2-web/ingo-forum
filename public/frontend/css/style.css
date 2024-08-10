@@ -1017,8 +1017,8 @@ a {
 }
 
 body :is(input[type="text"], select, textarea, input[type="email"], input[type="password"], input[type="file"],input[type="datetime-local"],input[type="date"]) {
-  background-color: #F4F0E9 !important;
-  border: 1px solid #F4F0E9 !important;
+  background-color: #F4F0E9;
+  border: 1px solid #F4F0E9;
 }
 
 .form-select {

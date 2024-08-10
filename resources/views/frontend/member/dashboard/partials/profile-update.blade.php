@@ -20,16 +20,16 @@
         </li>
     </ul>
     <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="information-tab"
+        <div class="tab-pane fade show active member-profile-info" id="information" role="tabpanel" aria-labelledby="information-tab"
             tabindex="0">
             <div class="row">
                 <form id="member-profile-update" action="" method="post">
                     <div class="col-lg-12 mb-3 mb-lg-0">
                         <div class="d-flex align-item-center justify-content-between border-bottom">
-                            <h4 class="form-title  pb-2 pt-3">Your Organisation Details</h4>
+                            <h4 class="form-title  pb-2 pt-3">Your Organisation Details &nbsp; <i class="far fa-edit edit-org-btn"></i></h4>
 
                         </div>
-                        <div class="row mobile-border-none pt-2">
+                        <div class="row mobile-border-none pt-2 edit-org">
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
@@ -37,7 +37,7 @@
                                             Name</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="text" name="org_name" class="form-control required"
+                                        <input type="text" readonly name="org_name" class="form-control member-profile-input required"
                                             id="org_name" placeholder="Your Organisation Name"
                                             value="{{ $member->memberInfos[0]['organisation_name'] }}">
                                     </div>
@@ -50,7 +50,7 @@
                                             Website</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="text" name="org_website" class="form-control" id="org_website"
+                                        <input type="text" readonly name="org_website" class="form-control member-profile-input" id="org_website"
                                             placeholder="Your Organisation Website"
                                             value="{{ $member->memberInfos[0]['organisation_website'] }}">
                                     </div>
@@ -63,7 +63,7 @@
                                             Email</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="email" name="org_email" class="form-control" id="org_email"
+                                        <input type="email" name="org_email" class="form-control member-profile-input" id="org_email"
                                             placeholder="Organisation Email"
                                             value="{{ $member->memberInfos[0]['organisation_email'] }}">
                                     </div>
@@ -76,8 +76,8 @@
                                             Type</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <select name="org_type" class="form-select" id="org_type"
-                                            aria-label="Organisation Type" required>
+                                        <select name="org_type" class="form-select member-profile-select" id="org_type"
+                                            aria-label="Organisation Type" disabled required>
                                             <option disabled selected>Organisation Type</option>
                                             <option value="1"
                                                 {{ $member->memberInfos[0]['organisation_type'] == 1 ? 'selected' : '' }}>
@@ -98,7 +98,7 @@
                                             Number</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="text" name="ngo_reg_number" class="form-control"
+                                        <input type="text" readonly name="ngo_reg_number" class="form-control member-profile-input"
                                             id="ngo_reg_number"
                                             placeholder="Organization NGO Bureau Registration Number" required
                                             value="{{ $member->memberInfos[0]['organisation_ngo_reg'] }}">
@@ -112,7 +112,7 @@
                                             Address</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="text" name="org_address" class="form-control"
+                                        <input type="text" readonly name="org_address" class="form-control member-profile-input"
                                             id="org_address" placeholder="Organisation Address"
                                             value="{{ $member->memberInfos[0]['organisation_address'] }}">
                                     </div>
@@ -122,10 +122,11 @@
                     </div>
                     <!-- Organisation Director Details Section -->
                     <div class="col-lg-12 mb-3 mb-lg-0">
-                        <h4 class="form-title border-bottom pb-2 pt-3">Your Organisation Director
+                        <h4 class="form-title border-bottom pb-2 pt-3">Your Organization Director
                             Details
+                            &nbsp; <i class="far fa-edit edit-orgDirector-btn"></i>
                         </h4>
-                        <div class="row pt-2">
+                        <div class="row pt-2 edit-orgDirector">
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
@@ -134,7 +135,7 @@
                                             Name</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="text" name="director_name" class="form-control"
+                                        <input type="text" readonly name="director_name" class="form-control member-profile-input"
                                             id="director_name" placeholder="Country Director Name"
                                             value="{{ $member->memberInfos[0]['director_name'] }}">
                                     </div>
@@ -148,7 +149,7 @@
                                             Email (Personal)</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="email" name="director_email" class="form-control"
+                                        <input type="email" name="director_email" class="form-control member-profile-input"
                                             id="director_email" placeholder="Country Director Email"
                                             value="{{ $member->memberInfos[0]['director_email'] }}">
                                     </div>
@@ -160,7 +161,7 @@
                                         <label for="director_phone" class="form-label">Phone</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="text" name="director_phone" class="form-control"
+                                        <input type="text" readonly name="director_phone" class="form-control member-profile-input"
                                             id="director_phone" placeholder="Phone"
                                             value="{{ $member->memberInfos[0]['director_phone'] }}">
                                     </div>
@@ -171,8 +172,10 @@
 
                     <!-- Member Access Credential Section -->
                     <div class="col-12">
-                        <h4 class="form-title border-bottom pb-2 pt-3">Member Access Credential</h4>
-                        <div class="row pt-2">
+                        <h4 class="form-title border-bottom pb-2 pt-3">Member Access Credential
+                            &nbsp; <i class="far fa-edit edit-memberCreden-btn"></i>
+                        </h4>
+                        <div class="row pt-2 edit-memberCreden">
                             <div class="col-lg-6 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
@@ -181,7 +184,7 @@
                                             Login)</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="email" name="login_email" class="form-control"
+                                        <input type="email" name="login_email" class="form-control member-profile-input"
                                             id="login_email" placeholder="Email" value="{{ $member->email }}"
                                             readonly>
                                     </div>
@@ -193,7 +196,7 @@
                                         <label for="login_phone" class="form-label">Phone</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="text" name="login_phone" class="form-control"
+                                        <input type="text" readonly name="login_phone" class="form-control member-profile-input"
                                             id="login_phone" placeholder="Phone" value="{{ $member->phone }}">
                                     </div>
                                 </div>
@@ -204,8 +207,8 @@
                                         <label for="password" class="form-label required">Password</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="password" name="password" class="form-control" id="password"
-                                            placeholder="Password" required>
+                                        <input type="password" name="password" class="form-control member-profile-input" id="password"
+                                            placeholder="Password" readonly required>
                                     </div>
                                 </div>
                             </div>
@@ -216,8 +219,8 @@
                                             Password</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="password" name="password_confirmation" class="form-control"
-                                            id="password_confirmation" placeholder="Confirm Password" required>
+                                        <input type="password" name="password_confirmation" class="form-control member-profile-input"
+                                            id="password_confirmation" placeholder="Confirm Password" readonly required>
                                     </div>
                                 </div>
                             </div>
@@ -236,22 +239,22 @@
                 <div class="row">
                     <div class="col-12 mb-3">
                         <label for="title" class="form-label required">Title</label>
-                        <input type="text" class="form-control" id="title" name="title"
+                        <input type="text" readonly class="form-control member-profile-input" id="title" name="title"
                             placeholder="Title" value="{{ $member->memberInfos[0]['title'] ?? '' }}">
                     </div>
                     <div class="col-12 mb-3">
                         <label for="sub_title" class="form-label required">Sub Title</label>
-                        <input type="text" class="form-control" id="sub_title" name="sub_title"
+                        <input type="text" readonly class="form-control member-profile-input" id="sub_title" name="sub_title"
                             placeholder="Sub Title" value="{{ $member->memberInfos[0]['sub_title'] ?? '' }}">
                     </div>
                     <div class="col-12 mb-3">
                         <label for="short_description" class="form-label">Short Descrition</label>
-                        <textarea class="form-control" id="short_description" name="short_description" rows="3">{{ $member->memberInfos[0]['short_description'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="short_description" name="short_description" rows="3">{{ $member->memberInfos[0]['short_description'] ?? '' }}</textarea>
                     </div>
                     <div class="col-12 mb-3">
                         <label for="organization_document" class="form-label">Organization
                             Document</label>
-                        <input type="file" class="form-control" id="organization_document"
+                        <input type="file" class="form-control member-profile-input" id="organization_document"
                             name="organization_document">
                         <!-- Container to display the file preview -->
                         <div id="file-preview" class="mt-3">
@@ -260,27 +263,27 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="mission" class="form-label">Mission</label>
-                        <textarea class="form-control" id="mission" name="mission" rows="3">{{ $member->memberInfos[0]['mission'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="mission" name="mission" rows="3">{{ $member->memberInfos[0]['mission'] ?? '' }}</textarea>
                     </div>
                     <div class="col-12 mb-3">
                         <label for="vision" class="form-label">Vision</label>
-                        <textarea class="form-control" id="vision" name="vision" rows="3">{{ $member->memberInfos[0]['vision'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="vision" name="vision" rows="3">{{ $member->memberInfos[0]['vision'] ?? '' }}</textarea>
                     </div>
                     <div class="col-12 mb-3">
                         <label for="values" class="form-label">Values</label>
-                        <textarea class="form-control" id="values" name="values" rows="3">{{ $member->memberInfos[0]['value'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="values" name="values" rows="3">{{ $member->memberInfos[0]['value'] ?? '' }}</textarea>
                     </div>
                     <div class="col-12 mb-3">
                         <label for="work" class="form-label">Work or Projects</label>
-                        <textarea class="form-control" id="work" name="work" rows="3">{{ $member->memberInfos[0]['work'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="work" name="work" rows="3">{{ $member->memberInfos[0]['work'] ?? '' }}</textarea>
                     </div>
                     <div class="col-12 mb-3">
                         <label for="history" class="form-label">History</label>
-                        <textarea class="form-control" id="history" name="history" rows="3">{{ $member->memberInfos[0]['history'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="history" name="history" rows="3">{{ $member->memberInfos[0]['history'] ?? '' }}</textarea>
                     </div>
                     <div class="col-12 mb-3">
                         <label for="other_description" class="form-label">Other Description</label>
-                        <textarea class="form-control" id="other_description" name="other_description" rows="3">{{ $member->memberInfos[0]['other_description'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="other_description" name="other_description" rows="3">{{ $member->memberInfos[0]['other_description'] ?? '' }}</textarea>
                     </div>
                     <div class="col-12 mb-3 text-end">
                         <button id="profilData-submit" class="submit-btn">Update</button>
@@ -294,27 +297,27 @@
                 <div id="formContainer" class="row">
                     <div class="col-12 mb-3">
                         <label for="facebook" class="form-label">Facebook</label>
-                        <input type="text" class="form-control" id="facebook" name="facebook"
+                        <input type="text" readonly class="form-control member-profile-input" id="facebook" name="facebook"
                             placeholder="Facebook Link" value="{{ $member->memberInfos[0]['facebook'] ?? '' }}">
                     </div>
                     <div class="col-12 mb-3">
                         <label for="twitter" class="form-label">Twitter</label>
-                        <input type="text" class="form-control" id="twitter" name="twitter"
+                        <input type="text" readonly class="form-control member-profile-input" id="twitter" name="twitter"
                             placeholder="Twitter Link" value="{{ $member->memberInfos[0]['twitter'] ?? '' }}">
                     </div>
                     <div class="col-12 mb-3">
                         <label for="linkedin" class="form-label">Linkedin</label>
-                        <input type="text" class="form-control" id="linkedin" name="linkedin"
+                        <input type="text" readonly class="form-control member-profile-input" id="linkedin" name="linkedin"
                             placeholder="Linkedin Link" value="{{ $member->memberInfos[0]['linkedin'] ?? '' }}">
                     </div>
                     <div class="col-12 mb-3">
                         <label for="instagram" class="form-label">Instagram</label>
-                        <input type="text" class="form-control" id="instagram" placeholder="Instagram Link"
+                        <input type="text" readonly class="form-control member-profile-input" id="instagram" placeholder="Instagram Link"
                             value="{{ $member->memberInfos[0]['instagram'] ?? '' }}">
                     </div>
                     <div class="col-12 mb-3">
                         <label for="youtube" class="form-label">YouTube</label>
-                        <input type="text" class="form-control" id="youtube" name="youtube"
+                        <input type="text" readonly class="form-control member-profile-input" id="youtube" name="youtube"
                             placeholder="YouTube Link" value="{{ $member->memberInfos[0]['youtube'] ?? '' }}">
                     </div>
                     <div class="col-12 text-end">
