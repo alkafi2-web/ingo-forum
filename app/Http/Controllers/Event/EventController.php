@@ -243,4 +243,64 @@ class EventController extends Controller
         }
         return view('admin.event.request-index');
     }
+
+    public function eventRequestView($id)
+    {
+        $event = Event::with('creator')->where('id',$id)->first();
+        return view('admin.event.event-view',compact('event'));
+    }
+
+    public function approved(Request $request)
+    {
+
+        // Find the post by the provided ID
+        $event = Event::findOrFail($request->id);
+
+        // Update the approved_status to 1
+        $event->approval_status = 1;
+        $event->approval_status_change_by = Auth::guard('admin')->id();
+
+        // Save the changes
+        $event->save();
+        $viewHeader = view('admin.event.partials.view-header', compact('event'))->render();
+        return response()->json([
+            'success' => 'Event Approved successfully',
+            'viewHeader' => $viewHeader,
+        ]);
+    }
+    public function reject(Request $request)
+    {
+
+        // Find the post by the provided ID
+        $event = Event::findOrFail($request->id);
+
+        // Update the approved_status to 1
+        $event->approval_status = 3;
+        $event->approval_status_change_by = Auth::guard('admin')->id();
+
+        // Save the changes
+        $event->save();
+        $viewHeader = view('admin.event.partials.view-header', compact('event'))->render();
+        return response()->json([
+            'success' => 'Event Reject successfully',
+            'viewHeader' => $viewHeader,
+        ]);
+    }
+    public function suspended(Request $request)
+    {
+
+        // Find the post by the provided ID
+        $event = Event::findOrFail($request->id);
+
+        // Update the approved_status to 1
+        $event->approval_status = 2;
+        $event->approval_status_change_by = Auth::guard('admin')->id();
+        // Save the changes
+        $event->save();
+        $viewHeader = view('admin.event.partials.view-header', compact('event'))->render();
+        return response()->json([
+            'success' => 'Event Suspend successfully',
+            'viewHeader' => $viewHeader,
+        ]);
+    }
 }
