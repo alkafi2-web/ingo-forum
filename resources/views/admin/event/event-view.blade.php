@@ -185,8 +185,8 @@
                         $('#view-header-container').html(response.viewHeader);
                         // $('#profile-image-name').html(response.profileImageName);
                         $.get(window.location.href, function(data) {
-                            var pendingPublicationCount = $(data).find('.pendingPublicationCount').html();
-                            $('.pendingPublicationCount').html(pendingPublicationCount);
+                            var pendingEventCount = $(data).find('.pendingEventCount').html();
+                            $('.pendingEventCount').html(pendingEventCount);
                         });
                         toastr.success(response.success);
                     },

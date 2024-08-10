@@ -66,6 +66,8 @@ Route::prefix('admin')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
         Route::get('/user-activity', [UserController::class, 'activityList'])->name('activity.list');
+        Route::get('/my-profile', [UserController::class, 'myProfile'])->name('user.profile');
+        Route::post('/my-profile', [UserController::class, 'myProfileUpdate'])->name('user.profile.update');
 
         //user managment end
 
