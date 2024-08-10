@@ -221,8 +221,8 @@ Route::prefix('admin')->group(function () {
         // event managment route start
         Route::prefix('event')->group(function () {
             Route::get('/', [EventController::class, 'event'])->name('event');
-
-            Route::get('/member-list', [EventController::class, 'memberEventList'])->name('event.member.list');
+            Route::get('/member-request-list', [EventController::class, 'memberEventRequestList'])->name('event.request.list');
+            Route::get('/request/view/{id}', [EventController::class, 'eventRequestView'])->name('event.request.view');
 
             Route::middleware('adminOrMember')->withoutMiddleware('admin')->group(function () {
                 Route::post('/create', [EventController::class, 'eventCreate'])->name('event.create');
