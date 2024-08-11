@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class FileCategory extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
+
+    public function category()
+    {
+        return $this->belongsTo(FileCategory::class, 'parent_id');
+    }
 }

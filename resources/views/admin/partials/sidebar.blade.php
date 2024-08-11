@@ -390,7 +390,7 @@
                 @endif
                 @if (Auth::guard('admin')->user()->hasAnyPermission(['event-view']))
                     <div data-kt-menu-trigger="click"
-                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'file.category' || Route::currentRouteName() == 'event.request.list' || Route::currentRouteName() == 'event.request.view' ? 'hover show' : '' }}">
+                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'file.category' || Route::currentRouteName() == 'file.subcategory' || Route::currentRouteName() == 'event.request.view' ? 'hover show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -450,8 +450,8 @@
                                     <span class="menu-title">File Category</span>
                                 </span>
                             </a>
-                            <a class="menu-item menu-accordion" href="{{ route('event.attendee.list') }}">
-                                <span class="menu-link {{ Route::currentRouteName() == 'event.attendee.list' ? 'active' : '' }}">
+                            <a class="menu-item menu-accordion" href="{{ route('file.subcategory') }}">
+                                <span class="menu-link {{ Route::currentRouteName() == 'file.subcategory' ? 'active' : '' }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>

@@ -200,14 +200,14 @@ Route::prefix('admin')->group(function () {
                 Route::post('/category-edit', [FileController::class, 'categoryEdit'])->name('file.category.edit');
                 Route::post('/category-update', [FileController::class, 'categoryUpdate'])->name('file.category.update');
             });
-            // Route::prefix('sub-category')->group(function () {
-            //     Route::get('/', [SubCategoryController::class, 'subcategory'])->name('subcategory');
-            //     Route::post('/sub-category-create', [SubCategoryController::class, 'subcategoryCreate'])->name('subcategory.create');
-            //     Route::post('/sub-category-delete', [SubCategoryController::class, 'subcategoryDelete'])->name('subcategory.delete');
-            //     Route::post('/sub-category-status', [SubCategoryController::class, 'subcategoryStatus'])->name('subcategory.status');
-            //     Route::post('/sub-category-edit', [SubCategoryController::class, 'subcategoryEdit'])->name('subcategory.edit');
-            //     Route::post('/sub-category-update', [SubCategoryController::class, 'subcategoryUpdate'])->name('subcategory.update');
-            // });
+            Route::prefix('sub-category')->group(function () {
+                Route::get('/', [FileController::class, 'subcategory'])->name('file.subcategory');
+                Route::post('/sub-category-create', [FileController::class, 'subcategoryCreate'])->name('file.subcategory.create');
+                Route::post('/sub-category-delete', [FileController::class, 'subcategoryDelete'])->name('file.subcategory.delete');
+                Route::post('/sub-category-status', [FileController::class, 'subcategoryStatus'])->name('file.subcategory.status');
+                Route::post('/sub-category-edit', [FileController::class, 'subcategoryEdit'])->name('file.subcategory.edit');
+                Route::post('/sub-category-update', [FileController::class, 'subcategoryUpdate'])->name('file.subcategory.update');
+            });
             // Route::prefix('/')->group(function () {
             //     Route::get('/', [PostController::class, 'postCreate'])->name('post.create');
             //     Route::get('/list', [PostController::class, 'postList'])->name('post.list');
