@@ -144,7 +144,7 @@
     </section>
     <!-- About Us Section End  -->
     <!-- Member Section Start  -->
-    @if ($global['membersInfos']->count() > 0)
+    @if ($global['membersInfos']->count())
         <section class="member-section">
             <div class="container">
                 <div class="row">
@@ -174,7 +174,7 @@
     @endif
     <!-- Member Section End  -->
     <!-- Events Section Start  -->
-    @if ($global['events']->count() > 0)
+    @if ($global['events']->count())
         <section class="events-area ptb-70">
             <div class="container">
                 <div class="row">
@@ -197,11 +197,7 @@
             <p>{!! $global['aboutus_content']->description ?? 'Please Upload It From Admin' !!}</p> --}}
                             </div>
                             @php
-                                if (
-                                    $global['latest_event'] &&
-                                    $global['latest_event']->creator &&
-                                    $global['latest_event']->creator->info
-                                ) {
+                                if ($global['latest_event']->creator->info) {
                                     $route = route(
                                         'frontend.member.show',
                                         $global['latest_event']->creator->info->membership_id,
@@ -331,7 +327,7 @@
     @endif
     <!-- Events Section End  -->
     <!-- Blog Section Start  -->
-    @if ($global['posts']->count() > 0)
+    @if ($global['posts']->count())
         <section class="blog-section ptb-70 bg-gray">
             <div class="container">
                 <div class="row">
@@ -521,7 +517,7 @@
     @endif
     <!-- Blog Section End  -->
     <!-- Publication Section Start  -->
-    @if ($global['publications']->count() > 0)
+    @if ($global['publications']->count())
         <section class="blog-section ptb-70 bg-gray">
             <div class="container">
                 <div class="row">
@@ -592,7 +588,7 @@
     @endif
     <!-- publication Section End  -->
     <!-- Photo Gallery Section start  -->
-    @if ($global['albums']->count() > 0)
+    @if ($global['albums']->count())
         <section class="gallery-section ptb-70">
             <div class="container">
                 <div class="row">
@@ -666,7 +662,7 @@
     @endif
     <!-- Photo Gallery Section End  -->
     <!-- Video Section start  -->
-    @if ($global['videos']->count() > 0)
+    @if ($global['videos']->count())
         <section class="video-gallery ptb-70 bg-gray">
             <div class="container">
                 <div class="row">
