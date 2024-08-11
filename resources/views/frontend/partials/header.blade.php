@@ -151,7 +151,7 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         @if (Auth::guard('member')->check() && Auth::guard('member')->user()->status == 1)
-                            <li><a class="dropdown-item" href="{{ route('member.profile') }}"><i
+                            <li><a class="dropdown-item" href="{{ route('member.dashboard') }}"><i
                                         class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                             <li><a class="dropdown-item" href="{{ route('member.own.profile') }}"><i
                                         class="fas fa-user"></i> Profile</a></li>
