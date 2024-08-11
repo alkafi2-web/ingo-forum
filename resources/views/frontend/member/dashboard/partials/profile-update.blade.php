@@ -4,22 +4,22 @@
 {{-- Tab content start here  --}}
 <div id="profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
     {{-- sub tabs start  --}}
-    <ul class="sub-profile-tabs nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <ul class="sub-profile-tabs nav nav-tabs" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="information-tab" data-bs-toggle="pill" data-bs-target="#information"
-                type="button" role="tab" aria-controls="information" aria-selected="true">Information</button>
+            <a href="#" class="nav-link active" id="information-tab" data-bs-toggle="tab" data-bs-target="#information"
+             role="tab" aria-controls="information" aria-selected="true"><i class="fas fa-info-circle"></i>&nbsp;Information</a>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-summery-tab" data-bs-toggle="pill"
-                data-bs-target="#profile-summery-profile" type="button" role="tab"
-                aria-controls="profile-summery-profile" aria-selected="false">Profile Summary</button>
+            <a href="#" class="nav-link" id="profile-summery-tab" data-bs-toggle="tab"
+                data-bs-target="#profile-summery-profile" role="tab"
+                aria-controls="profile-summery-profile" aria-selected="false"><i class="fas fa-user-circle"></i>&nbsp;Profile Summary</a>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="social-links-tab" data-bs-toggle="pill" data-bs-target="#social-links"
-                type="button" role="tab" aria-controls="social-links" aria-selected="false">Social Links</button>
+            <a href="#" class="nav-link" id="social-links-tab" data-bs-toggle="tab" data-bs-target="#social-links"
+             role="tab" aria-controls="social-links" aria-selected="false"><i class="fas fa-share-alt"></i>&nbsp;Social Links</a>
         </li>
     </ul>
-    <div class="tab-content" id="pills-tabContent">
+    <div class="tab-content mt-2" id="pills-tabContent">
         <div class="tab-pane fade show active member-profile-info" id="information" role="tabpanel" aria-labelledby="information-tab"
             tabindex="0">
             <div class="row">

@@ -20,31 +20,31 @@
                                     <input type="file" name="" id="profile-input" class="d-none">
                                 </div>
                                 <span
-                                    class="d-block w-100 text-orange fw-semibold fs-">{{ $member->memberInfos[0]['membership_id'] }}</span>
+                                    class="d-block w-100 text-success fw-semibold" style="font-size: 12px"><i class="fas fa-id-card-alt"></i>&nbsp;{{ $member->memberInfos[0]['membership_id'] }}</span>
                                 <span
                                     class="d-block w-100 text-orange fw-semibold fs-">{{ $member->memberInfos[0]['organisation_name'] }}</span>
                                 <span
                                     class="d-block w-100">({{ $member->memberInfos[0]['org_type'] == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
                             </div>
                             <div class="all-profile-tabs d-flex flex-column mt-4 bg-white py-4 px-3">
-                                <a href="{{route('member.dashboard')}}" class="nav-link {{ Route::currentRouteName() == 'member.dashboard' ? 'active' : '' }}" id="dashboard">Dashboard</a>
+                                <a href="{{route('member.dashboard')}}" class="nav-link {{ Route::currentRouteName() == 'member.dashboard' ? 'active' : '' }}" id="dashboard"><i class="fas fa-tachometer-alt"></i>&nbsp;Dashboard</a>
 
                                 <a href="{{ route('member.profile') }}"
                                     class="nav-link {{ Route::currentRouteName() == 'member.profile' ? 'active' : '' }}"
-                                    id="profile-tab" type="button" aria-controls="profile" aria-selected="true">Profile</a>
+                                    id="profile-tab" type="button" aria-controls="profile" aria-selected="true"><i class="fas fa-user-circle"></i>&nbsp;Profile</a>
 
                                 <a href="{{ route('member.event.index') }}"
                                     class="nav-link {{ Route::currentRouteName() == 'member.event.index' ? 'active' : '' }}"
-                                    type="button" role="tab" aria-controls="event" aria-selected="false">Events</a>
+                                    type="button" role="tab" aria-controls="event" aria-selected="false"><i class="fas fa-calendar-alt"></i>&nbsp;Events</a>
 
                                 <a href="{{ route('member.post.index') }}"
                                     class="nav-link {{ Route::currentRouteName() == 'member.post.index' ? 'active' : '' }}"
-                                    id="blog-news-tab" aria-selected="true">Blog/News</a>
+                                    id="blog-news-tab" aria-selected="true"><i class="far fa-newspaper"></i>&nbsp;Blog/News</a>
 
                                 <a href="{{ route('member.publication.index') }}"
                                     class="nav-link {{ Route::currentRouteName() == 'member.publication.index' ? 'active' : '' }}"
                                     id="publication-tab" data-bs-target="#publication" type="button" role="tab"
-                                    aria-controls="publication" aria-selected="true">Publication</a>
+                                    aria-controls="publication" aria-selected="true"><i class="fas fa-file-pdf"></i>&nbsp;Publication</a>
 
 
                             </div>

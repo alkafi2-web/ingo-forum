@@ -1287,7 +1287,6 @@ body :is(input[type="text"], select, textarea, input[type="email"], input[type="
   font-weight: 600;
   text-align: left;
   color: var(--black) !important;
-  margin-bottom: 2px;
 }
 
 .sub-profile-tabs .nav-link:focus,
