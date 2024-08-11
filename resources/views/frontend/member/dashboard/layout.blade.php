@@ -19,12 +19,10 @@
                                     <i class="fa-solid fa-camera" id="upload-icon"></i>
                                     <input type="file" name="" id="profile-input" class="d-none">
                                 </div>
-                                <span
-                                    class="d-block w-100 text-success fw-semibold" style="font-size: 12px"><i class="fas fa-id-card-alt"></i>&nbsp;{{ $member->memberInfos[0]['membership_id'] }}</span>
-                                <span
-                                    class="d-block w-100 text-orange fw-semibold fs-">{{ $member->memberInfos[0]['organisation_name'] }}</span>
-                                <span
-                                    class="d-block w-100">({{ $member->memberInfos[0]['org_type'] == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
+                                <span class="d-block w-100 text-success fw-semibold" style="font-size: 12px"><i class="fas fa-id-card-alt"></i>&nbsp;{{ $member->memberInfos[0]['membership_id'] }}</span>
+                                <span class="d-block w-100 text-orange fw-semibold" style="font-size: 13px">Bureau Reg No. {{ $member->memberInfos[0]['organisation_ngo_reg'] }}</span>
+                                <span class="d-block w-100 text-success fw-bold">{{ $member->memberInfos[0]['organisation_name'] }}</span>
+                                <span class="d-block w-100">({{ $member->memberInfos[0]['org_type'] == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
                             </div>
                             <div class="all-profile-tabs d-flex flex-column mt-4 bg-white py-4 px-3">
                                 <a href="{{route('member.dashboard')}}" class="nav-link {{ Route::currentRouteName() == 'member.dashboard' ? 'active' : '' }}" id="dashboard"><i class="fas fa-tachometer-alt"></i>&nbsp;Dashboard</a>

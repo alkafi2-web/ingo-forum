@@ -26,8 +26,7 @@
                 <form id="member-profile-update" action="" method="post">
                     <div class="col-lg-12 mb-3 mb-lg-0">
                         <div class="d-flex align-item-center justify-content-between border-bottom">
-                            <h4 class="form-title  pb-2 pt-3">Your Organisation Details &nbsp; <i class="far fa-edit edit-org-btn"></i></h4>
-
+                            <h4 class="form-title  pb-2 pt-3">Your Organisation Details &nbsp; <i class="far fa-edit edit-info-btn" data-type="org_details"></i></h4>
                         </div>
                         <div class="row mobile-border-none pt-2 edit-org">
                             <div class="col-12 mb-3">
@@ -124,7 +123,7 @@
                     <div class="col-lg-12 mb-3 mb-lg-0">
                         <h4 class="form-title border-bottom pb-2 pt-3">Your Organization Director
                             Details
-                            &nbsp; <i class="far fa-edit edit-orgDirector-btn"></i>
+                            &nbsp; <i class="far fa-edit edit-info-btn" data-type="org_director"></i>
                         </h4>
                         <div class="row pt-2 edit-orgDirector">
                             <div class="col-12 mb-3">
@@ -173,7 +172,7 @@
                     <!-- Member Access Credential Section -->
                     <div class="col-12">
                         <h4 class="form-title border-bottom pb-2 pt-3">Member Access Credential
-                            &nbsp; <i class="far fa-edit edit-memberCreden-btn"></i>
+                            &nbsp; <i class="far fa-edit edit-info-btn" data-type="org_login"></i>
                         </h4>
                         <div class="row pt-2 edit-memberCreden">
                             <div class="col-lg-6 mb-3">
@@ -226,7 +225,7 @@
                             </div>
 
                             <div class="col-12 text-end pt-3">
-                                <input type="submit" id="member-submit" value="Update" class="submit-btn">
+                                <input type="submit" id="member-submit" value="Update" class="submit-btn text-light" style="display:none">
                             </div>
                         </div>
                     </div>
@@ -600,6 +599,49 @@
                         };
                         reader.readAsArrayBuffer(file);
                     }
+                });
+                // query for make profile infor editable
+                $(document).ready(function() {
+                    $('.edit-info-btn').on('click', function() {
+                        var type = $(this).data('type');
+                        
+                        var $orgDiv = $('.edit-org');
+                        var isOrgReadonly = $orgDiv.find('input.member-profile-input').prop('readonly');
+                        
+                        var $orgDirectorDiv = $('.edit-orgDirector');
+                        var isOrgDirReadonly = $orgDirectorDiv.find('input.member-profile-input').prop('readonly');
+                        
+                        var $orgCredenDiv = $('.edit-memberCreden');
+                        var isOrgCredenReadonly = $orgCredenDiv.find('input.member-profile-input').prop('readonly');
+                        
+                        $('#member-submit').hide(); // Initially hide the submit button
+
+                        if (isOrgReadonly && type === "org_details") {
+                            // Make Organisation fields editable
+                            $orgDiv.find('input.member-profile-input').removeClass('member-profile-input').prop('readonly', false);
+                            $orgDiv.find('select.member-profile-select').removeClass('member-profile-select').prop('disabled', false);
+                            $('#member-submit').show();
+                        } 
+                        else if (isOrgDirReadonly && type === "org_director") {
+                            // Make Director fields editable
+                            $orgDirectorDiv.find('input.member-profile-input').removeClass('member-profile-input').prop('readonly', false);
+                            $('#member-submit').show();
+                        } 
+                        else if (isOrgCredenReadonly && type === "org_login") {
+                            // Make Credentials fields editable
+                            $orgCredenDiv.find('input.member-profile-input').removeClass('member-profile-input').prop('readonly', false);
+                            $('#member-submit').show();
+                        } 
+                        else {
+                            // Revert all fields to non-editable
+                            $orgDiv.find('input').addClass('member-profile-input').prop('readonly', true);
+                            $orgDiv.find('select').addClass('member-profile-select').prop('disabled', true);
+                            
+                            $orgDirectorDiv.find('input').addClass('member-profile-input').prop('readonly', true);
+                            
+                            $orgCredenDiv.find('input:not([type="submit"])').addClass('member-profile-input').prop('readonly', true);
+                        }
+                    });
                 });
             });
         </script>
