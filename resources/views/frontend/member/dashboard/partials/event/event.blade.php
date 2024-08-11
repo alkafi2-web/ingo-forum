@@ -1,17 +1,17 @@
 <div>
-    <ul class="sub-profile-tabs nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <ul class="sub-profile-tabs nav nav-tabs mb-3" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="all-event-tab" data-bs-toggle="pill" data-bs-target="#all-event"
-                type="button" role="tab" aria-controls="all-event" aria-selected="false" tabindex="-1">All
+            <button class="nav-link active fw-bold" id="all-event-tab" data-bs-toggle="tab" data-bs-target="#all-event"
+                type="button" role="tab" aria-controls="all-event" aria-selected="false" tabindex="-1"><i class="fas fa-calendar-alt"></i>&nbsp;All
                 Event</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link " id="add-event-tab" data-bs-toggle="pill" data-bs-target="#add-event"
-                type="button" role="tab" aria-controls="add-event" aria-selected="true">Add Event</button>
+            <button class="nav-link fw-bold" id="add-event-tab" data-bs-toggle="tab" data-bs-target="#add-event"
+                type="button" role="tab" aria-controls="add-event" aria-selected="true"><i class="fas fa-calendar-plus addEventIcon"></i><i class="fas fa-wrench updateEventIcon" style="display: none"></i>&nbsp;<span class="add-event-btn-text">Add Event</span></button>
         </li>
 
     </ul>
-    <div class="tab-content" id="pills-tabContent">
+    <div class="tab-content mt-4" id="pills-tabContent">
         <div class="tab-pane fade show active" id="all-event" role="tabpanel" aria-labelledby="all-event-tab"
             tabindex="0">
             <table class="table table-hover table-sm align-middle fs-6 gy-5 m-auto table-responsive" id="event-data"
@@ -226,7 +226,11 @@
                         $('#submit').removeClass('d-none');
                         $('#update ').addClass('d-none');
                         $('#refresh').addClass('d-none');
-                        $('#add-event-tab').removeClass('active').text('Add Event');
+                        $('#add-event-tab').addClass('active');
+                        $('.add-event-btn-text').text('Update Event');
+                        $('.addEventIcon').hide();
+                        $('.updateEventIcon').show();
+
                         $('#add-event').removeClass('show active');
                         $('#all-event-tab').addClass('active');
                         $('#all-event').addClass('show active');
@@ -253,7 +257,10 @@
                 des.setData('');
                 des.focus();
                 $('#pp').attr('src', '');
-                $('#add-event-tab').removeClass('active').text('Add Event');
+                $('#add-event-tab').removeClass('active');
+                $('.add-event-btn-text').text('Add Event');
+                $('.addEventIcon').show();
+                $('.updateEventIcon').hide();
                 $('#add-event').removeClass('show active');
                 $('#all-event-tab').addClass('active');
                 $('#all-event').addClass('show active');
@@ -521,7 +528,11 @@
                     let basePath = '{{ asset('public/frontend/images/events/') }}/'
                     var imagePath = basePath + event.media;
                     $('#pp').attr('src', imagePath);
-                    $('#add-event-tab').addClass('active').text('Update Event');
+                    $('#add-event-tab').addClass('active');
+                    $('.add-event-btn-text').text('Update Event');
+                    $('.addEventIcon').hide();
+                    $('.updateEventIcon').show();
+
                     $('#add-event').addClass('show active');
                     $('#all-event-tab').removeClass('active');
                     $('#all-event').removeClass('show active');

@@ -1,17 +1,17 @@
 <div id="blog-news">
-    <ul class="sub-profile-tabs nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <ul class="sub-profile-tabs nav nav-tabs mb-3" id="pills-tab" role="tablist">
 
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="all-blog-news-tab" data-bs-toggle="pill" data-bs-target="#all-blog-news"
-                type="button" role="tab" aria-controls="all-blog-news" aria-selected="false" tabindex="-1">All
+            <button class="nav-link fw-bold active" id="all-blog-news-tab" data-bs-toggle="tab" data-bs-target="#all-blog-news"
+                type="button" role="tab" aria-controls="all-blog-news" aria-selected="false" tabindex="-1"><i class="far fa-newspaper"></i>&nbsp;All
                 Blog/News</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link " id="add-blog-news-tab" data-bs-toggle="pill" data-bs-target="#add-blog-news"
-                type="button" role="tab" aria-controls="add-blog-news" aria-selected="true">Add Blog/News</button>
+            <button class="nav-link fw-bold" id="add-blog-news-tab" data-bs-toggle="tab" data-bs-target="#add-blog-news"
+                type="button" role="tab" aria-controls="add-blog-news" aria-selected="true"><i class="fas fa-plus-circle addBlogIcon"></i><i class="fas fa-wrench updateBlogIcon" style="display: none"></i>&nbsp;<span class="add-blog-btn-text">Add Blog/News</span></button>
         </li>
     </ul>
-    <div class="tab-content" id="pills-tabContent">
+    <div class="tab-content mt-4" id="pills-tabContent">
         <div class="tab-pane fade show active" id="all-blog-news" role="tabpanel" aria-labelledby="all-blog-news-tab"
             tabindex="0">
             <table class="table table-hover table-sm align-middle fs-6 gy-5 m-auto table-responsive"
@@ -445,7 +445,10 @@
 
                     // Show the update and refresh buttons
                     $('#update, #refresh').removeClass('d-none');
-                    $('#add-blog-news-tab').addClass('active').text('Update Blog/News');
+                    $('#add-blog-news-tab').addClass('active');
+                    $('.add-blog-btn-text').text('Update Blog/News');
+                    $('.addBlogIcon').hide();
+                    $('.updateBlogIcon').show();
                     $('#add-blog-news').addClass('show active');
                     $('#all-blog-news-tab').removeClass('active');
                     $('#all-blog-news').removeClass('show active');
@@ -620,7 +623,10 @@
             long_description.setData('');
             long_description.focus();
             $('#pp').attr('src', '');
-            $('#add-blog-news-tab').removeClass('active').text('Add Blog/News');
+            $('#add-blog-news-tab').removeClass('active');
+            $('.add-blog-btn-text').text('Add Blog/News');
+            $('.addBlogIcon').show();
+            $('.updateBlogIcon').hide();
             $('#add-blog-news').removeClass('show active');
             $('#all-blog-news-tab').addClass('active');
             $('#all-blog-news').addClass('show active');
