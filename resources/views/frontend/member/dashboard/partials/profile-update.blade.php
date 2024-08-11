@@ -236,86 +236,117 @@
             aria-labelledby="profile-summery-tab" tabindex="0">
             <form id="profilDataForm" action="">
                 <div class="row">
-                    <div class="col-12 mb-3">
-                        <label for="title" class="form-label required">Title</label>
-                        <input type="text" readonly class="form-control member-profile-input" id="title" name="title"
-                            placeholder="Title" value="{{ $member->memberInfos[0]['title'] ?? '' }}">
+                    <!-- Title -->
+                    <div class="col-12 mb-3 position-relative">
+                        <label for="title" class="form-label text-nowrap m-0 required">Title&nbsp;
+                            <i class="fas fa-edit edit-icon" data-target="#title"></i>
+                        </label>
+                        <input type="text" readonly class="form-control member-profile-input" id="title" name="title" placeholder="Title" value="{{ $member->memberInfos[0]['title'] ?? '' }}"> 
                     </div>
-                    <div class="col-12 mb-3">
-                        <label for="sub_title" class="form-label required">Sub Title</label>
-                        <input type="text" readonly class="form-control member-profile-input" id="sub_title" name="sub_title"
-                            placeholder="Sub Title" value="{{ $member->memberInfos[0]['sub_title'] ?? '' }}">
+            
+                    <!-- Sub Title -->
+                    <div class="col-12 mb-3 position-relative">
+                        <label for="sub_title" class="form-label text-nowrap m-0 required">Sub Title&nbsp;
+                            <i class="fas fa-edit edit-icon" data-target="#sub_title"></i>
+                        </label> &nbsp;
+                        <input type="text" readonly class="form-control member-profile-input" id="sub_title" name="sub_title" placeholder="Sub Title" value="{{ $member->memberInfos[0]['sub_title'] ?? '' }}"> 
                     </div>
-                    <div class="col-12 mb-3">
-                        <label for="short_description" class="form-label">Short Descrition</label>
-                        <textarea class="form-control member-profile-input" id="short_description" name="short_description" rows="3">{{ $member->memberInfos[0]['short_description'] ?? '' }}</textarea>
+            
+                    <!-- Short Description -->
+                    <div class="col-12 mb-3 position-relative">
+                        <label for="short_description" class="form-label">Short Description&nbsp;
+                            <i class="fas fa-edit edit-icon" data-target="#short_description"></i>
+                        </label>
+                        <textarea class="form-control" id="short_description" readonly name="short_description" rows="3">{{ $member->memberInfos[0]['short_description'] ?? '' }}</textarea>
                     </div>
-                    <div class="col-12 mb-3">
-                        <label for="organization_document" class="form-label">Organization
-                            Document</label>
-                        <input type="file" class="form-control member-profile-input" id="organization_document"
-                            name="organization_document">
-                        <!-- Container to display the file preview -->
-                        <div id="file-preview" class="mt-3">
-
-                        </div>
+            
+                    <!-- Organization Document -->
+                    <div class="col-12 mb-3 position-relative">
+                        <label for="organization_document" class="form-label text-nowrap m-0">Organization Document&nbsp;
+                            <i class="fas fa-edit edit-icon" data-target="#organization_document"></i>
+                        </label>
+                        <input type="file" class="form-control member-profile-input" id="organization_document" name="organization_document" disabled> 
                     </div>
-                    <div class="col-12 mb-3">
+            
+                    <!-- Mission -->
+                    <div class="col-12 mb-3 position-relative">
                         <label for="mission" class="form-label">Mission</label>
-                        <textarea class="form-control member-profile-input" id="mission" name="mission" rows="3">{{ $member->memberInfos[0]['mission'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="mission" name="mission" rows="3" style="margin-bottom: -90px;">{{ $member->memberInfos[0]['mission'] ?? '' }}</textarea>
                     </div>
-                    <div class="col-12 mb-3">
+            
+                    <!-- Vision -->
+                    <div class="col-12 mb-3 position-relative">
                         <label for="vision" class="form-label">Vision</label>
-                        <textarea class="form-control member-profile-input" id="vision" name="vision" rows="3">{{ $member->memberInfos[0]['vision'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="vision" name="vision" rows="3" style="margin-bottom: -90px;">{{ $member->memberInfos[0]['vision'] ?? '' }}</textarea>
                     </div>
-                    <div class="col-12 mb-3">
+            
+                    <!-- Values -->
+                    <div class="col-12 mb-3 position-relative">
                         <label for="values" class="form-label">Values</label>
-                        <textarea class="form-control member-profile-input" id="values" name="values" rows="3">{{ $member->memberInfos[0]['value'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="values" name="values" rows="3" style="margin-bottom: -90px;">{{ $member->memberInfos[0]['value'] ?? '' }}</textarea>
                     </div>
-                    <div class="col-12 mb-3">
+            
+                    <!-- Work or Projects -->
+                    <div class="col-12 mb-3 position-relative">
                         <label for="work" class="form-label">Work or Projects</label>
-                        <textarea class="form-control member-profile-input" id="work" name="work" rows="3">{{ $member->memberInfos[0]['work'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="work" name="work" rows="3" style="margin-bottom: -90px;">{{ $member->memberInfos[0]['work'] ?? '' }}</textarea>
                     </div>
-                    <div class="col-12 mb-3">
+            
+                    <!-- History -->
+                    <div class="col-12 mb-3 position-relative">
                         <label for="history" class="form-label">History</label>
-                        <textarea class="form-control member-profile-input" id="history" name="history" rows="3">{{ $member->memberInfos[0]['history'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="history" name="history" rows="3" style="margin-bottom: -90px;">{{ $member->memberInfos[0]['history'] ?? '' }}</textarea>
                     </div>
-                    <div class="col-12 mb-3">
+            
+                    <!-- Other Description -->
+                    <div class="col-12 mb-3 position-relative">
                         <label for="other_description" class="form-label">Other Description</label>
-                        <textarea class="form-control member-profile-input" id="other_description" name="other_description" rows="3">{{ $member->memberInfos[0]['other_description'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="other_description" name="other_description" rows="3" style="margin-bottom: -90px;">{{ $member->memberInfos[0]['other_description'] ?? '' }}</textarea>
                     </div>
+            
+                    <!-- Submit Button -->
                     <div class="col-12 mb-3 text-end">
                         <button id="profilData-submit" class="submit-btn">Update</button>
                     </div>
                 </div>
-            </form>
+            </form>            
         </div>
         <div class="tab-pane fade" id="social-links" role="tabpanel" aria-labelledby="social-links-tab"
             tabindex="0">
             <form action="" id="social-form">
                 <div id="formContainer" class="row">
                     <div class="col-12 mb-3">
-                        <label for="facebook" class="form-label">Facebook</label>
+                        <label for="facebook" class="form-label">Facebook&nbsp;
+                            <i class="fas fa-edit edit-social-icon" data-target="#facebook"></i>
+                        </label>
                         <input type="text" readonly class="form-control member-profile-input" id="facebook" name="facebook"
                             placeholder="Facebook Link" value="{{ $member->memberInfos[0]['facebook'] ?? '' }}">
                     </div>
                     <div class="col-12 mb-3">
-                        <label for="twitter" class="form-label">Twitter</label>
+                        <label for="twitter" class="form-label">Twitter&nbsp;
+                            <i class="fas fa-edit edit-social-icon" data-target="#twitter"></i>
+                        </label>
                         <input type="text" readonly class="form-control member-profile-input" id="twitter" name="twitter"
                             placeholder="Twitter Link" value="{{ $member->memberInfos[0]['twitter'] ?? '' }}">
                     </div>
                     <div class="col-12 mb-3">
-                        <label for="linkedin" class="form-label">Linkedin</label>
+                        <label for="linkedin" class="form-label">Linkedin&nbsp;
+                            <i class="fas fa-edit edit-social-icon" data-target="#linkedin"></i>
+                        </label>
                         <input type="text" readonly class="form-control member-profile-input" id="linkedin" name="linkedin"
                             placeholder="Linkedin Link" value="{{ $member->memberInfos[0]['linkedin'] ?? '' }}">
                     </div>
                     <div class="col-12 mb-3">
-                        <label for="instagram" class="form-label">Instagram</label>
+                        <label for="instagram" class="form-label">Instagram&nbsp;
+                            <i class="fas fa-edit edit-social-icon" data-target="#instagram"></i>
+                        </label>
                         <input type="text" readonly class="form-control member-profile-input" id="instagram" placeholder="Instagram Link"
                             value="{{ $member->memberInfos[0]['instagram'] ?? '' }}">
                     </div>
                     <div class="col-12 mb-3">
-                        <label for="youtube" class="form-label">YouTube</label>
+                        <label for="youtube" class="form-label">YouTube&nbsp;
+                            <i class="fas fa-edit edit-social-icon" data-target="#youtube"></i>
+                        </label>
                         <input type="text" readonly class="form-control member-profile-input" id="youtube" name="youtube"
                             placeholder="YouTube Link" value="{{ $member->memberInfos[0]['youtube'] ?? '' }}">
                     </div>
@@ -640,6 +671,40 @@
                             $orgDirectorDiv.find('input').addClass('member-profile-input').prop('readonly', true);
                             
                             $orgCredenDiv.find('input:not([type="submit"])').addClass('member-profile-input').prop('readonly', true);
+                        }
+                    });
+                    
+                    $('.edit-icon').on('click', function() {
+                        var target = $(this).data('target');
+                        var $targetField = $(target);
+
+                        if ($targetField.is('textarea')) {
+                            // For text areas, just toggle readonly
+                            if ($targetField.prop('readonly')) {
+                                $targetField.prop('readonly', false);
+                            } else {
+                                $targetField.prop('readonly', true);
+                            }
+                        } else {
+                            // For other inputs, toggle readonly and disabled, and also handle class
+                            if ($targetField.prop('readonly') || $targetField.prop('disabled')) {
+                                $targetField.prop('readonly', false).prop('disabled', false).removeClass('member-profile-input');
+                            } else {
+                                $targetField.prop('readonly', true).prop('disabled', true).addClass('member-profile-input');
+                            }
+                        }
+                    });
+
+                    $('.edit-social-icon').on('click', function() {
+                        var target = $(this).data('target');
+                        var $targetField = $(target);
+                        // For other inputs, toggle readonly and disabled, and also handle class
+                        if ($targetField.prop('readonly') || $targetField.prop('disabled')) {
+                            $targetField.prop('readonly', false).prop('disabled', false).removeClass('member-profile-input');
+                            $('#social-submit').show();
+                        } else {
+                            $targetField.prop('readonly', true).prop('disabled', true).addClass('member-profile-input');
+                            $('#social-submit').hide();
                         }
                     });
                 });
