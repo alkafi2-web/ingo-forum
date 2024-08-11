@@ -31,7 +31,12 @@ class PostController extends Controller
             ->firstOrFail(); // Assuming the category slug is unique
 
         // Build the query for filtering posts
-        $query = $postCategory->posts()->where('posts.status', 1);
+        $query = $postCategory->posts()
+                      ->where('posts.status', 1)
+                      ->where(function($q) {
+                          $q->where('posts.approval_status', 1)
+                            ->orWhereNull('posts.approval_status');
+                      });
 
         // Apply filters if present
         // if ($request->input('search')) {
