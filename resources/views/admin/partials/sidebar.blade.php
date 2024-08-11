@@ -408,7 +408,7 @@
                             <span class="menu-arrow"></span>
                         </span>
                         <div
-                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'file.create' || Route::currentRouteName() == 'file.list' || Route::currentRouteName() == 'event.attendee.list' ? 'hover show' : '' }}">
+                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'file.create' || Route::currentRouteName() == 'file.list' ? 'hover show' : '' }}">
                             @can('event-view')
                                 <a class="menu-item menu-accordion" href="{{ route('file.create') }}">
                                     <span class="menu-link {{ Route::currentRouteName() == 'file.create' ? 'active' : '' }}">
@@ -429,7 +429,7 @@
                                     </span>
                                 </a>
                             @endcan
-                            <a class="menu-item menu-accordion" href="{{ route('event.request.list') }}">
+                            {{-- <a class="menu-item menu-accordion" href="{{ route('event.request.list') }}">
                                 <span class="menu-link {{ Route::currentRouteName() == 'event.request.list' || Route::currentRouteName() == 'event.request.view' ? 'active' : '' }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
@@ -441,7 +441,7 @@
                                         @endif
                                     </div>
                                 </span>
-                            </a>
+                            </a> --}}
                             <a class="menu-item menu-accordion" href="{{ route('file.category') }}">
                                 <span class="menu-link {{ Route::currentRouteName() == 'file.category' ? 'active' : '' }}">
                                     <span class="menu-bullet">

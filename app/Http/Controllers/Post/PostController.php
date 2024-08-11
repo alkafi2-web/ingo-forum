@@ -306,7 +306,7 @@ class PostController extends Controller
         if (!Auth::guard('admin')->user()->hasPermissionTo('post-view-all')) {
             abort(401);
         }
-        $posts = Post::with('category', 'subcategory', 'addedBy', 'addedBy_member')->where('member_id',  null)->where('status',0)->latest();
+        $posts = Post::with('category', 'subcategory', 'addedBy', 'addedBy_member')->where('member_id', '!=', null)->where('approval_status',0)->latest();
         if ($request->ajax()) {
             $category = $request->category;
             $subcategory = $request->subcategory;
