@@ -197,7 +197,7 @@
             <p>{!! $global['aboutus_content']->description ?? 'Please Upload It From Admin' !!}</p> --}}
                             </div>
                             @php
-                                if ($global['latest_event']->creator->info) {
+                                if ($global['latest_event']->creator->info && $global['latest_event']) {
                                     $route = route('frontend.member.show', $global['latest_event']->creator->info->membership_id);
                                 } else {
                                     $route = "javascript:void(0)";
