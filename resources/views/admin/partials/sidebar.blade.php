@@ -390,7 +390,7 @@
                 @endif
                 @if (Auth::guard('admin')->user()->hasAnyPermission(['event-view']))
                     <div data-kt-menu-trigger="click"
-                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'file.category' || Route::currentRouteName() == 'file.subcategory' || Route::currentRouteName() == 'event.request.view' ? 'hover show' : '' }}">
+                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'file.category' || Route::currentRouteName() == 'file.subcategory' || Route::currentRouteName() == 'file.create' || Route::currentRouteName() == 'file.list' ? 'hover show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -408,10 +408,10 @@
                             <span class="menu-arrow"></span>
                         </span>
                         <div
-                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'event' || Route::currentRouteName() == 'event.request.list' || Route::currentRouteName() == 'event.attendee.list' ? 'hover show' : '' }}">
+                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'file.create' || Route::currentRouteName() == 'file.list' || Route::currentRouteName() == 'event.attendee.list' ? 'hover show' : '' }}">
                             @can('event-view')
-                                <a class="menu-item menu-accordion" href="{{ route('event') }}">
-                                    <span class="menu-link {{ Route::currentRouteName() == 'event' ? 'active' : '' }}">
+                                <a class="menu-item menu-accordion" href="{{ route('file.create') }}">
+                                    <span class="menu-link {{ Route::currentRouteName() == 'file.create' ? 'active' : '' }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -420,8 +420,8 @@
                                 </a>
                             @endcan
                             @can('event-view')
-                                <a class="menu-item menu-accordion" href="{{ route('event') }}">
-                                    <span class="menu-link {{ Route::currentRouteName() == 'event' ? 'active' : '' }}">
+                                <a class="menu-item menu-accordion" href="{{ route('file.list') }}">
+                                    <span class="menu-link {{ Route::currentRouteName() == 'file.list' ? 'active' : '' }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>

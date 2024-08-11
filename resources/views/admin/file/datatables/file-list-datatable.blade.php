@@ -1,30 +1,27 @@
 <div class="table-responsive table-container">
     <!--begin::Table-->
     <table class="table election-datatable align-middle table-bordered fs-6 gy-5 m-auto display responsive"
-        id="publication-list-data">
+        id="file-list-data">
         <!--begin::Table head-->
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Category') }}
-                </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Title') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Author') }}
+                    {{ __('Category') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Publisher') }}
+                    {{ __('Subcategory') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Publish Date') }}
+                    {{ __('Description') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('File') }}
                 </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Image') }}
+                <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                    {{ __('Added By') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Status') }}
@@ -46,24 +43,25 @@
     <script>
         $('#reset-filters').click(function() {
             $('#category').val('');
-            $('#author').val('');
-            $('#publisher').val('');
+            $('#subcategory').val('');
             $('#status_filter').val('');
             $('#member').val('');
             $('#user').val('');
-            $('#publication-list-data').DataTable().ajax.reload(null, false);
+            $('#file-list-data').DataTable().ajax.reload(null, false);
+            // Optionally trigger a search or data reload if needed
+            // e.g., $('#yourTableId').DataTable().ajax.reload();
         });
         $(document).ready(function() {
-            var table = $('#publication-list-data').DataTable({
+            var table = $('#file-list-data').DataTable({
                 processing: true,
                 serverSide: true,
+
                 ajax: {
-                    url: "{{ route('publication.list') }}",
+                    url: "{{ route('file.list') }}",
                     type: 'GET',
                     data: function(data) {
                         data.category = $('#category').val();
-                        data.author = $('#author').val();
-                        data.publisher = $('#publisher').val();
+                        data.subcategory = $('#subcategory').val();
                         data.member_id = $('#member').val();
                         data.user_id = $('#user').val();
                         data.status = $('#status_filter').val();
@@ -76,36 +74,30 @@
                 columns: [{
                         orderable: true,
                         sortable: false,
-                        data: 'category_name',
-                        name: 'category_name'
-                    },
-                    {
-                        orderable: true,
-                        sortable: false,
                         data: 'title',
                         name: 'title'
                     },
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'author',
-                        name: 'author'
+                        data: 'category_name',
+                        name: 'category_name'
                     },
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'publisher',
-                        name: 'publisher'
+                        data: 'subcategory_name',
+                        name: 'subcategory_name'
                     },
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'publish_date',
-                        name: 'publish_date'
+                        data: 'description',
+                        name: 'description'
                     },
                     {
-                        data: 'file',
-                        name: 'file',
+                        data: 'attachment',
+                        name: 'attachment',
                         orderable: true,
                         sortable: false,
                         render: function(data, type, row) {
@@ -113,7 +105,7 @@
                                 return ''; // No file
                             }
 
-                            let basePath = '{{ asset('public/frontend/images/publication/') }}/';
+                            let basePath = '{{ asset('public/frontend/images/files/') }}/';
                             let fileExtension = data.split('.').pop().toLowerCase();
                             let icon;
                             let color;
@@ -147,15 +139,12 @@
                         }
                     },
                     {
-                        data: 'image',
-                        name: 'image',
                         orderable: true,
                         sortable: false,
-                        render: function(data, type, row) {
-                            let basePath = '{{ asset('public/frontend/images/publication/') }}/'
-                            return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
-                        }
+                        data: 'creator',
+                        name: 'creator'
                     },
+
                     {
                         data: 'status',
                         name: 'status',
@@ -172,9 +161,10 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            var editRoute = '{{ route('publication.edit', ':id') }}'.replace(':id', row
+                            var editRoute = '{{ route('file.edit', ':id') }}'.replace(':id', row
                                 .id);
                             return `<div style="display: flex; align-items: center;">
+
                             <a href="${editRoute}" class="edit text-primary mr-2 me-2" data-id="${row.id}" style="margin-right: 10px;">
                                 <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
                             </a>
@@ -225,7 +215,7 @@
                 responsive: true,
 
             });
-            $('#category, #author, #publisher, #status_filter, #member, #user').on('change', function() {
+            $('#category, #subcategory, #status_filter, #member, #user').on('change', function() {
                 table.ajax.reload(null, false);
             });
         });
@@ -233,11 +223,11 @@
             e.preventDefault(); // Prevent default link behavior
 
             var id = $(this).attr('data-id');
-            var url = "{{ route('publication.delete') }}";
+            var url = "{{ route('file.delete') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will delete this publication!',
+                text: 'This action will delete this file!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',
@@ -252,16 +242,17 @@
                 }
             });
         });
+        
         $(document).on('click', '.status', function(e) {
             e.preventDefault(); // Prevent default link behavior
 
             var id = $(this).attr('data-id'); // Get the URL from the href attribute
             var status = $(this).attr('data-status');
-            var url = "{{ route('publication.status') }}";
+            var url = "{{ route('file.status') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will change status of this publication!',
+                text: 'This action will change status of this file!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, Change it!',
@@ -276,6 +267,7 @@
                 }
             });
         });
+
         function sendAjaxReq(id, status, url) {
             var requestData = {
                 id: id,
@@ -295,7 +287,7 @@
                 data: requestData, // You can send additional data if needed
                 success: function(response) {
 
-                    $('#publication-list-data').DataTable().ajax.reload(null, false);
+                    $('#file-list-data').DataTable().ajax.reload(null, false);
                     // Swal.fire('Success!', response.success,
                     //     'success');
                     toastr.success(response.success);

@@ -15,7 +15,7 @@
         <div class="tab-pane fade show active" id="all-event" role="tabpanel" aria-labelledby="all-event-tab" tabindex="0">
             <div class="table-responsive table-container ">
                 <!--begin::Table-->
-                <table class="table election-datatable w-100 align-middle table-bordered fs-14px gy-5 m-auto display responsive" id="event-data">
+                <table class="table election-datatable w-100 align-middle table-bordered fs-14px gy-5 m-auto display" id="event-data">
                     <!--begin::Table head-->
                     <thead>
                         <th class="fw-bold text-dark" style="font-weight: 900">
@@ -47,35 +47,6 @@
                 </table>
                 <!--end::Table-->
             </div>
-            <table class="table table-hover d-none table-sm align-middle fs-6 gy-5 m-auto table-responsive" id="event-data"
-                style="width: 100%;">
-                <thead>
-                    <th class="fw-bold text-dark" style="font-weight: 900">
-                        {{ __('Title') }}
-                    </th>
-                    {{-- <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                        {{ __('Details') }}
-                    </th> --}}
-                    <th class="min-w-150px fw-bold text-dark" style="font-weight: 900">
-                        {{ __('Event Date') }}
-                    </th>
-                    <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
-                        {{ __('Event Image') }}
-                    </th>
-                    <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
-                        {{ __('Status') }}
-                    </th>
-                    <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
-                        {{ __('Approval Status') }}
-                    </th>
-                    <th class="text-end min-w-100px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
-                        {{ __('Action') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
         </div>
         <div class="tab-pane fade " id="add-event" role="tabpanel" aria-labelledby="add-event-tab" tabindex="0">
             <form id="eventForm" action="" method="POST" enctype="multipart/form-data">
@@ -309,6 +280,7 @@
             if ($('#toggle-deadline').is(':checked')) {
                 $('#deadline-container').show(); // Show the deadline input
             }
+
             var table = $('#event-data').DataTable({
                 processing: true,
                 serverSide: true,
@@ -488,7 +460,7 @@
                         orderable: true
                     }
                 ],
-                responsive: true
+                // responsive: true
 
             });
         });

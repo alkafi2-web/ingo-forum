@@ -5,12 +5,14 @@ namespace App\Http\Controllers\File;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\FileCategory;
-use Faker\Core\File;
+use App\Models\FileNgo;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class FileController extends Controller
 {
@@ -210,7 +212,7 @@ class FileController extends Controller
 
     public function subcategoryUpdate(Request $request)
     {
-        
+
         // Find the subcategory by ID or throw an exception if not found
         $subcategory = FileCategory::findOrFail($request->id);
 
@@ -252,4 +254,196 @@ class FileController extends Controller
         return response()->json(['success' => ['success' => 'File Sub Category saved successfully!']]);
     }
     // sub category end
+
+    // file start
+    public function fileCreate()
+    {
+        $categories = FileCategory::where('parent_id', 0)
+            ->where('status', 1)
+            ->with(['subcategories' => function ($query) {
+                $query->where('status', 1);
+            }])
+            ->get();
+        return view('admin.file.file-create', compact('categories'));
+    }
+
+    public function fileStore(Request $request)
+    {
+        // Define custom error messages
+        $messages = [
+            'category.required' => 'The category field is required.',
+            'title.required' => 'The title field is required.',
+            'short_description.required' => 'The short description field is required.',
+            'file.required' => 'The file field is required.',
+            'file.mimes' => 'The file must be a type of: jpg, png, pdf, docx, ppt.',
+        ];
+
+        // Define validation rules
+        $validator = Validator::make($request->all(), [
+            'category' => 'required',
+            'title' => 'required|string|max:255',
+            'short_description' => 'nullable|string|max:500',
+            'file' => 'required|mimes:jpg,png,pdf,docx,ppt|max:2048', // Adjust max size as needed
+        ], $messages);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+
+        // Proceed with storing the data
+        $fileCategory = new FileNgo();
+        $fileCategory->category_id = $request->category;
+        $fileCategory->subcategory_id = $request->subcategory;
+        $fileCategory->title = $request->title;
+        $fileCategory->description = $request->short_description;
+        $fileCategory->creator_type = $request->creator_type;
+        $fileCategory->creator_id = $request->creator_type == '\App\Models\User' ? Auth::guard('admin')->id() : Auth::guard('member')->id();
+
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filename = Str::slug($request->title, '-') . '.' . $file->getClientOriginalExtension();
+            $dir = public_path('/frontend/images/files/');
+            if (!File::exists($dir)) {
+                File::makeDirectory($dir, 0755, true);
+            }
+            $file->move($dir, $filename);
+            $fileCategory->attachment = $filename;
+        }
+        $fileCategory->save();
+        return response()->json(['success' => ['success' => 'You have successfully Create File!']]);
+    }
+
+    public function fileList(Request $request)
+    {
+        if ($request->ajax()) {
+            $files = FileNgo::with(['category', 'subcategory', 'creator'])
+                ->latest()
+                ->get();
+
+            return DataTables::of($files)
+                ->addColumn('category_name', function ($file) {
+                    return $file->category->name ?? 'N/A';
+                })
+                ->addColumn('subcategory_name', function ($file) {
+                    return $file->subcategory->name ?? 'N/A';
+                })
+                ->addColumn('creator', function ($file) {
+                    return $file->creator->name ?? 'N/A';
+                })
+                ->make(true);
+        }
+        return view('admin.file.file-list');
+    }
+
+    public function fileDelete(Request $request)
+    {
+        $file = FileNgo::findOrFail($request->id);
+        $filepath = public_path('/frontend/images/files/') . $file->attachment;
+        // Delete the image file if it exists
+        if (file_exists($filepath)) {
+            unlink($filepath);
+        }
+
+        // Delete the banner record
+        $file->delete();
+        Helper::log("$file->title file delete");
+        return response()->json(['success' => 'File deleted successfully']);
+    }
+
+
+    public function fileStatus(Request $request)
+    {
+        // Find the banner by ID or throw an exception if not found
+        $file = FileNgo::findOrFail($request->id);
+
+        // Toggle the status
+        $newStatus = $request->status == 0 ? 1 : 0;
+
+        // Update the status attribute
+        $file->status = $newStatus;
+
+        // Save the changes to the database
+        $file->save();
+        $statusMessage = $newStatus == 0 ? "Unpublished $file->title file" : "Published $file->title file";
+        Helper::log($statusMessage);
+        return response()->json(['success' => 'File status updated successfully']);
+    }
+
+    public function fileEdit($id)
+    {
+        $categories = FileCategory::where('parent_id', 0)
+            ->where('status', 1)
+            ->with(['subcategories' => function ($query) {
+                $query->where('status', 1);
+            }])
+            ->get();
+        $subcategories = FileCategory::where('parent_id', '!=', 0)->latest()->get();
+
+        $file = FileNgo::with(['category', 'subcategory'])->where('id', $id)->firstOrFail();
+        return view('admin.file.file-edit', [
+            'file' => $file,
+            'categories' => $categories,
+            'subcategories' => $subcategories,
+        ]);
+    }
+
+    public function fileUpdate(Request $request)
+    {
+        // Define custom error messages
+        $messages = [
+            'category.required' => 'The category field is required.',
+            'title.required' => 'The title field is required.',
+            'short_description.required' => 'The short description field is required.',
+            'file.required' => 'The file field is required.',
+            'file.mimes' => 'The file must be a type of: jpg, png, pdf, docx, ppt.',
+        ];
+
+        // Define validation rules
+        $validator = Validator::make($request->all(), [
+            'category' => 'required',
+            'title' => 'required|string|max:255',
+            'short_description' => 'nullable|string|max:500',
+            'file' => 'nullable|mimes:jpg,png,pdf,docx,ppt|max:2048', // file is optional for update
+        ], $messages);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $fileUpdate = FileNgo::findOrFail($request->id); // Update
+
+        // Populate the model with form data
+        $fileUpdate->category_id = $request->category;
+        $fileUpdate->subcategory_id = $request->subcategory;
+        $fileUpdate->title = $request->title;
+        $fileUpdate->description = $request->short_description;
+
+
+        // Handle file upload if a new file is provided
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filename = Str::slug($request->title, '-') . '.' . $file->getClientOriginalExtension();
+            $dir = public_path('/frontend/images/files/');
+            if (!File::exists($dir)) {
+                File::makeDirectory($dir, 0755, true);
+            }
+            $bannerImagePath = $dir . $fileUpdate->attachment;
+            // Delete the image file if it exists
+            if (file_exists($bannerImagePath)) {
+                unlink($bannerImagePath);
+            }
+            $file->move($dir, $filename);
+            $fileUpdate->attachment = $filename;
+        }
+
+        // Save or update the file record
+        $fileUpdate->save();
+
+        Helper::log("$request->title file updated");
+        return response()->json(['success' => ['success' => 'File Update Successfully']]);
+    }
+    // file end
 }

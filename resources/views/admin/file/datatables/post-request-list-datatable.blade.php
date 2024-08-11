@@ -1,34 +1,34 @@
 <div class="table-responsive table-container">
     <!--begin::Table-->
     <table class="table election-datatable align-middle table-bordered fs-6 gy-5 m-auto display responsive"
-        id="publication-list-data">
+        id="post-list-data">
         <!--begin::Table head-->
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Category') }}
-                </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Title') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Author') }}
+                    {{ __('Category') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Publisher') }}
+                    {{ __('Subcategory') }}
+                </th>
+                {{-- <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                    {{ __('Description') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Publish Date') }}
-                </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('File') }}
-                </th>
-                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('Image') }}
+                    {{ __('Banner') }}
+                </th> --}}
+                <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                    {{ __('Added By') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
-                    {{ __('Status') }}
+                    {{ __('Approved Status') }}
                 </th>
+                {{-- <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                    {{ __('Status') }}
+                </th> --}}
                 <th class="text-end min-w-140px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
                     {{ __('Action') }}</th>
             </tr>
@@ -46,24 +46,24 @@
     <script>
         $('#reset-filters').click(function() {
             $('#category').val('');
-            $('#author').val('');
-            $('#publisher').val('');
+            $('#subcategory').val('');
             $('#status_filter').val('');
             $('#member').val('');
             $('#user').val('');
-            $('#publication-list-data').DataTable().ajax.reload(null, false);
+            $('#post-list-data').DataTable().ajax.reload(null, false);
+            // Optionally trigger a search or data reload if needed
+            // e.g., $('#yourTableId').DataTable().ajax.reload();
         });
         $(document).ready(function() {
-            var table = $('#publication-list-data').DataTable({
+            var table = $('#post-list-data').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('publication.list') }}",
+                    url: "{{ route('post.request.list') }}",
                     type: 'GET',
                     data: function(data) {
                         data.category = $('#category').val();
-                        data.author = $('#author').val();
-                        data.publisher = $('#publisher').val();
+                        data.subcategory = $('#subcategory').val();
                         data.member_id = $('#member').val();
                         data.user_id = $('#user').val();
                         data.status = $('#status_filter').val();
@@ -76,108 +76,97 @@
                 columns: [{
                         orderable: true,
                         sortable: false,
-                        data: 'category_name',
-                        name: 'category_name'
-                    },
-                    {
-                        orderable: true,
-                        sortable: false,
                         data: 'title',
                         name: 'title'
                     },
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'author',
-                        name: 'author'
+                        data: 'category_name',
+                        name: 'category_name'
                     },
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'publisher',
-                        name: 'publisher'
+                        data: 'subcategory_name',
+                        name: 'subcategory_name'
                     },
                     {
                         orderable: true,
                         sortable: false,
-                        data: 'publish_date',
-                        name: 'publish_date'
+                        data: 'added_by_member',
+                        name: 'added_by_member'
                     },
                     {
-                        data: 'file',
-                        name: 'file',
-                        orderable: true,
-                        sortable: false,
-                        render: function(data, type, row) {
-                            if (!data) {
-                                return ''; // No file
-                            }
-
-                            let basePath = '{{ asset('public/frontend/images/publication/') }}/';
-                            let fileExtension = data.split('.').pop().toLowerCase();
-                            let icon;
-                            let color;
-
-                            // Determine icon and color based on file extension
-                            if (fileExtension === 'pdf') {
-                                icon = 'fas fa-file-pdf';
-                                color = '#d9534f'; // Red
-                            } else if (['doc', 'docx'].includes(fileExtension)) {
-                                icon = 'fas fa-file-word';
-                                color = '#007bff'; // Blue
-                            } else if (['ppt', 'pptx'].includes(fileExtension)) {
-                                icon = 'fas fa-file-powerpoint';
-                                color = '#fd7e14'; // Orange
-                            } else if (['jpg', 'jpeg', 'png'].includes(fileExtension)) {
-                                icon = 'fas fa-file-image';
-                                color = '#28a745'; // Green
-                            } else if (fileExtension === 'zip') {
-                                icon = 'fas fa-file-archive';
-                                color = '#6c757d'; // Gray
-                            } else {
-                                icon = 'fas fa-file'; // Default icon
-                                color = '#343a40'; // Dark Gray
-                            }
-
-                            return `
-                                <a href="${basePath + data}" target="_blank">
-                                    <i class="${icon}" style="font-size: 20px; color: ${color};" aria-hidden="true"></i> ${data}
-                                </a>
-                            `;
-                        }
-                    },
-                    {
-                        data: 'image',
-                        name: 'image',
+                        data: 'approval_status',
+                        name: 'approval_status',
                         orderable: true,
                         sortable: false,
                         render: function(data, type, row) {
-                            let basePath = '{{ asset('public/frontend/images/publication/') }}/'
-                            return `<img src="${basePath + data}" alt="Image" style="width: 100px; height: 100px; object-fit:contain;">`;
-                        }
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: true,
-                        sortable: false,
-                        render: function(data, type, row) {
+                            // Function to generate badge class and text
+                            const getBadge = (status) => {
+                                const statusMap = {
+                                    0: {
+                                        class: 'bg-warning',
+                                        text: 'Pending'
+                                    },
+                                    1: {
+                                        class: 'bg-success',
+                                        text: 'Approved'
+                                    },
+                                    2: {
+                                        class: 'bg-danger',
+                                        text: 'Suspended'
+                                    },
+                                    3: {
+                                        class: 'bg-danger',
+                                        text: 'Rejected'
+                                    }
+                                };
 
-                            return `<span class="status badge badge-light-${data == 1 ? 'success' : 'danger'}" data-status="${data}" data-id="${row.id}">${data == 1 ? 'Published' : 'Unpublished'}</span>`;
+                                // Return the status badge or default to 'Unknown'
+                                return statusMap[status] || {
+                                    class: 'bg-light',
+                                    text: 'Unknown'
+                                };
+                            };
+
+                            const badge = getBadge(data);
+
+                            return `<span class="badge ${badge.class}" data-status="${data}" data-id="${row.id}">${badge.text}</span>`;
                         }
                     },
+                    // {
+                    //     data: 'status',
+                    //     name: 'status',
+                    //     orderable: true,
+                    //     sortable: false,
+                    //     render: function(data, type, row) {
+
+                    //         return `<span class="status badge badge-light-${data == 1 ? 'success' : 'danger'}" data-status="${data}" data-id="${row.id}">${data == 1 ? 'Published' : 'Unpublished'}</span>`;
+                    //     }
+                    // },
                     {
                         data: null,
                         name: 'actions',
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            var editRoute = '{{ route('publication.edit', ':id') }}'.replace(':id', row
-                                .id);
+
+                            var requestPostRoute =
+                                '{{ route('post.request.view', ['categorySlug' => ':categorySlug', 'postSlug' => ':postSlug']) }}'
+                                .replace(':categorySlug', row.category_slug)
+                                .replace(':postSlug', row.slug);
+
+
                             return `<div style="display: flex; align-items: center;">
-                            <a href="${editRoute}" class="edit text-primary mr-2 me-2" data-id="${row.id}" style="margin-right: 10px;">
-                                <i class="fas fa-edit text-primary" style="font-size: 16px;"></i>
+
+                            
+                            
+                            <a href="${requestPostRoute}" class="view text-info mr-2 me-2" data-id="${row.id}">
+                                <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
                             </a>
+                            
                             <a href="javascript:void(0)" class="text-danger delete" data-id="${row.id}" style="margin-right: 10px;">
                                 <i class="fas fa-trash text-danger" style="font-size: 16px;"></i>
                             </a>
@@ -225,7 +214,7 @@
                 responsive: true,
 
             });
-            $('#category, #author, #publisher, #status_filter, #member, #user').on('change', function() {
+            $('#category, #subcategory, #status_filter, #member, #user').on('change', function() {
                 table.ajax.reload(null, false);
             });
         });
@@ -233,14 +222,37 @@
             e.preventDefault(); // Prevent default link behavior
 
             var id = $(this).attr('data-id');
-            var url = "{{ route('publication.delete') }}";
+            var url = "{{ route('post.delete') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will delete this publication!',
+                text: 'This action will delete this Post!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Send AJAX request
+                    // sendAjaxRequest(url, row);
+
+                    sendAjaxReq(id, status = null, url);
+                }
+            });
+        });
+        $(document).on('click', '.comment', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+
+            var id = $(this).attr('data-id');
+            var url = "{{ route('post.comment') }}";
+            // Show SweetAlert confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This action will be change comment permission this Post!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, change it!',
                 cancelButtonText: 'No, cancel!',
                 reverseButtons: true
             }).then((result) => {
@@ -257,11 +269,11 @@
 
             var id = $(this).attr('data-id'); // Get the URL from the href attribute
             var status = $(this).attr('data-status');
-            var url = "{{ route('publication.status') }}";
+            var url = "{{ route('post.status') }}";
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'This action will change status of this publication!',
+                text: 'This action will change status of this Post!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, Change it!',
@@ -276,6 +288,7 @@
                 }
             });
         });
+
         function sendAjaxReq(id, status, url) {
             var requestData = {
                 id: id,
@@ -295,7 +308,7 @@
                 data: requestData, // You can send additional data if needed
                 success: function(response) {
 
-                    $('#publication-list-data').DataTable().ajax.reload(null, false);
+                    $('#post-list-data').DataTable().ajax.reload(null, false);
                     // Swal.fire('Success!', response.success,
                     //     'success');
                     toastr.success(response.success);

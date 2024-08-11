@@ -208,26 +208,22 @@ Route::prefix('admin')->group(function () {
                 Route::post('/sub-category-edit', [FileController::class, 'subcategoryEdit'])->name('file.subcategory.edit');
                 Route::post('/sub-category-update', [FileController::class, 'subcategoryUpdate'])->name('file.subcategory.update');
             });
-            // Route::prefix('/')->group(function () {
-            //     Route::get('/', [PostController::class, 'postCreate'])->name('post.create');
-            //     Route::get('/list', [PostController::class, 'postList'])->name('post.list');
+            Route::get('/', [FileController::class, 'fileCreate'])->name('file.create');
+            Route::get('/list', [FileController::class, 'fileList'])->name('file.list');
+            Route::get('/edit/{id}', [FileController::class, 'fileEdit'])->name('file.edit');
+            Route::get('/request/list', [PostController::class, 'postRequestList'])->name('post.request.list');
 
-            //     Route::get('/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
-
-            //     Route::get('/request/list', [PostController::class, 'postRequestList'])->name('post.request.list');
-
-            //     Route::middleware('adminOrMember')->withoutMiddleware('admin')->group(function () {
-            //         Route::post('/comment', [PostController::class, 'postComment'])->name('post.comment');
-            //         Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');
-            //         Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
-            //         Route::post('/store', [PostController::class, 'postStore'])->name('post.store');
-            //         Route::post('/update', [PostController::class, 'postUpdate'])->name('post.update');
-            //         Route::get('/request/view/{categorySlug}/{postSlug}', [PostController::class, 'postRequestView'])->name('post.request.view');
-            //         Route::post('/approved', [PostController::class, 'approved'])->name('post.approved');
-            //         Route::post('/reject', [PostController::class, 'reject'])->name('post.reject');
-            //         Route::post('/suspended', [PostController::class, 'suspended'])->name('post.suspend');
-            //     });
-            // });
+            Route::middleware('adminOrMember')->withoutMiddleware('admin')->group(function () {
+                
+                Route::post('/status', [FileController::class, 'fileStatus'])->name('file.status');
+                Route::post('/delete', [FileController::class, 'fileDelete'])->name('file.delete');
+                Route::post('/store', [FileController::class, 'fileStore'])->name('file.store');
+                Route::post('/update', [FileController::class, 'fileUpdate'])->name('file.update');
+                // Route::get('/request/view/{categorySlug}/{postSlug}', [PostController::class, 'postRequestView'])->name('post.request.view');
+                // Route::post('/approved', [PostController::class, 'approved'])->name('post.approved');
+                // Route::post('/reject', [PostController::class, 'reject'])->name('post.reject');
+                // Route::post('/suspended', [PostController::class, 'suspended'])->name('post.suspend');
+            });
         });
         // file menagement route end
 
