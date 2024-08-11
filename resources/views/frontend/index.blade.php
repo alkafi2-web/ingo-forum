@@ -144,7 +144,7 @@
     </section>
     <!-- About Us Section End  -->
     <!-- Member Section Start  -->
-    @if ($global['membersInfos']->count() > 0)
+    @if ($global['membersInfos']->count())
         <section class="member-section">
             <div class="container">
                 <div class="row">
@@ -174,7 +174,7 @@
     @endif
     <!-- Member Section End  -->
     <!-- Events Section Start  -->
-    @if ($global['events']->count() > 0)
+    @if ($global['events']->count())
         <section class="events-area ptb-70">
             <div class="container">
                 <div class="row">
@@ -198,18 +198,26 @@
                             </div>
                             @php
                                 if ($global['latest_event']->creator->info) {
-                                    $route = route('frontend.member.show', $global['latest_event']->creator->info->membership_id);
+                                    $route = route(
+                                        'frontend.member.show',
+                                        $global['latest_event']->creator->info->membership_id,
+                                    );
                                 } else {
-                                    $route = "javascript:void(0)";
+                                    $route = 'javascript:void(0)';
                                 }
                             @endphp
                             <div class="single-event">
-                                <span class="mini-title mb-2 d-block"><a href="{{ $route }}" class="text-warning text-decoration-none"><i class="fas fa-feather"></i>&nbsp;{{ $global['latest_event']->creator->name??$global['latest_event']->creator->info->organisation_name }}</a> &nbsp; 
+                                <span class="mini-title mb-2 d-block"><a href="{{ $route }}"
+                                        class="text-warning text-decoration-none"><i
+                                            class="fas fa-feather"></i>&nbsp;{{ $global['latest_event']->creator->name ?? $global['latest_event']->creator->info->organisation_name }}</a>
+                                    &nbsp;
                                     @if ($global['latest_event']->reg_enable_status == 1)
-                                    <i class="fas fa-users text-success"></i> <span class="text-success">{{ $global['latest_event']->participants->count() }}</span>
+                                        <i class="fas fa-users text-success"></i> <span
+                                            class="text-success">{{ $global['latest_event']->participants->count() }}</span>
                                     @endif
                                 </span>
-                                <h4 class="event-title"><a href="{{ route('frontend.event.show', $global['latest_event']->slug) }}">{{ $global['latest_event']->title ?? '' }}</a>
+                                <h4 class="event-title"><a
+                                        href="{{ route('frontend.event.show', $global['latest_event']->slug) }}">{{ $global['latest_event']->title ?? '' }}</a>
                                 </h4>
                                 <p class="line-clamp-3">{{ Str::limit($global['latest_event']->details ?? '', 200) }}</p>
                                 <div class="event-date-time py-2">
@@ -237,30 +245,37 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="{{ route('frontend.event.show', $global['latest_event']->slug) }}" class="ct-btn btn-yellow d-block mt-3">View Details</a>
+                                <a href="{{ route('frontend.event.show', $global['latest_event']->slug) }}"
+                                    class="ct-btn btn-yellow d-block mt-3">View Details</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="row gy-3">
                             @forelse ($global['events'] as $event)
-                            @php
-                                if ($event->creator->info) {
-                                    $route = route('frontend.member.show', $event->creator->info->membership_id);
-                                } else {
-                                    $route = "javascript:void(0)";
-                                }
-                            @endphp
+                                @php
+                                    if ($event->creator->info) {
+                                        $route = route('frontend.member.show', $event->creator->info->membership_id);
+                                    } else {
+                                        $route = 'javascript:void(0)';
+                                    }
+                                @endphp
                                 <div class="col-12">
                                     <div class="event-item">
                                         <div class="row">
                                             <div class="col-9">
-                                                <span class="mini-title mb-2 d-block"><a href="{{ $route }}" class="text-warning text-decoration-none"><i class="fas fa-feather"></i>&nbsp;{{ $event->creator->name??$event->creator->info->organisation_name }}</a> &nbsp; 
+                                                <span class="mini-title mb-2 d-block"><a href="{{ $route }}"
+                                                        class="text-warning text-decoration-none"><i
+                                                            class="fas fa-feather"></i>&nbsp;{{ $event->creator->name ?? $event->creator->info->organisation_name }}</a>
+                                                    &nbsp;
                                                     @if ($event->reg_enable_status == 1)
-                                                    <i class="fas fa-users text-success"></i> <span class="text-success">{{ $event->participants->count() }}</span>
+                                                        <i class="fas fa-users text-success"></i> <span
+                                                            class="text-success">{{ $event->participants->count() }}</span>
                                                     @endif
                                                 </span>
-                                                <h4 class="event-title"><a href="{{ route('frontend.event.show', $event->slug) }}">{{ $event->title }}</a></h4>
+                                                <h4 class="event-title"><a
+                                                        href="{{ route('frontend.event.show', $event->slug) }}">{{ $event->title }}</a>
+                                                </h4>
                                                 <p class="line-clamp-2 mb-0 pb-1">{{ Str::limit($event->details, 150) }}
                                                 </p>
                                             </div>
@@ -312,7 +327,7 @@
     @endif
     <!-- Events Section End  -->
     <!-- Blog Section Start  -->
-    @if ($global['posts']->count() > 0)
+    @if ($global['posts']->count())
         <section class="blog-section ptb-70 bg-gray">
             <div class="container">
                 <div class="row">
@@ -375,7 +390,8 @@
                                                         alt="">
                                                     <div class="ms-2">
                                                         <span class="d-block fw-semibold">By:</span>
-                                                        <span class="blog-date-admin">{{ $post->addedBy->name??$post->addedBy_member->organisation_name }}</span>
+                                                        <span
+                                                            class="blog-date-admin">{{ $post->addedBy->name ?? $post->addedBy_member->organisation_name }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -501,7 +517,7 @@
     @endif
     <!-- Blog Section End  -->
     <!-- Publication Section Start  -->
-    @if ($global['publications']->count() > 0)
+    @if ($global['publications']->count())
         <section class="blog-section ptb-70 bg-gray">
             <div class="container">
                 <div class="row">
@@ -572,7 +588,7 @@
     @endif
     <!-- publication Section End  -->
     <!-- Photo Gallery Section start  -->
-    @if ($global['albums']->count() > 0)
+    @if ($global['albums']->count())
         <section class="gallery-section ptb-70">
             <div class="container">
                 <div class="row">
@@ -646,7 +662,7 @@
     @endif
     <!-- Photo Gallery Section End  -->
     <!-- Video Section start  -->
-    @if ($global['videos']->count() > 0)
+    @if ($global['videos']->count())
         <section class="video-gallery ptb-70 bg-gray">
             <div class="container">
                 <div class="row">
@@ -765,40 +781,40 @@
 @endsection
 
 @push('custom-js')
-<script>
-  $(document).ready(function() {
-      $('#subscribe').on('click', function(e) {
-          e.preventDefault();
-          let url = "{{ route('frontend.newslater.store') }}";
-          let formData = new FormData($('#newslaterForm')[0]);
-          $.ajax({
-              type: 'POST',
-              url: url,
-              data: formData,
-              processData: false, // Prevent jQuery from processing the data
-              contentType: false,
-              headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              },
-              success: function(response) {
-                console.log(response);
-                  var success = response.success;
-                  $.each(success, function(key, value) {
-                      toastr.success(value); // Displaying each error message
-                  });
-                  $('#newslaterForm')[0].reset();
-              },
-              error: function(xhr) {
-                  var errors = xhr.responseJSON.errors;
-                  // Iterate through each error and display it
-                  $.each(errors, function(key, value) {
-                      console.log(key, value);
-                      toastr.error(value); // Displaying each error message
-                  });
-              }
-          });
+    <script>
+        $(document).ready(function() {
+            $('#subscribe').on('click', function(e) {
+                e.preventDefault();
+                let url = "{{ route('frontend.newslater.store') }}";
+                let formData = new FormData($('#newslaterForm')[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    processData: false, // Prevent jQuery from processing the data
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        var success = response.success;
+                        $.each(success, function(key, value) {
+                            toastr.success(value); // Displaying each error message
+                        });
+                        $('#newslaterForm')[0].reset();
+                    },
+                    error: function(xhr) {
+                        var errors = xhr.responseJSON.errors;
+                        // Iterate through each error and display it
+                        $.each(errors, function(key, value) {
+                            console.log(key, value);
+                            toastr.error(value); // Displaying each error message
+                        });
+                    }
+                });
 
-      });
-  });
-</script>
+            });
+        });
+    </script>
 @endpush

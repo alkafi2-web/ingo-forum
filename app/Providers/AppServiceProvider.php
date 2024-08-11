@@ -106,7 +106,7 @@ class AppServiceProvider extends ServiceProvider
                 }
                 $global['aboutus_feature'] = $featuresArray;
 
-                $latest_event = Event::with('creator')->where('status', 1)->latest()->first();
+                $latest_event = Event::with('creator')->where('status', 1)->latest()->first()??'';
                 $global['latest_event'] = $latest_event;
 
                 $events = Event::with('creator')->where('status', 1)->latest()->take(3)->get();
