@@ -26,6 +26,7 @@ use App\Http\Controllers\Frontend\Post\PostController as FrontendPostController;
 use App\Http\Controllers\RobotsController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\File\FileController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Frontend\Publication\FrontnedPublicationController;
 use App\Http\Controllers\Publication\PublicationController;
@@ -188,6 +189,47 @@ Route::prefix('admin')->group(function () {
             });
         });
         // post menagement route end
+
+        // file menagement route start
+        Route::prefix('file')->group(function () {
+            Route::prefix('category')->group(function () {
+                Route::get('/', [FileController::class, 'category'])->name('file.category');
+                Route::post('/category-create', [FileController::class, 'categoryCreate'])->name('file.category.create');
+                Route::post('/category-delete', [FileController::class, 'categoryDelete'])->name('file.category.delete');
+                Route::post('/category-status', [FileController::class, 'categoryStatus'])->name('file.category.status');
+                Route::post('/category-edit', [FileController::class, 'categoryEdit'])->name('file.category.edit');
+                Route::post('/category-update', [FileController::class, 'categoryUpdate'])->name('file.category.update');
+            });
+            // Route::prefix('sub-category')->group(function () {
+            //     Route::get('/', [SubCategoryController::class, 'subcategory'])->name('subcategory');
+            //     Route::post('/sub-category-create', [SubCategoryController::class, 'subcategoryCreate'])->name('subcategory.create');
+            //     Route::post('/sub-category-delete', [SubCategoryController::class, 'subcategoryDelete'])->name('subcategory.delete');
+            //     Route::post('/sub-category-status', [SubCategoryController::class, 'subcategoryStatus'])->name('subcategory.status');
+            //     Route::post('/sub-category-edit', [SubCategoryController::class, 'subcategoryEdit'])->name('subcategory.edit');
+            //     Route::post('/sub-category-update', [SubCategoryController::class, 'subcategoryUpdate'])->name('subcategory.update');
+            // });
+            // Route::prefix('/')->group(function () {
+            //     Route::get('/', [PostController::class, 'postCreate'])->name('post.create');
+            //     Route::get('/list', [PostController::class, 'postList'])->name('post.list');
+
+            //     Route::get('/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
+
+            //     Route::get('/request/list', [PostController::class, 'postRequestList'])->name('post.request.list');
+
+            //     Route::middleware('adminOrMember')->withoutMiddleware('admin')->group(function () {
+            //         Route::post('/comment', [PostController::class, 'postComment'])->name('post.comment');
+            //         Route::post('/status', [PostController::class, 'postStatus'])->name('post.status');
+            //         Route::post('/delete', [PostController::class, 'postDelete'])->name('post.delete');
+            //         Route::post('/store', [PostController::class, 'postStore'])->name('post.store');
+            //         Route::post('/update', [PostController::class, 'postUpdate'])->name('post.update');
+            //         Route::get('/request/view/{categorySlug}/{postSlug}', [PostController::class, 'postRequestView'])->name('post.request.view');
+            //         Route::post('/approved', [PostController::class, 'approved'])->name('post.approved');
+            //         Route::post('/reject', [PostController::class, 'reject'])->name('post.reject');
+            //         Route::post('/suspended', [PostController::class, 'suspended'])->name('post.suspend');
+            //     });
+            // });
+        });
+        // file menagement route end
 
         // Publication menagement route start
         Route::prefix('publication')->group(function () {

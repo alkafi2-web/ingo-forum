@@ -237,7 +237,7 @@
                 {{-- publication sidebar start --}}
                 @if (Auth::guard('admin')->user()->hasAnyPermission(['publication-add', 'publication-view-all', 'publication-category-manage']))
                     <div data-kt-menu-trigger="click"
-                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'publication.create' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'post.edit' || Route::currentRouteName() == 'publication.category' || Route::currentRouteName() == 'publication.request.list' ? 'hover show' : '' }}">
+                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'publication.create' ||  Route::currentRouteName() == 'publication.category' || Route::currentRouteName() == 'publication.request.list' ? 'hover show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -256,7 +256,7 @@
                             <span class="menu-arrow"></span>
                         </span>
                         <div
-                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'publication.category' || Route::currentRouteName() == 'publication.create' || Route::currentRouteName() == 'publication.list' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'publication.request.list' ? 'hover show' : '' }}">
+                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'publication.category' || Route::currentRouteName() == 'publication.create' || Route::currentRouteName() == 'publication.list' || Route::currentRouteName() == 'publication.request.list' ? 'hover show' : '' }}">
 
                             @can('publication-add')
                                 <a class="menu-item menu-accordion" href="{{ route('publication.create') }}">
@@ -378,6 +378,90 @@
                     </div>
                 @endif
                 {{-- event side bar end --}}
+
+                {{-- File side bar start --}}
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['event-view']))
+                    <div class="menu-item">
+                        <div class="menu-content pt-8 pb-2">
+                            <span class="menu-section text-muted text-uppercase fs-8 ls-1">File Management</span>
+                            
+                        </div>
+                    </div>
+                @endif
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['event-view']))
+                    <div data-kt-menu-trigger="click"
+                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'file.category' || Route::currentRouteName() == 'event.request.list' || Route::currentRouteName() == 'event.request.view' ? 'hover show' : '' }}">
+                        <span class="menu-link">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
+                                <span class="svg-icon svg-icon-2">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">File</span>
+                            <div class="pendingEventCount">
+                                @if ($global['pendingEventCount'] > 0)
+                                    <span class="badge badge-light-danger">{{ $global['pendingEventCount'] }}</span>
+                                @endif
+                            </div>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div
+                            class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'event' || Route::currentRouteName() == 'event.request.list' || Route::currentRouteName() == 'event.attendee.list' ? 'hover show' : '' }}">
+                            @can('event-view')
+                                <a class="menu-item menu-accordion" href="{{ route('event') }}">
+                                    <span class="menu-link {{ Route::currentRouteName() == 'event' ? 'active' : '' }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Add File</span>
+                                    </span>
+                                </a>
+                            @endcan
+                            @can('event-view')
+                                <a class="menu-item menu-accordion" href="{{ route('event') }}">
+                                    <span class="menu-link {{ Route::currentRouteName() == 'event' ? 'active' : '' }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">ALL File</span>
+                                    </span>
+                                </a>
+                            @endcan
+                            <a class="menu-item menu-accordion" href="{{ route('event.request.list') }}">
+                                <span class="menu-link {{ Route::currentRouteName() == 'event.request.list' || Route::currentRouteName() == 'event.request.view' ? 'active' : '' }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">File Request</span>
+                                    <div class="pendingEventCount">
+                                        @if ($global['pendingEventCount'] > 0)
+                                            <span class="badge badge-light-danger">{{ $global['pendingEventCount'] }}</span>
+                                        @endif
+                                    </div>
+                                </span>
+                            </a>
+                            <a class="menu-item menu-accordion" href="{{ route('file.category') }}">
+                                <span class="menu-link {{ Route::currentRouteName() == 'file.category' ? 'active' : '' }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">File Category</span>
+                                </span>
+                            </a>
+                            <a class="menu-item menu-accordion" href="{{ route('event.attendee.list') }}">
+                                <span class="menu-link {{ Route::currentRouteName() == 'event.attendee.list' ? 'active' : '' }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">File Subcategory</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                @endif
+                {{-- File side bar end --}}
 
                 {{-- apperarence sidebar start --}}
                 @if (Auth::guard('admin')->user()->hasAnyPermission([
