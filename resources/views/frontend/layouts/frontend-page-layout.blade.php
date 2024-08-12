@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="{{ asset('public/frontend/css/slick-slider/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/slick-slider/slick-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('public/frontend/css/all.min.css') }}">
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('public/frontend/css/bootstrap.min.css') }}">
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -30,6 +32,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.css"
         integrity="sha512-nNlU0WK2QfKsuEmdcTwkeh+lhGs6uyOxuUs+n+0oXSYDok5qy0EI0lt01ZynHq6+p/tbgpZ7P+yUb+r71wqdXg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
     <!-- Datatable CSS -->
     <link href="{{ asset('public/admin/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.1/css/buttons.dataTables.min.css">
@@ -93,6 +96,8 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
     <script src="{{ asset('public/frontend/js/main.js') }}"></script>

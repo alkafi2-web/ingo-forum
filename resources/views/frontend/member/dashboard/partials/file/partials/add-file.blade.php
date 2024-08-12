@@ -1,5 +1,22 @@
 <form action="/submit-form" id="fileForm" method="POST" enctype="multipart/form-data">
     <div class="row">
+        <div class="col-md-12">
+            <!-- Member -->
+            <div class="form-group mt-3">
+                <label for="member" class="">Assign To Member</label>
+                <select id="member" name="member_ids[]" class="form-control mt-3" multiple required>
+                    <option value="">-- Select Member --</option>
+                    @forelse ($members as $member)
+                        <option value="{{ $member->member_id }}">{{ $member->organisation_name }}
+                        </option>
+                    @empty
+                        <option value="">There is No Member</option>
+                    @endforelse
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-6">
             <!-- Category -->
             <div class="form-group">
@@ -83,6 +100,15 @@
 </form>
 @push('custom-js')
     <script>
+        $(document).ready(function() {
+            $('#member').select2({
+                placeholder: '-- Select Members --',
+                allowClear: true
+            });
+
+            // Bootstrap 5 compatibility with Select2
+            $('.select2-selection').addClass('form-select');
+        });
         $(document).ready(function() {
             var categories = @json($categories);
             $('#category').on('change', function() {

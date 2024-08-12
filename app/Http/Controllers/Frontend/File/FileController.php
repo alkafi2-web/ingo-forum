@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend\File;
 use App\Http\Controllers\Controller;
 use App\Models\FileCategory;
 use App\Models\FileNgo;
+use App\Models\MemberInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
@@ -36,7 +37,9 @@ class FileController extends Controller
                 $query->where('status', 1);
             }])
             ->get();
-        return view('frontend.member.dashboard.partials.file.file-index', compact('categories'));
+            $memberId = auth()->guard('member')->id();
+            $members = MemberInfo::where('member_id', '!=', $memberId)->get();
+        return view('frontend.member.dashboard.partials.file.file-index', compact('categories','members'));
     }
 
     public function memberFileEdit($id)
