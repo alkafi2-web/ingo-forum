@@ -16,7 +16,7 @@
     <meta property="og:url" content="" />
     <meta property="og:site_name" content="INGO Forum" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="{{asset('public/frontend/images/'.$global['favicon'])}}" />
+    <link rel="shortcut icon" href="{{ asset('public/frontend/images/' . $global['favicon']) }}" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!-- jQuery UI -->
@@ -24,13 +24,16 @@
     <!--end::Fonts-->
     <!--begin::Page Vendor Stylesheets(used by this page)-->
     <link rel="stylesheet" href="{{ asset('public/admin/css/app.css') }}" type="text/css">
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <!--end::Page Vendor Stylesheets-->
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="{{ asset('public/admin/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('public/admin/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('public/admin/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet"
+        type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.css" rel="stylesheet" />
     <link href="{{ asset('public/admin/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
@@ -146,6 +149,11 @@
     <script src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.colVis.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.html5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
 
     @stack('custom-js')
@@ -196,7 +204,7 @@
             @endforeach
         </script>
     @endif
-    
+
 
 
     <!--end::Javascript-->
