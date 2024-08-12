@@ -740,10 +740,10 @@
                             <span>& get Company News</span>
                             <form id="newslaterForm" action="">
                                 <div class="main-box pt-3">
-                                    <div class="input-group">
+                                    <div class="input-group flex-nowrap">
                                         <i class="fa-regular fa-envelope position-absolute"></i>
                                         <input type="text" name="email" class="form-control" id=""
-                                            aria-describedby="" placeholder="Enter your email">
+                                            aria-describedby="" placeholder="Enter your email" style="border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;">
                                         <button class="btn btn-subscribe" type="button"
                                             id="subscribe">Subscribe</button>
                                     </div>

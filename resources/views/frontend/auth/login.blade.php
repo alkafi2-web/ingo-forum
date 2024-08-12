@@ -38,9 +38,17 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 text-center pt-3">
-                                            <input type="submit" id="member-submit" value="Login" class="submit-btn">
-                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <div class="row align-items-center">
+                                                <div class="col-md-4"></div>
+                                                <div class="col-md-8">
+                                                    <div class="d-flex align-items-center justify-content-between">
+                                                        <input type="submit" id="member-submit" value="Login" class="submit-btn">
+                                                        <a href="{{ route('password.request') }}" class="fs-12px">Forgot Your Password?</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                     
                                     </div>
                                 </div>
                             </div>

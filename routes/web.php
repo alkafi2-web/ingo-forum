@@ -34,6 +34,7 @@ use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\Frontend\Event\EventController as FrontendEventController;
 use App\Http\Controllers\Frontend\File\FileController as FileFileController;
 use App\Http\Controllers\Subscriber\SubscriberController;
+use App\Http\Controllers\Frontend\Auth\ForgotPasswordController;
 
 // robot & sitemap 
 Route::get('/robots.txt', [RobotsController::class, 'index']);
@@ -356,10 +357,15 @@ Route::middleware(['trackvisitor'])->group(function () {
     Route::get('/member/login', [FrontAuthController::class, 'login'])->name('frontend.login');
     Route::post('/login/post', [FrontAuthController::class, 'loginPost'])->name('frontend.login.post');
 
-
     Route::prefix('member')->group(function () {
         Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
         Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
+    
+        // forget password route 
+        Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+        Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+        Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+        Route::post('reset-password', [ForgotPasswordController::class, 'reset'])->name('password.update');
 
         Route::middleware(['auth.member'])->group(function () {
             Route::prefix('dashboard')->group(function () {

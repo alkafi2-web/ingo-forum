@@ -1,6 +1,9 @@
 
 
 // custom fontsize
+.fs-11px{
+  font-size: 11px!important;
+}
 .fs-12px{
   font-size: 12px!important;
 }
@@ -171,9 +174,11 @@ div.dataTables_wrapper div.dataTables_processing {
   border-radius: .475rem!important;
   transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out!important;
 }
-input,
-input::placeholder {
+input{
   font-size: 13px;
+}
+
+input::placeholder {
   color: rgba(180, 180, 180, 1)!important;
 }
 // socials
