@@ -14,6 +14,32 @@
                 <div class="card-body">
                     <form action="/submit-form" id="fileForm" method="POST" enctype="multipart/form-data">
                         <div class="row">
+                            <div class="col-md-12">
+                                <!-- Member -->
+                                <div class="form-group">
+                                    <label for="member" class="">Assign To Member</label>
+                                    {{-- <select id="member" name="member_ids[]" class="form-control mt-3" multiple>
+                                        <option value="">-- Select Member --</option>
+                                        @forelse ($members as $member)
+                                            <option value="{{ $member->member_id }}">{{ $member->organisation_name }}
+                                            </option>
+                                        @empty
+                                            <option value="">There is No Member</option>
+                                        @endforelse
+                                    </select> --}}
+                                    <select class="form-select form-select-solid" id="member" name="member_ids[]"  data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple">
+                                        <option value="">-- Select Member --</option>
+                                        @forelse ($members as $member)
+                                            <option value="{{ $member->member_id }}">{{ $member->organisation_name }}
+                                            </option>
+                                        @empty
+                                            <option value="">There is No Member</option>
+                                        @endforelse
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <!-- Category -->
                                 <div class="form-group">
@@ -88,6 +114,15 @@
     <script>
         // CKEDITOR.replace('short_description');
         CKEDITOR.replace('long_description');
+        $(document).ready(function() {
+            $('#member').select2({
+                placeholder: '-- Select Members --',
+                allowClear: true
+            });
+
+            // Bootstrap 5 compatibility with Select2
+            $('.select2-selection').addClass('form-select');
+        });
         $(document).ready(function() {
             var categories = @json($categories);
             $('#category').on('change', function() {

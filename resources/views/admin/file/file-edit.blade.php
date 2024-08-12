@@ -14,6 +14,27 @@
                 <div class="card-body">
                     <form action="/submit-form" id="fileForm" method="POST" enctype="multipart/form-data">
                         <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group mt-3">
+                                    <label for="member" class="required">Assign Members</label>
+                                    <select id="member" name="member_ids[]" class="form-control mt-3" multiple>
+                                        @foreach ($members as $member)
+                                            @php
+                                                // Decode the assign_to field if it's JSON; otherwise, treat it as a simple value
+                                                $assignedMembers = is_array(json_decode($file->assign_to, true))
+                                                    ? json_decode($file->assign_to, true)
+                                                    : [$file->assign_to];
+                                            @endphp
+                                            <option value="{{ $member->member_id }}"
+                                                {{ in_array($member->member_id, $assignedMembers) ? 'selected' : '' }}>
+                                                {{ $member->organisation_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <!-- Category -->
                                 <div class="form-group">
@@ -83,7 +104,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group mt-3">
-                                    <input type="hidden" name="id" id="file_id" value="{{$file->id}}">
+                                    <input type="hidden" name="id" id="file_id" value="{{ $file->id }}">
                                     <input type="hidden" id="creator_type" name="creator_type" value="\App\Models\User">
                                     <button type="" id="submit" class="btn btn-primary mt-4"> <i
                                             class="fas fa-upload"></i>Update</button>
@@ -100,7 +121,15 @@
 @endsection
 @push('custom-js')
     <script>
-        
+        $(document).ready(function() {
+            $('#member').select2({
+                placeholder: '-- Select Members --',
+                allowClear: true
+            });
+
+            // Bootstrap 5 compatibility with Select2
+            $('.select2-selection').addClass('form-select');
+        });
         $(document).ready(function() {
             var categories = @json($categories);
             $('#category').on('change', function() {

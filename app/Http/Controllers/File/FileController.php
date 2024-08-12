@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\FileCategory;
 use App\Models\FileNgo;
+use App\Models\MemberInfo;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -249,8 +250,7 @@ class FileController extends Controller
 
         if ($subcategory->name == $request->input('name')) {
             $rules['name'] = 'required|string|max:255';
-        }
-        else{
+        } else {
             $rules['name'] = [
                 'required',
                 'string',
@@ -266,7 +266,7 @@ class FileController extends Controller
             'name.string' => 'The subcategory name must be a string.',
             'name.max' => 'The subcategory name must not be greater than 255 characters.',
         ]);
-    
+
         // If validation fails, return errors in JSON format
         if ($validator->fails()) {
             return response()->json([
@@ -276,21 +276,21 @@ class FileController extends Controller
 
         $newSlug = Str::slug($request->name, '-');
         $counter = 1;
-        
+
         // If the subcategory's current slug matches the new slug, use it as is
         if ($subcategory->slug == $newSlug) {
             $slug = $newSlug;
         } else {
             // Set the initial slug value
             $slug = $newSlug;
-        
+
             // Loop to find a unique slug
             while (FileCategory::where('slug', $slug)->exists()) {
                 $slug = $newSlug . '-' . $counter;
                 $counter++;
             }
         }
-        
+
         // Update the subcategory with new data
         $subcategory->parent_id = $request->category;
         $subcategory->name = $request->name;
@@ -312,11 +312,14 @@ class FileController extends Controller
                 $query->where('status', 1);
             }])
             ->get();
-        return view('admin.file.file-create', compact('categories'));
+        $members = MemberInfo::get();
+
+        return view('admin.file.file-create', compact('categories', 'members'));
     }
 
     public function fileStore(Request $request)
     {
+        
         // Define custom error messages
         $messages = [
             'category.required' => 'The category field is required.',
@@ -359,6 +362,9 @@ class FileController extends Controller
             }
             $file->move($dir, $filename);
             $FileNgo->attachment = $filename;
+        }
+        if($request->member_ids){
+            $FileNgo->assign_to = json_encode($request->member_ids);
         }
         $FileNgo->save();
         return response()->json(['success' => ['success' => 'You have successfully Create File!']]);
@@ -431,10 +437,12 @@ class FileController extends Controller
         $subcategories = FileCategory::where('parent_id', '!=', 0)->latest()->get();
 
         $file = FileNgo::with(['category', 'subcategory'])->where('id', $id)->firstOrFail();
+        $members = MemberInfo::get();
         return view('admin.file.file-edit', [
             'file' => $file,
             'categories' => $categories,
             'subcategories' => $subcategories,
+            'members' => $members
         ]);
     }
 
@@ -486,7 +494,11 @@ class FileController extends Controller
             $file->move($dir, $filename);
             $fileUpdate->attachment = $filename;
         }
-
+        if($request->member_ids){
+            $fileUpdate->assign_to = json_encode($request->member_ids);
+        }else{
+            $fileUpdate->assign_to = 0;
+        }
         // Save or update the file record
         $fileUpdate->save();
 
