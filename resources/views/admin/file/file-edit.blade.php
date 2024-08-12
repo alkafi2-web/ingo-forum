@@ -19,8 +19,14 @@
                                     <label for="member" class="required">Assign Members</label>
                                     <select id="member" name="member_ids[]" class="form-control mt-3" multiple>
                                         @foreach ($members as $member)
+                                            @php
+                                                // Decode the assign_to field if it's JSON; otherwise, treat it as a simple value
+                                                $assignedMembers = is_array(json_decode($file->assign_to, true))
+                                                    ? json_decode($file->assign_to, true)
+                                                    : [$file->assign_to];
+                                            @endphp
                                             <option value="{{ $member->member_id }}"
-                                                {{ in_array($member->member_id, json_decode($file->assign_to, true) ?? []) ? 'selected' : '' }}>
+                                                {{ in_array($member->member_id, $assignedMembers) ? 'selected' : '' }}>
                                                 {{ $member->organisation_name }}
                                             </option>
                                         @endforeach

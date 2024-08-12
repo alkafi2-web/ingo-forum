@@ -496,6 +496,8 @@ class FileController extends Controller
         }
         if($request->member_ids){
             $fileUpdate->assign_to = json_encode($request->member_ids);
+        }else{
+            $fileUpdate->assign_to = 0;
         }
         // Save or update the file record
         $fileUpdate->save();

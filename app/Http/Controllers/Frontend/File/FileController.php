@@ -15,7 +15,7 @@ class FileController extends Controller
     {
         if ($request->ajax()) {
             $files = FileNgo::with(['category', 'subcategory', 'creator'])
-                ->latest()
+                ->latest()->where('creator_type', '\App\Models\Member')->where('creator_id', auth()->guard('member')->id())
                 ->get();
 
             return DataTables::of($files)
@@ -36,10 +36,65 @@ class FileController extends Controller
                 $query->where('status', 1);
             }])
             ->get();
-        return view('frontend.member.dashboard.partials.file.file-index',compact('categories'));
+        return view('frontend.member.dashboard.partials.file.file-index', compact('categories'));
     }
 
-    public function memberFileEdit($id){
-        return $file = FileNgo::with(['category', 'subcategory', 'creator'])->where('creator_type','\App\Models\Member')->where('creator_id',Auth::guard('member')->id())->first();
+    public function memberFileEdit($id)
+    {
+        return $file = FileNgo::with(['category', 'subcategory', 'creator'])->where('creator_type', '\App\Models\Member')->where('creator_id', Auth::guard('member')->id())->first();
+    }
+
+    public function publicfilelist(Request $request)
+    {
+        if ($request->ajax()) {
+            $files = FileNgo::with(['category', 'subcategory', 'creator'])->where('status',1)
+                ->where('assign_to', '0')  // Filter where assign_to is 0
+                ->orWhere(function ($query) {
+                    $query->where('assign_to', '!=', '0')
+                        ->whereRaw('NOT JSON_VALID(assign_to)');  // Ensure it's not a valid JSON
+                })
+                ->latest()
+                ->get();
+
+            return DataTables::of($files)
+                ->addColumn('category_name', function ($file) {
+                    return $file->category->name ?? 'N/A';
+                })
+                ->addColumn('subcategory_name', function ($file) {
+                    return $file->subcategory->name ?? 'N/A';
+                })
+                ->addColumn('creator', function ($file) {
+                    return $file->creator->name ?? $file->creator->info->organisation_name;
+                })
+                ->make(true);
+        }
+        return view('frontend.member.dashboard.partials.file.file-index');
+    }
+    public function sharedfilelist(Request $request)
+    {
+        if ($request->ajax()) {
+            $memberId = auth()->guard('member')->id();
+
+            $files = FileNgo::with(['category', 'subcategory', 'creator'])->where('status',1)
+                ->where(function ($query) use ($memberId) {
+                    $query->where('assign_to','!=' ,'0')
+                        ->orWhereJsonContains('assign_to', $memberId);
+                })
+                ->latest()
+                ->get();
+
+            return DataTables::of($files)
+                ->addColumn('category_name', function ($file) {
+                    return $file->category->name ?? 'N/A';
+                })
+                ->addColumn('subcategory_name', function ($file) {
+                    return $file->subcategory->name ?? 'N/A';
+                })
+                ->addColumn('creator', function ($file) {
+                    return $file->creator->name ?? $file->creator->info->organisation_name;
+                })
+                ->make(true);
+        }
+        return view('frontend.member.dashboard.partials.file.file-index');
     }
 }

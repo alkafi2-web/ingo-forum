@@ -391,6 +391,8 @@ Route::middleware(['trackvisitor'])->group(function () {
                 Route::prefix('file')->group(function () {
                     Route::get('/', [FileFileController::class, 'memberFileIndex'])->name('member.file.index');
                     Route::get('/edit/{id}', [FileFileController::class, 'memberFileEdit'])->name('member.file.edit');
+                    Route::get('/public-file', [FileFileController::class, 'publicfilelist'])->name('member.public.file');
+                    Route::get('/shared-file', [FileFileController::class, 'sharedfilelist'])->name('member.shared.file');
                 });
 
             });
