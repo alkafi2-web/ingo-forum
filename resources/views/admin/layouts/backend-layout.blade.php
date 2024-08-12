@@ -36,6 +36,7 @@
         type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.css" rel="stylesheet" />
     <link href="{{ asset('public/admin/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+
     <!--end::Global Stylesheets Bundle-->
 </head>
 <!--end::Head-->
@@ -153,7 +154,6 @@
 
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
 
 
     @stack('custom-js')

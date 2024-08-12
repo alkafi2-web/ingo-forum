@@ -16,9 +16,18 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <!-- Member -->
-                                <div class="form-group mt-3">
+                                <div class="form-group">
                                     <label for="member" class="">Assign To Member</label>
-                                    <select id="member" name="member_ids[]" class="form-control mt-3" multiple required>
+                                    {{-- <select id="member" name="member_ids[]" class="form-control mt-3" multiple>
+                                        <option value="">-- Select Member --</option>
+                                        @forelse ($members as $member)
+                                            <option value="{{ $member->member_id }}">{{ $member->organisation_name }}
+                                            </option>
+                                        @empty
+                                            <option value="">There is No Member</option>
+                                        @endforelse
+                                    </select> --}}
+                                    <select class="form-select form-select-solid" id="member" name="member_ids[]"  data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple">
                                         <option value="">-- Select Member --</option>
                                         @forelse ($members as $member)
                                             <option value="{{ $member->member_id }}">{{ $member->organisation_name }}
