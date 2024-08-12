@@ -400,11 +400,11 @@
                                 <!--end::Svg Icon-->
                             </span>
                             <span class="menu-title">File</span>
-                            <div class="pendingEventCount">
+                            {{-- <div class="pendingEventCount">
                                 @if ($global['pendingEventCount'] > 0)
                                     <span class="badge badge-light-danger">{{ $global['pendingEventCount'] }}</span>
                                 @endif
-                            </div>
+                            </div> --}}
                             <span class="menu-arrow"></span>
                         </span>
                         <div

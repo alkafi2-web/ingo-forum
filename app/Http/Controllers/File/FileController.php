@@ -42,7 +42,15 @@ class FileController extends Controller
         if ($validator->fails()) {
             return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
         }
+        // Generate a unique slug
         $slug = Str::slug($request->name, '-');
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (FileCategory::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
         // Create a new category with slug
         $category = new FileCategory();
         $category->name = $request->name;
@@ -113,10 +121,17 @@ class FileController extends Controller
         if ($validator->fails()) {
             return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
         }
+        $slug = Str::slug($request->name, '-');
+        $originalSlug = $slug;
+        $counter = 1;
 
+        while (FileCategory::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
         // Update the category with new data
         $category->name = $request->name;
-        $category->slug = Str::slug($request->name, '-');
+        $category->slug = $slug;
         $category->save();
         Helper::log("Update file category $category->name");
         return response()->json(['success' => ['success' => 'File category updated successfully']]);
@@ -169,10 +184,18 @@ class FileController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
+        $slug = Str::slug($request->name, '-');
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (FileCategory::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
         $subcategory = FileCategory::create([
             'parent_id' => $request->category,
             'name' => $request->name,
-            'slug' => Str::slug($request->name, '-'),
+            'slug' => $slug,
             'status' => 1,
         ]);
         Helper::log("Create file subcategory $subcategory->name");
@@ -242,11 +265,18 @@ class FileController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
+        $slug = Str::slug($request->name, '-');
+        $originalSlug = $slug;
+        $counter = 1;
 
+        while (FileCategory::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
         // Update the subcategory with new data
         $subcategory->parent_id = $request->category;
         $subcategory->name = $request->name;
-        $subcategory->slug = Str::slug($request->name, '-');
+        $subcategory->slug = $slug;
         $subcategory->save();
         // Log the update action
         Helper::log("Updated file subcategory $subcategory->name");
