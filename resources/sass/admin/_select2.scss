@@ -13,11 +13,11 @@ $select2-search-padding: 0.5rem 1.25rem;
 $select2-search-margin: 0 0 0.5rem 0;
 
 $select2-clear-size: 0.7rem;
-$select2-clear-color: $gray-700;
-$select2-clear-color-hover: $primary;
+$select2-clear-color: gray;
+$select2-clear-color-hover: blue;
 $select2-clear-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$select2-clear-color}'><path d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/></svg>") !default;
 $select2-clear-bg-hover: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$select2-clear-color-hover}'><path d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/></svg>") !default;
-$select2-clear-right: $form-select-indicator-padding;  //$form-select-padding-x +
+$select2-clear-right: 0.7rem;  //$form-select-padding-x +
 
 // Bootstrapa 5 Theme
 .select2-container--bootstrap5 {
@@ -33,11 +33,11 @@ $select2-clear-right: $form-select-indicator-padding;  //$form-select-padding-x 
 	&.select2-container--focus,
 	&.select2-container--open {
 		.form-select-solid {
-			background-color: $input-solid-bg-focus;
+			background-color: gray;
 		}
 
 		.form-select:not(.form-select-solid):not(.form-select-white) {
-			border-color: $input-focus-border-color;
+			border-color: bisque;
 		}
 	}
 
