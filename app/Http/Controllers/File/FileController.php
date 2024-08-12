@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
+use App\Rules\FileSubCategoryUnique;
 
 class FileController extends Controller
 {
@@ -169,6 +170,7 @@ class FileController extends Controller
                 'required',
                 'string',
                 'max:255',
+                new FileSubCategoryUnique($request->input('name')),
             ],
         ], [
             'category.required' => 'The category field is required.',
@@ -176,7 +178,6 @@ class FileController extends Controller
             'name.required' => 'The subcategory name is required.',
             'name.string' => 'The subcategory name must be a string.',
             'name.max' => 'The subcategory name must not be greater than 255 characters.',
-            'name.unique' => 'The subcategory name has already been taken in this category.',
         ]);
 
         if ($validator->fails()) {
@@ -243,36 +244,53 @@ class FileController extends Controller
         $categoryId = $request->input('category');
 
         // Validate the input data
-        $validator = Validator::make($request->all(), [
-            'category' => 'required|exists:post_categories,id',
-            'name' => [
+
+        $rules['category'] = 'required|exists:post_categories,id';
+
+        if ($subcategory->name == $request->input('name')) {
+            $rules['name'] = 'required|string|max:255';
+        }
+        else{
+            $rules['name'] = [
                 'required',
                 'string',
                 'max:255',
-            ],
-        ], [
+                new FileSubCategoryUnique($request->input('name')),
+            ];
+        }
+        // Validate the input data
+        $validator = Validator::make($request->all(), $rules, [
             'category.required' => 'The category field is required.',
             'category.exists' => 'The selected category does not exist.',
             'name.required' => 'The subcategory name is required.',
             'name.string' => 'The subcategory name must be a string.',
             'name.max' => 'The subcategory name must not be greater than 255 characters.',
-            'name.unique' => 'The subcategory name has already been taken in this category.',
         ]);
-
+    
         // If validation fails, return errors in JSON format
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()
             ], 422);
         }
-        $slug = Str::slug($request->name, '-');
-        $originalSlug = $slug;
-        $counter = 1;
 
-        while (FileCategory::where('slug', $slug)->exists()) {
-            $slug = $originalSlug . '-' . $counter;
-            $counter++;
+        $newSlug = Str::slug($request->name, '-');
+        $counter = 1;
+        
+        // If the subcategory's current slug matches the new slug, use it as is
+        if ($subcategory->slug == $newSlug) {
+            $slug = $newSlug;
+        } else {
+            // Set the initial slug value
+            $slug = $newSlug;
+        
+            // Loop to find a unique slug
+            while (FileCategory::where('slug', $slug)->exists()) {
+                $slug = $newSlug . '-' . $counter;
+                $counter++;
+            }
         }
+        
         // Update the subcategory with new data
         $subcategory->parent_id = $request->category;
         $subcategory->name = $request->name;
