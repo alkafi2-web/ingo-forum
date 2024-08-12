@@ -114,13 +114,13 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Member Request</span>
-                                        <div class="pendingMemberCount">
+                                        <span class="menu-title position-relative">Member Request
                                             @if ($global['pendingMemberCount'] > 0)
-                                                <span
-                                                    class="badge badge-light-danger">{{ $global['pendingMemberCount'] }}</span>
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
+                                              {{ $global['pendingMemberCount'] }}
+                                            </span>
                                             @endif
-                                        </div>
+                                        </span>
                                     </span>
                                 </a>
                             @endcan
@@ -159,13 +159,13 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="menu-title">Post</span>
-                            
-                            <div class="pendingPostCount">
+                            <span class="menu-title position-relative">Post
                                 @if ($global['pendingPostCount'] > 0)
-                                    <span class="badge badge-light-danger">{{ $global['pendingPostCount'] }}</span>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
+                                  {{ $global['pendingPostCount'] }}
+                                </span>
                                 @endif
-                            </div>
+                            </span>
                             <span class="menu-arrow"></span>
                         </span>
                         <div
@@ -200,12 +200,13 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Request Post</span>
-                                        <div class="pendingPostCount">
+                                        <span class="menu-title position-relative">Request Post
                                             @if ($global['pendingPostCount'] > 0)
-                                                <span class="badge badge-light-danger">{{ $global['pendingPostCount'] }}</span>
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
+                                              {{ $global['pendingPostCount'] }}
+                                            </span>
                                             @endif
-                                        </div>
+                                        </span>
                                     </span>
                                 </a>
                             @endcan
@@ -247,12 +248,13 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="menu-title">Publication</span>
-                            <div class="pendingPublicationCount">
+                            <span class="menu-title position-relative   ">Publication
                                 @if ($global['pendingPublicationCount'] > 0)
-                                    <span class="badge badge-light-danger">{{ $global['pendingPublicationCount'] }}</span>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
+                                  {{ $global['pendingPublicationCount'] }}
+                                </span>
                                 @endif
-                            </div>
+                            </span>
                             <span class="menu-arrow"></span>
                         </span>
                         <div
@@ -287,12 +289,13 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Request Publication</span>
-                                        <div class="pendingPublicationCount">
+                                        <span class="menu-title position-relative">Request Publication
                                             @if ($global['pendingPublicationCount'] > 0)
-                                                <span class="badge badge-light-danger">{{ $global['pendingPublicationCount'] }}</span>
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
+                                              {{ $global['pendingPublicationCount'] }}
+                                            </span>
                                             @endif
-                                        </div>
+                                        </span>
                                     </span>
                                 </a>
                             @endcan
@@ -333,12 +336,13 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="menu-title">Event</span>
-                            <div class="pendingEventCount">
+                            <span class="menu-title position-relative">Event
                                 @if ($global['pendingEventCount'] > 0)
-                                    <span class="badge badge-light-danger">{{ $global['pendingEventCount'] }}</span>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
+                                  {{ $global['pendingEventCount'] }}
+                                </span>
                                 @endif
-                            </div>
+                            </span>
                             <span class="menu-arrow"></span>
                         </span>
                         <div
@@ -358,12 +362,13 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Events Request</span>
-                                    <div class="pendingEventCount">
+                                    <span class="menu-title position-relative">Events Request
                                         @if ($global['pendingEventCount'] > 0)
-                                            <span class="badge badge-light-danger">{{ $global['pendingEventCount'] }}</span>
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
+                                          {{ $global['pendingEventCount'] }}
+                                        </span>
                                         @endif
-                                    </div>
+                                    </span>
                                 </span>
                             </a>
                             <a class="menu-item menu-accordion" href="{{ route('event.attendee.list') }}">
