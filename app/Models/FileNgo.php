@@ -21,6 +21,6 @@ class FileNgo extends Model
 
     public function creator()
     {
-        return $this->morphTo();
+        return $this->morphTo(null, 'creator_type', 'creator_id');
     }
 }

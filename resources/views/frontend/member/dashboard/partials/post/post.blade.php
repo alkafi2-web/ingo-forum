@@ -530,6 +530,7 @@
                         $('#add-blog-news').removeClass('show active');
                         $('#all-blog-news-tab').addClass('active');
                         $('#all-blog-news').addClass('show active');
+                        $('#file-preview').html('');
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
@@ -625,6 +626,7 @@
             long_description.setData('');
             long_description.focus();
             $('#pp').attr('src', '');
+            $('#file-preview').html('');
             $('#add-blog-news-tab').removeClass('active');
             $('.add-blog-btn-text').text('Add Blog/News');
             $('.addBlogIcon').show();

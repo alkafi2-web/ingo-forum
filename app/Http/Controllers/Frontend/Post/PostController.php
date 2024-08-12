@@ -408,10 +408,6 @@ class PostController extends Controller
                 ->addColumn('added_by', function ($post) {
                     return $post->addedBy->name ?? null;
                 })
-                // ->addColumn('long_des2', function ($post) {
-                //     $sanitizedContent = Purify::clean($post->long_des);
-                //     return $sanitizedContent;
-                // })
                 ->make(true);
         }
         return view('frontend.member.dashboard.partials.post.post-index', compact('categories'));

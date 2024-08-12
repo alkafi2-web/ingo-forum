@@ -34,7 +34,6 @@
                                     <label for="subcategory" class="">Subcategory</label>
                                     <select id="subcategory" name="subcategory" class="form-control mt-3">
                                         <option value="">-- Select Category First --</option>
-
                                     </select>
                                 </div>
                             </div>
@@ -57,14 +56,13 @@
                             <textarea id="short_description" name="short_description" class="form-control" rows="4"></textarea>
                         </div>
 
-                        <!-- Banner -->
+                        <!-- file -->
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group mt-3">
                                     <label for="file" class="required">Attachment</label>
                                     <input type="file" id="file" name="file" class="form-control mt-3">
                                     <div id="file-preview" class="mt-3">
-
                                     </div>
                                 </div>
                             </div>

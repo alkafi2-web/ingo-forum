@@ -293,14 +293,14 @@ class FileController extends Controller
 
 
         // Proceed with storing the data
-        $fileCategory = new FileNgo();
-        $fileCategory->category_id = $request->category;
-        $fileCategory->subcategory_id = $request->subcategory;
-        $fileCategory->title = $request->title;
-        $fileCategory->description = $request->short_description;
-        $fileCategory->creator_type = $request->creator_type;
-        $fileCategory->creator_id = $request->creator_type == '\App\Models\User' ? Auth::guard('admin')->id() : Auth::guard('member')->id();
-
+        $FileNgo = new FileNgo();
+        $FileNgo->category_id = $request->category;
+        $FileNgo->subcategory_id = $request->subcategory;
+        $FileNgo->title = $request->title;
+        $FileNgo->description = $request->short_description;
+        $FileNgo->creator_type = $request->creator_type;
+        $FileNgo->creator_id = $request->creator_type == '\App\Models\User' ? Auth::guard('admin')->id() : Auth::guard('member')->id();
+        $FileNgo->approval_status = $request->creator_type == '\App\Models\User' ? null : 1;
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -310,9 +310,9 @@ class FileController extends Controller
                 File::makeDirectory($dir, 0755, true);
             }
             $file->move($dir, $filename);
-            $fileCategory->attachment = $filename;
+            $FileNgo->attachment = $filename;
         }
-        $fileCategory->save();
+        $FileNgo->save();
         return response()->json(['success' => ['success' => 'You have successfully Create File!']]);
     }
 
@@ -331,7 +331,7 @@ class FileController extends Controller
                     return $file->subcategory->name ?? 'N/A';
                 })
                 ->addColumn('creator', function ($file) {
-                    return $file->creator->name ?? 'N/A';
+                    return $file->creator->name ?? $file->creator->info->organisation_name;
                 })
                 ->make(true);
         }

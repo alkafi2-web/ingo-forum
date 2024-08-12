@@ -73,7 +73,7 @@
                             <div class="col-md-12">
                                 <div class="form-group mt-3">
                                     <label for="file" class="required">Attachment</label>
-                                    <input type="file" id="file" name="file" class="form-control mt-3">
+                                    <input type="file" id="file_k" name="file" class="form-control mt-3">
                                     <div id="file-preview" class="mt-3">
 
                                     </div>
@@ -218,7 +218,7 @@
                 previewFile(existingFileUrl, fileType, existingFileName);
             }
             // Set up event listener for file input change
-            $('#file').on('change', function() {
+            $('#file_k').on('change', function() {
                 var file = this.files[0];
                 if (file) {
                     var reader = new FileReader();

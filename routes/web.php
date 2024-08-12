@@ -32,6 +32,7 @@ use App\Http\Controllers\Frontend\Publication\FrontnedPublicationController;
 use App\Http\Controllers\Publication\PublicationController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\Frontend\Event\EventController as FrontendEventController;
+use App\Http\Controllers\Frontend\File\FileController as FileFileController;
 use App\Http\Controllers\Subscriber\SubscriberController;
 
 // robot & sitemap 
@@ -387,6 +388,11 @@ Route::middleware(['trackvisitor'])->group(function () {
                     Route::get('/', [FrontnedPublicationController::class, 'memberPublicationIndex'])->name('member.publication.index');
                     Route::get('/edit/{id}', [FrontnedPublicationController::class, 'memberPublicationEdit'])->name('member.publication.edit');
                 });
+                Route::prefix('file')->group(function () {
+                    Route::get('/', [FileFileController::class, 'memberFileIndex'])->name('member.file.index');
+                    Route::get('/edit/{id}', [FileFileController::class, 'memberFileEdit'])->name('member.file.edit');
+                });
+
             });
         });
 
