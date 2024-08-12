@@ -1,10 +1,10 @@
 <form action="/submit-form" id="fileForm" method="POST" enctype="multipart/form-data">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 mb-4">
             <!-- Member -->
             <div class="form-group mt-3">
-                <label for="member" class="">Assign To Member</label>
-                <select id="member" name="member_ids[]" class="form-control mt-3" multiple required>
+                <label for="member" class="mb-3 fw-bold">Assign To Member</label><br>
+                <select id="member" name="member_ids[]" class="form-select mt-3 w-100" multiple required>
                     <option value="">-- Select Member --</option>
                     @forelse ($members as $member)
                         <option value="{{ $member->member_id }}">{{ $member->organisation_name }}
@@ -20,7 +20,7 @@
         <div class="col-md-6">
             <!-- Category -->
             <div class="form-group">
-                <label for="category" class="required">Category</label>
+                <label for="category" class="required fw-bold">Category</label>
                 <select id="category" name="category" class="form-control mt-3" required="">
                     <option value="">-- Select Category --</option>
                     @forelse ($categories as $category)
@@ -34,7 +34,7 @@
         <div class="col-md-6">
             <!-- Subcategory -->
             <div class="form-group">
-                <label for="subcategory" class="">Subcategory</label>
+                <label for="subcategory" class="fw-bold">Subcategory</label>
                 <select id="subcategory" name="subcategory" class="form-control mt-3">
                     <option value="">-- Select Category First --</option>
 
@@ -47,7 +47,7 @@
         <div class="col-md-12">
             <!-- Title -->
             <div class="form-group mt-3">
-                <label for="title" class="required">Title</label>
+                <label for="title" class="required fw-bold">Title</label>
                 <input type="text" id="title" name="title" class="form-control mt-3"
                     required="">
             </div>
@@ -57,7 +57,7 @@
 
     <!-- Short Description -->
     <div class="form-group mt-3">
-        <label for="short_description" class="mb-3">Short Description</label>
+        <label for="short_description" class="mb-3 fw-bold">Short Description</label>
         <textarea id="short_description" name="short_description" class="form-control" rows="4"></textarea>
     </div>
 
@@ -65,7 +65,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group mt-3">
-                <label for="file" id="file_label" class="required">Attachment</label>
+                <label for="file" id="file_label" class="required fw-bold">Attachment</label>
                 <input type="file" id="file" name="file" class="form-control mt-3">
                 <div id="file-preview" class="mt-3">
 

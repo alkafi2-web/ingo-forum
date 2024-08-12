@@ -97,7 +97,13 @@
                         </div>
                     </div>
                     <!-- Long Description -->
+                    <style>
+                        #cke_long_description{
+                            margin-top: -222px!important; 
+                        }
+                    </style>
                     <div class="form-group mt-3">
+                        <label for="long_description" class="required form-label">Details</label>
                         <textarea id="long_description" name="long_description" class="form-control mt-5" rows="7"></textarea>
                     </div>
                     <!-- Banner -->
