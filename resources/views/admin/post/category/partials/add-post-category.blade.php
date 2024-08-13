@@ -93,7 +93,7 @@
                     },
                     success: function(response) {
                         $('#spinner-update').addClass('d-none'); // Show the spinner
-                        $(this).prop('disabled', false);
+                        $('#category-update').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -103,11 +103,11 @@
                         $('#post-category-data').DataTable().ajax.reload(null, false);
                         $('#category-submit').removeClass('d-none');
                         $('#category-update ').addClass('d-none');
-                        $('#page-refresh ').removeClass('d-none');
+                        $('#page-refresh ').addClass('d-none');
                     },
                     error: function(xhr) {
-                        $('#spinner-update').removeClass('d-none'); // Show the spinner
-                        $(this).prop('disabled', false);
+                        $('#spinner-update').addClass('d-none'); // Show the spinner
+                        $('#category-update').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {

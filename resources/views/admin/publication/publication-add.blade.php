@@ -3,13 +3,13 @@
     Publication Add
 @endsection
 @section('admin-content')
-    
     <div class="row">
         <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h2 class="mt-5">Publication Add</h2>
-                    <a href="{{ route('publication.list') }}" class="btn btn-primary"><span><i class="fas fa-list"></i></span>All
+                    <a href="{{ route('publication.list') }}" class="btn btn-primary"><span><i
+                                class="fas fa-list"></i></span>All
                         Publication</a>
                 </div>
                 <div class="card-body">
@@ -77,6 +77,8 @@
                                 <div class="form-group mt-3">
                                     <label for="file" class="required">Publication File</label>
                                     <input type="file" id="file" name="file" class="form-control mt-3" required>
+                                    <div id="file-preview" class="mt-3">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -91,11 +93,15 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group mt-3">
-                                    <button type="" id="submit" class="btn btn-primary mt-4"> <i
-                                            class="fas fa-upload"></i>Submit</button>
+                                    <button type="button" id="submit" class="btn btn-primary mt-4">
+                                        <span id="spinner-submit" class="spinner-border spinner-border-sm me-2 d-none"
+                                            role="status" aria-hidden="true"></span>
+                                        <i class="fas fa-upload"></i> Submit
+                                    </button>
                                 </div>
                             </div>
                         </div>
+
                         <!-- Submit Button -->
                     </form>
                 </div>
@@ -109,6 +115,8 @@
         $(document).ready(function() {
             $('#submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-submit').removeClass('d-none');
+                $(this).prop('disabled', true);
                 let url = "{{ route('publication.store') }}";
                 let form = $('#publicationForm')[0];
                 let formData = new FormData(form);
@@ -122,19 +130,22 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        console.log(response);
+                        $('#spinner-submit').addClass('d-none');
+                        $('#submit').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
                         });
                         $('#publicationForm')[0].reset();
                         $('#pp').attr('src', '');
+                        $('#file-preview').html('');
                     },
                     error: function(xhr) {
+                        $('#spinner-submit').addClass('d-none');
+                        $('#submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }
@@ -142,6 +153,60 @@
 
             });
         });
+        $(document).ready(function() {
+            
+            var $previewContainer = $('#file-preview');
+            // Function to preview a file
+            function previewFile(fileUrl, fileType, fileName) {
 
+                $previewContainer.empty();
+                if (fileType.startsWith('image/')) {
+                    var $img = $('<img>')
+                        .attr('src', fileUrl)
+                        .css('max-width', '100%')
+                        .css('height', '300px');
+                    $previewContainer.append($img);
+                } else if (fileType === 'application/pdf') {
+                    var $iframe = $('<iframe>').attr({
+                        src: fileUrl,
+                        type: 'application/pdf',
+                        width: '100%',
+                        height: '400px' // Adjust the height as needed
+                    });
+                    $previewContainer.append($iframe);
+                } else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                    fileType === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+                    // For DOCX and PPT files, provide a link to open the file in a new tab
+                    var $link = $('<a>').attr({
+                        href: fileUrl,
+                        target: '_blank'
+                    }).text('Open file: ' + fileName);
+                    $previewContainer.append($link);
+                } else {
+                    // For other file types, provide a link to open the file in a new tab
+                    // var $link = $('<a>').attr({
+                    //     href: fileUrl,
+                    //     target: '_blank'
+                    // }).text('Open file: ' + fileName);
+                    // $previewContainer.append($link);
+                }
+            }
+            
+            // Set up event listener for file input change
+            $('#file').on('change', function() {
+                var file = this.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        var blob = new Blob([e.target.result], {
+                            type: file.type
+                        });
+                        var url = URL.createObjectURL(blob);
+                        previewFile(url, file.type, file.name);
+                    };
+                    reader.readAsArrayBuffer(file);
+                }
+            });
+        });
     </script>
 @endpush

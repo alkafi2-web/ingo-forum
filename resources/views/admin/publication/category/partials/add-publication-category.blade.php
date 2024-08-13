@@ -7,10 +7,18 @@
             </div>
         </div>
     </div>
-    <button id="category-submit" type="submit" class="btn btn-primary mt-3"> <i
-            class="fas fa-upload"></i>Submit</button>
-    <button id="category-update" type="submit" class="btn btn-primary mt-3 d-none"><i
-            class="fas fa-wrench"></i>Update</button>
+    <button id="category-submit" type="submit" class="btn btn-primary mt-3">
+        <span id="spinner-submit" class="spinner-border spinner-border-sm me-2 d-none" role="status"
+            aria-hidden="true"></span>
+        <i class="fas fa-upload"></i> Submit
+    </button>
+
+    <button id="category-update" type="submit" class="btn btn-primary mt-3 d-none">
+        <span id="spinner-update" class="spinner-border spinner-border-sm me-2 d-none" role="status"
+            aria-hidden="true"></span>
+        <i class="fas fa-wrench"></i> Update
+    </button>
+
     <button id="page-refresh" type="submit" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i>
         Refresh</button>
 </form>
@@ -21,6 +29,8 @@
 
             $('#category-submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-submit').removeClass('d-none'); // Show the spinner
+                $(this).prop('disabled', true);
                 let url = "{{ route('publication.category.create') }}";
                 let name = $('#name').val();
                 let formData = new FormData(); // Create FormData object
@@ -35,6 +45,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        $('#spinner-submit').addClass('d-none'); // hide the spinner
+                        $('#category-submit').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -43,10 +55,11 @@
                         $('#publication-category-data').DataTable().ajax.reload(null, false);
                     },
                     error: function(xhr) {
+                        $('#spinner-submit').addClass('d-none'); // hide the spinner
+                        $('#category-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }
@@ -55,6 +68,8 @@
             });
             $('#category-update').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-update').removeClass('d-none'); // Show the spinner
+                $(this).prop('disabled', true);
                 let url = "{{ route('publication.category.update') }}";
                 let id = $(this).attr('data-id');
                 let name = $('#name').val();
@@ -72,6 +87,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        $('#spinner-update').addClass('d-none'); // hide the spinner
+                        $('#category-update').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -81,13 +98,14 @@
                         $('#publication-category-data').DataTable().ajax.reload(null, false);
                         $('#category-submit').removeClass('d-none');
                         $('#category-update ').addClass('d-none');
-                        $('#page-refresh ').removeClass('d-none');
+                        $('#page-refresh ').addClass('d-none');
                     },
                     error: function(xhr) {
+                        $('#spinner-update').addClass('d-none'); // hide the spinner
+                        $('#category-update').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }
