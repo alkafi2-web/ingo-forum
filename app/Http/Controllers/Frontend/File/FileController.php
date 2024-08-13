@@ -37,9 +37,9 @@ class FileController extends Controller
                 $query->where('status', 1);
             }])
             ->get();
-            $memberId = auth()->guard('member')->id();
-            $members = MemberInfo::where('member_id', '!=', $memberId)->get();
-        return view('frontend.member.dashboard.partials.file.file-index', compact('categories','members'));
+        $memberId = auth()->guard('member')->id();
+        $members = MemberInfo::where('member_id', '!=', $memberId)->get();
+        return view('frontend.member.dashboard.partials.file.file-index', compact('categories', 'members'));
     }
 
     public function memberFileEdit($id)
@@ -50,7 +50,7 @@ class FileController extends Controller
     public function publicfilelist(Request $request)
     {
         if ($request->ajax()) {
-            $files = FileNgo::with(['category', 'subcategory', 'creator'])->where('status',1)
+            $files = FileNgo::with(['category', 'subcategory', 'creator'])->where('status', 1)
                 ->where('assign_to', '0')  // Filter where assign_to is 0
                 ->orWhere(function ($query) {
                     $query->where('assign_to', '!=', '0')
@@ -78,13 +78,19 @@ class FileController extends Controller
         if ($request->ajax()) {
             $memberId = auth()->guard('member')->id();
 
-            $files = FileNgo::with(['category', 'subcategory', 'creator'])->where('status',1)
-                ->where(function ($query) use ($memberId) {
-                    $query->where('assign_to','!=' ,'0')
-                        ->orWhereJsonContains('assign_to', $memberId);
-                })
+            $files = FileNgo::with(['category', 'subcategory', 'creator'])
+                ->where('status', 1)
+                ->where('assign_to', '!=', '0') // Include only assigned
                 ->latest()
                 ->get();
+
+            $filteredFiles = $files->filter(function ($file) use ($memberId) {
+                $assignedMembers = json_decode($file->assign_to, true);
+                return in_array($memberId, $assignedMembers);
+            });
+
+            $files = $filteredFiles->values(); // Reset keys
+
 
             return DataTables::of($files)
                 ->addColumn('category_name', function ($file) {
