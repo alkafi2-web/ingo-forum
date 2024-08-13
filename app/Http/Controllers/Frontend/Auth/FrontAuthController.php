@@ -50,11 +50,12 @@ class FrontAuthController extends Controller
             }
 
             $previousUrl = session('keep_return_url');
+            $redirectUrl = route('member.dashboard');
 
             return response()->json([
                 'success' => true,
                 'message' => 'Login Successfull',
-                'redirect' => $previousUrl,
+                'redirect' => $redirectUrl,
             ], 200);
         } else {
             // Authentication failed
