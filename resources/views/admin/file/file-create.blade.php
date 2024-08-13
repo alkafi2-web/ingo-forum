@@ -18,7 +18,9 @@
                                 <!-- Member -->
                                 <div class="form-group">
                                     <label for="member" class="mb-3 fw-bold">Assign To Member</label>
-                                    <select class="form-select form-select-solid" id="member" name="member_ids[]"  data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple">
+                                    <select class="form-select form-select-solid" id="member" name="member_ids[]"
+                                        data-control="select2" data-placeholder="Select an option" data-allow-clear="true"
+                                        multiple="multiple">
                                         <option value="">-- Select Member --</option>
                                         @forelse ($members as $member)
                                             <option value="{{ $member->member_id }}">{{ $member->organisation_name }}
@@ -88,8 +90,11 @@
                             <div class="col-md-12">
                                 <div class="form-group mt-3">
                                     <input type="hidden" id="creator_type" name="creator_type" value="\App\Models\User">
-                                    <button type="" id="submit" class="btn btn-primary mt-4"> <i
-                                            class="fas fa-upload"></i>Submit</button>
+                                    <button type="submit" id="submit" class="btn btn-primary mt-4">
+                                        <span id="spinner-submit" class="spinner-border spinner-border-sm me-2 d-none"
+                                            role="status" aria-hidden="true"></span>
+                                        <i class="fas fa-upload"></i> Submit
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -134,6 +139,8 @@
 
             $('#submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-submit').removeClass('d-none'); // Show the spinner
+                $(this).prop('disabled', true);
                 let url = "{{ route('file.store') }}";
                 let formData = new FormData($('#fileForm')[0]);
 
@@ -147,7 +154,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        console.log(response);
+                        $('#spinner-submit').addClass('d-none'); // Hide the spinner
+                        $('#submit').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -157,6 +165,8 @@
                         $('#member').val(null).trigger('change');
                     },
                     error: function(xhr) {
+                        $('#spinner-submit').addClass('d-none'); // Hide the spinner
+                        $('#submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {

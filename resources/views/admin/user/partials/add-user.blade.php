@@ -80,10 +80,17 @@
     <!--end::Input group-->
     <!--begin::Actions-->
     <div class="text-center">
-        <button id="user-submit" type="submit" class="btn btn-primary mt-3"><i class="fas fa-store"></i>
-            Submit</button>
-        <button id="user-update" type="submit" class="btn btn-primary mt-3 d-none"> <i
-                class="fas fa-wrench"></i>Update</button>
+        <button id="user-submit" type="submit" class="btn btn-primary mt-3">
+            <span id="spinner-user-submit" class="spinner-border spinner-border-sm me-2 d-none" role="status"
+                aria-hidden="true"></span>
+            <i class="fas fa-store"></i> Submit
+        </button>
+
+        <button id="user-update" type="submit" class="btn btn-primary mt-3 d-none">
+            <span id="spinner-user-update" class="spinner-border spinner-border-sm me-2 d-none" role="status"
+                aria-hidden="true"></span>
+            <i class="fas fa-wrench"></i> Update
+        </button>
         <button id="page-refresh" type="submit" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i>
             Refresh</button>
     </div>
@@ -97,6 +104,8 @@
 
             $('#user-submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-user-submit').removeClass('d-none'); // Show the spinner
+                $(this).prop('disabled', true);
                 let url = "{{ route('register') }}";
                 let form = $('#sign_up_form')[0];
                 let formData = new FormData(form);
@@ -110,6 +119,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        $('#spinner-user-submit').addClass('d-none'); // Show the spinner
+                        $('#user-submit').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -118,10 +129,11 @@
                         $('#user-list-data').DataTable().ajax.reload(null, false);
                     },
                     error: function(xhr) {
+                        $('#spinner-user-submit').addClass('d-none'); // Show the spinner
+                        $('#user-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }
@@ -130,6 +142,8 @@
             });
             $('#user-update').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-user-update').removeClass('d-none'); // Show the spinner
+                $(this).prop('disabled', true);
                 let url = "{{ route('user.update') }}";
                 let id = $(this).attr('data-id');
                 let form = $('#sign_up_form')[0];
@@ -145,6 +159,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        $('#spinner-user-update').addClass('d-none'); // hide the spinner
+                        $('#user-update').prop('disabled', true);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -159,10 +175,11 @@
 
                     },
                     error: function(xhr) {
+                        $('#spinner-user-update').addClass('d-none'); // hide the spinner
+                        $('#user-update').prop('disabled', true);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }

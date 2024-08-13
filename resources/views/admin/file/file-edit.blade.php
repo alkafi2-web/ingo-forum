@@ -106,11 +106,15 @@
                                 <div class="form-group mt-3">
                                     <input type="hidden" name="id" id="file_id" value="{{ $file->id }}">
                                     <input type="hidden" id="creator_type" name="creator_type" value="\App\Models\User">
-                                    <button type="" id="submit" class="btn btn-primary mt-4"> <i
-                                            class="fas fa-upload"></i>Update</button>
+                                    <button type="submit" id="submit" class="btn btn-primary mt-4">
+                                        <span id="spinner-submit" class="spinner-border spinner-border-sm me-2 d-none"
+                                            role="status" aria-hidden="true"></span>
+                                        <i class="fas fa-upload"></i> Update
+                                    </button>
                                 </div>
                             </div>
                         </div>
+
                         <!-- Submit Button -->
                     </form>
                 </div>
@@ -150,6 +154,8 @@
 
             $('#submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-submit').removeClass('d-none'); // Show the spinner
+                $(this).prop('disabled', true);
                 let url = "{{ route('file.update') }}";
                 let formData = new FormData($('#fileForm')[0]);
 
@@ -163,7 +169,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        console.log(response);
+                        $('#spinner-submit').addClass('d-none');
+                        $('#submit').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -171,10 +178,12 @@
                         // $('#fileForm')[0].reset();
                     },
                     error: function(xhr) {
+                        $('#spinner-submit').addClass('d-none');
+                        $('#submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
+
                             toastr.error(value); // Displaying each error message
                         });
                     }

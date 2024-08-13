@@ -53,7 +53,6 @@
                         data: 'answer',
                         name: 'answer',
                         render: function(data, type, row, meta) {
-                            console.log("Render Function Data: ", data);
                             return $('<div/>').html(data).text();
                         }
                     },

@@ -15,9 +15,17 @@
             </div>
         </div>
     </div>
-    <button id="faq-submit" type="submit" class="btn btn-primary mt-3"><i class="fas fa-upload"></i> Submit</button>
-    <button id="faq-update" type="submit" class="btn btn-primary mt-3 d-none"> <i
-            class="fas fa-wrench"></i>Update</button>
+    <button id="faq-submit" type="submit" class="btn btn-primary mt-3">
+        <span id="spinner-faq-submit" class="spinner-border spinner-border-sm me-2 d-none" role="status"
+            aria-hidden="true"></span>
+        <i class="fas fa-upload"></i> Submit
+    </button>
+
+    <button id="faq-update" type="submit" class="btn btn-primary mt-3 d-none">
+        <span id="spinner-faq-update" class="spinner-border spinner-border-sm me-2 d-none" role="status"
+            aria-hidden="true"></span>
+        <i class="fas fa-wrench"></i> Update
+    </button>
     <button id="page-refresh" type="submit" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i>
         Refresh</button>
 </form>
@@ -29,6 +37,8 @@
 
             $('#faq-submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-faq-submit').removeClass('d-none'); // Show the spinner
+                $(this).prop('disabled', true);
                 let url = "{{ route('faqs.create') }}";
                 let formData = new FormData($('#faqForm')[0]);
                 let answer = CKEDITOR.instances['answer'].getData();
@@ -43,6 +53,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        $('#spinner-faq-submit').addClass('d-none');
+                        $('#faq-submit').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -54,10 +66,11 @@
                         $('#faq-data').DataTable().ajax.reload(null, false);
                     },
                     error: function(xhr) {
+                        $('#spinner-faq-submit').addClass('d-none');
+                        $('#faq-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }
@@ -66,6 +79,8 @@
             });
             $('#faq-update').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-faq-update').removeClass('d-none'); // Show the spinner
+                $(this).prop('disabled', true);
                 let url = "{{ route('faqs.update') }}";
                 let id = $(this).attr('data-id');
                 let formData = new FormData($('#faqForm')[0]);
@@ -82,6 +97,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        $('#spinner-faq-update').addClass('d-none');
+                        $('#faq-update').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -98,10 +115,11 @@
 
                     },
                     error: function(xhr) {
+                        $('#spinner-faq-update').addClass('d-none');
+                        $('#faq-update').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }

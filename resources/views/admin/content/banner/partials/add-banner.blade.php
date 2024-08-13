@@ -29,7 +29,8 @@
                     <label for="banner_description" class="text-3xl text-nowrap">Banner Description</label>&nbsp;&nbsp;
                     <input type="checkbox" id="descriptionSwitch" class="form-switch" name="descriptionSwitch" checked>
                 </div>
-                <input type="text" class="form-control" id="banner_description" name="banner_description" value="{{ old('banner_description') }}">
+                <input type="text" class="form-control" id="banner_description" name="banner_description"
+                    value="{{ old('banner_description') }}">
             </div>
         </div>
     </div>
@@ -58,7 +59,8 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="bg_image" class="text-3xl text-nowrap">Background Image</label>
-                <input type="file" class="form-control" id="bg_image" name="bg_image" value="" oninput="pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
+                <input type="file" class="form-control" id="bg_image" name="bg_image" value=""
+                    oninput="pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
                 <p class="text-danger">The backgrouind image size 1920 X 768px</p>
                 <img id="pp" width="100" class="float-start mt-3" src="">
             </div>
@@ -78,7 +80,8 @@
         <div class="col-md-12 mb-2">
             <div class="form-group d-flex align-items-center">
                 <label for="overlay_color" class="text-3xl text-nowrap">Overlay Color</label>
-                <input class="jscolor {hash:true, mode:'RGBA'} mx-2 w-100" id="overlay_color" name="overlay_color" value="rgba(0,0,0,0.5)">
+                <input class="jscolor {hash:true, mode:'RGBA'} mx-2 w-100" id="overlay_color" name="overlay_color"
+                    value="rgba(0,0,0,0.5)">
                 <input type="checkbox" id="overlaySwitch" class="form-switch" name="overlaySwitch" checked>
             </div>
         </div>
@@ -89,9 +92,11 @@
             <div class="form-group">
                 <div class="d-flex align-items-center">
                     <label for="content_image" class="text-3xl text-nowrap">Content Image</label>&nbsp;&nbsp;
-                    <input type="checkbox" id="contentImageSwitch" class="form-switch" name="contentImageSwitch" checked>
+                    <input type="checkbox" id="contentImageSwitch" class="form-switch" name="contentImageSwitch"
+                        checked>
                 </div>
-                <input type="file" class="form-control" id="content_image" name="content_image" value="" oninput="content_pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
+                <input type="file" class="form-control" id="content_image" name="content_image" value=""
+                    oninput="content_pp.src=window.URL.createObjectURL(this.files[0])" onchange="previewImage(event)">
                 <p class="text-danger">The content image size 640 X 550px</p>
                 <img id="content_pp" width="100" class="float-start mt-3" src="">
             </div>
@@ -111,7 +116,8 @@
         <div class="col-md-12 mb-2">
             <div class="form-group mb-2">
                 <label for="button_text" class="text-3xl">Button Text</label>
-                <input type="text" class="form-control" id="button_text" name="button_text" value="{{ old('button_text') }}">
+                <input type="text" class="form-control" id="button_text" name="button_text"
+                    value="{{ old('button_text') }}">
             </div>
             <div class="form-group mb-2 d-flex align-items-center">
                 <label for="button_bg_color" class="text-3xl">Button Background Color</label>
@@ -123,7 +129,8 @@
             </div>
             <div class="form-group mb-2">
                 <label for="button_url" class="text-3xl">Button URL</label>
-                <input type="url" class="form-control" id="button_url" name="button_url" value="{{ old('button_url') }}">
+                <input type="url" class="form-control" id="button_url" name="button_url"
+                    value="{{ old('button_url') }}">
             </div>
         </div>
     </div>
@@ -133,103 +140,118 @@
         <div class="col-md-12 mb-2">
             <div class="form-group">
                 <label for="position" class="text-3xl">Position</label>
-                <input type="number" class="form-control" id="position" name="position" value="{{ old('position') }}">
+                <input type="number" class="form-control" id="position" name="position"
+                    value="{{ old('position') }}">
             </div>
         </div>
     </div>
 
-    <button id="banner-submit" type="submit" class="btn btn-primary mt-3"><i class="fas fa-upload"></i> <span id="bannerSubmitBtn">Submit</span></button>
-    <button id="page-refresh" type="button" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i> Refresh</button>
+    <button id="banner-submit" type="submit" class="btn btn-primary mt-3">
+        <span id="spinner-banner-submit" class="spinner-border spinner-border-sm me-2 d-none" role="status"
+            aria-hidden="true"></span>
+        <i class="fas fa-upload"></i> <span id="bannerSubmitBtn">Submit</span>
+    </button>
+    <button id="page-refresh" type="button" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i>
+        Refresh</button>
 </form>
 
 @push('custom-js')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.5/jscolor.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#titleSwitch').change(function() {
-            if ($(this).is(':checked')) {
-                $('#title').prop('readonly', false);
-                $('#title_color').prop('readonly', false);
-                $('#titleColorRow').show();
-            } else {
-                $('#title').prop('readonly', true);
-                $('#title_color').prop('readonly', true);
-                $('#titleColorRow').hide();
-            }
-        });
-
-        $('#descriptionSwitch').change(function() {
-            if ($(this).is(':checked')) {
-                $('#banner_description').prop('readonly', false);
-                $('#description_color').prop('readonly', false);
-                $('#descriptionColorRow').show();
-            } else {
-                $('#banner_description').val(null).prop('readonly', true);
-                $('#description_color').val(null).prop('readonly', true);
-                $('#descriptionColorRow').hide();
-            }
-        });
-
-        $('#background_type').change(function() {
-            if ($(this).val() === 'image') {
-                $('#backgroundImageRow').show();
-                $('#overlayColorRow').show();
-                $('#backgroundColorRow').hide();
-            } else {
-                $('#backgroundImageRow').hide();
-                $('#overlayColorRow').hide();
-                $('#backgroundColorRow').show();
-            }
-        });
-
-        $('#add_button').change(function() {
-            if ($(this).is(':checked')) {
-                $('#buttonRow').show();
-            } else {
-                $('#buttonRow').hide();
-            }
-        });
-
-        $('#bannerForm').on('submit', function(e) {
-            e.preventDefault();
-            let formData = new FormData(this); // Create FormData object from form
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('banner.createOrUpdate') }}",
-                data: formData,
-                processData: false, // Prevent jQuery from processing the data
-                contentType: false, // Prevent jQuery from setting the content type
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    console.log(response);
-                    toastr.success(response.success);
-                    $('#bannerForm')[0].reset();
-                    $('#pp').attr('src', '');
-                    $('#content_pp').attr('src', '');
-                    $('#banner-data').DataTable().ajax.reload(null, false);
-                },
-                error: function(xhr) {
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        toastr.error(value); // Displaying each error message
-                    });
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.5/jscolor.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#titleSwitch').change(function() {
+                if ($(this).is(':checked')) {
+                    $('#title').prop('readonly', false);
+                    $('#title_color').prop('readonly', false);
+                    $('#titleColorRow').show();
+                } else {
+                    $('#title').prop('readonly', true);
+                    $('#title_color').prop('readonly', true);
+                    $('#titleColorRow').hide();
                 }
             });
-        });
 
-        $('#page-refresh').on('click', function(e) {
-            e.preventDefault();
-            $('#add-header').text('Add Banner Content');
-            $('#bannerForm')[0].reset();
-            $('#pp').attr('src', '');
-            $('#content_pp').attr('src', '');
-            $('#banner-submit').removeClass('d-none');
-            $('#banner-update').addClass('d-none');
-            $('#page-refresh').addClass('d-none');
+            $('#descriptionSwitch').change(function() {
+                if ($(this).is(':checked')) {
+                    $('#banner_description').prop('readonly', false);
+                    $('#description_color').prop('readonly', false);
+                    $('#descriptionColorRow').show();
+                } else {
+                    $('#banner_description').val(null).prop('readonly', true);
+                    $('#description_color').val(null).prop('readonly', true);
+                    $('#descriptionColorRow').hide();
+                }
+            });
+
+            $('#background_type').change(function() {
+                if ($(this).val() === 'image') {
+                    $('#backgroundImageRow').show();
+                    $('#overlayColorRow').show();
+                    $('#backgroundColorRow').hide();
+                } else {
+                    $('#backgroundImageRow').hide();
+                    $('#overlayColorRow').hide();
+                    $('#backgroundColorRow').show();
+                }
+            });
+
+            $('#add_button').change(function() {
+                if ($(this).is(':checked')) {
+                    $('#buttonRow').show();
+                } else {
+                    $('#buttonRow').hide();
+                }
+            });
+
+            $('#bannerForm').on('submit', function(e) {
+                e.preventDefault();
+                let formData = new FormData(this); // Create FormData object from form
+                $('#spinner-banner-submit').removeClass('d-none');
+                $('#bannerSubmitBtn').text('Submitting...'); // Optional: Change button text
+                $('#banner-submit').prop('disabled', true);
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('banner.createOrUpdate') }}",
+                    data: formData,
+                    processData: false, // Prevent jQuery from processing the data
+                    contentType: false, // Prevent jQuery from setting the content type
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#spinner-banner-submit').addClass('d-none');
+                        $('#bannerSubmitBtn').text(
+                            'Submit'); // Optional: Change button text
+                        $('#banner-submit').prop('disabled', false);
+                        toastr.success(response.success);
+                        $('#bannerForm')[0].reset();
+                        $('#pp').attr('src', '');
+                        $('#content_pp').attr('src', '');
+                        $('#banner-data').DataTable().ajax.reload(null, false);
+                    },
+                    error: function(xhr) {
+                        $('#spinner-banner-submit').addClass('d-none');
+                        $('#bannerSubmitBtn').text(
+                            'Submit'); // Optional: Change button text
+                        $('#banner-submit').prop('disabled', false);
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            toastr.error(value); // Displaying each error message
+                        });
+                    }
+                });
+            });
+
+            $('#page-refresh').on('click', function(e) {
+                e.preventDefault();
+                $('#add-header').text('Add Banner Content');
+                $('#bannerForm')[0].reset();
+                $('#pp').attr('src', '');
+                $('#content_pp').attr('src', '');
+                $('#banner-submit').removeClass('d-none');
+                $('#banner-update').addClass('d-none');
+                $('#page-refresh').addClass('d-none');
+            });
         });
-    });
-</script>
+    </script>
 @endpush

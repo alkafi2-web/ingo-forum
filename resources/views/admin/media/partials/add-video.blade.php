@@ -53,6 +53,7 @@
                 e.preventDefault();
 
                 $('#spinner').removeClass('d-none');
+                $(this).prop('disabled', true);
                 let url = "{{ route('video.create') }}";
                 let formData = new FormData($('#videoForm')[0]);
                 $.ajax({
@@ -66,6 +67,7 @@
                     },
                     success: function(response) {
                         $('#spinner').addClass('d-none');
+                        $('#video-submit').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -76,10 +78,10 @@
                     },
                     error: function(xhr) {
                         $('#spinner').addClass('d-none');
+                        $('#video-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }
@@ -88,7 +90,8 @@
             });
             $('#video-update').on('click', function(e) {
                 e.preventDefault();
-                $('#spinner').removeClass('d-none');
+                $('#update-spinner').removeClass('d-none');
+                $(this).prop('disabled', false);
                 let url = "{{ route('video.update') }}";
                 let id = $(this).attr('data-id');
                 let formData = new FormData($('#videoForm')[0]);
@@ -104,7 +107,8 @@
                     },
                     success: function(response) {
                         var success = response.success;
-                        $('#spinner').addClass('d-none');
+                        $('#update-spinner').addClass('d-none');
+                        $('#video-update').prop('disabled', false);
                         $('#warning-photo').removeClass('d-none');
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -118,11 +122,11 @@
                         $('#page-refresh').addClass('d-none');
                     },
                     error: function(xhr) {
-                        $('#spinner').addClass('d-none');
+                        $('#update-spinner').addClass('d-none');
+                        $('#video-update').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }
@@ -133,6 +137,7 @@
             $('#page-refresh').on('click', function(e) {
                 e.preventDefault();
                 $('#spinner').addClass('d-none');
+                $('#update-spinner').addClass('d-none');
                 $('#warning-photo').removeClass('d-none');
                 $('#add-header').text('Add Photo');
                 $('#videoForm')[0].reset();

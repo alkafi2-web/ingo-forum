@@ -67,7 +67,7 @@
     <button id="photo-update" type="submit" class="btn btn-primary d-none"><i class="fas fa-wrench"></i>Update <span
             id="update-spinner" class="spinner-border spinner-border-sm text-light d-none" role="status"
             aria-hidden="true"></span></button></button>
-    <button id="page-refresh" type="submit" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i>
+    <button id="page-refresh" type="submit" class="btn btn-secondary d-none"><i class="fas fa-sync-alt"></i>
         Refresh </button>
 </form>
 
@@ -79,6 +79,7 @@
                 e.preventDefault();
 
                 $('#spinner').removeClass('d-none');
+                $(this).prop('disabled', true);
                 let url = "{{ route('photo.create') }}";
                 let formData = new FormData($('#photoForm')[0]);
                 $.ajax({
@@ -91,8 +92,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        console.log(response);
                         $('#spinner').addClass('d-none');
+                        $('#photo-submit').prop('disabled', false);
                         $('#image-preview').empty(); // Clear all previews
                         filesArray = []; // Clear the files array
                         $('#images').val('');
@@ -105,10 +106,10 @@
                     },
                     error: function(xhr) {
                         $('#spinner').addClass('d-none');
+                        $('#photo-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }
@@ -117,7 +118,8 @@
             });
             $('#photo-update').on('click', function(e) {
                 e.preventDefault();
-                $('#spinner').removeClass('d-none');
+                $('#update-spinner').removeClass('d-none');
+                $('#photo-update').prop('disabled', true);
                 let url = "{{ route('photo.update') }}";
                 let id = $(this).attr('data-id');
                 let formData = new FormData($('#photoForm')[0]);
@@ -133,7 +135,8 @@
                     },
                     success: function(response) {
                         var success = response.success;
-                        $('#spinner').addClass('d-none');
+                        $('#update-spinner').addClass('d-none');
+                        $('#photo-update').prop('disabled', false);
                         $('#images-label').addClass('required');
                         $('#image-preview').empty(); // Clear all previews
                         filesArray = []; // Clear the files array
@@ -152,11 +155,11 @@
                         $('#page-refresh').addClass('d-none');
                     },
                     error: function(xhr) {
-                        $('#spinner').addClass('d-none');
+                        $('#update-spinner').addClass('d-none');
+                        $('#photo-update').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }

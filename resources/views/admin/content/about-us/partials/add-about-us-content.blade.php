@@ -23,9 +23,14 @@
             </div>
         </div>
     </div>
-    <button id="about-us-submit" type="submit" class="btn btn-primary mt-3"> <i class="fas fa-upload"></i>Submit</button>
-    <button id="about-us-update" type="submit" class="btn btn-primary mt-3 d-none"> <i class="fas fa-wrench"></i>Update</button>
-    
+    <button id="about-us-submit" type="submit" class="btn btn-primary mt-3">
+        <span id="spinner-about-us-submit" class="spinner-border spinner-border-sm me-2 d-none" role="status"
+            aria-hidden="true"></span>
+        <i class="fas fa-upload"></i> Submit
+    </button>
+    <button id="about-us-update" type="submit" class="btn btn-primary mt-3 d-none"> <i
+            class="fas fa-wrench"></i>Update</button>
+
 </form>
 @push('custom-js')
     <script>
@@ -33,6 +38,8 @@
         $(document).ready(function() {
             $('#about-us-submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-about-us-submit').removeClass('d-none');
+                $(this).prop('disabled', true);
                 let url = "{{ route('aboutus.create') }}";
                 let title = $('#title').val();
                 let slogan = $('#slogan').val();
@@ -53,7 +60,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        console.log(response);
+                        $('#spinner-about-us-submit').addClass('d-none');
+                        $('#about-us-submit').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -62,10 +70,12 @@
                         $('#about-us-data').DataTable().ajax.reload(null, false);
                     },
                     error: function(xhr) {
+                        $('#spinner-about-us-submit').addClass('d-none');
+                        $('#about-us-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
+
                             toastr.error(value); // Displaying each error message
                         });
                     }

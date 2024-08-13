@@ -100,7 +100,10 @@
                                 </div>
                             </div>
                         </div>
-                        <button id="system-submit" type="submit" class="btn btn-primary mt-3"><i class="fas fa-upload"></i>Submit</button>
+                        <button id="system-submit" type="submit" class="btn btn-primary mt-3">
+                            <span id="spinner-system-submit" class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                            <i class="fas fa-upload"></i> Submit
+                        </button>
                     </form>
                     
                 </div>

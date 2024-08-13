@@ -42,9 +42,17 @@
             </div>
         </div>
     </div>
-    <button id="role-submit" type="submit" class="btn btn-primary mt-3"> <i class="fas fa-upload"></i>Submit</button>
-    <button id="role-update" type="submit" class="btn btn-primary mt-3 d-none"><i
-            class="fas fa-wrench"></i>Update</button>
+    <button id="role-submit" type="submit" class="btn btn-primary mt-3">
+        <span id="spinner-role-submit" class="spinner-border spinner-border-sm me-2 d-none" role="status"
+            aria-hidden="true"></span>
+        <i class="fas fa-upload"></i> Submit
+    </button>
+
+    <button id="role-update" type="submit" class="btn btn-primary mt-3 d-none">
+        <span id="spinner-role-update" class="spinner-border spinner-border-sm me-2 d-none" role="status"
+            aria-hidden="true"></span>
+        <i class="fas fa-wrench"></i> Update
+    </button>
     <button id="page-refresh" type="submit" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i>
         Refresh</button>
 </form>
@@ -54,6 +62,8 @@
         $(document).ready(function() {
             $('#role-submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-role-submit').removeClass('d-none'); // Show the spinner
+                $(this).prop('disabled', true);
                 let url = "{{ route('role.create') }}";
                 let form = $('#roleForm')[0];
                 let formData = new FormData(form);
@@ -67,6 +77,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        $('#spinner-role-submit').addClass('d-none'); // hide the spinner
+                        $('#role-submit').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -75,10 +87,11 @@
                         $('#role-data').DataTable().ajax.reload(null, false);
                     },
                     error: function(xhr) {
+                        $('#spinner-role-submit').addClass('d-none'); // hide the spinner
+                        $('#role-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }
@@ -87,6 +100,8 @@
             });
             $('#role-update').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-role-update').removeClass('d-none'); // Show the spinner
+                $(this).prop('disabled', true);
                 let url = "{{ route('role.update') }}";
                 let id = $(this).attr('data-id');
                 let form = $('#roleForm')[0];
@@ -102,6 +117,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        $('#spinner-role-update').addClass('d-none'); // hide the spinner
+                        $('#role-update').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -114,10 +131,11 @@
                         $('#page-refresh ').addClass('d-none');
                     },
                     error: function(xhr) {
+                        $('#spinner-role-update').addClass('d-none'); // hide the spinner
+                        $('#role-update').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }

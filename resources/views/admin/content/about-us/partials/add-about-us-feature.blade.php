@@ -26,10 +26,18 @@
             </div>
         </div>
     </div>
-    <button id="about-us-feature-submit" type="submit" class="btn btn-primary mt-3"> <i
-            class="fas fa-upload"></i>Submit</button>
-    <button id="about-us-feature-update" type="submit" class="btn btn-primary mt-3 d-none"> <i
-            class="fas fa-wrench"></i>Update</button>
+    <button id="about-us-feature-submit" type="submit" class="btn btn-primary mt-3">
+        <span id="spinner-about-us-feature-submit" class="spinner-border spinner-border-sm me-2 d-none" role="status"
+            aria-hidden="true"></span>
+        <i class="fas fa-upload"></i> Submit
+    </button>
+
+    <button id="about-us-feature-update" type="submit" class="btn btn-primary mt-3 d-none">
+        <span id="spinner-about-us-feature-update" class="spinner-border spinner-border-sm me-2 d-none" role="status"
+            aria-hidden="true"></span>
+        <i class="fas fa-wrench"></i> Update
+    </button>
+
     <button id="page-refresh" type="submit" class="btn btn-secondary mt-3 d-none"><i class="fas fa-sync-alt"></i>
         Refresh</button>
 </form>
@@ -38,6 +46,8 @@
         $(document).ready(function() {
             $('#about-us-feature-submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-about-us-feature-submit').removeClass('d-none'); // Show the spinner
+                $(this).prop('disabled', true);
                 let url = "{{ route('aboutus.feature.create') }}";
                 let subtitle = $('#f_sub_title').val();
                 let title = $('#f_title').val();
@@ -58,7 +68,9 @@
                     },
                     success: function(response) {
                         $('#aboutusfeatureForm')[0].reset();
-                        // $('#pp').attr('src', '');
+                        $('#spinner-about-us-feature-submit').addClass(
+                            'd-none'); // Show the spinner
+                        $('#about-us-feature-submit').prop('disabled', false);
                         $('#about-us-feature-data').DataTable().ajax.reload(null, false);
                         var success = response.success;
                         $.each(success, function(key, value) {
@@ -67,10 +79,12 @@
 
                     },
                     error: function(xhr) {
+                        $('#spinner-about-us-feature-submit').addClass(
+                            'd-none'); // Show the spinner
+                        $('#about-us-feature-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }
@@ -79,6 +93,8 @@
             });
             $('#about-us-feature-update').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-about-us-feature-update').removeClass('d-none'); // Show the spinner
+                $(this).prop('disabled', true);
                 let url = "{{ route('feature.update') }}";
                 let oldTitle = $(this).attr('data-title');
                 let subtitle = $('#f_sub_title').val();
@@ -100,6 +116,9 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        $('#spinner-about-us-feature-update').addClass(
+                            'd-none'); // Show the spinner
+                        $('#about-us-feature-update').prop('disabled', false);
                         toastr.success(response.success);
                         $('#feature-header').text('Add About Us Feature');
                         $('#aboutusfeatureForm')[0].reset();
@@ -110,6 +129,9 @@
                         $('#page-refresh').addClass('d-none');
                     },
                     error: function(xhr) {
+                        $('#spinner-about-us-feature-update').addClass(
+                            'd-none'); // Show the spinner
+                        $('#about-us-feature-update').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {

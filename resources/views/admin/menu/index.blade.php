@@ -34,7 +34,7 @@
 
     @push('custom-js')
         <script>
-            $(function () {
+            $(function() {
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -54,10 +54,10 @@
                     maxLevels: 2,
                     attribute: 'data-id',
                     expression: /^(\d+)$/,
-                    update: function (event, ui) {
+                    update: function(event, ui) {
                         var serializedData = [];
 
-                        $('#menu-container li').each(function (index) {
+                        $('#menu-container li').each(function(index) {
                             var item = $(this);
                             var itemId = item.data('id');
                             var parentId = item.parent().closest('li').data('id') || 0;
@@ -71,15 +71,19 @@
 
                         console.log('Serialized Data:', serializedData); // Debugging
 
-                        $.post("{{ route('menu.updateOrder') }}", { order: serializedData });
+                        $.post("{{ route('menu.updateOrder') }}", {
+                            order: serializedData
+                        });
                     },
-                    stop: function (event, ui) {
+                    stop: function(event, ui) {
                         var item = ui.item;
                         var parent = item.parent().closest('li');
                         var parentId = parent.length ? parent.attr('id').replace('menu-', '') : 0;
                         var itemId = item.attr('id').replace('menu-', '');
 
-                        $.post("{{ route('menu.createOrRemoveSubmenu') }}", { submenu: [itemId, parentId] })
+                        $.post("{{ route('menu.createOrRemoveSubmenu') }}", {
+                                submenu: [itemId, parentId]
+                            })
                             .done(function() {
                                 toastr.success('Menu updated successfully.');
                             })
@@ -100,7 +104,10 @@
                         confirmButtonText: 'Yes, enable it!'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            $.post("{{ route('menu.toggleVisibility') }}", { menu_id: menuId, visibility: 1 })
+                            $.post("{{ route('menu.toggleVisibility') }}", {
+                                    menu_id: menuId,
+                                    visibility: 1
+                                })
                                 .done(function(response) {
                                     toastr.success('Menu item enabled successfully.');
                                     refreshMenu();
@@ -123,7 +130,10 @@
                         confirmButtonText: 'Yes, disable it!'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            $.post("{{ route('menu.toggleVisibility') }}", { menu_id: menuId, visibility: 0 })
+                            $.post("{{ route('menu.toggleVisibility') }}", {
+                                    menu_id: menuId,
+                                    visibility: 0
+                                })
                                 .done(function(response) {
                                     toastr.success('Menu item disabled successfully.');
                                     refreshMenu();
@@ -146,7 +156,9 @@
                         confirmButtonText: 'Yes, delete it!'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            $.post("{{ route('menu.delete') }}", { menu_id: menuId })
+                            $.post("{{ route('menu.delete') }}", {
+                                    menu_id: menuId
+                                })
                                 .done(function(response) {
                                     toastr.success('Menu item deleted successfully.');
                                     refreshMenu();
@@ -161,11 +173,14 @@
                 // Edit Menu
                 $(document).on('click', '#editBtn', function() {
                     var menuId = $(this).data('id');
-                    $.get("{{ route('menu.edit') }}", { menu_id: menuId })
+                    $.get("{{ route('menu.edit') }}", {
+                            menu_id: menuId
+                        })
                         .done(function(response) {
                             var menu = response.menu;
                             $('#page-header').text('Edit Menu');
-                            $('input[name="menu_type"][value="' + menu.type + '"]').prop('checked', true).trigger('change');
+                            $('input[name="menu_type"][value="' + menu.type + '"]').prop('checked', true)
+                                .trigger('change');
                             if (menu.type === 'page') {
                                 loadPages(menu.page_id);
                             } else if (menu.type === 'route') {
@@ -185,13 +200,14 @@
 
                 function loadPages(selectedPageId) {
                     $.ajax({
-                        url: '{{ route("menu.pages") }}',
+                        url: '{{ route('menu.pages') }}',
                         method: 'GET',
                         success: function(response) {
                             var options = '<option value="">Select Page</option>';
                             response.forEach(function(page) {
                                 var selected = page.id == selectedPageId ? 'selected' : '';
-                                options += `<option value="${page.id}" ${selected}>${page.title}</option>`;
+                                options +=
+                                    `<option value="${page.id}" ${selected}>${page.title}</option>`;
                             });
                             $('#page_id').html(options);
                         },
@@ -204,6 +220,8 @@
                 // Update Menu
                 $('#menu-update').on('click', function(event) {
                     event.preventDefault();
+                    $('#spinner-update').removeClass('d-none'); // Show the spinner
+                    $(this).prop('disabled', true);
                     var menuId = $(this).data('id');
                     var formData = new FormData($('#menuForm')[0]);
                     formData.append('menu_id', menuId);
@@ -215,11 +233,15 @@
                         processData: false,
                         contentType: false,
                         success: function(response) {
+                            $('#spinner-update').addClass('d-none'); // hide the spinner
+                            $('#menu-update').prop('disabled', false);
                             toastr.success('Menu item updated successfully.');
                             resetMenuForm();
                             refreshMenu();
                         },
                         error: function(xhr) {
+                            $('#spinner-update').addClass('d-none'); // hide the spinner
+                            $('#menu-update').prop('disabled', false);
                             var errors = xhr.responseJSON.errors;
                             $.each(errors, function(key, value) {
                                 toastr.error(value[0]);
@@ -243,7 +265,7 @@
                     $('#menu-update').hide();
                 }
 
-                
+
                 // Refresh Menu Form
                 $('#menu-refresh').on('click', function() {
                     resetMenuForm();
@@ -274,14 +296,16 @@
             list-style-type: none;
         }
 
-        .draggable-menu-container, .draggable-sub-menu-container {
+        .draggable-menu-container,
+        .draggable-sub-menu-container {
             list-style-type: none;
             padding: 0;
             margin: 0;
             width: 100%;
         }
 
-        .draggable-menu-item, .draggable-sub-menu-item {
+        .draggable-menu-item,
+        .draggable-sub-menu-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -293,11 +317,13 @@
             width: 100%;
         }
 
-        .draggable-menu-item .draggable-menu-name, .draggable-sub-menu-item .draggable-menu-name {
+        .draggable-menu-item .draggable-menu-name,
+        .draggable-sub-menu-item .draggable-menu-name {
             flex: 1;
         }
 
-        .draggable-menu-item .btn, .draggable-sub-menu-item .btn {
+        .draggable-menu-item .btn,
+        .draggable-sub-menu-item .btn {
             margin-left: 5px;
         }
 
@@ -307,7 +333,8 @@
         }
 
         .draggable-sub-menu-container {
-            padding-left: 26px; /* Indent sub-menus */
+            padding-left: 26px;
+            /* Indent sub-menus */
         }
 
         .drop-target {
