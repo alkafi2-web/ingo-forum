@@ -35,7 +35,8 @@
                             <label class="form-label fw-bolder text-dark fs-6 required">Image</label>
                             <input class="form-control form-control-lg form-control-solid" type="file" name="image"
                                 id="image" oninput="pp.src=window.URL.createObjectURL(this.files[0])">
-                            <img id="pp" width="200" class="float-start mt-3 d-block" src="{{ $user->image ? asset('public/frontend/images/profile/' . $user->image) : asset('public/frontend/images/member/placeholder.jpg') }}">
+                            <img id="pp" width="200" class="float-start mt-3 d-block"
+                                src="{{ $user->image ? asset('public/frontend/images/profile/' . $user->image) : asset('public/frontend/images/member/placeholder.jpg') }}">
                         </div>
                         <!--end::Col-->
 
@@ -66,6 +67,8 @@
                     <!--begin::Actions-->
                     <div class="text-center">
                         <button id="user-submit" type="submit" class="btn btn-primary mt-3 mr-2">
+                            <span id="spinner-user-submit" class="spinner-border spinner-border-sm me-2 d-none"
+                                role="status" aria-hidden="true"></span>
                             <i class="fas fa-store"></i> Update
                         </button>
                     </div>
@@ -85,6 +88,8 @@
 
             $('#user-submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-user-submit').removeClass('d-none'); // Show the spinner
+                $(this).prop('disabled', true);
                 let url = "{{ route('user.profile.update') }}";
                 let form = $('#sign_up_form')[0];
                 let formData = new FormData(form);
@@ -98,16 +103,19 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        $('#spinner-user-submit').addClass('d-none');
+                        $('#user-submit').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
                         });
                     },
                     error: function(xhr) {
+                        $('#spinner-user-submit').addClass('d-none');
+                        $('#user-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }
