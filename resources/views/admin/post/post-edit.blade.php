@@ -28,7 +28,8 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h2 class="mt-5">Post Update</h2>
-                    <a href="{{ route('post.list') }}" class="btn btn-primary"><span><i class="fas fa-list"></i></span>All Post</a>
+                    <a href="{{ route('post.list') }}" class="btn btn-primary"><span><i class="fas fa-list"></i></span>All
+                        Post</a>
                 </div>
                 <div class="card-body">
                     <form action="/submit-form" id="postUpdateForm" method="POST" enctype="multipart/form-data">
@@ -109,10 +110,15 @@
                             <div class="col-md-12">
                                 <div class="form-group mt-3">
                                     <input type="hidden" id="id" name="id" value="{{ $post->id }}">
-                                    <button type="" id="update" class="btn btn-primary mt-4">Update</button>
+                                    <button type="submit" id="update" class="btn btn-primary mt-4">
+                                        <span id="spinner-update" class="spinner-border spinner-border-sm d-none"
+                                            role="status" aria-hidden="true"></span>
+                                        <i class="fas fa-wrench"></i> Update
+                                    </button>
                                 </div>
                             </div>
                         </div>
+
                         <!-- Submit Button -->
                     </form>
                 </div>
@@ -158,6 +164,9 @@
 
             $('#update').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-update').removeClass('d-none');
+                $(this).prop('disabled', true);
+                
                 let url = "{{ route('post.update') }}";
                 let id = $('#id').val();
                 let category = $('#category').val();
@@ -190,25 +199,19 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        console.log(response);
+                        $('#spinner-update').addClass('d-none');
+                        $('#update').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
                         });
-                        // $('#postUpdateForm')[0].reset();
-                        // var long_description = CKEDITOR.instances['long_description'];
-                        // long_description.setData('');
-                        // long_description.focus();
-                        // var short_description = CKEDITOR.instances['short_description'];
-                        // short_description.setData('');
-                        // short_description.focus();
-                        // $('#pp').attr('src', '');
                     },
                     error: function(xhr) {
+                        $('#spinner-update').addClass('d-none');
+                        $('#update').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }

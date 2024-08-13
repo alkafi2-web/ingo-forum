@@ -28,7 +28,8 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h2 class="mt-5">Post Create</h2>
-                    <a href="{{ route('post.list') }}" class="btn btn-primary"><span><i class="fas fa-list"></i></span>All Post</a>
+                    <a href="{{ route('post.list') }}" class="btn btn-primary"><span><i class="fas fa-list"></i></span>All
+                        Post</a>
                 </div>
                 <div class="card-body">
                     <form action="/submit-form" id="postForm" method="POST" enctype="multipart/form-data">
@@ -101,11 +102,15 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group mt-3">
-                                    <button type="" id="submit" class="btn btn-primary mt-4"> <i
-                                            class="fas fa-upload"></i>Submit</button>
+                                    <button type="submit" id="submit" class="btn btn-primary mt-4">
+                                        <span id="spinner" class="spinner-border spinner-border-sm me-2 d-none"
+                                            role="status" aria-hidden="true"></span>
+                                        <i class="fas fa-upload"></i> Submit
+                                    </button>
                                 </div>
                             </div>
                         </div>
+
                         <!-- Submit Button -->
                     </form>
                 </div>
@@ -138,6 +143,10 @@
 
             $('#submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner').removeClass('d-none');
+
+                // Optionally disable the button to prevent multiple submissions
+                $(this).prop('disabled', true);
                 let url = "{{ route('post.store') }}";
                 let category = $('#category').val();
                 let subcategory = $('#subcategory').val();
@@ -166,7 +175,8 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        console.log(response);
+                        $('#spinner').addClass('d-none');
+                        $('#submit').prop('disabled', false);
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -181,6 +191,8 @@
                         $('#pp').attr('src', '');
                     },
                     error: function(xhr) {
+                        $('#spinner').addClass('d-none');
+                        $('#submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
