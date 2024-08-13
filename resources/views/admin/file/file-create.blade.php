@@ -153,12 +153,13 @@
                             toastr.success(value); // Displaying each error message
                         });
                         $('#fileForm')[0].reset();
+                        $('#file-preview').html('');
+                        $('#member').val(null).trigger('change');
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }

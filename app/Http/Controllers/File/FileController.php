@@ -365,6 +365,8 @@ class FileController extends Controller
         }
         if($request->member_ids){
             $FileNgo->assign_to = json_encode($request->member_ids);
+        }else{
+            $FileNgo->assign_to = 0;
         }
         $FileNgo->save();
         return response()->json(['success' => ['success' => 'You have successfully Create File!']]);

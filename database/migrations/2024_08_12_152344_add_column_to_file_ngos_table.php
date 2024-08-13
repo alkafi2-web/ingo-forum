@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('file_ngos', function (Blueprint $table) {
-            $table->json('assign_to')->default(0)->after('creator_id');
+            $table->json('assign_to')->nullable()->after('creator_id');
         });
     }
 
