@@ -156,10 +156,12 @@ class AppServiceProvider extends ServiceProvider
             $pendingMemberCount = Member::where('status', 0)->with('memberInfos')->count();
             $global['pendingMemberCount'] = $pendingMemberCount;
 
-            $pendingPostCount = Post::where('approval_status', 0)->count();
+            $pendingPostCount = Post::where('approval_status', 0)->whereNotNull('member_id')
+            ->count();
             $global['pendingPostCount'] = $pendingPostCount;
 
-            $pendingPublicationCount = Publication::where('approval_status', 0)->count();
+            $pendingPublicationCount = Publication::where('approval_status', 0)->whereNotNull('member_id')
+            ->count();
             $global['pendingPublicationCount'] = $pendingPublicationCount;
 
             $pendingEventCount = Event::where('approval_status', 0)->count();
