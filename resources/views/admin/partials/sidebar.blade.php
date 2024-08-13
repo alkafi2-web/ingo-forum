@@ -54,8 +54,7 @@
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                                 <span class="svg-icon svg-icon-2">
-                                    <i
-                                        class="fas fa-tachometer-alt"></i>
+                                    <i class="fas fa-tachometer-alt"></i>
                                     </svg>
                                 </span>
                                 <!--end::Svg Icon-->
@@ -116,9 +115,11 @@
                                         </span>
                                         <span class="menu-title position-relative">Member Request
                                             @if ($global['pendingMemberCount'] > 0)
-                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
-                                              {{ $global['pendingMemberCount'] }}
-                                            </span>
+                                                <span
+                                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                                    style="top: 9px !important; margin-left: -12px;">
+                                                    {{ $global['pendingMemberCount'] }}
+                                                </span>
                                             @endif
                                         </span>
                                     </span>
@@ -149,7 +150,7 @@
                 {{-- post sidebar start --}}
                 @if (Auth::guard('admin')->user()->hasAnyPermission(['post-add', 'post-view-all', 'post-category-manage', 'post-subcategory-manage']))
                     <div data-kt-menu-trigger="click"
-                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'subcategory' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'post.edit' || Route::currentRouteName() == 'post.request.list' || Route::currentRouteName() == 'post.request.view'   ? 'hover show' : '' }}">
+                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'subcategory' || Route::currentRouteName() == 'post.create' || Route::currentRouteName() == 'post.list' || Route::currentRouteName() == 'post.edit' || Route::currentRouteName() == 'post.request.list' || Route::currentRouteName() == 'post.request.view' ? 'hover show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -160,11 +161,15 @@
                                 <!--end::Svg Icon-->
                             </span>
                             <span class="menu-title position-relative">Post
-                                @if ($global['pendingPostCount'] > 0)
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
-                                  {{ $global['pendingPostCount'] }}
-                                </span>
-                                @endif
+                                <div class="pendingPostCount">
+                                    @if ($global['pendingPostCount'] > 0)
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                            style="top: 9px !important; margin-left: -12px;">
+                                            {{ $global['pendingPostCount'] }}
+                                        </span>
+                                    @endif
+                                </div>
                             </span>
                             <span class="menu-arrow"></span>
                         </span>
@@ -201,11 +206,15 @@
                                             <span class="bullet bullet-dot"></span>
                                         </span>
                                         <span class="menu-title position-relative">Request Post
-                                            @if ($global['pendingPostCount'] > 0)
-                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
-                                              {{ $global['pendingPostCount'] }}
-                                            </span>
-                                            @endif
+                                            <div class="pendingPostCount">
+                                                @if ($global['pendingPostCount'] > 0)
+                                                    <span
+                                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                                        style="top: 9px !important; margin-left: -12px;">
+                                                        {{ $global['pendingPostCount'] }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </span>
                                     </span>
                                 </a>
@@ -238,7 +247,7 @@
                 {{-- publication sidebar start --}}
                 @if (Auth::guard('admin')->user()->hasAnyPermission(['publication-add', 'publication-view-all', 'publication-category-manage']))
                     <div data-kt-menu-trigger="click"
-                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'publication.create' ||  Route::currentRouteName() == 'publication.category' || Route::currentRouteName() == 'publication.request.list' ? 'hover show' : '' }}">
+                        class="menu-item menu-accordion {{ Route::currentRouteName() == 'category' || Route::currentRouteName() == 'publication.create' || Route::currentRouteName() == 'publication.category' || Route::currentRouteName() == 'publication.request.list' ? 'hover show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -249,11 +258,15 @@
                                 <!--end::Svg Icon-->
                             </span>
                             <span class="menu-title position-relative   ">Publication
-                                @if ($global['pendingPublicationCount'] > 0)
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
-                                  {{ $global['pendingPublicationCount'] }}
-                                </span>
-                                @endif
+                                <div class="pendingPublicationCount">
+                                    @if ($global['pendingPublicationCount'] > 0)
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                            style="top: 9px !important; margin-left: -12px;">
+                                            {{ $global['pendingPublicationCount'] }}
+                                        </span>
+                                    @endif
+                                </div>
                             </span>
                             <span class="menu-arrow"></span>
                         </span>
@@ -290,11 +303,15 @@
                                             <span class="bullet bullet-dot"></span>
                                         </span>
                                         <span class="menu-title position-relative">Request Publication
-                                            @if ($global['pendingPublicationCount'] > 0)
-                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
-                                              {{ $global['pendingPublicationCount'] }}
-                                            </span>
-                                            @endif
+                                            <div class="pendingPublicationCount">
+                                                @if ($global['pendingPublicationCount'] > 0)
+                                                    <span
+                                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                                        style="top: 9px !important; margin-left: -12px;">
+                                                        {{ $global['pendingPublicationCount'] }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </span>
                                     </span>
                                 </a>
@@ -321,7 +338,7 @@
                     <div class="menu-item">
                         <div class="menu-content pt-8 pb-2">
                             <span class="menu-section text-muted text-uppercase fs-8 ls-1">Event Management</span>
-                            
+
                         </div>
                     </div>
                 @endif
@@ -337,11 +354,15 @@
                                 <!--end::Svg Icon-->
                             </span>
                             <span class="menu-title position-relative">Event
-                                @if ($global['pendingEventCount'] > 0)
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
-                                  {{ $global['pendingEventCount'] }}
-                                </span>
-                                @endif
+                                <div class="pendingEventCount">
+                                    @if ($global['pendingEventCount'] > 0)
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                            style="top: 9px !important; margin-left: -12px;">
+                                            {{ $global['pendingEventCount'] }}
+                                        </span>
+                                    @endif
+                                </div>
                             </span>
                             <span class="menu-arrow"></span>
                         </span>
@@ -358,21 +379,27 @@
                                 </a>
                             @endcan
                             <a class="menu-item menu-accordion" href="{{ route('event.request.list') }}">
-                                <span class="menu-link {{ Route::currentRouteName() == 'event.request.list' || Route::currentRouteName() == 'event.request.view' ? 'active' : '' }}">
+                                <span
+                                    class="menu-link {{ Route::currentRouteName() == 'event.request.list' || Route::currentRouteName() == 'event.request.view' ? 'active' : '' }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
                                     <span class="menu-title position-relative">Events Request
-                                        @if ($global['pendingEventCount'] > 0)
-                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="top: 9px !important; margin-left: -12px;">
-                                          {{ $global['pendingEventCount'] }}
-                                        </span>
-                                        @endif
+                                        <div class="pendingEventCount">
+                                            @if ($global['pendingEventCount'] > 0)
+                                                <span
+                                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                                    style="top: 9px !important; margin-left: -12px;">
+                                                    {{ $global['pendingEventCount'] }}
+                                                </span>
+                                            @endif
+                                        </div>
                                     </span>
                                 </span>
                             </a>
                             <a class="menu-item menu-accordion" href="{{ route('event.attendee.list') }}">
-                                <span class="menu-link {{ Route::currentRouteName() == 'event.attendee.list' ? 'active' : '' }}">
+                                <span
+                                    class="menu-link {{ Route::currentRouteName() == 'event.attendee.list' ? 'active' : '' }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -389,7 +416,7 @@
                     <div class="menu-item">
                         <div class="menu-content pt-8 pb-2">
                             <span class="menu-section text-muted text-uppercase fs-8 ls-1">File Management</span>
-                            
+
                         </div>
                     </div>
                 @endif
@@ -405,18 +432,15 @@
                                 <!--end::Svg Icon-->
                             </span>
                             <span class="menu-title">File</span>
-                            {{-- <div class="pendingEventCount">
-                                @if ($global['pendingEventCount'] > 0)
-                                    <span class="badge badge-light-danger">{{ $global['pendingEventCount'] }}</span>
-                                @endif
-                            </div> --}}
+
                             <span class="menu-arrow"></span>
                         </span>
                         <div
                             class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'file.create' || Route::currentRouteName() == 'file.list' ? 'hover show' : '' }}">
                             @can('event-view')
                                 <a class="menu-item menu-accordion" href="{{ route('file.create') }}">
-                                    <span class="menu-link {{ Route::currentRouteName() == 'file.create' ? 'active' : '' }}">
+                                    <span
+                                        class="menu-link {{ Route::currentRouteName() == 'file.create' ? 'active' : '' }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -426,7 +450,8 @@
                             @endcan
                             @can('event-view')
                                 <a class="menu-item menu-accordion" href="{{ route('file.list') }}">
-                                    <span class="menu-link {{ Route::currentRouteName() == 'file.list' ? 'active' : '' }}">
+                                    <span
+                                        class="menu-link {{ Route::currentRouteName() == 'file.list' ? 'active' : '' }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -448,7 +473,8 @@
                                 </span>
                             </a> --}}
                             <a class="menu-item menu-accordion" href="{{ route('file.category') }}">
-                                <span class="menu-link {{ Route::currentRouteName() == 'file.category' ? 'active' : '' }}">
+                                <span
+                                    class="menu-link {{ Route::currentRouteName() == 'file.category' ? 'active' : '' }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -456,7 +482,8 @@
                                 </span>
                             </a>
                             <a class="menu-item menu-accordion" href="{{ route('file.subcategory') }}">
-                                <span class="menu-link {{ Route::currentRouteName() == 'file.subcategory' ? 'active' : '' }}">
+                                <span
+                                    class="menu-link {{ Route::currentRouteName() == 'file.subcategory' ? 'active' : '' }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>

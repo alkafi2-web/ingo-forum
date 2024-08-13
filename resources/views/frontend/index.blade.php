@@ -219,7 +219,7 @@
                                 <h4 class="event-title"><a
                                         href="{{ route('frontend.event.show', $global['latest_event']->slug) }}">{{ $global['latest_event']->title ?? '' }}</a>
                                 </h4>
-                                <p class="line-clamp-3">{{ Str::limit($global['latest_event']->details ?? '', 200) }}</p>
+                                <p class="line-clamp-3">{!! Str::limit($global['latest_event']->details ?? '', 200) !!}</p>
                                 <div class="event-date-time py-2">
                                     <div class="row">
                                         <div class="col-6 border-right">
@@ -276,7 +276,7 @@
                                                 <h4 class="event-title"><a
                                                         href="{{ route('frontend.event.show', $event->slug) }}">{{ $event->title }}</a>
                                                 </h4>
-                                                <p class="line-clamp-2 mb-0 pb-1">{{ Str::limit($event->details, 150) }}
+                                                <p class="line-clamp-2 mb-0 pb-1">{!! Str::limit($event->details, 150) !!}
                                                 </p>
                                             </div>
                                             <div class="col-3 bg-event-date">
