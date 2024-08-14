@@ -1,5 +1,5 @@
 @extends('frontend.layouts.frontend-page-layout')
-@section('page-title', $event->title)
+@section('page-title', 'Event')
 @section('frontend-section')
 <section class="event-details-wrapper pt-5 pb-5">
     <div class="container">
