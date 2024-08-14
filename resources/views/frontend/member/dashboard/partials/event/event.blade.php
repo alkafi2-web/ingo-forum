@@ -23,4 +23,4 @@
 
     </div>
 </div>
-
+@include('frontend.member.dashboard.partials.event.partials.event-js')
