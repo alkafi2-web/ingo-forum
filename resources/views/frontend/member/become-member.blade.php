@@ -70,10 +70,12 @@
                                 <div class="col-12 mb-3">
                                     <div class="row align-items-center">
                                         <div class="col-md-4">
-                                            <label for="ngo_reg_number" class="form-label required">Bureau Reg Number</label>
+                                            <label for="ngo_reg_number" class="form-label required">Bureau Reg
+                                                Number</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <input type="text" name="ngo_reg_number" class="form-control" id="ngo_reg_number"
+                                            <input type="text" name="ngo_reg_number" class="form-control"
+                                                id="ngo_reg_number"
                                                 placeholder="Organization NGO Bureau Registration Number" required>
                                         </div>
                                     </div>
@@ -189,7 +191,11 @@
                                 </div>
 
                                 <div class="col-12 text-end pt-3">
-                                    <input type="submit" id="member-submit" value="Send" class="submit-btn">
+                                    <button type="submit" id="member-submit" class="submit-btn">
+                                        Send
+                                        <span id="send-spinner" class="spinner-border spinner-border-sm ms-2 d-none"
+                                            role="status" aria-hidden="true"></span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -207,6 +213,8 @@
         $(document).ready(function() {
             $('#member-submit').on('click', function(e) {
                 e.preventDefault();
+                $('#send-spinner').removeClass('d-none');
+                $(this).prop('disabled', true);
                 let url = "{{ route('member.register') }}";
                 let form = $('#member-form')[0];
                 let formData = new FormData(form);
@@ -220,11 +228,15 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        $('#send-spinner').addClass('d-none');
+                        $('#member-submit').prop('disabled', false);
                         toastr.success(response.message);
                         $('#member-form')[0].reset();
                         window.location.href = response.redirect;
                     },
                     error: function(xhr) {
+                        $('#send-spinner').addClass('d-none');
+                        $('#member-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display the message using Toastr
                         $.each(errors, function(key, value) {

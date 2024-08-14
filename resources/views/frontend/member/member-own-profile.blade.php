@@ -8,15 +8,23 @@
                     <div class="members-profile-image h-100 text-center position-relative">
                         <img src="{{ asset('public/frontend/images/member/' . ($member->memberInfos[0]['logo'] ?? 'placeholder.jpg')) }}"
                             alt="Profile Image" class="mb-3">
-                        <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->info->organisation_name }}</span>
-                        <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->info->organisation_ngo_reg }}</span>
-                        <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->info->membership_id }}</span>
+                        {{-- <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->info->organisation_name }}</span>
+                        <span class="d-block w-100 text-orange fw-semibold fs-">Bureau Reg No. {{ $memberinfo->info->organisation_ngo_reg }}</span>
+                        <span class="d-block w-100 text-orange fw-semibold fs-">Membership Id. {{ $memberinfo->info->membership_id }}</span>
                         <span
-                            class="d-block w-100 text-bold">({{ $memberinfo->info->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
+                            class="d-block w-100 text-bold">({{ $memberinfo->info->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span> --}}
+
+                            <div class="edit-profile-img bg-white py-4 px-3">
+                                <span class="d-block w-100 text-success fw-semibold" style="font-size: 12px"><i
+                                        class="fas fa-id-card-alt"></i>&nbsp;{{ $memberinfo->info->membership_id}}</span>
+                                <span class="d-block w-100 text-orange fw-semibold" style="font-size: 13px">Bureau Reg No.
+                                    {{ $memberinfo->info->organisation_ngo_reg }}</span>
+                                <span
+                                    class="d-block w-100 text-success fw-bold">{{ $memberinfo->info->organisation_name }}</span>
+                                <span
+                                    class="d-block w-100">({{ $memberinfo->info->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
+                            </div>
                             
-                            {{-- <a href="{{ route('member.profile') }}" type="button" class="ct-btn btn-yellow py-2 px-3 position-absolute end-0 top-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Profile">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                              </a> --}}
                     </div>
                 </div>
                 <div class="col-md-9">

@@ -20,11 +20,13 @@
                                         <div class="col-12 mb-3">
                                             <div class="row align-items-center">
                                                 <div class="col-md-4">
-                                                    <label for="login_email" class="form-label required">Email (For Login)</label>
+                                                    <label for="login_email" class="form-label required">Email (For
+                                                        Login)</label>
                                                 </div>
                                                 <div class="col-md-8">
                                                     {{-- <label for="login_email" class="form-label required">Email (For Login)</label> --}}
-                                                    <input type="email" name="login_email" class="form-control" id="login_email" placeholder="Email" required>
+                                                    <input type="email" name="login_email" class="form-control"
+                                                        id="login_email" placeholder="Email" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -34,7 +36,8 @@
                                                     <label for="password" class="form-label required">Password</label>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+                                                    <input type="password" name="password" class="form-control"
+                                                        id="password" placeholder="Password" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -43,16 +46,23 @@
                                                 <div class="col-md-4"></div>
                                                 <div class="col-md-8">
                                                     <div class="d-flex align-items-center justify-content-between">
-                                                        <input type="submit" id="member-submit" value="Login" class="submit-btn">
-                                                        <a href="{{ route('password.request') }}" class="fs-12px">Forgot Your Password?</a>
+                                                        <button type="submit" id="member-submit" class="submit-btn">
+                                                            Login
+                                                            <span id="login-spinner"
+                                                                class="spinner-border spinner-border-sm ms-2 d-none"
+                                                                role="status" aria-hidden="true"></span>
+                                                        </button>
+                                                        <a href="{{ route('password.request') }}" class="fs-12px">Forgot
+                                                            Your Password?</a>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>                                     
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </form>
                     </div>
                 </div>
@@ -66,6 +76,8 @@
         $(document).ready(function() {
             $('#member-submit').on('click', function(e) {
                 e.preventDefault();
+                $('#login-spinner').removeClass('d-none');
+                $(this).prop('disabled', true);
                 let url = "{{ route('frontend.login.post') }}";
                 let form = $('#member-form')[0];
                 let formData = new FormData(form);
@@ -79,15 +91,17 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        // console.log(response)
+                        $('#login-spinner').addClass('d-none');
+                        $('#member-submit').prop('disabled', false);
                         // toastr.success(response.message);
                         window.location.href = response.redirect;
                     },
                     error: function(xhr) {
+                        $('#login-spinner').addClass('d-none');
+                        $('#member-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
                     }
