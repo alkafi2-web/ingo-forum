@@ -23,12 +23,24 @@ class PermissionSeeder extends Seeder
             'member-management',
             'post-add',
             'post-view-all',
+            'post-request',
+            'post-management',
             'post-category-manage',
             'post-subcategory-manage',
             'publication-add',
             'publication-view-all',
+            'publication-request',
+            'publication-management',
             'publication-category-manage',
+            'event-add',
             'event-view',
+            'event-request',
+            'event-management',
+            'file-add',
+            'file-view',
+            'file-management',
+            'file-category-manage',
+            'file-subcategory-manage',
             'menu-manage',
             'page-add',
             'page-view-all',
@@ -43,6 +55,7 @@ class PermissionSeeder extends Seeder
             'contact-list-view',
             'user-activity',
             'system-settings-manage',
+            'subscriber'
         ];
 
         // Create permissions

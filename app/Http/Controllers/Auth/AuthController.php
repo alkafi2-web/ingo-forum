@@ -53,8 +53,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->input('password')),
             'role' => $request->input('role'), // Save the role
         ]);
-        $user->assignRole('admin');
-        // $user->assignRole($request->input('role'));
+        // $user->assignRole('admin');
+        $user->assignRole($request->input('role'));
         Helper::log('Create ' . $user->name . ' user');
         return response()->json(['success' => ['success' => 'User Create Successfully']]);
     }
@@ -87,9 +87,20 @@ class AuthController extends Controller
         if (Auth::guard('admin')->attempt($credentials)) {
             // Authentication passed for the 'admin' guard
             $user = Auth::guard('admin')->user();
+
+            // Check if the user status is 1
+            if ($user->status !== 1) {
+                // Log the user out and return an error response
+                Auth::guard('admin')->logout();
+                Toastr::error('Your account is not active. Please contact support.', 'Error');
+                return response()->json(['errors' => ['login' => 'Your account is not active.']], 403);
+            }
+
+            // Update last activity time and save
             $user->last_activity = Carbon::now();
             $user->save();
 
+            // Log the action and return success response
             Helper::log('Logged in');
             Toastr::success('You have successfully logged in!', 'Success');
             return response()->json(['redirect' => route('dashboard')], 200);
@@ -105,7 +116,7 @@ class AuthController extends Controller
         $user = Auth::guard('admin')->user();
         $user->last_activity = null;
         $user->save();
-        
+
         Helper::log('Logged out');
         Auth::guard('admin')->logout();
 

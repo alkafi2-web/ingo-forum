@@ -412,7 +412,7 @@
                 {{-- event side bar end --}}
 
                 {{-- File side bar start --}}
-                @if (Auth::guard('admin')->user()->hasAnyPermission(['event-view']))
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['file-add','file-view','file-management']))
                     <div class="menu-item">
                         <div class="menu-content pt-8 pb-2">
                             <span class="menu-section text-muted text-uppercase fs-8 ls-1">File Management</span>
@@ -420,7 +420,7 @@
                         </div>
                     </div>
                 @endif
-                @if (Auth::guard('admin')->user()->hasAnyPermission(['event-view']))
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['file-add','file-view','file-management']))
                     <div data-kt-menu-trigger="click"
                         class="menu-item menu-accordion {{ Route::currentRouteName() == 'file.category' || Route::currentRouteName() == 'file.subcategory' || Route::currentRouteName() == 'file.create' || Route::currentRouteName() == 'file.list' ? 'hover show' : '' }}">
                         <span class="menu-link">
@@ -437,7 +437,7 @@
                         </span>
                         <div
                             class="menu-sub menu-sub-accordion  {{ Route::currentRouteName() == 'file.create' || Route::currentRouteName() == 'file.list' ? 'hover show' : '' }}">
-                            @can('event-view')
+                            @can('file-add')
                                 <a class="menu-item menu-accordion" href="{{ route('file.create') }}">
                                     <span
                                         class="menu-link {{ Route::currentRouteName() == 'file.create' ? 'active' : '' }}">
@@ -448,7 +448,7 @@
                                     </span>
                                 </a>
                             @endcan
-                            @can('event-view')
+                            @can('file-view')
                                 <a class="menu-item menu-accordion" href="{{ route('file.list') }}">
                                     <span
                                         class="menu-link {{ Route::currentRouteName() == 'file.list' ? 'active' : '' }}">
@@ -472,6 +472,7 @@
                                     </div>
                                 </span>
                             </a> --}}
+                            @can('file-category-manage')
                             <a class="menu-item menu-accordion" href="{{ route('file.category') }}">
                                 <span
                                     class="menu-link {{ Route::currentRouteName() == 'file.category' ? 'active' : '' }}">
@@ -481,6 +482,8 @@
                                     <span class="menu-title">File Category</span>
                                 </span>
                             </a>
+                            @endcan
+                            @can('file-subcategory-manage')
                             <a class="menu-item menu-accordion" href="{{ route('file.subcategory') }}">
                                 <span
                                     class="menu-link {{ Route::currentRouteName() == 'file.subcategory' ? 'active' : '' }}">
@@ -490,6 +493,7 @@
                                     <span class="menu-title">File Subcategory</span>
                                 </span>
                             </a>
+                            @endcan
                         </div>
                     </div>
                 @endif
@@ -724,21 +728,22 @@
                         </a>
                     </div>
                 @endif
-                <div class="menu-item">
-                    <a class="menu-link {{ Route::currentRouteName() == 'subscriber.list' ? 'active' : '' }}"
-                        href="{{ route('subscriber.list') }}">
-                        <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-                            <span class="svg-icon svg-icon-2">
-                                <i class="fas fa-user-plus"></i>
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['subsciber']))
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteName() == 'subscriber.list' ? 'active' : '' }}"
+                            href="{{ route('subscriber.list') }}">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                                <span class="svg-icon svg-icon-2">
+                                    <i class="fas fa-user-plus"></i>
 
+                                </span>
+                                <!--end::Svg Icon-->
                             </span>
-                            <!--end::Svg Icon-->
-                        </span>
-                        <span class="menu-title">Subscriber</span>
-                    </a>
-                </div>
-
+                            <span class="menu-title">Subscriber</span>
+                        </a>
+                    </div>
+                @endif
                 @if (Auth::guard('admin')->user()->hasAnyPermission(['contact-list-view']))
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteName() == 'contact.list' ? 'active' : '' }}"
