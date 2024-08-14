@@ -89,7 +89,7 @@ class AuthController extends Controller
             $user = Auth::guard('admin')->user();
 
             // Check if the user status is 1
-            if ($user->status !== 1) {
+            if ($user->status == 0) {
                 // Log the user out and return an error response
                 Auth::guard('admin')->logout();
                 Toastr::error('Your account is not active. Please contact support.', 'Error');
