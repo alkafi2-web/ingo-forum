@@ -3,7 +3,7 @@
 @section('frontend-section')
 <section class="event-details-wrapper pt-5 pb-5">
     <div class="container">
-        <h1 class="display-4">{{ $event->title }}</h1>
+        <h2 class="">{{ $event->title }}</h2>
         <div class="mb-1 sub-heading d-flex justify-content-between align-items-center">
         </div>
         <div class="row">
