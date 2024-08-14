@@ -312,5 +312,84 @@
                 }
             });
         });
+        
+        $(document).on('click', '.delete', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+
+            var id = $(this).attr('data-id');
+            var url = "{{ route('file.delete') }}";
+            // Show SweetAlert confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This action will delete this file!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Send AJAX request
+                    // sendAjaxRequest(url, row);
+
+                    sendAjaxReq(id, status = null, url);
+                }
+            });
+        });
+        $(document).on('click', '.status', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+
+            var id = $(this).attr('data-id'); // Get the URL from the href attribute
+            var status = $(this).attr('data-status');
+            var url = "{{ route('file.status') }}";
+            // Show SweetAlert confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This action will change status of this file!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Change it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Send AJAX request
+                    // sendAjaxRequest(url, row);
+
+                    sendAjaxReq(id, status, url);
+                }
+            });
+        });
+
+        function sendAjaxReq(id, status, url) {
+            var requestData = {
+                id: id,
+                // Optionally include status if it's provided
+            };
+
+            // Check if status is defined and not null
+            if (typeof status !== 'undefined' && status !== null) {
+                requestData.status = status;
+            }
+            $.ajax({
+                url: url,
+                type: 'POST', // or 'GET' depending on your server endpoint
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: requestData, // You can send additional data if needed
+                success: function(response) {
+
+                    $('#file-list-data').DataTable().ajax.reload(null, false);
+                    Swal.fire('Success!', response.success,
+                        'success');
+                    // toastr.success(response.success);
+                },
+                error: function(xhr, status, error) {
+                    // Handle AJAX error
+                    Swal.fire('Error!', 'An error occurred.', 'error');
+                }
+            });
+        }
     </script>
 @endpush

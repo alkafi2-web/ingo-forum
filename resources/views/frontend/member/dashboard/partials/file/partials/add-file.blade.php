@@ -48,8 +48,7 @@
             <!-- Title -->
             <div class="form-group mt-3">
                 <label for="title" class="required fw-bold">Title</label>
-                <input type="text" id="title" name="title" class="form-control mt-3"
-                    required="">
+                <input type="text" id="title" name="title" class="form-control mt-3" required="">
             </div>
         </div>
 
@@ -78,12 +77,18 @@
             <div class="form-group mt-3">
                 <input type="hidden" name="id" id="file_id">
                 <input type="hidden" name="creator_type" id="creator_type" value="\App\Models\Member">
-                <button type="" id="submit" class="submit-btn mt-4"> <i
-                        class="fas fa-save"></i> Submit</button>
-                <button type="" id="update" class="submit-btn mt-4 d-none"> <i
-                        class="fas fa-update"></i> Update</button>
-                <button type="" id="refresh" class="submit-btn mt-4 d-none"> <i
-                        class="fas fa-refresh"></i> Refresh</button>
+                <button type="submit" id="submit" class="submit-btn mt-4">
+                    <i class="fas fa-save"></i> Submit
+                    <span id="submit-spinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status"
+                        aria-hidden="true"></span>
+                </button>
+                <button type="submit" id="update" class="submit-btn mt-4 d-none">
+                    <i class="fas fa-update"></i> Update
+                    <span id="update-spinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status"
+                        aria-hidden="true"></span>
+                </button>
+                <button type="" id="refresh" class="submit-btn mt-4 d-none"> <i class="fas fa-refresh"></i>
+                    Refresh</button>
             </div>
         </div>
     </div>
@@ -129,6 +134,8 @@
         $(document).ready(function() {
             $('#submit').on('click', function(e) {
                 e.preventDefault();
+                $('#submit-spinner').removeClass('d-none');
+                $(this).prop('disabled', true);
                 let url = "{{ route('file.store') }}";
                 let form = $('#fileForm')[0];
                 let formData = new FormData(form);
@@ -142,7 +149,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        console.log(response);
+                        hideSpinner('submit');
                         var success = response.success;
                         $.each(success, function(key, value) {
                             toastr.success(value); // Displaying each error message
@@ -151,6 +158,7 @@
                         $('#fileForm')[0].reset();
                     },
                     error: function(xhr) {
+                        hideSpinner('submit');
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
@@ -163,11 +171,13 @@
             });
         });
 
-        
-        
+
+
         $(document).ready(function() {
             $('#update').on('click', function(e) {
                 e.preventDefault();
+                $('#update-spinner').removeClass('d-none');
+                $(this).prop('disabled', true);
                 let url = "{{ route('file.update') }}";
                 let form = $('#fileForm')[0];
                 let formData = new FormData(form);
@@ -181,7 +191,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        // console.log(response);
+                        hideSpinner('update');
                         var success = response.success;
                         $.each(success, function(key, value) {
                             // toastr.success(value);
@@ -206,6 +216,7 @@
                         $('#all-file').addClass('show active');
                     },
                     error: function(xhr) {
+                        hideSpinner('update');
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
@@ -217,83 +228,10 @@
 
             });
         });
-        $(document).on('click', '.delete', function(e) {
-            e.preventDefault(); // Prevent default link behavior
 
-            var id = $(this).attr('data-id');
-            var url = "{{ route('file.delete') }}";
-            // Show SweetAlert confirmation dialog
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'This action will delete this file!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Send AJAX request
-                    // sendAjaxRequest(url, row);
-
-                    sendAjaxReq(id, status = null, url);
-                }
-            });
-        });
-        $(document).on('click', '.status', function(e) {
-            e.preventDefault(); // Prevent default link behavior
-
-            var id = $(this).attr('data-id'); // Get the URL from the href attribute
-            var status = $(this).attr('data-status');
-            var url = "{{ route('file.status') }}";
-            // Show SweetAlert confirmation dialog
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'This action will change status of this file!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, Change it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Send AJAX request
-                    // sendAjaxRequest(url, row);
-
-                    sendAjaxReq(id, status, url);
-                }
-            });
-        });
-
-        function sendAjaxReq(id, status, url) {
-            var requestData = {
-                id: id,
-                // Optionally include status if it's provided
-            };
-
-            // Check if status is defined and not null
-            if (typeof status !== 'undefined' && status !== null) {
-                requestData.status = status;
-            }
-            $.ajax({
-                url: url,
-                type: 'POST', // or 'GET' depending on your server endpoint
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: requestData, // You can send additional data if needed
-                success: function(response) {
-
-                    $('#file-list-data').DataTable().ajax.reload(null, false);
-                    Swal.fire('Success!', response.success,
-                        'success');
-                    // toastr.success(response.success);
-                },
-                error: function(xhr, status, error) {
-                    // Handle AJAX error
-                    Swal.fire('Error!', 'An error occurred.', 'error');
-                }
-            });
+        function hideSpinner(buttonId) {
+            $(`#${buttonId}-spinner`).addClass('d-none');
+            $(`#${buttonId}`).prop('disabled', false);
         }
         $(document).on('click', '#refresh', function(e) {
             e.preventDefault(); // Prevent default link behavior
@@ -314,7 +252,7 @@
         });
 
         $(document).ready(function() {
-            
+
             var $previewContainer = $('#file-preview');
             // Function to preview a file
             function previewFile(fileUrl, fileType, fileName) {
@@ -347,7 +285,7 @@
                     // $previewContainer.append($link);
                 }
             }
-            
+
             // Set up event listener for file input change
             $('#file').on('change', function() {
                 var file = this.files[0];

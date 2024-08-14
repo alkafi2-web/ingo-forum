@@ -28,20 +28,20 @@
                 <form id="member-profile-update" action="" method="post">
                     <div class="col-lg-12 mb-3 mb-lg-0">
                         <div class="d-flex align-item-center justify-content-between border-bottom">
-                            <h4 class="form-title  pb-2 pt-3">Your Organisation Details &nbsp; <i
+                            <h4 class="form-title  pb-2 pt-3">Your Organization Details &nbsp; <i
                                     class="far fa-edit edit-info-btn" data-type="org_details"></i></h4>
                         </div>
                         <div class="row mobile-border-none pt-2 edit-org">
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <label for="org_name" class="form-label required">Organisation
+                                        <label for="org_name" class="form-label required">Organization
                                             Name</label>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" readonly name="org_name"
                                             class="form-control member-profile-input required" id="org_name"
-                                            placeholder="Your Organisation Name"
+                                            placeholder="Your Organization Name"
                                             value="{{ $member->memberInfos[0]['organisation_name'] }}">
                                     </div>
                                 </div>
@@ -49,13 +49,13 @@
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <label for="org_website" class="form-label required">Organisation
+                                        <label for="org_website" class="form-label required">Organization
                                             Website</label>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" readonly name="org_website"
                                             class="form-control member-profile-input" id="org_website"
-                                            placeholder="Your Organisation Website"
+                                            placeholder="Your Organization Website"
                                             value="{{ $member->memberInfos[0]['organisation_website'] }}">
                                     </div>
                                 </div>
@@ -63,12 +63,12 @@
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <label for="org_email" class="form-label required">Organisation
+                                        <label for="org_email" class="form-label required">Organization
                                             Email</label>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="email" name="org_email" class="form-control member-profile-input"
-                                            id="org_email" placeholder="Organisation Email"
+                                            id="org_email" placeholder="Organization Email"
                                             value="{{ $member->memberInfos[0]['organisation_email'] }}">
                                     </div>
                                 </div>
@@ -76,13 +76,13 @@
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <label for="org_type" class="form-label required">Organisation
+                                        <label for="org_type" class="form-label required">Organization
                                             Type</label>
                                     </div>
                                     <div class="col-md-8">
                                         <select name="org_type" class="form-select member-profile-select"
                                             id="org_type" aria-label="Organisation Type" disabled required>
-                                            <option disabled selected>Organisation Type</option>
+                                            <option disabled selected>Organization Type</option>
                                             <option value="1"
                                                 {{ $member->memberInfos[0]['organisation_type'] == 1 ? 'selected' : '' }}>
                                                 Registered with NGO Affairs Bureau (NGOAB) as an INGO
@@ -112,13 +112,13 @@
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <label for="org_address" class="form-label required">Organisation
+                                        <label for="org_address" class="form-label required">Organization
                                             Address</label>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" readonly name="org_address"
                                             class="form-control member-profile-input" id="org_address"
-                                            placeholder="Organisation Address"
+                                            placeholder="Organization Address"
                                             value="{{ $member->memberInfos[0]['organisation_address'] }}">
                                     </div>
                                 </div>
@@ -237,8 +237,11 @@
                             </div>
 
                             <div class="col-12 text-end pt-3">
-                                <input type="submit" id="member-submit" value="Update"
-                                    class="submit-btn text-light" style="display:none">
+                                <button id="member-submit" type="submit" class="submit-btn" style="display: none;">
+                                    <i class="fas fa-upload"></i> Update
+                                    <span id="spinner" class="spinner-border spinner-border-sm ms-2 d-none"
+                                        role="status" aria-hidden="true"></span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -330,7 +333,11 @@
 
                     <!-- Submit Button -->
                     <div class="col-12 mb-3 text-end">
-                        <button id="profilData-submit" class="submit-btn">Update</button>
+                        <button id="profilData-submit" class="submit-btn">
+                            <i class="fas fa-upload"></i> Update
+                            <span id="spinner-2" class="spinner-border spinner-border-sm ms-2 d-none" role="status"
+                                aria-hidden="true"></span>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -379,7 +386,11 @@
                             value="{{ $member->memberInfos[0]['youtube'] ?? '' }}">
                     </div>
                     <div class="col-12 text-end">
-                        <button id="social-submit" class="submit-btn">Update</button>
+                        <button id="social-submit" class="submit-btn">
+                            <i class="fas fa-upload"></i> Update
+                            <span id="spinner-3" class="spinner-border spinner-border-sm ms-2 d-none" role="status"
+                                aria-hidden="true"></span>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -401,6 +412,8 @@
         $(document).ready(function() {
             $('#member-submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner').removeClass('d-none');
+                $(this).prop('disabled', true);
                 let url = "{{ route('member.profile.update') }}";
                 let form = $('#member-profile-update')[0];
                 let formData = new FormData(form);
@@ -415,10 +428,14 @@
                             'content')
                     },
                     success: function(response) {
+                        $('#spinner').addClass('d-none');
+                        $('#member-submit').prop('disabled', false);
                         $('#member-profile-update input').attr('readonly', true);
                         toastr.success(response.message);
                     },
                     error: function(xhr) {
+                        $('#spinner').addClass('d-none');
+                        $('#member-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display the message using Toastr
                         $.each(errors, function(key, value) {
@@ -479,6 +496,8 @@
             });
             $('#profilData-submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-2').removeClass('d-none');
+                $(this).prop('disabled', true);
                 let url = "{{ route('member.profile.update.summary') }}";
                 let title = $('#title').val();
                 let subTitle = $('#sub_title').val();
@@ -515,11 +534,13 @@
                             'content')
                     },
                     success: function(response) {
+                        $('#spinner-2').addClass('d-none');
+                        $('#profilData-submit').prop('disabled', false);
                         $('#profilDataForm input').attr('readonly', true);
                         toastr.success(response.message);
                         var organizationDocument = $('#organization_document').val('');
                         // Display the uploaded file in the preview section
-                        var fileUrl = response.fileUrl;
+                        var fileUrl = response.profile_attachment;
                         var $previewContainer = $('#file-preview');
                         $previewContainer.empty(); // Clear previous preview
                         if (fileUrl) {
@@ -558,10 +579,11 @@
                         }
                     },
                     error: function(xhr) {
+                        $('#spinner-2').addClass('d-none');
+                        $('#profilData-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display the message using Toastr
                         $.each(errors, function(key, value) {
-                            console.log(value[0]);
                             toastr.error(value[
                                 0
                             ]); // Displaying the first error message for each field
@@ -571,6 +593,8 @@
             });
             $('#social-submit').on('click', function(e) {
                 e.preventDefault();
+                $('#spinner-3').removeClass('d-none');
+                $(this).prop('disabled', true);
                 let url = "{{ route('member.profile.update.social') }}";
                 // Collect form data manually
                 let formData = {
@@ -588,10 +612,14 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        $('#spinner-3').addClass('d-none');
+                        $('#social-submit').prop('disabled', false);
                         $('#social-form input').attr('readonly', true);
                         toastr.success(response.message);
                     },
                     error: function(xhr) {
+                        $('#spinner-3').addClass('d-none');
+                        $('#social-submit').prop('disabled', false);
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display the message using Toastr
                         $.each(errors, function(key, value) {
