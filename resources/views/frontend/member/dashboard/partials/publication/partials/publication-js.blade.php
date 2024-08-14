@@ -88,8 +88,41 @@
                         orderable: true,
                         sortable: false,
                         render: function(data, type, row) {
+                            if (!data) {
+                                return ''; // No file
+                            }
+
                             let basePath = '{{ asset('public/frontend/images/publication/') }}/';
-                            return `<a href="${basePath + data}" target="_blank">Open File</a>`;
+                            let fileExtension = data.split('.').pop().toLowerCase();
+                            let icon;
+                            let color;
+
+                            // Determine icon and color based on file extension
+                            if (fileExtension === 'pdf') {
+                                icon = 'fas fa-file-pdf';
+                                color = '#d9534f'; // Red
+                            } else if (['doc', 'docx'].includes(fileExtension)) {
+                                icon = 'fas fa-file-word';
+                                color = '#007bff'; // Blue
+                            } else if (['ppt', 'pptx'].includes(fileExtension)) {
+                                icon = 'fas fa-file-powerpoint';
+                                color = '#fd7e14'; // Orange
+                            } else if (['jpg', 'jpeg', 'png'].includes(fileExtension)) {
+                                icon = 'fas fa-file-image';
+                                color = '#28a745'; // Green
+                            } else if (fileExtension === 'zip') {
+                                icon = 'fas fa-file-archive';
+                                color = '#6c757d'; // Gray
+                            } else {
+                                icon = 'fas fa-file'; // Default icon
+                                color = '#343a40'; // Dark Gray
+                            }
+
+                            return `
+                                <a href="${basePath + data}" target="_blank">
+                                    <i class="${icon}" style="font-size: 20px; color: ${color};" aria-hidden="true"></i>
+                                </a>
+                            `;
                         }
                     },
                     {
