@@ -81,17 +81,30 @@ class DashboardController extends Controller
 
         // ecent char 
         $eventStatusCounts = Event::selectRaw('
-        CASE 
+            CASE 
             WHEN approval_status = 1 THEN "1"
             WHEN approval_status = 0 THEN "0"
             WHEN approval_status = 2 THEN "2"
             WHEN approval_status = 3 THEN "3"
             WHEN approval_status IS NULL THEN "1"
-        END as approval_status_label, 
-                    count(*) as count
-                ')
+            END as approval_status_label, 
+                        count(*) as count
+                    ')
             ->groupBy('approval_status_label')
             ->pluck('count', 'approval_status_label')
+            ->toArray();
+        $postStatusCounts = Post::selectRaw('
+            CASE 
+            WHEN status = "approved" THEN "1"
+            WHEN status = "pending" THEN "0"
+            WHEN status = "rejected" THEN "2"
+            WHEN status = "suspended" THEN "3"
+            WHEN status IS NULL THEN "1"
+                            END as status_label, 
+                            count(*) as count
+                        ')
+            ->groupBy('status_label')
+            ->pluck('count', 'status_label')
             ->toArray();
         return view('admin.dashboard.dashborad', compact(
             'latestPosts',
@@ -111,7 +124,8 @@ class DashboardController extends Controller
             'todayVisitors',
             'uniqueVisitors',
             'newVisitors',
-            'eventStatusCounts'
+            'eventStatusCounts',
+            'postStatusCounts'
         ));
     }
     public function filterVisitors(Request $request)

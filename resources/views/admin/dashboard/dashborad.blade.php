@@ -74,46 +74,46 @@
                     </div>
                 </div>
                 <div class="col-12">
-                  <div class="card">
-                      <div class="card-header pt-5 align-items-center">
-                          <h3 class="card-label fw-bold text-gray-900 mb-0">Latest Events</h3>
-                          <a href="{{ route('event') }}" class="btn btn-sm fw-bold btn-primary">
-                              <i class="fas fa-plus"></i> &nbsp;Add New Event</a>
-                      </div>
-                      <div class="card-body pt-5">
-                          @forelse($latestEvents as $event)
-                              <div class="d-flex flex-stack">
-                                  <div class="d-flex align-items-center me-3">
-                                      <div class="symbol symbol-50px me-5">
-                                          <img src="{{ asset('public/frontend/images/events/' . ($event->media ?? 'placeholder.jpg')) }}"
-                                              alt="event" />
-                                      </div>
-                                      <div class="flex-grow-1">
-                                          <a href="{{ route('frontend.event.show', $event->slug) }}"
-                                              class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">{{ $event->title }}</a>
-                                          <span class="text-gray-500 fw-semibold d-block fs-6">
-                                              <i
-                                                  class="fas fa-calendar-alt"></i>&nbsp;{{ \Carbon\Carbon::parse($event->start_date)->format('d M Y') }}
-                                              - {{ \Carbon\Carbon::parse($event->end_date)->format('d M Y') }} &nbsp;
-                                              <i class="fas fa-map-marker-alt"></i>&nbsp;{{ $event->location }}
-                                          </span>
-                                      </div>
-                                  </div>
-                                  <a href="{{ route('frontend.event.show', $event->slug) }}"
-                                      class="btn btn-icon btn-sm h-auto btn-color-gray-500 btn-active-color-primary justify-content-end"
-                                      target="_blank">
-                                      <i class="fas fa-external-link-alt"></i>
-                                  </a>
-                              </div>
-                              @if (!$loop->last)
-                                  <div class="separator separator-dashed my-2"></div>
-                              @endif
-                          @empty
-                              <p class="text-center">No events available</p>
-                          @endforelse
-                      </div>
-                  </div>
-              </div>
+                    <div class="card">
+                        <div class="card-header pt-5 align-items-center">
+                            <h3 class="card-label fw-bold text-gray-900 mb-0">Latest Events</h3>
+                            <a href="{{ route('event') }}" class="btn btn-sm fw-bold btn-primary">
+                                <i class="fas fa-plus"></i> &nbsp;Add New Event</a>
+                        </div>
+                        <div class="card-body pt-5">
+                            @forelse($latestEvents as $event)
+                                <div class="d-flex flex-stack">
+                                    <div class="d-flex align-items-center me-3">
+                                        <div class="symbol symbol-50px me-5">
+                                            <img src="{{ asset('public/frontend/images/events/' . ($event->media ?? 'placeholder.jpg')) }}"
+                                                alt="event" />
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <a href="{{ route('frontend.event.show', $event->slug) }}"
+                                                class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">{{ $event->title }}</a>
+                                            <span class="text-gray-500 fw-semibold d-block fs-6">
+                                                <i
+                                                    class="fas fa-calendar-alt"></i>&nbsp;{{ \Carbon\Carbon::parse($event->start_date)->format('d M Y') }}
+                                                - {{ \Carbon\Carbon::parse($event->end_date)->format('d M Y') }} &nbsp;
+                                                <i class="fas fa-map-marker-alt"></i>&nbsp;{{ $event->location }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <a href="{{ route('frontend.event.show', $event->slug) }}"
+                                        class="btn btn-icon btn-sm h-auto btn-color-gray-500 btn-active-color-primary justify-content-end"
+                                        target="_blank">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                                @if (!$loop->last)
+                                    <div class="separator separator-dashed my-2"></div>
+                                @endif
+                            @empty
+                                <p class="text-center">No events available</p>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
                 <!-- Pie chart for Status -->
 
 
@@ -125,7 +125,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header pt-5 align-items-center">
@@ -277,6 +277,14 @@
                         @endpush
                     </div>
                 </div>
+                <div class="col-md-12 chart-container">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6>Post Status</h6>
+                            <canvas id="postStatusPie"></canvas>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header pt-5 align-items-center">
@@ -319,26 +327,40 @@
 @endsection
 
 @push('custom-js')
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
-<script>
-   var eventStatusPieData = {
-      labels: ["Approved", "Pending", "Rejected", "Suspended"], // Order the labels as needed
-      datasets: [{
-         data: [
-            {{ $eventStatusCounts[1] ?? 0 }}, // Approved
-            {{ $eventStatusCounts[0] ?? 0 }}, // Pending
-            {{ $eventStatusCounts[2] ?? 0 }}, // Rejected
-            {{ $eventStatusCounts[3] ?? 0 }}  // Suspended
-         ],
-         backgroundColor: ["#28A745", "#FFC107", "#FF5733", "gray"], // Match the colors with the order of labels
-      }]
-   };
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+    <script>
+        var eventStatusPieData = {
+            labels: ["Approved", "Pending", "Rejected", "Suspended"], // Order the labels as needed
+            datasets: [{
+                data: [
+                    {{ $eventStatusCounts[1] ?? 0 }}, // Approved
+                    {{ $eventStatusCounts[0] ?? 0 }}, // Pending
+                    {{ $eventStatusCounts[2] ?? 0 }}, // Rejected
+                    {{ $eventStatusCounts[3] ?? 0 }} // Suspended
+                ],
+                backgroundColor: ["#28A745", "#FFC107", "#FF5733",
+                "gray"], // Match the colors with the order of labels
+            }]
+        };
+        var postStatusPieData = {
+            labels: ["Approved", "Pending", "Rejected", "Suspended"], // Order the labels as needed
+            datasets: [{
+                data: [
+                    {{ $postStatusCounts[1] ?? 0 }}, // Approved
+                    {{ $postStatusCounts[0] ?? 0 }}, // Pending
+                    {{ $postStatusCounts[2] ?? 0 }}, // Rejected
+                    {{ $postStatusCounts[3] ?? 0 }} // Suspended
+                ],
+                backgroundColor: ["#28A745", "#FFC107", "#FF5733",
+                "gray"], // Match the colors with the order of labels
+            }]
+        };
 
-   // Initialize the pie chart
-   var ctx = document.getElementById("eventStatusPie").getContext('2d');
-   var eventStatusPie = new Chart(ctx, {
-      type: "pie",
-      data: eventStatusPieData,
-   });
-</script>
+        // Initialize the pie chart
+        var ctx = document.getElementById("postStatusPie").getContext('2d');
+        var eventStatusPie = new Chart(ctx, {
+            type: "pie",
+            data: postStatusPieData,
+        });
+    </script>
 @endpush
