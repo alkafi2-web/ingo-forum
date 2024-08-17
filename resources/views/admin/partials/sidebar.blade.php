@@ -119,7 +119,7 @@
                                             <span class="bullet bullet-dot"></span>
                                         </span>
                                         <span class="menu-title position-relative">Member Request
-                                            <div class="pendingMemberCount">0
+                                            <div class="pendingMemberCount">
                                                 @if ($global['pendingMemberCount'] > 0)
                                                     <span
                                                         class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"

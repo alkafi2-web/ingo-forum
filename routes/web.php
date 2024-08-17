@@ -410,7 +410,6 @@ Route::middleware(['trackvisitor'])->group(function () {
 
             });
         });
-
         Route::get('/ours/member', [FrontAuthController::class, 'oursMember'])->name('frontend.ours.member');
         Route::get('/{membership_id}', [FrontAuthController::class, 'profileShow'])->name('frontend.member.show');
         Route::get('profile/download/{membership_id}', [FrontAuthController::class, 'profileDownload'])->name('profile.download');
