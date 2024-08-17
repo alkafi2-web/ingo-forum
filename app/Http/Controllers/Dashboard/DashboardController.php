@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Member;
 use App\Models\ContactInfo;
-use App\Models\Event; 
+use App\Models\Event;
 use App\Models\User;
 use App\Models\Activity;
 use Carbon\Carbon;
@@ -23,11 +23,11 @@ class DashboardController extends Controller
         }
         // Fetch the latest 6 posts
         $latestPosts = Post::with(['category', 'subcategory', 'addedBy', 'comments', 'replies', 'totalRead'])
-        ->where('status', 1)
-        ->latest()
-        ->limit(6)
-        ->get();
-    
+            ->where('status', 1)
+            ->latest()
+            ->limit(6)
+            ->get();
+
         foreach ($latestPosts as $post) {
             // Summing up the counts of comments and replies
             $post->total_comments_and_replies = $post->comments->count() + $post->replies->count();
@@ -62,7 +62,7 @@ class DashboardController extends Controller
             ->whereNotNull('last_activity')
             ->where('last_activity', '>', Carbon::now()->subMinutes(5))
             ->count();
-  
+
         // Fetch the latest activities
         $latestActivities = Activity::with('user')
             ->latest()
@@ -79,24 +79,53 @@ class DashboardController extends Controller
 
         $visitorsData = $this->getVisitorsData('week');
 
+        // ecent char 
+        $eventStatusCounts = Event::selectRaw('
+            CASE 
+            WHEN approval_status = 1 THEN "1"
+            WHEN approval_status = 0 THEN "0"
+            WHEN approval_status = 2 THEN "2"
+            WHEN approval_status = 3 THEN "3"
+            WHEN approval_status IS NULL THEN "1"
+            END as approval_status_label, 
+                        count(*) as count
+                    ')
+            ->groupBy('approval_status_label')
+            ->pluck('count', 'approval_status_label')
+            ->toArray();
+       $postStatusCounts = Post::selectRaw('
+            CASE 
+            WHEN approval_status = "1" THEN "1"
+            WHEN approval_status = "0" THEN "0"
+            WHEN approval_status = "2" THEN "2"
+            WHEN approval_status = "3" THEN "3"
+            WHEN approval_status IS NULL THEN "1"
+                            END as status_label, 
+                            count(*) as count
+                        ')
+            ->groupBy('status_label')
+            ->pluck('count', 'status_label')
+            ->toArray();
         return view('admin.dashboard.dashborad', compact(
-            'latestPosts', 
-            'latestMembers', 
-            'totalMembers', 
-            'activeMembers', 
-            'memberRequests', 
+            'latestPosts',
+            'latestMembers',
+            'totalMembers',
+            'activeMembers',
+            'memberRequests',
             'totalContactRequests',
-            'todayContactRequests', 
+            'todayContactRequests',
             'currentMonthContactRequests',
-            'latestEvents', 
-            'activeUsers', 
-            'onlineUsers', 
+            'latestEvents',
+            'activeUsers',
+            'onlineUsers',
             'latestActivities',
             'visitorsData',
-            'totalVisitors', 
-            'todayVisitors', 
-            'uniqueVisitors', 
-            'newVisitors'
+            'totalVisitors',
+            'todayVisitors',
+            'uniqueVisitors',
+            'newVisitors',
+            'eventStatusCounts',
+            'postStatusCounts'
         ));
     }
     public function filterVisitors(Request $request)
@@ -131,7 +160,7 @@ class DashboardController extends Controller
                 break;
         }
 
-        return $query->get()->map(function($item) use ($timeFrame) {
+        return $query->get()->map(function ($item) use ($timeFrame) {
             switch ($timeFrame) {
                 case 'year':
                     $item->date = Carbon::createFromFormat('Y', $item->date)->format('Y');
