@@ -276,7 +276,7 @@
                         <label for="short_description" class="form-label">Short Description&nbsp;
                             <i class="fas fa-edit edit-icon" data-target="#short_description"></i>
                         </label>
-                        <textarea class="form-control" id="short_description" readonly name="short_description" rows="3">{{ $member->memberInfos[0]['short_description'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="short_description" readonly name="short_description" rows="3">{{ $member->memberInfos[0]['short_description'] ?? '' }}</textarea>
                     </div>
 
                     <!-- Organization Document -->
@@ -430,7 +430,10 @@
                     success: function(response) {
                         $('#spinner').addClass('d-none');
                         $('#member-submit').prop('disabled', false);
-                        $('#member-profile-update input').attr('readonly', true);
+                        $('#member-profile-update input').attr('readonly', true).addClass(
+                            'member-profile-input');
+                        $('#member-profile-update select').addClass('member-profile-select');
+
                         toastr.success(response.message);
                     },
                     error: function(xhr) {
@@ -463,10 +466,13 @@
                         },
                         success: function(response) {
                             // Make text inputs and textareas readonly
-                            $('#profilDataForm input[type="text"], #profilDataForm textarea')
-                                .attr('readonly', true);
+
+                            $('#profilDataForm input').attr('readonly', true).addClass(
+                                'member-profile-input');
 
                             // Disable file inputs
+                            $('#profilDataForm input[type="text"], #profilDataForm textarea')
+                                .attr('readonly', true);
                             $('#profilDataForm input[type="file"]').prop('disabled', true);
 
                             // Set CKEditor instances to readonly
@@ -536,7 +542,20 @@
                     success: function(response) {
                         $('#spinner-2').addClass('d-none');
                         $('#profilData-submit').prop('disabled', false);
-                        $('#profilDataForm input').attr('readonly', true);
+
+                        // Make text inputs and textareas readonly
+
+                        $('#profilDataForm input').attr('readonly', true).addClass(
+                            'member-profile-input');
+
+                        // Disable file inputs
+                        $('#profilDataForm input[type="text"], #profilDataForm textarea')
+                            .attr('readonly', true).addClass(
+                            'member-profile-input');
+                        $('#profilDataForm input[type="file"]').prop('disabled', true).addClass(
+                            'member-profile-input');
+
+                        
                         toastr.success(response.message);
                         var organizationDocument = $('#organization_document').val('');
                         // Display the uploaded file in the preview section
@@ -762,8 +781,10 @@
                     // For text areas, just toggle readonly
                     if ($targetField.prop('readonly')) {
                         $targetField.prop('readonly', false);
+                        $('#short_description').removeClass('member-profile-input');
                     } else {
                         $targetField.prop('readonly', true);
+                        $('#short_description').addClass('member-profile-input');
                     }
                 } else {
                     // For other inputs, toggle readonly and disabled, and also handle class
