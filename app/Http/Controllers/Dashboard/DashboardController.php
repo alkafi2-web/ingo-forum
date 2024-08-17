@@ -93,13 +93,13 @@ class DashboardController extends Controller
             ->groupBy('approval_status_label')
             ->pluck('count', 'approval_status_label')
             ->toArray();
-        $postStatusCounts = Post::selectRaw('
+       $postStatusCounts = Post::selectRaw('
             CASE 
-            WHEN status = "approved" THEN "1"
-            WHEN status = "pending" THEN "0"
-            WHEN status = "rejected" THEN "2"
-            WHEN status = "suspended" THEN "3"
-            WHEN status IS NULL THEN "1"
+            WHEN approval_status = "1" THEN "1"
+            WHEN approval_status = "0" THEN "0"
+            WHEN approval_status = "2" THEN "2"
+            WHEN approval_status = "3" THEN "3"
+            WHEN approval_status IS NULL THEN "1"
                             END as status_label, 
                             count(*) as count
                         ')

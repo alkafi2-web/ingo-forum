@@ -338,7 +338,7 @@
                     {{ $eventStatusCounts[2] ?? 0 }}, // Rejected
                     {{ $eventStatusCounts[3] ?? 0 }} // Suspended
                 ],
-                backgroundColor: ["#28A745", "#FFC107", "#FF5733",
+                backgroundColor: ["#056F3B", "#F99E1F", "#FF5733",
                 "gray"], // Match the colors with the order of labels
             }]
         };
@@ -348,17 +348,23 @@
                 data: [
                     {{ $postStatusCounts[1] ?? 0 }}, // Approved
                     {{ $postStatusCounts[0] ?? 0 }}, // Pending
-                    {{ $postStatusCounts[2] ?? 0 }}, // Rejected
-                    {{ $postStatusCounts[3] ?? 0 }} // Suspended
+                    {{ $postStatusCounts[3] ?? 0 }}, // Rejected
+                    {{ $postStatusCounts[2] ?? 0 }} // Suspended
                 ],
-                backgroundColor: ["#28A745", "#FFC107", "#FF5733",
+                backgroundColor: ["#056F3B", "#F99E1F", "#FF5733",
                 "gray"], // Match the colors with the order of labels
             }]
         };
 
         // Initialize the pie chart
-        var ctx = document.getElementById("postStatusPie").getContext('2d');
+        var ctx = document.getElementById("eventStatusPie").getContext('2d');
         var eventStatusPie = new Chart(ctx, {
+            type: "pie",
+            data: eventStatusPieData,
+        });
+
+        var ctx = document.getElementById("postStatusPie").getContext('2d');
+        var postStatusPie = new Chart(ctx, {
             type: "pie",
             data: postStatusPieData,
         });
