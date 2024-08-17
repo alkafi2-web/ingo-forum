@@ -35,6 +35,7 @@ use App\Http\Controllers\Frontend\Event\EventController as FrontendEventControll
 use App\Http\Controllers\Frontend\File\FileController as FileFileController;
 use App\Http\Controllers\Subscriber\SubscriberController;
 use App\Http\Controllers\Frontend\Auth\ForgotPasswordController;
+use App\Http\Controllers\Content\FooterController;
 
 // robot & sitemap 
 Route::get('/robots.txt', [RobotsController::class, 'index']);
@@ -147,6 +148,12 @@ Route::prefix('admin')->group(function () {
             Route::post('/status', [FAQsController::class, 'status'])->name('faqs.status');
             Route::post('/update', [FAQsController::class, 'update'])->name('faqs.update');
         });
+
+        // footer manage
+        Route::prefix('footer')->group(function () {
+            Route::get('/index', [FooterController::class, 'index'])->name('footer.index');
+        });
+
         // FAQs Route start
 
         // FAQs Route end

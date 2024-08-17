@@ -222,3 +222,59 @@ table tbody tr:last-child td {
   font-size: 20px !important;
   margin-top: -18px !important;
 }
+
+.footer-management .nav-link {
+  cursor: pointer;
+}
+.footer-management .active {
+  background-color: #f5f8fa;
+  border-color: #3f444b;
+}
+.footer-management .active .icon i, .footer-management .active .title {
+  color: black;
+}
+
+.builder-panel-category-items {
+  padding-block-end: 20px;
+}
+
+.builder-responsive-panel {
+  padding: 0 15px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(min(135px, 50% - 5px), 1fr));
+}
+
+.builder-element {
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  color: #d5d8dc;
+  line-height: 1;
+  text-align: center;
+  border: 1px solid #e4e6ef;
+  border-radius: 3px;
+  cursor: move;
+  position: relative;
+  transition: 0.8s;
+  width: 100%;
+  background-color: transparent;
+}
+.builder-element:hover, .builder-element:active, .builder-element:focus {
+  background-color: #f5f8fa;
+  border-color: #3f444b;
+}
+.builder-element:hover .icon i, .builder-element:hover .title, .builder-element:active .icon i, .builder-element:active .title, .builder-element:focus .icon i, .builder-element:focus .title {
+  color: black;
+}
+.builder-element .icon {
+  font-size: 28px;
+  padding-block-start: 15px;
+}
+.builder-element .title-wrapper {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+}
+.builder-element .title-wrapper .title {
+  font-size: 12px;
+}

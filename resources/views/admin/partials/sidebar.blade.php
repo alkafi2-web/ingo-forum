@@ -83,12 +83,17 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="menu-title">Member</span>
-                            <div class="pendingMemberCount">
-                                @if ($global['pendingMemberCount'] > 0)
-                                    <span class="badge badge-light-danger">{{ $global['pendingMemberCount'] }}</span>
-                                @endif
-                            </div>
+                            <span class="menu-title position-relative">Member
+                                <div class="pendingMemberCount">
+                                    @if ($global['pendingMemberCount'] > 0)
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                            style="top: 9px !important; margin-left: -12px;">
+                                            {{ $global['pendingMemberCount'] }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </span>
                             <span class="menu-arrow"></span>
                         </span>
 
@@ -114,13 +119,15 @@
                                             <span class="bullet bullet-dot"></span>
                                         </span>
                                         <span class="menu-title position-relative">Member Request
-                                            @if ($global['pendingMemberCount'] > 0)
-                                                <span
-                                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                                                    style="top: 9px !important; margin-left: -12px;">
-                                                    {{ $global['pendingMemberCount'] }}
-                                                </span>
-                                            @endif
+                                            <div class="pendingMemberCount">0
+                                                @if ($global['pendingMemberCount'] > 0)
+                                                    <span
+                                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                                        style="top: 9px !important; margin-left: -12px;">
+                                                        {{ $global['pendingMemberCount'] }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </span>
                                     </span>
                                 </a>
@@ -619,6 +626,17 @@
                                         </span>
                                     </a>
                                 @endcan
+                                {{-- @can('footer-content-manage')
+                                    <a class="menu-item menu-accordion" href="{{ route('footer.index') }}">
+                                        <span
+                                            class="menu-link {{ Route::currentRouteName() == 'footer.index' ? 'active' : '' }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Footer Manage</span>
+                                        </span>
+                                    </a>
+                                @endcan --}}
                                 @can('faqs-manage')
                                     <a class="menu-item menu-accordion" href="{{ route('faqs') }}">
                                         <span class="menu-link {{ Route::currentRouteName() == 'faqs' ? 'active' : '' }}">

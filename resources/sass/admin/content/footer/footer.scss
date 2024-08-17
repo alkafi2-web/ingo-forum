@@ -1,0 +1,12 @@
+.footer-management{
+    .nav-link{
+        cursor: pointer;
+    }
+    .active{
+        background-color: #f5f8fa;
+        border-color: #3f444b;
+        .icon i, .title{
+            color:  black;
+        }
+    }
+}

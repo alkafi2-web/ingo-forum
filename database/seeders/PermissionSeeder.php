@@ -55,7 +55,8 @@ class PermissionSeeder extends Seeder
             'contact-list-view',
             'user-activity',
             'system-settings-manage',
-            'subscriber'
+            'subscriber',
+            'footer-content-manages'
         ];
 
         // Create permissions

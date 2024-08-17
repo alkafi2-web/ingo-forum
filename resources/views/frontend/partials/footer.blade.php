@@ -3,7 +3,7 @@
 </div>
 <footer class="footer">
     <div class="container">
-        <div class="footer-top-area">
+        {{-- <div class="footer-top-area">
             <div class="row">
                 <div class="col-md-4 mb-3 mb-md-0">
                     <div class="footer-info">
@@ -83,19 +83,6 @@
                         @endforeach
                     </nav>
                 </div>
-                {{-- <div class="col-6 col-md-2 mb-3 mb-md-0">
-                    <h4 class="footer-menu-title">Resources</h4>
-                    <nav class="footer-menu">
-                        <ul>
-                            <li><a href="">Forum</a></li>
-                            <li><a href="">Events</a></li>
-                            <li><a href="">News</a></li>
-                            <li><a href="">Blog</a></li>
-                            <li><a href="">Photos Gallery</a></li>
-                            <li><a href="">Video Gallery</a></li>
-                        </ul>
-                    </nav>
-                </div> --}}
                 <div class="col-12 col-md-2 mb-3 mb-md-0 text-center text-md-start">
                     <h4 class="footer-menu-title">Resources</h4>
                     <nav class="footer-menu">
@@ -109,7 +96,7 @@
                     </nav>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div
             class="copyright-area d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-between pt-3">
             <p class="text-center text-md-left">© Copyright 2021 <a href="" target="_blank">INGO Forum

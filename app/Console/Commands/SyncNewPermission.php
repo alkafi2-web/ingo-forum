@@ -32,6 +32,7 @@ class SyncNewPermission extends Command
             'voter-slip-print',
             'print-voter-info',
             'print-program-single-info',
+            'footer-content-manage',
         ];
 
         foreach ($permissionNames as $permissionName) {
