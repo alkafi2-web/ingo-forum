@@ -5,7 +5,7 @@
     <!--begin::Brand-->
     <div class="aside-logo flex-column-auto" id="kt_aside_logo">
         <!--begin::Logo-->
-        <a href="">
+        <a href="{{ route('dashboard') }}">
             <img alt="Logo" src="{{ asset('public/frontend/images/' . $global['logo'] ?? 'logo.png') }}"
                 class="h-25px logo" />
         </a>
