@@ -56,8 +56,8 @@
 
                                 <a href="{{ route('member.file.index') }}"
                                     class="nav-link {{ Route::currentRouteName() == 'member.file.index' ? 'active' : '' }}"
-                                    id="file-tab" data-bs-target="#file" type="button" role="tab"
-                                    aria-controls="file" aria-selected="true"><i class="fas fa-file"></i>&nbsp;File</a>
+                                    id="file-tab" data-bs-target="#file" type="button" role="tab" aria-controls="file"
+                                    aria-selected="true"><i class="fas fa-file"></i>&nbsp;File</a>
                             </div>
                         </div>
                         <div class="col-lg-9 tab-content bg-white p-3 rounded" id="v-pills-tabContent">
@@ -71,3 +71,40 @@
     <!-- Profile edit page end -->
 
 @endsection
+@push('custom-js')
+    <script>
+        $(document).ready(function() {
+
+            $('#profile-input').on('change', function() {
+                
+                var fileInput = $(this)[0];
+                if (fileInput.files && fileInput.files[0]) {
+
+                    var formData = new FormData();
+                    formData.append('profile_image', fileInput.files[0]);
+
+                    // AJAX request to upload image
+                    $.ajax({
+                        url: '{{ route('upload.profile.image') }}', // Replace with your upload route
+                        type: 'POST',
+                        data: formData,
+                        processData: false, // Prevent jQuery from processing the data
+                        contentType: false,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            toastr.success(response.message);
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr);
+                            toastr.error('Failed to upload image.');
+                        }
+                    });
+                } else {
+                    toastr.error('Failed to upload image.');
+                }
+            });
+        });
+    </script>
+@endpush

@@ -450,35 +450,7 @@
                     }
                 });
             });
-            $('#profile-input').on('change', function() {
-                var fileInput = $(this)[0];
-                if (fileInput.files && fileInput.files[0]) {
-
-                    var formData = new FormData();
-                    formData.append('profile_image', fileInput.files[0]);
-
-                    // AJAX request to upload image
-                    $.ajax({
-                        url: '{{ route('upload.profile.image') }}', // Replace with your upload route
-                        type: 'POST',
-                        data: formData,
-                        processData: false, // Prevent jQuery from processing the data
-                        contentType: false,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function(response) {
-                            toastr.success(response.message);
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(xhr);
-                            toastr.error('Failed to upload image.');
-                        }
-                    });
-                } else {
-                    toastr.error('Failed to upload image.');
-                }
-            });
+            
 
             $('#profilData-submit').on('click', function(e) {
                 e.preventDefault();

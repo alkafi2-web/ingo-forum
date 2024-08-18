@@ -186,6 +186,7 @@ class MemberController extends Controller
 
     public function uploadProfileImage(Request $request)
     {
+        // return $request->all();
         // Define validation rules
         $validator = Validator::make($request->all(), [
             'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max size and allowed formats as needed
