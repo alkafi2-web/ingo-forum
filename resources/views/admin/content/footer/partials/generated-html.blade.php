@@ -1,6 +1,6 @@
-<div class="container builder-type">
-    <div class="footer-top-area column-class-container">
-        <div class="row bilder-row">
+<div class="container">
+    <div class="footer-top-area ">
+        <div class="row ">
             <div class="col-md-4 mb-3 mb-md-0 builder-col">
                 <div class="footer-info">
                     <img src="{{ asset('public/frontend/images/' . $global['logo']) }}" alt="">

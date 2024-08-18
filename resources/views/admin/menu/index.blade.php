@@ -1,7 +1,10 @@
 @extends('admin.layouts.backend-layout')
 
 @section('breadcame')
-    Menus
+    <select name="" class="form-select" id="origin_type">
+        <option value="header" selected> Header Menu</option>
+        <option value="footer"> Footer Menu</option>
+    </select>
 @endsection
 
 @section('admin-content')
@@ -23,7 +26,8 @@
                 </div>
                 <div class="card-body">
                     <ul id="menu-container" class="draggable-menu-container">
-                        @foreach ($menus as $menu)
+                        {{-- here $menuss comming from menucontroller becasue $menus is the service provider global value --}}
+                        @foreach ($menuss as $menu)
                             @include('admin.menu.partials.menu-item', ['menu' => $menu])
                         @endforeach
                     </ul>
@@ -34,6 +38,24 @@
 
     @push('custom-js')
         <script>
+            $(document).ready(function() {
+                // Event listener for the origin_type dropdown
+                $('#origin_type').change(function() {
+                    var originType = $(this).val();
+                    var currentUrl = window.location.href;
+
+                    // Extract the base URL up to the menu section
+                    var baseUrl = currentUrl.split('/').slice(0, -1).join('/');
+
+                    // Redirect to the new URL with the selected origin type
+                    window.location.href = baseUrl + '/' + originType;
+                });
+
+                // Trigger the change event on page load to set the correct dropdown value based on the URL
+                var currentUrl = window.location.href.split('/').pop();
+                $('#origin_type').val(currentUrl);
+            });
+
             $(function() {
                 $.ajaxSetup({
                     headers: {

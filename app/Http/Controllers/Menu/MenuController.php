@@ -13,13 +13,20 @@ use App\Rules\RouteExists;
 
 class MenuController extends Controller
 {
-    public function index()
+    public function index(Request $request, $originType = "header")
     {
         if (!Auth::guard('admin')->user()->hasPermissionTo('menu-manage')) {
             abort(401);
         }
-        $menus = Menu::with('subMenus', 'page')->where('parent_id', 0)->orderBy('position')->get();
-        return view('admin.menu.index', compact('menus'));
+        // $originType = $request->input('origin_type', 'header'); // Default to 'header' if not provided
+    
+        $menuss = Menu::with('subMenus', 'page')
+        ->where('parent_id', 0)
+        ->where('origin_type', $originType)
+        ->orderBy('id')
+        ->get();
+        
+        return view('admin.menu.index', compact('menuss'));
     }
 
     public function store(Request $request)
@@ -31,6 +38,7 @@ class MenuController extends Controller
             'postCat_id' => 'required_if:menu_type,post|nullable|exists:post_categories,id',
             'route_name' => ['required_if:menu_type,route', 'nullable', 'string', 'max:255', new RouteExists],
             'custom_url' => 'required_if:menu_type,url|nullable|url|max:255',
+            'origin_type' => 'required',
         ]);
 
         $menu = new Menu();
@@ -51,10 +59,26 @@ class MenuController extends Controller
             $menu->name = $request->menu_title;
             $menu->url = $request->custom_url;
         }
+        
+        $menu->origin_type = $request->origin_type;
 
+        $footerMenu = Menu::where('origin_type', 'footer')->where('parent_id', 0)->get();
+            if ($footerMenu && $request->origin_type == 'footer') {
+                if ($footerMenu->count() > 3) {
+                    return response()->json(['success' => false, 'message' => 'You cannot add footer menu more than 3']);
+                }
+            }
+        
         $menu->save();
-        Helper::log("$menu->name save menu");
-        return response()->json(['success' => true, 'message' => 'Menu added successfully']);
+
+        if ($request->origin_type == 'header') {
+            Helper::log("$menu->name save header menu");
+            return response()->json(['success' => true, 'message' => 'Header menu added successfully']);
+        } else {
+            Helper::log("$menu->name save footer menu");
+            return response()->json(['success' => true, 'message' => 'Footer menu added successfully']);
+        }
+        
     }
 
     public function updateOrder(Request $request)

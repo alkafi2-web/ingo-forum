@@ -53,7 +53,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ route('frontend.index') }}">Home</a>
                     </li>
-                    @foreach ($menus as $menu)
+                    @foreach ($menus->where('origin_type', 'header') as $menu)
                         <li class="nav-item {{ $menu->subMenus->count() ? 'dropdown' : '' }}">
                             @if ($menu->type == 'route')
                                 <a class="nav-link {{ $menu->subMenus->count() ? 'dropdown-toggle' : '' }}"

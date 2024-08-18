@@ -21,6 +21,7 @@ class Menu extends Model
         'content',
         'position',
         'visibility',
+        'origin_type'
     ];
 
     /**

@@ -194,7 +194,12 @@
                 }
                 $('#spinner-submit').removeClass('d-none'); // Show the spinner
                 $('#menu-submit').prop('disabled', true);
+
+                var origin_type = $('#origin_type').val();
                 var formData = new FormData(this);
+                // Add the origin_type to the formData
+                formData.append('origin_type', origin_type);
+                
                 $.ajax({
                     url: '{{ route('menu.store') }}',
                     method: 'POST',

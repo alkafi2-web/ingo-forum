@@ -534,7 +534,7 @@
                     @can('menu-manage')
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteName() == 'menu.index' ? 'active' : '' }}"
-                                href="{{ route('menu.index') }}">
+                                href="{{ route('menu.index',['originType' => 'header']) }}">
                                 <span class="menu-icon">
                                     <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                                     <span class="svg-icon svg-icon-2">
