@@ -276,7 +276,8 @@
                         <label for="short_description" class="form-label">Short Description&nbsp;
                             <i class="fas fa-edit edit-icon" data-target="#short_description"></i>
                         </label>
-                        <textarea class="form-control member-profile-input" id="short_description" readonly name="short_description" rows="3">{{ $member->memberInfos[0]['short_description'] ?? '' }}</textarea>
+                        <textarea class="form-control member-profile-input" id="short_description" readonly name="short_description"
+                            rows="3">{{ $member->memberInfos[0]['short_description'] ?? '' }}</textarea>
                     </div>
 
                     <!-- Organization Document -->
@@ -452,8 +453,10 @@
             $('#profile-input').on('change', function() {
                 var fileInput = $(this)[0];
                 if (fileInput.files && fileInput.files[0]) {
+
                     var formData = new FormData();
                     formData.append('profile_image', fileInput.files[0]);
+
                     // AJAX request to upload image
                     $.ajax({
                         url: '{{ route('upload.profile.image') }}', // Replace with your upload route
@@ -465,41 +468,17 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(response) {
-                            // Make text inputs and textareas readonly
-
-                            $('#profilDataForm input').attr('readonly', true).addClass(
-                                'member-profile-input');
-
-                            // Disable file inputs
-                            $('#profilDataForm input[type="text"], #profilDataForm textarea')
-                                .attr('readonly', true);
-                            $('#profilDataForm input[type="file"]').prop('disabled', true);
-
-                            // Set CKEditor instances to readonly
-                            const ckeditorInstances = [
-                                // 'short_description',
-                                'mission',
-                                'vision',
-                                'values',
-                                'work',
-                                'history',
-                                'other_description'
-                            ];
-
-                            ckeditorInstances.forEach(function(id) {
-                                if (CKEDITOR.instances[id]) {
-                                    CKEDITOR.instances[id].setReadOnly(true);
-                                }
-                            });
                             toastr.success(response.message);
                         },
                         error: function(xhr, status, error) {
-                            // Handle error
                             toastr.error('Failed to upload image.');
                         }
                     });
+                } else {
+                    // console.log("No file selected");
                 }
             });
+
             $('#profilData-submit').on('click', function(e) {
                 e.preventDefault();
                 $('#spinner-2').removeClass('d-none');
@@ -551,11 +530,11 @@
                         // Disable file inputs
                         $('#profilDataForm input[type="text"], #profilDataForm textarea')
                             .attr('readonly', true).addClass(
-                            'member-profile-input');
+                                'member-profile-input');
                         $('#profilDataForm input[type="file"]').prop('disabled', true).addClass(
                             'member-profile-input');
 
-                        
+
                         toastr.success(response.message);
                         var organizationDocument = $('#organization_document').val('');
                         // Display the uploaded file in the preview section
@@ -633,7 +612,8 @@
                     success: function(response) {
                         $('#spinner-3').addClass('d-none');
                         $('#social-submit').prop('disabled', false);
-                        $('#social-form input').attr('readonly', true);
+                        $('#social-form input').attr('readonly', true).addClass(
+                            'member-profile-input');;
                         toastr.success(response.message);
                     },
                     error: function(xhr) {
