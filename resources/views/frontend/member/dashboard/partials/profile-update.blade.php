@@ -475,7 +475,7 @@
                         }
                     });
                 } else {
-                    // console.log("No file selected");
+                    toastr.error('Failed to upload image.');
                 }
             });
 
