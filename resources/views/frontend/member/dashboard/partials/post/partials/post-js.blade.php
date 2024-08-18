@@ -191,27 +191,6 @@
                         orderable: true,
                         sortable: false
                     },
-                    // {
-                    //     data: 'long_des',
-                    //     name: 'long_des',
-                    //     orderable: true,
-                    //     sortable: false,
-                    //     render: function(data, type, row, meta) {
-                    //         console.log("Render Function Data: ", data);
-
-                    //         // Decode HTML entities
-                    //         var decodedData = $('<div/>').html(data).text();
-
-                    //         // Strip HTML tags
-                    //         var strippedData = $('<div/>').html(decodedData).text();
-
-                    //         // Limit text to 200 characters
-                    //         var limitedData = strippedData.length > 150 ? strippedData.substring(0,
-                    //             150) + '...' : strippedData;
-
-                    //         return limitedData;
-                    //     }
-                    // },
                     {
                         data: 'banner',
                         name: 'banner',
@@ -303,9 +282,9 @@
                                 .replace(':postSlug', row.slug);
 
                             // Determine the comment icon based on comment_permission
-                            var commentIcon = row.comment_permission ? 'fa-comments text-success' :
+                            var commentIcon = row.comment_permission == 1 ? 'fa-comments text-success' :
                                 'fa-comment-slash text-muted';
-                            var commentTitle = row.comment_permission ? 'Comments Enabled' :
+                            var commentTitle = row.comment_permission == 1 ? 'Comments Enabled' :
                                 'Comments Disabled';
 
                             // Conditional edit button based on approval_status
