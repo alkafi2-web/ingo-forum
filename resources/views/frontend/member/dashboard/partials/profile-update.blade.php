@@ -471,6 +471,7 @@
                             toastr.success(response.message);
                         },
                         error: function(xhr, status, error) {
+                            console.log(xhr);
                             toastr.error('Failed to upload image.');
                         }
                     });
