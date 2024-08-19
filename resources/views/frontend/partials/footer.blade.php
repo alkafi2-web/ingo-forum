@@ -83,8 +83,11 @@
                         </div>
                     @endforeach
                 @elseif ($count == 3)
+                @php
+                    $i = 1;
+                @endphp
                     @foreach ($footerMenus as $index => $menu)
-                        @if ($index < 2)
+                        @if ($i < 3)
                             <div class="col-md-3 mb-3 mb-md-0 text-center text-md-start">
                                 <h4 class="footer-menu-title">{{ $menu->name }}</h4>
                                 <nav class="footer-menu">
@@ -127,6 +130,9 @@
                                 </nav>
                             </div>
                         @endif
+                        @php
+                            $i++;
+                        @endphp
                     @endforeach
                 @endif
             </div>
