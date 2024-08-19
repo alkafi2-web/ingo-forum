@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Banner;
 use App\Models\Event;
+use App\Models\Feedback;
 use App\Models\MainContent;
 use App\Models\MediaAlbum;
 use App\Models\MediaGallery;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Menu;
 use App\Models\Publication;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -166,6 +168,9 @@ class AppServiceProvider extends ServiceProvider
 
             $pendingEventCount = Event::where('approval_status', 0)->count();
             $global['pendingEventCount'] = $pendingEventCount;
+
+            $unread_feedback = Feedback::where('member_id',Auth::guard('member')->id())->where('read_status','unread')->count();
+            $global['unread_feedback'] = $unread_feedback;
             $view->with(compact('global', 'menus'));
         });
     }

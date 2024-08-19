@@ -217,7 +217,7 @@ class MemberController extends Controller
     {
         if ($request->ajax()) {
             // Retrieve feedback data along with related user and member
-            $feedback = Feedback::where('member_id',$request->member_id)->with(['user', 'member'])->get();
+            $feedback = Feedback::where('member_id',$request->member_id)->with(['user', 'member'])->latest();
 
             return DataTables::of($feedback)
                 ->addIndexColumn() // Adds an index column for numbering

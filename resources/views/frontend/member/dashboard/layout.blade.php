@@ -61,8 +61,9 @@
 
                                 <a href="{{ route('member.feedback.index') }}"
                                     class="nav-link {{ Route::currentRouteName() == 'member.feedback.index' ? 'active' : '' }}"
-                                    id="feedback-tab" data-bs-target="#feedback" type="button" role="tab" aria-controls="feedback"
-                                    aria-selected="true"><i class="fas fa-paper-plane"></i>&nbsp;Feedback</a>
+                                    id="feedback-tab" data-bs-target="#feedback" type="button" role="tab"
+                                    aria-controls="feedback" aria-selected="true"><i
+                                        class="fas fa-paper-plane"></i>&nbsp;Feedback</a>
                             </div>
                         </div>
                         <div class="col-lg-9 tab-content bg-white p-3 rounded" id="v-pills-tabContent">
@@ -74,6 +75,33 @@
         </div>
     </section>
     <!-- Profile edit page end -->
+    @if ( request()->route()->getName() !== 'member.feedback.index' && $global['unread_feedback'] > 0)
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Unread Feedback!",
+                    text: "You have unread feedback. Would you like to check it now?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, check now!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirect or open modal to show the unread feedback
+                        Swal.fire({
+                            title: "Opening...",
+                            text: "You are being redirected to the feedback page.",
+                            icon: "success"
+                        });
+
+                        // Replace with your route to the feedback page
+                        window.location.href = "{{ route('member.feedback.index') }}";
+                    }
+                });
+            });
+        </script>
+    @endif
 
 @endsection
 @push('custom-js')
@@ -81,7 +109,7 @@
         $(document).ready(function() {
 
             $('#profile-input').on('change', function() {
-                
+
                 var fileInput = $(this)[0];
                 if (fileInput.files && fileInput.files[0]) {
 

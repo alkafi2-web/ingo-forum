@@ -437,7 +437,7 @@ class MemberController extends Controller
     {
         if ($request->ajax()) {
             // Retrieve feedback data along with related user and member
-            $feedback = Feedback::where('member_id', Auth::guard('member')->id())->with(['user', 'member'])->get();
+            $feedback = Feedback::where('member_id', Auth::guard('member')->id())->with(['user', 'member'])->latest();
 
             return DataTables::of($feedback)
                 ->addColumn('user_name', function ($row) {
