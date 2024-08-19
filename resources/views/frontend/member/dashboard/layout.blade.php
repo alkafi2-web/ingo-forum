@@ -58,6 +58,11 @@
                                     class="nav-link {{ Route::currentRouteName() == 'member.file.index' ? 'active' : '' }}"
                                     id="file-tab" data-bs-target="#file" type="button" role="tab" aria-controls="file"
                                     aria-selected="true"><i class="fas fa-file"></i>&nbsp;File</a>
+
+                                <a href="{{ route('member.feedback.index') }}"
+                                    class="nav-link {{ Route::currentRouteName() == 'member.feedback.index' ? 'active' : '' }}"
+                                    id="feedback-tab" data-bs-target="#feedback" type="button" role="tab" aria-controls="feedback"
+                                    aria-selected="true"><i class="fas fa-paper-plane"></i>&nbsp;Feedback</a>
                             </div>
                         </div>
                         <div class="col-lg-9 tab-content bg-white p-3 rounded" id="v-pills-tabContent">

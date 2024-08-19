@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend\Member;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\Event;
+use App\Models\Feedback;
 use App\Models\Post;
 use App\Models\Publication;
 use App\Models\MemberInfo;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Yajra\DataTables\DataTables;
 
 class MemberController extends Controller
 {
@@ -279,7 +281,7 @@ class MemberController extends Controller
             if (!File::exists($dir)) {
                 File::makeDirectory($dir, 0755, true);
             }
-            
+
             $old_profile_attachment = $dir . $memberInfo->profile_attachment;
             if (File::exists($old_profile_attachment)) {
                 File::delete($old_profile_attachment);
@@ -358,22 +360,22 @@ class MemberController extends Controller
         return response()->json(['success' => true, 'message' => 'Social profile Update'], 200);
         return $request->all();
     }
-    
+
     public function memberDashboard()
     {
         $userId = Auth::guard('member')->user()->id;
-    
+
         $events = Event::with('participants', 'creator')
             ->where('creator_type', '\App\Models\User')
             ->where('creator_id', $userId)
             ->get();
-    
+
         $posts = Post::where('member_id', $userId)
             ->withCount('totalRead') // Assuming totalRead is a relationship
             ->get();
-    
+
         $publications = Publication::where('member_id', $userId)->get();
-    
+
         // Data for charts
         $eventStatusCounts = Event::selectRaw('approval_status, count(*) as count')
             ->where('creator_type', '\App\Models\User')
@@ -381,19 +383,19 @@ class MemberController extends Controller
             ->groupBy('approval_status')
             ->pluck('count', 'approval_status')
             ->toArray();
-    
+
         $postStatusCounts = Post::selectRaw('approval_status, count(*) as count')
             ->where('member_id', $userId)
             ->groupBy('approval_status')
             ->pluck('count', 'approval_status')
             ->toArray();
-    
+
         $publicationStatusCounts = Publication::selectRaw('approval_status, count(*) as count')
             ->where('member_id', $userId)
             ->groupBy('approval_status')
             ->pluck('count', 'approval_status')
             ->toArray();
-    
+
 
         // Get first 3 words of titles for events and posts
         $getFirstThreeWords = function ($text) {
@@ -407,22 +409,63 @@ class MemberController extends Controller
         $postLabels = $posts->take(5)->map(function ($post) {
             return substr($post->title, 0, 3);
         })->toArray();
-    
+
         // Get participant counts and read counts
         $eventParticipantsCounts = $events->take(5)->map(function ($event) {
             return $event->participants->count();
         })->toArray();
-    
+
         $postReadCounts = $posts->take(5)->map(function ($post) {
             return $post->totalRead->count(); // Adjust this if needed based on your relationship setup
         })->toArray();
-    
+
         return view('frontend.member.dashboard.partials.dashboard.dashboard', compact(
-            'events', 'posts', 'publications', 
-            'eventStatusCounts', 'postStatusCounts', 'publicationStatusCounts',
-            'eventLabels', 'postLabels',
-            'eventParticipantsCounts', 'postReadCounts'
+            'events',
+            'posts',
+            'publications',
+            'eventStatusCounts',
+            'postStatusCounts',
+            'publicationStatusCounts',
+            'eventLabels',
+            'postLabels',
+            'eventParticipantsCounts',
+            'postReadCounts'
         ));
     }
-    
+
+    public function memberFeedbackIndex(Request $request)
+    {
+        if ($request->ajax()) {
+            // Retrieve feedback data along with related user and member
+            $feedback = Feedback::where('member_id', Auth::guard('member')->id())->with(['user', 'member'])->get();
+
+            return DataTables::of($feedback)
+                ->addColumn('user_name', function ($row) {
+                    return $row->user->name; // Assuming 'name' is a field in the user table
+                })
+                ->addColumn('create_date', function ($row) {
+                    return $row->created_at->format('F j, Y, g:i a'); // e.g., August 19, 2024, 8:42 am
+                })
+                ->make(true);
+        }
+        return view('frontend.member.dashboard.partials.feedback.feedback');
+    }
+
+    public function memberFeedbackGet(Request $request)
+    {
+        $feedback = Feedback::where('id', $request->id)->with(['user', 'member'])->first();
+        if (!$feedback) {
+            return response()->json(['error' => 'Feedback not found'], 404);
+        }
+        $feedback->update(['read_status' => 'read']);
+        // Return feedback details in a structured JSON response
+        return response()->json([
+            'id' => $feedback->id,
+            'message' => $feedback->message,
+            'user_name' => $feedback->user->name, // Assuming user relation has 'name'
+            'member_name' => $feedback->member->name, // Assuming member relation has 'name'
+            'read_status' => $feedback->read_status,
+            'created_at' => $feedback->created_at->format('F j, Y, g:i a'), // Format the creation date
+        ]);
+    }
 }

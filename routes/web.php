@@ -410,6 +410,11 @@ Route::middleware(['trackvisitor'])->group(function () {
                     Route::get('/public-file', [FileFileController::class, 'publicfilelist'])->name('member.public.file');
                     Route::get('/shared-file', [FileFileController::class, 'sharedfilelist'])->name('member.shared.file');
                 });
+                Route::prefix('feedback')->group(function () {
+                    Route::get('/', [MemberController::class, 'memberFeedbackIndex'])->name('member.feedback.index');
+                    Route::post('/get', [MemberController::class, 'memberFeedbackGet'])->name('member.feedback.get');
+                    
+                });
 
             });
         });
