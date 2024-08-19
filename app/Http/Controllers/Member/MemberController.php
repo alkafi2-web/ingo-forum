@@ -4,16 +4,19 @@ namespace App\Http\Controllers\Member;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Feedback;
 use App\Models\Member;
 use App\Models\MemberInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class MemberController extends Controller
 {
     public function memberlist(Request $request)
     {
+        
         if (!Auth::user()->hasPermissionTo('member-list-view')) {
             abort(401);
         }
@@ -149,7 +152,7 @@ class MemberController extends Controller
         // Render profile-image-name.blade.php (assuming $profileImageName is available in your context)
         $profileImageName = view('admin.member.partials.profile-image-name', compact('member'))->render();
         $memberInfo = $member->memberInfos[0];
-        Helper::log("Suspended ". $memberInfo->organisation_name);
+        Helper::log("Suspended " . $memberInfo->organisation_name);
         // Return JSON response with success message and rendered partial views
         return response()->json([
             'success' => 'Member Approved successfully',
@@ -184,5 +187,54 @@ class MemberController extends Controller
             'viewHeader' => $viewHeader,
             'profileImageName' => $profileImageName
         ]);
+    }
+
+    public function memberFeedbackStore(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'message' => 'required|string|max:255',
+        ], [
+            'message.required' => 'The category message is required.',
+            'message.string' => 'The category message must be a string.',
+            'message.max' => 'The category message may not be greater than 255 characters.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
+        }
+        $feedback = Feedback::create([
+            'user_id' => Auth::guard('admin')->id(), // Authenticated admin user's ID
+            'member_id' => $request->member_id, // Provided member ID
+            'message' => $request->message, // Feedback message
+            'read_status' => 'unread', // Default read status
+        ]);
+        $memberInfo = MemberInfo::where('id', $request->member_id)->first();
+        Helper::log(Auth::guard('admin')->user()->name . " Seend Feed back To this $memberInfo->organisation_name");
+        return response()->json(['success' => ['success' => 'Feedback successfully Send!']]);
+    }
+
+    public function memberFeedbackList(Request $request)
+    {
+        if ($request->ajax()) {
+            // Retrieve feedback data along with related user and member
+            $feedback = Feedback::where('member_id',$request->member_id)->with(['user', 'member'])->get();
+
+            return DataTables::of($feedback)
+                ->addIndexColumn() // Adds an index column for numbering
+                ->addColumn('user_name', function ($row) {
+                    return $row->user->name; // Assuming 'name' is a field in the user table
+                })
+                ->make(true);
+        }
+        // return view('admin.feedback.index'); // Load the view if the request is not Ajax
+    }
+
+    public function memberFeedbackdelete(Request $request)
+    {
+        $feedback = Feedback::findOrFail($request->id);
+        $memberInfo = MemberInfo::where('id', $feedback->member_id)->first();
+        $feedback->delete();
+        Helper::log(Auth::guard('admin')->user()->name . "Delete  feedbacks of $memberInfo->organisation_name");
+        return response()->json(['success' => 'Feedback deleted successfully']);
     }
 }

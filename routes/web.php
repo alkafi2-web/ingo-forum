@@ -337,6 +337,9 @@ Route::prefix('admin')->group(function () {
             Route::post('/members/reject', [AdminMemberController::class, 'reject'])->name('member.reject');
 
             // Route::post('/view', [AdminMemberController::class, 'memberView'])->name('member.view');
+            Route::post('/member-feedback', [AdminMemberController::class, 'memberFeedbackStore'])->name('member.feedback.store');
+            Route::get('/member-feedback', [AdminMemberController::class, 'memberFeedbackList'])->name('member.feedback.list');
+            Route::post('/member-feedback-delete', [AdminMemberController::class, 'memberFeedbackdelete'])->name('member.feedback.delete');
         });
         // member route end
         // subscriber route start
