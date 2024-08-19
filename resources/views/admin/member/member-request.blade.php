@@ -8,6 +8,7 @@
             <div class="card">
                 <div class="card-header">
                     <h2 class="pt-5">Member Request List</h2>
+                    
                 </div>
                 <div class="card-body">
                     @include('admin.member.datatables.member-req-list-datatable')
