@@ -395,6 +395,7 @@ Route::middleware(['trackvisitor'])->group(function () {
                 Route::prefix('event')->group(function () {
                     Route::get('/', [FrontendEventController::class, 'memberEventIndex'])->name('member.event.index');
                     Route::get('/list', [FrontendEventController::class, 'memberEventList'])->name('member.event.list');
+                    Route::get('/join-list', [FrontendEventController::class, 'memberEventJoinList'])->name('member.event.join.list');
                 });
                 Route::prefix('post')->group(function () {
                     Route::get('/', [FrontendPostController::class, 'memberPostIndex'])->name('member.post.index');
