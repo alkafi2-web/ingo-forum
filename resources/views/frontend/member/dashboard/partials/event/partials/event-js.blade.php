@@ -74,8 +74,6 @@
                             Swal.fire('Success!', value,
                                 'success');
                         });
-
-                        $('#add-header').text('Add Event');
                         $('#eventForm')[0].reset();
                         var des = CKEDITOR.instances['des'];
                         des.setData('');
@@ -85,10 +83,10 @@
                         $('#submit').removeClass('d-none');
                         $('#update ').addClass('d-none');
                         $('#refresh').addClass('d-none');
-                        $('#add-event-tab').addClass('active');
-                        $('.add-event-btn-text').text('Update Event');
-                        $('.addEventIcon').hide();
-                        $('.updateEventIcon').show();
+                        $('#add-event-tab').removeClass('active');
+                        $('.add-event-btn-text').text('Add Event');
+                        $('.addEventIcon').show();
+                        $('.updateEventIcon').hide();
 
                         $('#add-event').removeClass('show active');
                         $('#all-event-tab').addClass('active');

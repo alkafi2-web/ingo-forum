@@ -396,6 +396,22 @@
                                 'success');
                         });
                         $('#publication-list-data').DataTable().ajax.reload(null, false);
+                        $('#publicationForm')[0].reset();
+                        $('#pp').attr('src', '');
+                        $('#file-preview').html('');
+                        $('#submit').removeClass('d-none');
+
+                        // Show the update and refresh buttons
+                        $('#update, #refresh').addClass('d-none');
+                        $('.updatePubIcon').hide();
+                        $('.addPubIcon').show();
+
+                        $('#add-publication-tab').removeClass('active');
+                        $('.publication-btn-text').text('Add Publication');
+                        $('#add-publication').removeClass('show active');
+                        $('#all-publication-tab').addClass('active');
+                        $('#all-publication').addClass('show active');
+
                     },
                     error: function(xhr) {
                         hideSpinner('update')

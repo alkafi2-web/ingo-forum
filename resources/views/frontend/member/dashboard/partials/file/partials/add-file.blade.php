@@ -155,7 +155,9 @@
                             toastr.success(value); // Displaying each error message
                         });
                         $('#file-list-data').DataTable().ajax.reload(null, false);
+                        $('#member').val(null).trigger('change');
                         $('#fileForm')[0].reset();
+                        $('#file-preview').html('');
                     },
                     error: function(xhr) {
                         hideSpinner('submit');
@@ -240,6 +242,7 @@
             // Show the update and refresh buttons
             $('#update, #refresh').addClass('d-none');
             $('#fileForm')[0].reset();
+            $('#member').val(null).trigger('change');
             $('#add-file-tab').removeClass('active');
             $('.file-btn-text').text('Add File');
             $('.updatePubIcon').hide();

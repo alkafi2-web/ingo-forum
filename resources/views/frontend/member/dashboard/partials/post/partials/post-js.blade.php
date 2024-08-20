@@ -140,8 +140,11 @@
                                 'success'); // Displaying each error message
                         });
                         $('#member-post-list').DataTable().ajax.reload(null, false);
-
-                        $('#add-blog-news-tab').removeClass('active').text('Add Blog/News');
+                    
+                        $('#add-blog-news-tab').removeClass('active');
+                        $('.addBlogIcon').show();
+                        $('.updateBlogIcon').hide();
+                        $('.add-blog-btn-text').text('Add Blog/News');
                         $('#add-blog-news').removeClass('show active');
                         $('#all-blog-news-tab').addClass('active');
                         $('#all-blog-news').addClass('show active');
@@ -282,7 +285,8 @@
                                 .replace(':postSlug', row.slug);
 
                             // Determine the comment icon based on comment_permission
-                            var commentIcon = row.comment_permission == 1 ? 'fa-comments text-success' :
+                            var commentIcon = row.comment_permission == 1 ?
+                                'fa-comments text-success' :
                                 'fa-comment-slash text-muted';
                             var commentTitle = row.comment_permission == 1 ? 'Comments Enabled' :
                                 'Comments Disabled';
