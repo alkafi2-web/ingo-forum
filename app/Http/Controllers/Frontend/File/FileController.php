@@ -44,7 +44,7 @@ class FileController extends Controller
 
     public function memberFileEdit($id)
     {
-        return $file = FileNgo::with(['category', 'subcategory', 'creator'])->where('creator_type', '\App\Models\Member')->where('creator_id', Auth::guard('member')->id())->first();
+        return $file = FileNgo::with(['category', 'subcategory', 'creator'])->where('id', $id)->first();
     }
 
     public function publicfilelist(Request $request)

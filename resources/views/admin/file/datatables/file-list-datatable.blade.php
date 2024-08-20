@@ -20,6 +20,9 @@
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('File') }}
                 </th>
+                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                    {{ __('File Type') }}
+                </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Added By') }}
                 </th>
@@ -133,9 +136,22 @@
 
                             return `
                                 <a href="${basePath + data}" target="_blank">
-                                    <i class="${icon}" style="font-size: 20px; color: ${color};" aria-hidden="true"></i> ${data}
+                                    <i class="${icon}" style="font-size: 20px; color: ${color};" aria-hidden="true"></i>
                                 </a>
                             `;
+                        }
+                    },
+                    {
+                        data: 'assign_to',
+                        name: 'assign_to',
+                        orderable: true,
+                        sortable: false,
+                        render: function(data, type, row) {
+                            // Determine icon based on assign_to value
+                            const iconClass = data == 0 ? 'fas fa-globe text-success' :
+                            'fas fa-share-alt text-primary'; // Globe for Public, Share for Shared
+
+                            return `<i class="${iconClass}" style="font-size: 18px;" data-status="${data}" data-id="${row.id}"></i>`;
                         }
                     },
                     {
@@ -242,7 +258,7 @@
                 }
             });
         });
-        
+
         $(document).on('click', '.status', function(e) {
             e.preventDefault(); // Prevent default link behavior
 

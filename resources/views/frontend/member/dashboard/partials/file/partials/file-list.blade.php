@@ -1,7 +1,6 @@
 <div class="table-responsive table-container">
     <!--begin::Table-->
-    <table
-        class="table election-datatable w-100 align-middle table-bordered fs-14px gy-5 m-auto display responsive"
+    <table class="table election-datatable w-100 align-middle table-bordered fs-14px gy-5 m-auto display responsive"
         id="file-list-data">
         <!--begin::Table head-->
         <thead>
@@ -20,6 +19,9 @@
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('File') }}
+                </th>
+                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                    {{ __('File Type') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Added By') }}
@@ -115,6 +117,20 @@
                             `;
                         }
                     },
+                    {
+                        data: 'assign_to',
+                        name: 'assign_to',
+                        orderable: true,
+                        sortable: false,
+                        render: function(data, type, row) {
+                            // Determine icon based on assign_to value
+                            const iconClass = data == 0 ? 'fas fa-globe text-success' :
+                                'fas fa-share-alt text-primary'; // Globe for Public, Share for Shared
+
+                            return `<i class="${iconClass}" style="font-size: 18px;" data-status="${data}" data-id="${row.id}"></i>`;
+                        }
+                    },
+
                     {
                         orderable: true,
                         sortable: false,
@@ -232,6 +248,11 @@
                     setTimeout(() => {
                         $('#subcategory').val(response.subcategory_id);
                     }, 100);
+                    
+                    var assignToArray = JSON.parse(response.assign_to);
+
+                    // Set the values in Select2
+                    $('#member').val(assignToArray).trigger('change');
                     // Other form fields can be populated here as needed
                     $('#title').val(response.title);
                     $('#short_description').val(response.description);
@@ -312,7 +333,7 @@
                 }
             });
         });
-        
+
         $(document).on('click', '.delete', function(e) {
             e.preventDefault(); // Prevent default link behavior
 
