@@ -402,9 +402,10 @@
                 success: function(response) {
 
                     $('#file-list-data').DataTable().ajax.reload(null, false);
-                    Swal.fire('Success!', response.success,
-                        'success');
-                    // toastr.success(response.success);
+                    $('#public-file-list-data').DataTable().ajax.reload(null, false);
+                    // Swal.fire('Success!', response.success,
+                    //     'success');
+                    toastr.success(response.success);
                 },
                 error: function(xhr, status, error) {
                     // Handle AJAX error

@@ -19,7 +19,7 @@
                     {{ __('Description') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
-                    {{ __('Added By') }}
+                    {{ __('Shared By') }}
                 </th>
                 <th class="text-end min-w-140px fw-bold text-dark lastTheadColumn" style="font-weight: 900">
                     {{ __('Download') }}</th>
