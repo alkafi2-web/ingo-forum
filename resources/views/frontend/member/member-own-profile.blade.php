@@ -60,7 +60,7 @@
 
                                 @isset($memberinfo->info->twitter)
                                     <a href="{{ $memberinfo->info->twitter }}" class="text-decoration-none" target="_blank"
-                                        rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                                        rel="noopener noreferrer"><i class="fab fa-twitter text-white"></i></a>
                                 @endisset
                             </nav>
                         </div>
