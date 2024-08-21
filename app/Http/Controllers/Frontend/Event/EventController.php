@@ -33,11 +33,10 @@ class EventController extends Controller
 
         if ((Auth::guard('admin')->check() && Auth::guard('admin')->user()->hasPermissionTo('event-view')) || (Auth::guard('member')->check() && Auth::guard('member')->user()->id == $event->first()->creator_id && $event->first()->creator_type == "\App\Models\Member")) {
             $event = $event->firstOrFail();
-        }
-        else{
+        } else {
             $event = $event->where('status', 1)->firstOrFail();
         }
-        
+
         // Generate keywords from the description
         $description = Str::limit(htmlspecialchars_decode(strip_tags($event->details)), 500);
         $keywords = Helper::generateKeywords($description);
@@ -52,17 +51,17 @@ class EventController extends Controller
         OpenGraph::setTitle($event->title);
         OpenGraph::setUrl(route('frontend.event.show', $event->slug));
         OpenGraph::addProperty('type', 'article');
-        OpenGraph::addImage(asset("public/frontend/images/events"."/".($event->media??"frontend/images/placeholder.jpg")));
+        OpenGraph::addImage(asset("public/frontend/images/events" . "/" . ($event->media ?? "frontend/images/placeholder.jpg")));
 
         TwitterCard::setTitle($event->title);
         TwitterCard::setSite('@your_twitter_handle');
         TwitterCard::setDescription(Str::limit(htmlspecialchars_decode(strip_tags($event->details)), 200));
-        TwitterCard::setImage(asset("public/frontend/images/events"."/".$event->media??"frontend/images/placeholder.jpg"));
+        TwitterCard::setImage(asset("public/frontend/images/events" . "/" . $event->media ?? "frontend/images/placeholder.jpg"));
 
         JsonLd::setTitle($event->title);
         JsonLd::setDescription(Str::limit(htmlspecialchars_decode(strip_tags($event->details)), 200));
         JsonLd::setType('Article');
-        JsonLd::addImage(asset("public/frontend/images/events"."/".$event->media??"frontend/images/placeholder.jpg"));
+        JsonLd::addImage(asset("public/frontend/images/events" . "/" . $event->media ?? "frontend/images/placeholder.jpg"));
 
         if ($event) {
             return view('frontend.event.details', compact('event'));
@@ -115,16 +114,43 @@ class EventController extends Controller
             if ($memberFound) {
                 $member_id = $memberFound->member_id;
             } else {
-                // Return success response
+                // Return error response if membership ID doesn't exist
                 return response()->json([
                     'success' => false,
                     'msg' => "Membership ID doesn't exist",
                 ]);
             }
-        }
-        else{
+
+            // Check if the event_id and member_id combination already exists
+            $existingRegistration = EventRegistration::where('event_id', $request->event_id)
+                ->where('member_id', $member_id)
+                ->first();
+
+            if ($existingRegistration) {
+                // Return error response if the combination already exists
+                return response()->json([
+                    'success' => false,
+                    'msg' => "You have already registered for this event.",
+                ]);
+            }
+        } else {
             $member_id = null;
+
+            // Check if the event_id and attendee_email combination already exists when member_id is null
+            $existingRegistration = EventRegistration::where('event_id', $request->event_id)
+                ->whereNull('member_id')
+                ->where('attendee_email', $request->attendee_email)
+                ->first();
+
+            if ($existingRegistration) {
+                // Return error response if the combination already exists
+                return response()->json([
+                    'success' => false,
+                    'msg' => "This email has already been used to register for this event.",
+                ]);
+            }
         }
+
         // Prepare guest information as JSON
         $guestInfo = [];
         if ($request->have_guest === 'yes') {
@@ -159,14 +185,15 @@ class EventController extends Controller
         // Return success response
         return response()->json([
             'success' => true,
-            'msg' => "Join form has been submitted",
+            'msg' => "Join form has been submitted successfully.",
         ]);
     }
 
 
+
     public function memberEventList(Request $request)
     {
-        $events = Event::where('creator_type','\App\Models\Member')->where('creator_id',Auth::guard('member')->id())->latest()->get();
+        $events = Event::where('creator_type', '\App\Models\Member')->where('creator_id', Auth::guard('member')->id())->latest()->get();
         if ($request->ajax()) {
             return DataTables::of($events)
                 ->make(true);
@@ -176,7 +203,7 @@ class EventController extends Controller
 
     public function memberEventJoinList(Request $request)
     {
-        $event_attendees = EventRegistration::where('member_id',Auth::guard('member')->id())->with('event', 'member')->latest();
+        $event_attendees = EventRegistration::where('member_id', Auth::guard('member')->id())->with('event', 'member')->latest();
         if ($request->ajax()) {
             return DataTables::of($event_attendees)
                 ->addColumn('event_name', function ($event) {
@@ -188,7 +215,7 @@ class EventController extends Controller
                 ->addColumn('guest_info', function ($event) {
                     // Decode the attendee_guest JSON to an array if it's stored as a JSON string
                     $guests = is_string($event->guest_info) ? json_decode($event->guest_info, true) : $event->attendee_guest;
-        
+
                     if (!empty($guests) && is_array($guests)) {
                         $guestInfo = '';
                         foreach ($guests as $guest) {

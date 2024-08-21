@@ -192,7 +192,7 @@
                         <div class="single-big-event">
                             <div class="event-info1">
                                 <img src="{{ asset('public/frontend/images/events/' . $global['latest_event']->media) }}"
-                                    alt="logo" style="width:100%">
+                                    alt="logo" style="width:100%; height:390px">
                                 {{-- <h4>{{ $global['aboutus_content']->title ?? 'Please Upload It From Admin' }}</h4>
             <p>{!! $global['aboutus_content']->description ?? 'Please Upload It From Admin' !!}</p> --}}
                             </div>
