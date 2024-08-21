@@ -17,7 +17,7 @@
         <li class="nav-item" role="presentation">
             <button class="nav-link fw-bold" id="join-event-tab" data-bs-toggle="tab" data-bs-target="#join-event"
                 type="button" role="tab" aria-controls="join-event" aria-selected="false">
-                <i class="fas fa-user-plus"></i>&nbsp;Join Event List
+                <i class="fas fa-user-plus"></i>&nbsp;Joined Event List
             </button>
         </li>
     </ul>

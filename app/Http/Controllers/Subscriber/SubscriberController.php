@@ -16,10 +16,11 @@ class SubscriberController extends Controller
             'email.required' => 'Email is required',
             'email.email' => 'Please provide a valid email address',
             'email.max' => 'Email should not be more than 255 characters',
+            'email.unique' => 'This email is already subscribed',
         ];
 
         $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:255',
+            'email' => 'required|string|email|max:255|unique:subscibers,email',
         ], $messages);
 
         if ($validator->fails()) {
@@ -29,13 +30,16 @@ class SubscriberController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
+
         // Store the validated email in the database
-        $subscriber = new Subsciber();
+        $subscriber = new Subsciber(); // Assuming your model name is Subscriber
         $subscriber->email = $request->input('email');
         $subscriber->status = 1;
         $subscriber->save();
-        return response()->json(['success' => ['success' => 'You have successfull subscribe INGO Forum']]);
+
+        return response()->json(['success' => ['success' => 'You have successfully subscribed to INGO Forum']]);
     }
+
     public function subscriberlist(Request $request)
     {
         // if (!Auth::guard('admin')->user()->hasPermissionTo('contact-list-view')) {

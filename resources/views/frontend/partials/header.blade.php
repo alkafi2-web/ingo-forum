@@ -141,11 +141,14 @@
                                         ? $member->info->organisation_name
                                         : 'Not Available';
                                 @endphp
+                                <i class="fas fa-user"></i> <!-- Add this line for the Font Awesome icon -->
                                 {{ $organisationName }}
                             @else
+                                <i class="fas fa-sign-in-alt"></i> <!-- Add this line for the Font Awesome icon -->
                                 Login / Be A Member
                             @endif
                         @else
+                            <i class="fas fa-sign-in-alt"></i> <!-- Add this line for the Font Awesome icon -->
                             Login / Be A Member
                         @endauth
                     </button>

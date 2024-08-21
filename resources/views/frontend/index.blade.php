@@ -740,14 +740,19 @@
                             <span>& get Company News</span>
                             <form id="newslaterForm" action="">
                                 <div class="main-box pt-3">
-                                    <div class="input-group flex-nowrap">
-                                        <i class="fa-regular fa-envelope position-absolute"></i>
-                                        <input type="text" name="email" class="form-control" id=""
-                                            aria-describedby="" placeholder="Enter your email" style="border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;">
-                                        <button class="btn btn-subscribe" type="button"
-                                            id="subscribe">Subscribe</button>
+                                    <div class="input-group flex-nowrap position-relative">
+                                        <i class="fa-regular fa-envelope position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%);"></i>
+                                        <input type="text" name="email" class="form-control" placeholder="Enter your email"
+                                            style="border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;">
+                                        <button class="btn btn-subscribe d-flex align-items-center" type="button" id="subscribe">
+                                            Subscribe
+                                            <span id="spinner" class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
+                                        </button>
                                     </div>
+                                </div>
                             </form>
+                            
+
                         </div>
                     </div>
                     <div class="col-12">
@@ -785,8 +790,13 @@
         $(document).ready(function() {
             $('#subscribe').on('click', function(e) {
                 e.preventDefault();
+
+                // Show spinner
+                $('#spinner').removeClass('d-none');
+
                 let url = "{{ route('frontend.newslater.store') }}";
                 let formData = new FormData($('#newslaterForm')[0]);
+
                 $.ajax({
                     type: 'POST',
                     url: url,
@@ -800,9 +810,12 @@
                         console.log(response);
                         var success = response.success;
                         $.each(success, function(key, value) {
-                            toastr.success(value); // Displaying each error message
+                            toastr.success(value); // Displaying each success message
                         });
                         $('#newslaterForm')[0].reset();
+
+                        // Hide spinner after success
+                        $('#spinner').addClass('d-none');
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
@@ -811,6 +824,9 @@
                             console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
+
+                        // Hide spinner after error
+                        $('#spinner').addClass('d-none');
                     }
                 });
 
