@@ -126,7 +126,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/system-database', [SystemController::class, 'systemDatabase'])->name('system.database');
         });
         Route::get('/email-config/show', [SystemController::class, 'emailConfig'])->name('email.settings');
-        Route::post('/email-config/update', [SystemController::class, 'emailUpdateConfigh'])->name('email.config.update');
+        Route::post('/email-config/update', [SystemController::class, 'emailUpdateConfig'])->name('email.config.update');
 
         // content manegment route end
 

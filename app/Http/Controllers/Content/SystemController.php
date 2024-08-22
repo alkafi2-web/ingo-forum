@@ -155,32 +155,29 @@ class SystemController extends Controller
     {
         // return config('mail.from.address');
         return view('admin.content.email-config.index', [
-            'mail_mailer' => config('mail.default'),
             'mail_host' => config('mail.mailers.smtp.host'),
-            'mail_port' => config('mail.mailers.smtp.port'),
             'mail_username' => config('mail.mailers.smtp.username'),
             'mail_password' => config('mail.mailers.smtp.password'),
-            'mail_encryption' => config('mail.mailers.smtp.encryption'),
             'mail_from_address' => config('mail.from.address'),
         ]);
     }
-    public function emailUpdateConfigh(Request $request)
+    public function emailUpdateConfig(Request $request)
     {
-        // Validate the form input
         $validator = Validator::make($request->all(), [
-            'MAIL_MAILER' => 'required|string|max:255',
             'MAIL_HOST' => 'required|string|max:255',
-            'MAIL_PORT' => 'required|numeric',
             'MAIL_USERNAME' => 'required|string|max:255',
             'MAIL_PASSWORD' => 'required|string|max:255',
-            'MAIL_ENCRYPTION' => 'required|string|max:255',
             'MAIL_FROM_ADDRESS' => 'required|email|max:255',
         ]);
 
         // Check if validation fails
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validator->errors()
+            ], 422); // 422 Unprocessable Entity
         }
+        
 
         // Retrieve validated data
         $data = $validator->validated();
@@ -191,8 +188,12 @@ class SystemController extends Controller
         // Clear the configuration cache
         Artisan::call('config:cache');
 
-        return redirect()->back()->with('success', 'Email configuration updated successfully.');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Email configuration updated successfully.'
+        ]);
     }
+
 
     protected function updateEnvironmentFile(array $data)
     {
