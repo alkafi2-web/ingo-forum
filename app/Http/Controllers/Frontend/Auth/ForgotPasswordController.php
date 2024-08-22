@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Illuminate\Mail\MailException;
 
 class ForgotPasswordController extends Controller
 {
@@ -31,20 +32,30 @@ class ForgotPasswordController extends Controller
         $member->rp_token = $token;
         $member->rp_token_created_at = Carbon::now();
         $member->save();
+
         $memberInfo = MemberInfo::where('id', $member->id)->first();
+
         // Send the reset link via email
-        Mail::send('frontend.auth.passwords.reset-email', [
-            'token' => $token,
-            'organisationName' => $memberInfo->organisation_name
-        ], function ($message) use ($request) {
-            $message->to($request->email);
-            $message->subject('Reset Password Notification');
-        });
-        // return redirect()->route('frontend.index')->with([
-        //     'success' => 'You have successfully unsubscribed from the INGO Forum newsletter.',
-        // ]);
-        return back()->with('success', 'We have emailed your password reset link!');
+        try {
+            Mail::send('frontend.auth.passwords.reset-email', [
+                'token' => $token,
+                'organisationName' => $memberInfo->organisation_name
+            ], function ($message) use ($request) {
+                $message->to($request->email);
+                $message->subject('Reset Password Notification');
+            });
+
+            // If mail was sent successfully
+            return back()->with('success', 'We have emailed your password reset link!');
+        } catch (MailException $e) {
+            // If an error occurred while sending the mail
+            return back()->with('error', 'Failed to send password reset email');
+        } catch (\Exception $e) {
+            // Catch other exceptions
+            return back()->with('error', 'Failed to send password reset email');
+        }
     }
+
 
     public function showResetForm($token)
     {

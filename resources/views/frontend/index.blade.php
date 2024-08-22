@@ -827,7 +827,7 @@
 
                         // Hide spinner after success
                         $('#spinner').addClass('d-none');
-                        $('#subscribe').prop('disabled', true);
+                        $('#subscribe').prop('disabled', false);
                     },
 
                     error: function(xhr) {
@@ -838,7 +838,7 @@
                         });
                         // Hide spinner after error
                         $('#spinner').addClass('d-none');
-                        $('#subscribe').prop('disabled', true);
+                        $('#subscribe').prop('disabled', false);
                     }
                 });
 
