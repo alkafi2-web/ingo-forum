@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Subsciber;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -9,13 +10,13 @@ use Illuminate\Queue\SerializesModels;
 class NewsletterSubscriptionMail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $subscriber;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(Subsciber $subscriber)
     {
-        // You can pass data to the email here if needed
+        $this->subscriber = $subscriber;
     }
 
     /**
@@ -23,8 +24,9 @@ class NewsletterSubscriptionMail extends Mailable
      */
     public function build()
     {
-        return $this->from('test@ingo.webase.info') // Ensure this is a valid sender
-                    ->subject('Welcome to INGO Forum Newsletter')
-                    ->view('mail.newsletter_subscription'); // Ensure this view exists
+        return $this->from('test@ingo.webase.info')
+            ->subject('Welcome to INGO Forum Newsletter')
+            ->view('mail.newsletter_subscription')
+            ->with(['subscriber' => $this->subscriber]); // Pass the subscriber data to the view
     }
 }

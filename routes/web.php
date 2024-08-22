@@ -462,5 +462,7 @@ Route::middleware(['trackvisitor'])->group(function () {
     Route::get('/executive/committee', [IndexController::class, 'executiveCommittee'])->name('frontend.executive.committee');
 
     Route::post('/newslater/post', [SubscriberController::class, 'newslaterSubscribe'])->name('frontend.newslater.store');
+    Route::get('/unsubscribe/{token}', [SubscriberController::class, 'unsubscribe'])->name('unsubscribe');
+
 }); 
 // frontend route end

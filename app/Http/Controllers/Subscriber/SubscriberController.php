@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Mail\NewsletterSubscriptionMail;
 use App\Models\Subsciber;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Str;
 
 class SubscriberController extends Controller
 {
@@ -22,7 +24,7 @@ class SubscriberController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:255|unique:subscibers,email',
+            'email' => 'required|string|email|max:255|unique:subscibers,email', // Corrected table name
         ], $messages);
 
         if ($validator->fails()) {
@@ -33,14 +35,30 @@ class SubscriberController extends Controller
             ], 422);
         }
 
+        // Generate a unique token
+        do {
+            $token = Str::random(64);
+        } while (Subsciber::where('subscription_token', $token)->exists());
+
         // Store the validated email in the database
-        $subscriber = new Subsciber(); // Assuming your model name is Subscriber
+        $subscriber = new Subsciber(); // Corrected model name
         $subscriber->email = $request->input('email');
+        $subscriber->subscription_token = $token;
         $subscriber->status = 1;
         $subscriber->save();
+
         // Send a subscription confirmation email
-        Mail::to($subscriber->email)->send(new NewsletterSubscriptionMail());
-        return response()->json(['success' => ['success' => 'You have successfully subscribed to INGO Forum']]);
+        Mail::to($subscriber->email)->send(new NewsletterSubscriptionMail($subscriber));
+        // Mail::send('mail.newsletter_subscription', ['subscriber' => $subscriber], function ($message) use ($subscriber) {
+        //     $message->to($subscriber->email);
+        //     $message->subject('Welcome to INGO Forum Newsletter');
+        //     $message->from('test@ingo.webase.info');
+        // });
+        return response()->json([
+            'success' => [
+                'success' => 'You have successfully subscribed to INGO Forum'
+            ]
+        ]);
     }
 
     public function subscriberlist(Request $request)
@@ -55,5 +73,25 @@ class SubscriberController extends Controller
                 ->make(true);
         }
         return view('admin.subscriber.subscriber-list');
+    }
+    public function unsubscribe($token)
+    {
+        // Check if the subscriber exists
+        $subscriber = Subsciber::where('subscription_token', $token)->first();
+
+        if ($subscriber) {
+            // Update the status from 1 (subscribed) to 0 (unsubscribed)
+            $subscriber->status = 0;
+            $subscriber->save();
+
+            return redirect()->route('frontend.index')->with([
+                'success' => 'You have successfully unsubscribed from the INGO Forum newsletter.',
+            ]);
+        } else {
+            // If the email is not found
+            return redirect()->route('frontend.index')->with([
+                'success' => 'The email address is not found in our subscriber list.',
+            ]);
+        }
     }
 }

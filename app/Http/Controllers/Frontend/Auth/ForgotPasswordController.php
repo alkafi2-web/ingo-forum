@@ -36,8 +36,10 @@ class ForgotPasswordController extends Controller
             $message->to($request->email);
             $message->subject('Reset Password Notification');
         });
-
-        return back()->with('status', 'We have emailed your password reset link!');
+        // return redirect()->route('frontend.index')->with([
+        //     'success' => 'You have successfully unsubscribed from the INGO Forum newsletter.',
+        // ]);
+        return back()->with('success', 'We have emailed your password reset link!');
     }
 
     public function showResetForm($token)
@@ -66,6 +68,6 @@ class ForgotPasswordController extends Controller
         $member->rp_token_created_at = null;
         $member->save();
 
-        return redirect()->route('frontend.login')->with('status', 'Your password has been reset!');
+        return redirect()->route('frontend.login')->with('success', 'Your password has been reset!');
     }
 }

@@ -746,7 +746,7 @@
                         </a>
                     </div>
                 @endif
-                @if (Auth::guard('admin')->user()->hasAnyPermission(['subsciber']))
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['subscriber']))
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteName() == 'subscriber.list' ? 'active' : '' }}"
                             href="{{ route('subscriber.list') }}">

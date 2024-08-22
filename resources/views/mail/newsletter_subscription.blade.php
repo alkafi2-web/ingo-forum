@@ -19,6 +19,8 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-left: 1px solid #056F3B; /* Add left border */
+            border-right: 1px solid #056F3B; /* Add right border */
         }
         .header {
             background-color: #056F3B;
@@ -44,7 +46,7 @@
             padding: 30px 40px;
             line-height: 1.8;
             color: #555555;
-            text-align: center;
+            text-align: left; /* Align content to the left */
         }
         .content p {
             margin: 15px 0;
@@ -82,6 +84,7 @@
         }
         .footer p {
             margin: 5px 0;
+            font-size: 11px;
         }
         .footer a {
             color: #F99E1F;
@@ -106,7 +109,7 @@
         </div>
         <div class="footer">
             <p>&copy; 2024 INGO Forum. All rights reserved.</p>
-            <p><a href="{{ url('/unsubscribe') }}">Unsubscribe</a> | <a href="{{ url('/privacy-policy') }}">Privacy Policy</a></p>
+            <p><a href="{{ route('unsubscribe', ['token' => $subscriber->subscription_token]) }}">Unsubscribe</a> | <a href="{{ url('/privacy-policy') }}">Privacy Policy</a></p>
         </div>
     </div>
 </body>
