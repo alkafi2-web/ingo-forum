@@ -155,28 +155,41 @@
                         $('#feedback-spinner').addClass('d-none'); // Hide the spinner
                         $('#submit').prop('disabled', false); // Re-enable the submit button
 
-                        if (response.success) {
-                            toastr.success('Feedback submitted successfully!');
-                            $('#feedback-form')[0].reset(); // Clear the form
+                        if (response.type) {
+                            // Display success, warning, or error message based on the response type
+                            toastr[response.type](response.message);
+
+                            if (response.type === 'success') {
+                                $('#feedback-form')[0].reset(); // Clear the form on success
+                                $('#feedback-data').DataTable().ajax.reload(null,
+                                false); // Reload DataTable without resetting the page
+                            }
                         }
-                        $('#feedback-data').DataTable().ajax.reload(null, false);
                     },
                     error: function(xhr) {
                         $('#feedback-spinner').addClass('d-none'); // Hide the spinner
                         $('#submit').prop('disabled', false); // Re-enable the submit button
 
-                        var errors = xhr.responseJSON.errors; // Extract errors
-                        $.each(errors, function(key, value) {
-                            toastr.error(value); // Display each error message
-                        });
+                        if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            var errors = xhr.responseJSON.errors; // Extract errors
+                            $.each(errors, function(key, value) {
+                                toastr.error(value[0]); // Display each error message
+                            });
+                        } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                            toastr.error(xhr.responseJSON
+                            .message); // Display general error message
+                        } else {
+                            toastr.error(
+                            'An unexpected error occurred.'); // Fallback error message
+                        }
                     }
                 });
             });
             $('#see-feeback').on('click', function() {
-                 // Adjust the route to match your feedback route
+                // Adjust the route to match your feedback route
                 $('#feedbackModal').modal('show');
                 // Fetch feedback data via AJAX
-                
+
             });
         });
     </script>

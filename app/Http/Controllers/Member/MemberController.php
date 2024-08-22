@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
+use Illuminate\Mail\MailException;
 
 class MemberController extends Controller
 {
@@ -193,33 +194,47 @@ class MemberController extends Controller
     public function memberFeedbackStore(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'message' => 'required|string',
+            'message' => 'required|string|max:255', // Added max validation rule
         ], [
-            'message.required' => 'The category message is required.',
-            'message.string' => 'The category message must be a string.',
-            'message.max' => 'The category message may not be greater than 255 characters.',
+            'message.required' => 'The feedback message is required.',
+            'message.string' => 'The feedback message must be a string.',
+            'message.max' => 'The feedback message may not be greater than 255 characters.',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
+            return response()->json(['type' => 'error', 'message' => $validator->errors()->first()], 400);
         }
+
         $feedback = Feedback::create([
             'user_id' => Auth::guard('admin')->id(), // Authenticated admin user's ID
             'member_id' => $request->member_id, // Provided member ID
             'message' => $request->message, // Feedback message
             'read_status' => 'unread', // Default read status
         ]);
+
         $memberInfo = MemberInfo::where('id', $request->member_id)->first();
-        // Send feedback notification email to the member's organization
-        Mail::send('mail.feedback_notification', [
-            'organizationName' => $memberInfo->organisation_name,
-            'feedbackMessage' => $request->message,
-        ], function ($message) use ($memberInfo) {
-            $message->to($memberInfo->organisation_email);
-            $message->subject('New Feedback Received');
-        });
-        Helper::log(Auth::guard('admin')->user()->name . " Seend Feed back To this $memberInfo->organisation_name");
-        return response()->json(['success' => ['success' => 'Feedback successfully Send!']]);
+
+        try {
+            // Send feedback notification email to the member's organization
+            Mail::send('mail.feedback_notification', [
+                'organizationName' => $memberInfo->organisation_name,
+                'feedbackMessage' => $request->message,
+            ], function ($message) use ($memberInfo) {
+                $message->to($memberInfo->organisation_email);
+                $message->subject('New Feedback Received');
+            });
+
+            // Log the feedback sending action
+            Helper::log(Auth::guard('admin')->user()->name . " sent feedback to " . $memberInfo->organisation_name);
+
+            return response()->json(['type' => 'success', 'message' => 'Feedback successfully sent and the notification email was sent!']);
+        } catch (MailException $e) {
+            // If an error occurred while sending the mail
+            return response()->json(['type' => 'warning', 'message' => 'Feedback successfully sent, but the notification email could not be sent.']);
+        } catch (\Exception $e) {
+            // Catch other exceptions
+            return response()->json(['type' => 'warning', 'message' => 'Feedback successfully sent, but the notification email could not be sent.']);
+        }
     }
 
     public function memberFeedbackList(Request $request)
