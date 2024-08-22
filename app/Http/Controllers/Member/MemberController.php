@@ -9,6 +9,7 @@ use App\Models\Member;
 use App\Models\MemberInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
@@ -16,7 +17,7 @@ class MemberController extends Controller
 {
     public function memberlist(Request $request)
     {
-        
+
         if (!Auth::user()->hasPermissionTo('member-list-view')) {
             abort(401);
         }
@@ -192,7 +193,7 @@ class MemberController extends Controller
     public function memberFeedbackStore(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'message' => 'required|string|max:255',
+            'message' => 'required|string',
         ], [
             'message.required' => 'The category message is required.',
             'message.string' => 'The category message must be a string.',
@@ -209,6 +210,14 @@ class MemberController extends Controller
             'read_status' => 'unread', // Default read status
         ]);
         $memberInfo = MemberInfo::where('id', $request->member_id)->first();
+        // Send feedback notification email to the member's organization
+        Mail::send('mail.feedback_notification', [
+            'organizationName' => $memberInfo->organisation_name,
+            'feedbackMessage' => $request->message,
+        ], function ($message) use ($memberInfo) {
+            $message->to($memberInfo->organisation_email);
+            $message->subject('New Feedback Received');
+        });
         Helper::log(Auth::guard('admin')->user()->name . " Seend Feed back To this $memberInfo->organisation_name");
         return response()->json(['success' => ['success' => 'Feedback successfully Send!']]);
     }
@@ -217,7 +226,7 @@ class MemberController extends Controller
     {
         if ($request->ajax()) {
             // Retrieve feedback data along with related user and member
-            $feedback = Feedback::where('member_id',$request->member_id)->with(['user', 'member'])->latest();
+            $feedback = Feedback::where('member_id', $request->member_id)->with(['user', 'member'])->latest();
 
             return DataTables::of($feedback)
                 ->addIndexColumn() // Adds an index column for numbering

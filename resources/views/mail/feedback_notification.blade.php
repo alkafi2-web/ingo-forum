@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Newsletter Subscription</title>
+    <title>Feedback Notification</title>
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -26,7 +26,7 @@
             padding: 20px 20px;
             text-align: center;
             color: #ffffff;
-            border-bottom: 4px solid #F99E1F;
+            border-bottom: 4px solid #F99E1F; /* Add a bottom border */
         }
         .header h1 {
             margin: 0;
@@ -72,7 +72,7 @@
             text-align: center;
             padding: 20px;
             font-size: 14px;
-            border-top: 4px solid #F99E1F;
+            border-top: 4px solid #F99E1F; /* Add a top border */
         }
         .footer p {
             margin: 5px 0;
@@ -91,21 +91,21 @@
 <body>
     <div class="container">
         <div class="header">
-            {{-- <img src="{{ url('/') }}/frontend/images/{{$global['logo']}}" alt="Company Logo"> <!-- Base64 logo --> --}}
+            {{-- image --}}
             <h1>Welcome to {{ config('app.name') }}</h1>
-            <p>Your Gateway to Impactful Change</p>
+            <p>Feedback Received</p>
         </div>
         <div class="content">
-            <h2>Thank You for Subscribing!</h2>
-            <p>Dear Subscriber,</p>
-            <p>Thank you for subscribing to the {{ config('app.name') }} newsletter. We’re excited to share our latest updates, insights, and news with you. Expect regular communications filled with valuable content tailored to keep you informed and engaged.</p>
-            <p>Stay connected with us and be part of a global network striving to create a better world.</p>
-            <p>Best regards,<br>{{ config('app.name') }} Team</p>
-            <a href="{{ url('/') }}" class="cta-button">Visit Our Website</a>
+            <p>Dear {{ $organizationName }},</p>
+            <p>You have received new feedback from one of our administrators.</p>
+            <h2>Feedback Details:</h2>
+            <p>{{ $feedbackMessage }}</p>
+            {{-- <a href="#" class="cta-button">View Feedback Details</a> <!-- Optional CTA Button --> --}}
+            <p>Thank you for your attention!</p>
+            <p>Best regards,<br>The INGO Forum Team</p>
         </div>
         <div class="footer">
-            <p>&copy; 2024 {{ config('app.name') }}. All rights reserved.</p>
-            <p><a href="{{ route('unsubscribe', ['token' => $subscriber->subscription_token]) }}">Unsubscribe</a> | <a href="{{ url('/privacy-policy') }}">Privacy Policy</a></p>
+            <p>&copy; 2024 INGO Forum. All rights reserved.</p>
         </div>
     </div>
 </body>

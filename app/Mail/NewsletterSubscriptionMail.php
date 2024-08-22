@@ -24,8 +24,7 @@ class NewsletterSubscriptionMail extends Mailable
      */
     public function build()
     {
-        return $this->from('test@ingo.webase.info')
-            ->subject('Welcome to INGO Forum Newsletter')
+        return $this->subject('Welcome to INGO Forum Newsletter')
             ->view('mail.newsletter_subscription')
             ->with(['subscriber' => $this->subscriber]); // Pass the subscriber data to the view
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use App\Models\MemberInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -30,9 +31,12 @@ class ForgotPasswordController extends Controller
         $member->rp_token = $token;
         $member->rp_token_created_at = Carbon::now();
         $member->save();
-
+        $memberInfo = MemberInfo::where('id', $member->id)->first();
         // Send the reset link via email
-        Mail::send('frontend.auth.passwords.reset-email', ['token' => $token], function($message) use ($request) {
+        Mail::send('frontend.auth.passwords.reset-email', [
+            'token' => $token,
+            'organisationName' => $memberInfo->organisation_name
+        ], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject('Reset Password Notification');
         });

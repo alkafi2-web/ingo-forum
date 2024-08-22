@@ -52,7 +52,6 @@ class SubscriberController extends Controller
         // Mail::send('mail.newsletter_subscription', ['subscriber' => $subscriber], function ($message) use ($subscriber) {
         //     $message->to($subscriber->email);
         //     $message->subject('Welcome to INGO Forum Newsletter');
-        //     $message->from('test@ingo.webase.info');
         // });
         return response()->json([
             'success' => [
