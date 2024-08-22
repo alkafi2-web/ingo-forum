@@ -91,7 +91,9 @@
 <body>
     <div class="container">
         <div class="header">
-            {{-- image --}}
+            {{-- <img src="{{ $message->embed(asset('img/my-logo.png')) }}" alt="alt here">
+            
+            <img src="{{ url('/') }}/frontend/images/{{$global['logo']}}" alt="Company Logo"> <!-- Base64 logo --> --}}
             <h1>Welcome to {{ config('app.name') }}</h1>
             <p>Feedback Received</p>
         </div>

@@ -46,7 +46,7 @@ class SubscriberController extends Controller
         $subscriber->subscription_token = $token;
         $subscriber->status = 1;
         $subscriber->save();
-
+        // $logo = $global['logo'];
         // Send a subscription confirmation email
         Mail::to($subscriber->email)->send(new NewsletterSubscriptionMail($subscriber));
         // Mail::send('mail.newsletter_subscription', ['subscriber' => $subscriber], function ($message) use ($subscriber) {

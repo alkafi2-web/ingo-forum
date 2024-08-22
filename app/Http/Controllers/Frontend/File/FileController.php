@@ -106,4 +106,15 @@ class FileController extends Controller
         }
         return view('frontend.member.dashboard.partials.file.file-index');
     }
+
+    public function userManual()
+    {
+        
+
+        // Pass the file URL to the view
+        $fileUrl = asset('public/user-manual/INGO User Manual Frontend.pdf');
+
+        // Return the view with the file URL
+        return view('frontend.member.dashboard.partials.user-manual.user-manual', compact('fileUrl'));
+    }
 }

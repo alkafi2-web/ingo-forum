@@ -64,6 +64,11 @@
                                     id="feedback-tab" data-bs-target="#feedback" type="button" role="tab"
                                     aria-controls="feedback" aria-selected="true"><i
                                         class="fas fa-paper-plane"></i>&nbsp;Feedback</a>
+
+                                <a href="{{ route('member.user.manual') }}"
+                                    class="nav-link {{ Route::currentRouteName() == 'member.user.manual' ? 'active' : '' }}"
+                                    id="user-manual-tab" data-bs-target="#user-manual" type="button" role="tab"
+                                    aria-controls="user-manual" aria-selected="true"><i class="fas fa-id-card-alt"></i>&nbsp;User Manual</a>
                             </div>
                         </div>
                         <div class="col-lg-9 tab-content bg-white p-3 rounded" id="v-pills-tabContent">

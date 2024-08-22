@@ -416,6 +416,9 @@ Route::middleware(['trackvisitor'])->group(function () {
                     Route::post('/get', [MemberController::class, 'memberFeedbackGet'])->name('member.feedback.get');
                     
                 });
+                Route::prefix('user-manual')->group(function () {
+                    Route::get('/', [FileFileController::class, 'userManual'])->name('member.user.manual'); 
+                });
 
             });
         });
