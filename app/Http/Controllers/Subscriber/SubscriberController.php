@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Subscriber;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewsletterSubscriptionMail;
 use App\Models\Subsciber;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
@@ -36,7 +38,8 @@ class SubscriberController extends Controller
         $subscriber->email = $request->input('email');
         $subscriber->status = 1;
         $subscriber->save();
-
+        // Send a subscription confirmation email
+        Mail::to($subscriber->email)->send(new NewsletterSubscriptionMail());
         return response()->json(['success' => ['success' => 'You have successfully subscribed to INGO Forum']]);
     }
 
