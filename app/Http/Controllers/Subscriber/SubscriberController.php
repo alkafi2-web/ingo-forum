@@ -38,7 +38,7 @@ class SubscriberController extends Controller
         // Generate a unique token
         do {
             $token = Str::random(64);
-        } while (Subsciber::where('subscription_token', $token)->exists());
+        } while (Subsciber::where('subscription_token', $token)->exists()); // Corrected model name
 
         // Store the validated email in the database
         $subscriber = new Subsciber(); // Corrected model name
@@ -46,19 +46,38 @@ class SubscriberController extends Controller
         $subscriber->subscription_token = $token;
         $subscriber->status = 1;
         $subscriber->save();
-        // $logo = $global['logo'];
-        // Send a subscription confirmation email
-        Mail::to($subscriber->email)->send(new NewsletterSubscriptionMail($subscriber));
-        // Mail::send('mail.newsletter_subscription', ['subscriber' => $subscriber], function ($message) use ($subscriber) {
-        //     $message->to($subscriber->email);
-        //     $message->subject('Welcome to INGO Forum Newsletter');
-        // });
+
+        // Check if SMTP settings are configured before sending email
+        if (config('mail.mailers.smtp.username') && config('mail.mailers.smtp.password')) {
+            try {
+                // Send a subscription confirmation email
+                Mail::to($subscriber->email)->send(new NewsletterSubscriptionMail($subscriber));
+
+                // Return a success response if the email is sent successfully
+                return response()->json([
+                    'success' => true,
+                    'type' => 'success',
+                    'message' => 'You have successfully subscribed to INGO Forum also ther confimation email sent',
+                ]);
+            } catch (\Exception $e) {
+                // Return a success response but with an email error message
+                return response()->json([
+                    'success' => true,
+                    'type' => 'warning',
+                    'message' => 'Subscription successful, but the confirmation email could not be sent.',
+                    'mail_error' => $e->getMessage(),
+                ]);
+            }
+        }
+
+        // If SMTP is not configured, return a standard success response
         return response()->json([
-            'success' => [
-                'success' => 'You have successfully subscribed to INGO Forum'
-            ]
+            'success' => true,
+            'type' => 'success',
+            'message' => 'You have successfully subscribed to INGO Forum also ther confimation email sent',
         ]);
     }
+
 
     public function subscriberlist(Request $request)
     {

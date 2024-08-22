@@ -741,17 +741,21 @@
                             <form id="newslaterForm" action="">
                                 <div class="main-box pt-3">
                                     <div class="input-group flex-nowrap position-relative">
-                                        <i class="fa-regular fa-envelope position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%);"></i>
-                                        <input type="text" name="email" class="form-control" placeholder="Enter your email"
+                                        <i class="fa-regular fa-envelope position-absolute"
+                                            style="left: 10px; top: 50%; transform: translateY(-50%);"></i>
+                                        <input type="text" name="email" class="form-control"
+                                            placeholder="Enter your email"
                                             style="border-top-right-radius: 0!important; border-bottom-right-radius: 0!important;">
-                                        <button class="btn btn-subscribe d-flex align-items-center" type="button" id="subscribe">
+                                        <button class="btn btn-subscribe d-flex align-items-center" type="button"
+                                            id="subscribe">
                                             Subscribe
-                                            <span id="spinner" class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
+                                            <span id="spinner" class="spinner-border spinner-border-sm d-none ms-2"
+                                                role="status" aria-hidden="true"></span>
                                         </button>
                                     </div>
                                 </div>
                             </form>
-                            
+
 
                         </div>
                     </div>
@@ -792,6 +796,7 @@
                 e.preventDefault();
 
                 // Show spinner
+                $(this).prop('disabled', true);
                 $('#spinner').removeClass('d-none');
 
                 let url = "{{ route('frontend.newslater.store') }}";
@@ -807,26 +812,33 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        console.log(response);
-                        var success = response.success;
-                        $.each(success, function(key, value) {
-                            toastr.success(value); // Displaying each success message
-                        });
-                        $('#newslaterForm')[0].reset();
+
+                        if (response.success) {
+                            // Display the success message
+                            toastr[response.type](response.message);
+                            // Reset the form
+                            $('#newslaterForm')[0].reset();
+                        } else {
+                            // Handle the case where response.success is false
+                            $.each(response.errors, function(key, value) {
+                                toastr.error(value); // Displaying each error message
+                            });
+                        }
 
                         // Hide spinner after success
                         $('#spinner').addClass('d-none');
+                        $('#subscribe').prop('disabled', true);
                     },
+
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
                         // Iterate through each error and display it
                         $.each(errors, function(key, value) {
-                            console.log(key, value);
                             toastr.error(value); // Displaying each error message
                         });
-
                         // Hide spinner after error
                         $('#spinner').addClass('d-none');
+                        $('#subscribe').prop('disabled', true);
                     }
                 });
 
