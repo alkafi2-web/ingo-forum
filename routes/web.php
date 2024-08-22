@@ -220,7 +220,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/', [FileController::class, 'fileCreate'])->name('file.create');
             Route::get('/list', [FileController::class, 'fileList'])->name('file.list');
             Route::get('/edit/{id}', [FileController::class, 'fileEdit'])->name('file.edit');
-            Route::get('/request/list', [PostController::class, 'postRequestList'])->name('post.request.list');
+            
 
             Route::middleware('adminOrMember')->withoutMiddleware('admin')->group(function () {
                 
