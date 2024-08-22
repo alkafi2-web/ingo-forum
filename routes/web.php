@@ -365,7 +365,7 @@ Route::prefix('admin')->group(function () {
 Route::middleware(['trackvisitor'])->group(function () {
     Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
 
-    Route::get('/{slug}', [FrontendPageController::class, 'show'])->name('frontend.static.page');
+    Route::get('/page/{slug}', [FrontendPageController::class, 'show'])->name('frontend.static.page');
 
     Route::get('/member/login', [FrontAuthController::class, 'login'])->name('frontend.login');
     Route::post('/login/post', [FrontAuthController::class, 'loginPost'])->name('frontend.login.post');
