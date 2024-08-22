@@ -8,6 +8,7 @@ use App\Models\ContactInfo;
 use App\Models\MainContent;
 use Brian2694\Toastr\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -145,9 +146,66 @@ class SystemController extends Controller
 
     public function contactListDelete(Request $request)
     {
-       $contacInfo = ContactInfo::findOrFail($request->id);
-       $contacInfo->delete();
-       Helper::log("Delete contact info");
-       return response()->json(['success' => ['success' => 'You have successfully delete contact info!']]);
+        $contacInfo = ContactInfo::findOrFail($request->id);
+        $contacInfo->delete();
+        Helper::log("Delete contact info");
+        return response()->json(['success' => ['success' => 'You have successfully delete contact info!']]);
+    }
+    public function emailConfig()
+    {
+        // return config('mail.from.address');
+        return view('admin.content.email-config.index', [
+            'mail_mailer' => config('mail.default'),
+            'mail_host' => config('mail.mailers.smtp.host'),
+            'mail_port' => config('mail.mailers.smtp.port'),
+            'mail_username' => config('mail.mailers.smtp.username'),
+            'mail_password' => config('mail.mailers.smtp.password'),
+            'mail_encryption' => config('mail.mailers.smtp.encryption'),
+            'mail_from_address' => config('mail.from.address'),
+        ]);
+    }
+    public function emailUpdateConfigh(Request $request)
+    {
+        // Validate the form input
+        $validator = Validator::make($request->all(), [
+            'MAIL_MAILER' => 'required|string|max:255',
+            'MAIL_HOST' => 'required|string|max:255',
+            'MAIL_PORT' => 'required|numeric',
+            'MAIL_USERNAME' => 'required|string|max:255',
+            'MAIL_PASSWORD' => 'required|string|max:255',
+            'MAIL_ENCRYPTION' => 'required|string|max:255',
+            'MAIL_FROM_ADDRESS' => 'required|email|max:255',
+        ]);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Retrieve validated data
+        $data = $validator->validated();
+
+        // Update the environment file
+        $this->updateEnvironmentFile($data);
+
+        // Clear the configuration cache
+        Artisan::call('config:cache');
+
+        return redirect()->back()->with('success', 'Email configuration updated successfully.');
+    }
+
+    protected function updateEnvironmentFile(array $data)
+    {
+        $envPath = base_path('.env');
+
+        if (file_exists($envPath)) {
+            foreach ($data as $key => $value) {
+                file_put_contents($envPath, preg_replace(
+                    "/^{$key}=.*/m",
+                    "{$key}=\"{$value}\"",
+                    file_get_contents($envPath)
+                ));
+            }
+        }
     }
 }

@@ -125,6 +125,9 @@ Route::prefix('admin')->group(function () {
             Route::post('/systempost', [SystemController::class, 'systemPost'])->name('system.post');
             Route::get('/system-database', [SystemController::class, 'systemDatabase'])->name('system.database');
         });
+        Route::get('/email-config/show', [SystemController::class, 'emailConfig'])->name('email.settings');
+        Route::post('/email-config/update', [SystemController::class, 'emailUpdateConfigh'])->name('email.config.update');
+
         // content manegment route end
 
         // about us-content route start
@@ -220,10 +223,10 @@ Route::prefix('admin')->group(function () {
             Route::get('/', [FileController::class, 'fileCreate'])->name('file.create');
             Route::get('/list', [FileController::class, 'fileList'])->name('file.list');
             Route::get('/edit/{id}', [FileController::class, 'fileEdit'])->name('file.edit');
-            
+
 
             Route::middleware('adminOrMember')->withoutMiddleware('admin')->group(function () {
-                
+
                 Route::post('/status', [FileController::class, 'fileStatus'])->name('file.status');
                 Route::post('/delete', [FileController::class, 'fileDelete'])->name('file.delete');
                 Route::post('/store', [FileController::class, 'fileStore'])->name('file.store');
@@ -370,7 +373,7 @@ Route::middleware(['trackvisitor'])->group(function () {
     Route::prefix('member')->group(function () {
         Route::get('/become-member', [MemberController::class, 'becomeMember'])->name('member');
         Route::post('/register', [MemberController::class, 'memberRegister'])->name('member.register');
-    
+
         // forget password route 
         Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
         Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
@@ -414,12 +417,10 @@ Route::middleware(['trackvisitor'])->group(function () {
                 Route::prefix('feedback')->group(function () {
                     Route::get('/', [MemberController::class, 'memberFeedbackIndex'])->name('member.feedback.index');
                     Route::post('/get', [MemberController::class, 'memberFeedbackGet'])->name('member.feedback.get');
-                    
                 });
                 Route::prefix('user-manual')->group(function () {
-                    Route::get('/', [FileFileController::class, 'userManual'])->name('member.user.manual'); 
+                    Route::get('/', [FileFileController::class, 'userManual'])->name('member.user.manual');
                 });
-
             });
         });
         Route::get('/ours/member', [FrontAuthController::class, 'oursMember'])->name('frontend.ours.member');
@@ -466,6 +467,5 @@ Route::middleware(['trackvisitor'])->group(function () {
 
     Route::post('/newslater/post', [SubscriberController::class, 'newslaterSubscribe'])->name('frontend.newslater.store');
     Route::get('/unsubscribe/{token}', [SubscriberController::class, 'unsubscribe'])->name('unsubscribe');
-
 }); 
 // frontend route end

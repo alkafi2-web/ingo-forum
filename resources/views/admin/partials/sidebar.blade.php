@@ -419,7 +419,7 @@
                 {{-- event side bar end --}}
 
                 {{-- File side bar start --}}
-                @if (Auth::guard('admin')->user()->hasAnyPermission(['file-add','file-view','file-management']))
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['file-add', 'file-view', 'file-management']))
                     <div class="menu-item">
                         <div class="menu-content pt-8 pb-2">
                             <span class="menu-section text-muted text-uppercase fs-8 ls-1">File Management</span>
@@ -427,7 +427,7 @@
                         </div>
                     </div>
                 @endif
-                @if (Auth::guard('admin')->user()->hasAnyPermission(['file-add','file-view','file-management']))
+                @if (Auth::guard('admin')->user()->hasAnyPermission(['file-add', 'file-view', 'file-management']))
                     <div data-kt-menu-trigger="click"
                         class="menu-item menu-accordion {{ Route::currentRouteName() == 'file.category' || Route::currentRouteName() == 'file.subcategory' || Route::currentRouteName() == 'file.create' || Route::currentRouteName() == 'file.list' ? 'hover show' : '' }}">
                         <span class="menu-link">
@@ -480,26 +480,26 @@
                                 </span>
                             </a> --}}
                             @can('file-category-manage')
-                            <a class="menu-item menu-accordion" href="{{ route('file.category') }}">
-                                <span
-                                    class="menu-link {{ Route::currentRouteName() == 'file.category' ? 'active' : '' }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
+                                <a class="menu-item menu-accordion" href="{{ route('file.category') }}">
+                                    <span
+                                        class="menu-link {{ Route::currentRouteName() == 'file.category' ? 'active' : '' }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">File Category</span>
                                     </span>
-                                    <span class="menu-title">File Category</span>
-                                </span>
-                            </a>
+                                </a>
                             @endcan
                             @can('file-subcategory-manage')
-                            <a class="menu-item menu-accordion" href="{{ route('file.subcategory') }}">
-                                <span
-                                    class="menu-link {{ Route::currentRouteName() == 'file.subcategory' ? 'active' : '' }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
+                                <a class="menu-item menu-accordion" href="{{ route('file.subcategory') }}">
+                                    <span
+                                        class="menu-link {{ Route::currentRouteName() == 'file.subcategory' ? 'active' : '' }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">File Subcategory</span>
                                     </span>
-                                    <span class="menu-title">File Subcategory</span>
-                                </span>
-                            </a>
+                                </a>
                             @endcan
                         </div>
                     </div>
@@ -534,7 +534,7 @@
                     @can('menu-manage')
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteName() == 'menu.index' ? 'active' : '' }}"
-                                href="{{ route('menu.index',['originType' => 'header']) }}">
+                                href="{{ route('menu.index', ['originType' => 'header']) }}">
                                 <span class="menu-icon">
                                     <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                                     <span class="svg-icon svg-icon-2">
@@ -812,6 +812,19 @@
                                 <!--end::Svg Icon-->
                             </span>
                             <span class="menu-title">System Setting</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteName() == 'email.settings' ? 'active' : '' }}"
+                            href="{{ route('email.settings') }}">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                                <span class="svg-icon svg-icon-2">
+                                    <i class="fas fa-envelope"></i> <!-- Use appropriate icon -->
+                                </span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">Email Settings</span>
                         </a>
                     </div>
                 @endif
