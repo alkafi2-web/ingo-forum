@@ -36,6 +36,7 @@ use App\Http\Controllers\Frontend\File\FileController as FileFileController;
 use App\Http\Controllers\Subscriber\SubscriberController;
 use App\Http\Controllers\Frontend\Auth\ForgotPasswordController;
 use App\Http\Controllers\Content\FooterController;
+use App\Http\Controllers\UserManual\UserManualController;
 
 // robot & sitemap 
 Route::get('/robots.txt', [RobotsController::class, 'index']);
@@ -143,6 +144,14 @@ Route::prefix('admin')->group(function () {
             Route::post('/feature-update', [AboutusController::class, 'featureUpdate'])->name('feature.update');
         });
         // about us-content route end
+
+
+        // footer manage
+        Route::prefix('footer')->group(function () {
+            Route::get('/index', [FooterController::class, 'index'])->name('footer.index');
+        });
+
+        // FAQs Route start
         Route::prefix('faqs')->group(function () {
             Route::get('/', [FAQsController::class, 'index'])->name('faqs');
             Route::post('/create', [FAQsController::class, 'create'])->name('faqs.create');
@@ -151,14 +160,6 @@ Route::prefix('admin')->group(function () {
             Route::post('/status', [FAQsController::class, 'status'])->name('faqs.status');
             Route::post('/update', [FAQsController::class, 'update'])->name('faqs.update');
         });
-
-        // footer manage
-        Route::prefix('footer')->group(function () {
-            Route::get('/index', [FooterController::class, 'index'])->name('footer.index');
-        });
-
-        // FAQs Route start
-
         // FAQs Route end
 
         // post menagement route start
@@ -357,6 +358,15 @@ Route::prefix('admin')->group(function () {
         Route::post('/contact/list/delete', [SystemController::class, 'contactListDelete'])->name('contact.list.delete');
         // });
         // contact list route end
+
+        // user manual route start
+        Route::prefix('user-manual')->group(function () {
+            Route::get('/', [UserManualController::class, 'index'])->name('userManual');
+            Route::post('/create', [UserManualController::class, 'create'])->name('userManual.create');
+            Route::post('/delete', [UserManualController::class, 'delete'])->name('userManual.delete');
+            Route::get('/view', [UserManualController::class, 'adminManual'])->name('userManual.view');
+        });
+        // user manual route end
     });
 });
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend\File;
 use App\Http\Controllers\Controller;
 use App\Models\FileCategory;
 use App\Models\FileNgo;
+use App\Models\MainContent;
 use App\Models\MemberInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -109,10 +110,15 @@ class FileController extends Controller
 
     public function userManual()
     {
-        
 
+        $manual = MainContent::where('name', 'member_manual')->first();
         // Pass the file URL to the view
-        $fileUrl = asset('public/user-manual/INGO User Manual Frontend.pdf');
+        if ($manual) {
+            // Generate the full file URL
+            $fileUrl = asset('public/frontend/user-manual/' . $manual->content);
+        } else {
+            $fileUrl = null; // Handle the case where no manual is found
+        }
 
         // Return the view with the file URL
         return view('frontend.member.dashboard.partials.user-manual.user-manual', compact('fileUrl'));
