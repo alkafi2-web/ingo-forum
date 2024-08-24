@@ -828,12 +828,13 @@
                         </a>
                     </div>
                 @endif
-                @if (Auth::guard('admin')->user()->hasAnyPermission(['system-settings-manage']))
-                    <div class="menu-item">
-                        <div class="menu-content pt-8 pb-2">
-                            <span class="menu-section text-muted text-uppercase fs-8 ls-1">User Manual</span>
-                        </div>
+                {{-- @if (Auth::guard('admin')->user()->hasAnyPermission(['system-settings-manage'])) --}}
+                <div class="menu-item">
+                    <div class="menu-content pt-8 pb-2">
+                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">User Manual</span>
                     </div>
+                </div>
+                @if (Auth::guard('admin')->user() && Auth::guard('admin')->user()->hasRole('super-admin'))
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteName() == 'userManual' ? 'active' : '' }}"
                             href="{{ route('userManual') }}">
@@ -841,27 +842,27 @@
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                                 <span class="svg-icon svg-icon-2">
                                     <i class="fas fa-tools"></i>
-
                                 </span>
                                 <!--end::Svg Icon-->
                             </span>
                             <span class="menu-title">Upload User Manual</span>
                         </a>
                     </div>
-                    <div class="menu-item">
-                        <a class="menu-link {{ Route::currentRouteName() == 'userManual.view' ? 'active' : '' }}"
-                            href="{{ route('userManual.view') }}">
-                            <span class="menu-icon">
-                                <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-                                <span class="svg-icon svg-icon-2">
-                                    <i class="fas fa-envelope"></i> <!-- Use appropriate icon -->
-                                </span>
-                                <!--end::Svg Icon-->
-                            </span>
-                            <span class="menu-title">User Manual</span>
-                        </a>
-                    </div>
                 @endif
+                <div class="menu-item">
+                    <a class="menu-link {{ Route::currentRouteName() == 'userManual.view' ? 'active' : '' }}"
+                        href="{{ route('userManual.view') }}">
+                        <span class="menu-icon">
+                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                            <span class="svg-icon svg-icon-2">
+                                <i class="fas fa-envelope"></i> <!-- Use appropriate icon -->
+                            </span>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-title">User Manual</span>
+                    </a>
+                </div>
+                {{-- @endif --}}
             </div>
             <!--end::Menu-->
         </div>
