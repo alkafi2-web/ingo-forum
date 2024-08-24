@@ -168,6 +168,8 @@ class SystemController extends Controller
             'MAIL_USERNAME' => 'required|string|max:255',
             'MAIL_PASSWORD' => 'required|string|max:255',
             'MAIL_FROM_ADDRESS' => 'required|email|max:255',
+            'MAIL_PORT' => 'required|numeric',
+            'MAIL_ENCRYPTION' => 'required|string|max:10',
         ]);
 
         // Check if validation fails
@@ -177,7 +179,6 @@ class SystemController extends Controller
                 'errors' => $validator->errors()
             ], 422); // 422 Unprocessable Entity
         }
-        
 
         // Retrieve validated data
         $data = $validator->validated();
@@ -193,6 +194,7 @@ class SystemController extends Controller
             'message' => 'Email configuration updated successfully.'
         ]);
     }
+
 
 
     protected function updateEnvironmentFile(array $data)

@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                         </div>
-
+                    
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -48,8 +48,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="mail_from_address" class="text-3xl required">Mail From Address</label>
-                                    <input type="email" class="form-control" id="mail_from_address"
-                                        name="MAIL_FROM_ADDRESS"
+                                    <input type="email" class="form-control" id="mail_from_address" name="MAIL_FROM_ADDRESS"
                                         value="{{ old('MAIL_FROM_ADDRESS', config('mail.from.address')) }}">
                                     @error('MAIL_FROM_ADDRESS')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -57,13 +56,37 @@
                                 </div>
                             </div>
                         </div>
-
-                        <button id="emailConfigSubmit" type="" class="btn btn-primary mt-3">
-                            <span id="spinner-email-config-submit" class="spinner-border spinner-border-sm me-2 d-none"
-                                role="status" aria-hidden="true"></span>
+                    
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="mail_port" class="text-3xl required">Mail Port</label>
+                                    <input type="text" class="form-control" id="mail_port" name="MAIL_PORT"
+                                        value="{{ old('MAIL_PORT', config('mail.mailers.smtp.port', 587)) }}">
+                                    @error('MAIL_PORT')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="mail_encryption" class="text-3xl required">Mail Encryption</label>
+                                    <input type="text" class="form-control" id="mail_encryption" name="MAIL_ENCRYPTION"
+                                        value="{{ old('MAIL_ENCRYPTION', config('mail.mailers.smtp.encryption', 'tls')) }}">
+                                    @error('MAIL_ENCRYPTION')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <button id="emailConfigSubmit" type="submit" class="btn btn-primary mt-3">
+                            <span id="spinner-email-config-submit" class="spinner-border spinner-border-sm me-2 d-none" role="status"
+                                aria-hidden="true"></span>
                             <i class="fas fa-upload"></i> Save Configuration
                         </button>
                     </form>
+                    
                 </div>
             </div>
         </div>
