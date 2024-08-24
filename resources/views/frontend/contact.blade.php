@@ -33,7 +33,11 @@
                                 <textarea class="form-control" id="message" name="message" rows="3"></textarea>
                             </div>
                             <div class="col-12 pt-2">
-                                <button type="submit" id="contact-submit" class="ct-btn btn-yellow">Submit</button>
+                                <button type="submit" id="contact-submit" class="ct-btn btn-yellow">
+                                    <span id="spinner" class="spinner-border spinner-border-sm" role="status"
+                                        aria-hidden="true" style="display:none;"></span>
+                                    Submit
+                                </button>
                             </div>
                         </form>
 
@@ -101,6 +105,8 @@
     <script>
         $('#contact-submit').on('click', function(e) {
             e.preventDefault();
+            $(this).prop('disabled', true); // Disable the button to prevent multiple submissions
+            $('#spinner').show();
             let url = "{{ route('frontend.contact.info') }}";
             let formData = new FormData($('#contactForm')[0]);
 
@@ -114,7 +120,9 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    console.log(response);
+                    $('#contact-submit').prop('disabled',
+                        true); // Disable the button to prevent multiple submissions
+                    $('#spinner').hide();
                     var success = response.success;
                     $.each(success, function(key, value) {
                         toastr.success(value); // Displaying each success message
@@ -122,10 +130,12 @@
                     $('#contactForm')[0].reset();
                 },
                 error: function(xhr) {
+                    $('#contact-submit').prop('disabled',
+                        true); // Disable the button to prevent multiple submissions
+                    $('#spinner').hide();
                     var errors = xhr.responseJSON.errors;
                     // Iterate through each error and display it
                     $.each(errors, function(key, value) {
-                        console.log(key, value);
                         toastr.error(value); // Displaying each error message
                     });
                 }
