@@ -841,7 +841,7 @@
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                                 <span class="svg-icon svg-icon-2">
-                                    <i class="fas fa-tools"></i>
+                                    <i class="fas fa-folder-plus"></i>
                                 </span>
                                 <!--end::Svg Icon-->
                             </span>
@@ -855,7 +855,7 @@
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                             <span class="svg-icon svg-icon-2">
-                                <i class="fas fa-envelope"></i> <!-- Use appropriate icon -->
+                                <i class="fas fa-passport"></i><!-- Use appropriate icon -->
                             </span>
                             <!--end::Svg Icon-->
                         </span>
