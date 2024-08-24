@@ -57,14 +57,26 @@ class UserManualController extends Controller
         // Initialize filename variable
         $filename = null;
 
-        // Store the file
+        // Check if there's an existing manual entry
+        $existingManual = MainContent::where('name', $request->manual_type)->first();
+
+        // Store the new file and delete the old one
         if ($request->hasFile('manual_file')) {
             $file = $request->file('manual_file');
             $filename = $request->manual_type . '-' . $file->getClientOriginalName();
             $dir = public_path('/frontend/user-manual/');
+
+            // Create directory if it doesn't exist
             if (!File::exists($dir)) {
                 File::makeDirectory($dir, 0755, true);
             }
+
+            // Delete the old file if it exists
+            if ($existingManual && File::exists($dir . $existingManual->content)) {
+                File::delete($dir . $existingManual->content);
+            }
+
+            // Move the new file to the directory
             $file->move($dir, $filename);
         }
 
