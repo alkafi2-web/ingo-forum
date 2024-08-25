@@ -13,44 +13,42 @@
                     <div class="row">
                         <!-- Organization Details Section -->
                         <div class="col-lg-6 mb-3 mb-lg-0">
-                            <h4 class="form-title border-bottom pb-2 pt-3">Your Organization Details</h4>
+                            <h4 class="form-title border-bottom pb-2 pt-3">Your Organisation Details</h4>
                             <div class="row details-border mobile-border-none pt-2">
                                 <div class="col-12 mb-3">
                                     <div class="row align-items-center">
                                         <div class="col-md-4">
-                                            <label for="org_name" class="form-label required">Organization Name</label>
+                                            <label for="org_name" class="form-label required">Organisation Name</label>
                                         </div>
                                         <div class="col-md-8">
                                             <input type="text" name="org_name" class="form-control required"
-                                                id="org_name" placeholder="Your Organization Name" required>
+                                                id="org_name" placeholder="Your Organisation Name" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12 mb-3">
                                     <div class="row align-items-center">
                                         <div class="col-md-4">
-                                            <label for="org_website" class="form-label required">Organization
-                                                Website</label>
+                                            <label for="org_website" class="form-label required">Organisation Website Address</label>
                                         </div>
                                         <div class="col-md-8">
                                             <input type="text" name="org_website" class="form-control" id="org_website"
-                                                placeholder="Your Organization Website" required>
+                                                placeholder="Your Organisation Website Address" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12 mb-3">
                                     <div class="row align-items-center">
                                         <div class="col-md-4">
-                                            <label for="org_email" class="form-label required">Organization
-                                                Email</label>
+                                            <label for="org_email" class="form-label required">Organisation’s Email</label>
                                         </div>
                                         <div class="col-md-8">
                                             <input type="email" name="org_email" class="form-control" id="org_email"
-                                                placeholder="Organization Email" required>
+                                                placeholder="Organisation’s Email" required>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 mb-3">
+                                {{-- <div class="col-12 mb-3">
                                     <div class="row align-items-center">
                                         <div class="col-md-4">
                                             <label for="org_type" class="form-label required">Organization Type</label>
@@ -66,29 +64,27 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-12 mb-3">
                                     <div class="row align-items-center">
                                         <div class="col-md-4">
-                                            <label for="ngo_reg_number" class="form-label required">Bureau Reg
-                                                Number</label>
+                                            <label for="ngo_reg_number" class="form-label required">Bureau Registration Number</label>
                                         </div>
                                         <div class="col-md-8">
                                             <input type="text" name="ngo_reg_number" class="form-control"
                                                 id="ngo_reg_number"
-                                                placeholder="Organization NGO Bureau Registration Number" required>
+                                                placeholder="Bureau Registration Number" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12 mb-3">
                                     <div class="row align-items-center">
                                         <div class="col-md-4">
-                                            <label for="org_address" class="form-label required">Organization
-                                                Address</label>
+                                            <label for="org_address" class="form-label required">⁠Organisation’s office address</label>
                                         </div>
                                         <div class="col-md-8">
                                             <input type="text" name="org_address" class="form-control" id="org_address"
-                                                placeholder="Organization Address" required>
+                                                placeholder="⁠Organisation’s office address" required>
                                         </div>
                                     </div>
                                 </div>
@@ -97,22 +93,21 @@
 
                         <!-- Organization Director Details Section -->
                         <div class="col-lg-6 mb-3 mb-lg-0">
-                            <h4 class="form-title border-bottom pb-2 pt-3">Your Organization Director Details</h4>
+                            <h4 class="form-title border-bottom pb-2 pt-3">Your Organisation Director Details</h4>
                             <div class="">
                                 <div class="row pt-2">
                                     <div class="col-12 mb-3">
                                         <div class="row align-items-center">
                                             <div class="col-md-4">
-                                                <label for="director_name" class="form-label required">Country Head
-                                                    Name</label>
+                                                <label for="director_name" class="form-label required">Country Director’s Name</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <input type="text" name="director_name" class="form-control"
-                                                    id="director_name" placeholder="Country Director Name" required>
+                                                    id="director_name" placeholder="Country Director’s Name" required>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 mb-3">
+                                    {{-- <div class="col-12 mb-3">
                                         <div class="row align-items-center">
                                             <div class="col-md-4">
                                                 <label for="director_email" class="form-label required">Country Head
@@ -132,6 +127,17 @@
                                             <div class="col-md-8">
                                                 <input type="text" name="director_phone" class="form-control"
                                                     id="director_phone" placeholder="Phone">
+                                            </div>
+                                        </div>
+                                    </div> --}}
+                                    <div class="col-12 mb-3">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-4">
+                                                <label for="linkedin_profile" class="form-label">⁠Country Director LinkedIn profile</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="text" name="linkedin_profile" class="form-control"
+                                                    id="linkedin_profile" placeholder="⁠Country Director LinkedIn profile">
                                             </div>
                                         </div>
                                     </div>
@@ -228,6 +234,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
+                        console.log(response);
                         $('#send-spinner').addClass('d-none');
                         $('#member-submit').prop('disabled', false);
                         toastr.success(response.message);

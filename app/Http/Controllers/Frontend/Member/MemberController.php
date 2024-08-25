@@ -31,20 +31,20 @@ class MemberController extends Controller
 
     public function memberRegister(Request $request)
     {
-        // Define validation rules
         $rules = [
             'org_name' => 'required|string|max:255',
             'org_website' => 'required|string|max:255',
             'org_email' => 'required|email|max:255',
-            'org_type' => ['required', Rule::in(['1', '2'])],
+            // 'org_type' => ['required', Rule::in(['1', '2'])],
             'ngo_reg_number' => 'required|string|max:255',
             'org_address' => 'required|string|max:255',
             'director_name' => 'required|string|max:255',
-            'director_email' => 'required|email|max:255',
+            // 'director_email' => 'required|email|max:255',
             'director_phone' => 'nullable|string|max:20',
             'login_email' => 'required|email|max:255',
             'login_phone' => 'nullable|string|max:20',
             'password' => 'required|string|min:8|confirmed',
+            'linkedin_profile' => 'nullable|string|max:255', // Add this rule if you want to validate LinkedIn profile
         ];
 
         // Define custom error messages
@@ -52,7 +52,7 @@ class MemberController extends Controller
             'ngo_reg_number.required' => 'The NGO buro Registration Number is required.',
             'org_name.required' => 'The organisation name is required.',
             'org_website.required' => 'The organisation website is required.',
-            'org_website.url' => 'The organisation website is invalid url.',
+            'org_website.url' => 'The organisation website is invalid URL.',
             'org_email.required' => 'The organisation email is required.',
             'org_email.email' => 'The organisation email must be a valid email address.',
             'org_type.required' => 'The organisation type is required.',
@@ -67,6 +67,7 @@ class MemberController extends Controller
             'password.required' => 'The password is required.',
             'password.confirmed' => 'The password confirmation does not match.',
             'password.min' => 'The password must be at least 8 characters.',
+            'linkedin_profile.max' => 'The LinkedIn profile URL must be less than 255 characters.',
         ];
 
         // Validate the request data
@@ -74,12 +75,21 @@ class MemberController extends Controller
         if ($validator->fails()) {
             return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
         }
+
+        // Create the Member
         $member = Member::create([
             'email' => $request->login_email,
             'phone' => $request->login_phone,
             'password' => Hash::make($request->input('password')),
         ]);
 
+        // Prepare the director social data
+        $directorSocial = [
+            'linkedin' => $request->linkedin_profile,
+            // Add more social links if needed
+        ];
+
+        // Create MemberInfo with the director's social links as JSON
         MemberInfo::create([
             'member_id' => $member->id,
             'organisation_name' => $request->org_name,
@@ -88,13 +98,15 @@ class MemberController extends Controller
             'organisation_website' => $request->org_website,
             'organisation_ngo_reg' => $request->ngo_reg_number,
             'organisation_address' => $request->org_address,
-
             'director_name' => $request->director_name,
             'director_email' => $request->director_email,
             'director_phone' => $request->director_phone,
+            'director_social' => json_encode($directorSocial),
         ]);
-        return response()->json(['success' => true, 'message' => 'Successfully Be A Member.Now Log in And Update Info', 'redirect' => route('frontend.login')], 200);
+
+        return response()->json(['success' => true, 'message' => 'Successfully Be A Member. Now Log in And Update Info', 'redirect' => route('frontend.login')], 200);
     }
+
     public function memberOwnProfile()
     {
         $memberinfo = Auth::guard('member')->user()->load('info');
