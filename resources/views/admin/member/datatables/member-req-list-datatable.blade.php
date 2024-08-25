@@ -12,11 +12,11 @@
                     {{ __('Country Head') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
-                    {{ __('NGO Bureau Number') }}
+                    {{ __('Bureau Registration Number') }}
                 </th>
-                <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
+                {{-- <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Organization Type') }}
-                </th>
+                </th> --}}
                 <th class="min-w-50px fw-bold text-dark" style="font-weight: 900">
                     {{ __('Status') }}
                 </th>
@@ -64,15 +64,15 @@
                         data: 'organisation_ngo_reg',
                         name: 'organisation_ngo_reg'
                     },
-                    {
-                        orderable: true,
-                        sortable: false,
-                        data: 'org_type',
-                        name: 'org_type',
-                        render: function(data, type, row) {
-                            return `<span class="badge badge-${data == 1 ? 'primary' : 'info'}" data-status="${data}" data-id="${row.id}">${data == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures'}</span>`;
-                        }
-                    },
+                    // {
+                    //     orderable: true,
+                    //     sortable: false,
+                    //     data: 'org_type',
+                    //     name: 'org_type',
+                    //     render: function(data, type, row) {
+                    //         return `<span class="badge badge-${data == 1 ? 'primary' : 'info'}" data-status="${data}" data-id="${row.id}">${data == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures'}</span>`;
+                    //     }
+                    // },
                     {
                         data: 'status',
                         name: 'status',

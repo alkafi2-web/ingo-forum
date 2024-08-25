@@ -42,8 +42,7 @@
                         <div class="col-12 mb-3">
                             <div class="row align-items-center">
                                 <div class="col-md-4">
-                                    <label for="org_website" class="form-label">Organisation
-                                        Website</label>
+                                    <label for="org_website" class="form-label">Organisation Website address</label>
                                 </div>
                                 <div class="col-md-8">
                                     <input type="text" name="org_website" class="form-control" id="org_website"
@@ -55,8 +54,7 @@
                         <div class="col-12 mb-3">
                             <div class="row align-items-center">
                                 <div class="col-md-4">
-                                    <label for="org_email" class="form-label">Organisation
-                                        Email</label>
+                                    <label for="org_email" class="form-label">⁠Organisation’s Email</label>
                                 </div>
                                 <div class="col-md-8">
                                     <input type="email" name="org_email" class="form-control" id="org_email"
@@ -68,7 +66,7 @@
                         <div class="col-12 mb-3">
                             <div class="row align-items-center">
                                 <div class="col-md-4">
-                                    <label for="organisation_ngo_reg" class="form-label">NGO Bureau Number</label>
+                                    <label for="organisation_ngo_reg" class="form-label">Bureau Registration Number</label>
                                 </div>
                                 <div class="col-md-8">
                                     <input type="email" name="organisation_ngo_reg" class="form-control" id="organisation_ngo_reg"
@@ -77,7 +75,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 mb-3">
+                        {{-- <div class="col-12 mb-3">
                             <div class="row align-items-center">
                                 <div class="col-md-4">
                                     <label for="org_type" class="form-label">Organisation Type</label>
@@ -97,12 +95,11 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-12 mb-3">
                             <div class="row align-items-center">
                                 <div class="col-md-4">
-                                    <label for="org_address" class="form-label">Organisation
-                                        Address</label>
+                                    <label for="org_address" class="form-label">Organisation’s office address</label>
                                 </div>
                                 <div class="col-md-8">
                                     <input type="text" name="org_address" class="form-control" id="org_address"
@@ -122,8 +119,7 @@
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <label for="director_name" class="form-label">Country Director
-                                            Name</label>
+                                        <label for="director_name" class="form-label">⁠Country Director’s Name</label>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" name="director_name" class="form-control" id="director_name"
@@ -133,6 +129,18 @@
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <label for="linkedin_profile" class="form-label">Country Director LinkedIn profile</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" name="linkedin_profile" class="form-control" readonly
+                                            id="linkedin_profile" placeholder="Country Director LinkedIn profile" 
+                                            value="{{ isset($member->memberInfos[0]['director_social']) ? json_decode($member->memberInfos[0]['director_social'])->linkedin : '' }}">
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
                                         <label for="director_email" class="form-label">Country Director
@@ -156,7 +164,7 @@
                                             value="{{ $member->memberInfos[0]['director_phone'] }}">
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>

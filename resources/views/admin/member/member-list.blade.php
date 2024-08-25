@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-md-12 px-5">
                     <div class="row mt-3" id="filter-section" style="display:none;">
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <div class="form-group">
                                 <label for="organization" class="mr-2">Filter by Organization Name:</label>
                                 <select id="organization" class="custom-select form-control">
@@ -26,8 +26,8 @@
                                     </option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-md-6">
+                        </div> --}}
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="status_filter" class="mr-2">Filter by Status:</label>
                                 <select id="status_filter" class="custom-select form-control">

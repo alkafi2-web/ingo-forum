@@ -59,7 +59,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="mt-2">
+                                    {{-- <div class="mt-2">
                                         @if ($member->memberInfos[0]['org_type'] == 1)
                                             <span class="badge badge-secondary"><i
                                                     class="fas fa-info-circle fa-lg text-mute mt-1"></i>&nbsp;
@@ -71,7 +71,7 @@
                                                 international governance
                                                 structures</span>
                                         @endif
-                                    </div>
+                                    </div> --}}
 
 
 
