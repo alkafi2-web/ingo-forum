@@ -140,7 +140,7 @@
                                 'success'); // Displaying each error message
                         });
                         $('#member-post-list').DataTable().ajax.reload(null, false);
-                    
+
                         $('#add-blog-news-tab').removeClass('active');
                         $('.addBlogIcon').show();
                         $('.updateBlogIcon').hide();
@@ -155,6 +155,10 @@
                         long_description.setData('');
                         long_description.focus();
                         $('#pp').attr('src', '');
+                        $('#submit').addClass('d-none');
+
+                        // Show the update and refresh buttons
+                        $('#update, #refresh').removeClass('d-none');
                     },
                     error: function(xhr) {
                         $('#update-spinner').addClass('d-none');

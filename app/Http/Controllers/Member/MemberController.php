@@ -115,7 +115,6 @@ class MemberController extends Controller
             // Update the memberInfo with the new membership_id
             $memberInfo = $member->memberInfos[0];
             $memberInfo->membership_id = $newMembershipId;
-            $newMembershipId;
             $memberInfo->save();
         }
         // Update the status to 1 (or any appropriate value for "suspended")

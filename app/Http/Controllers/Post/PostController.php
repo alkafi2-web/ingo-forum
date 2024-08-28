@@ -44,7 +44,7 @@ class PostController extends Controller
                 'nullable', // Make the slug nullable by default
                 'string',
                 'max:255',
-                'unique:posts',
+                // 'unique:posts',
                 // Add regex pattern if needed
                 // 'regex:/^[\p{L}a-zA-Z0-9\-]*$/u',
             ],
@@ -89,13 +89,24 @@ class PostController extends Controller
             $img = Image::make($banner);
             $img->save($dir . $bannerName);
         }
+        $slug = $request->slug ?? Str::slug($request->title, '-');
 
+        // Function to generate a random string of 5 characters
+        function generateRandomString($length = 3)
+        {
+            return substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, $length);
+        }
+
+        // Loop to find a unique slug
+        while (Post::where('slug', $slug)->exists()) {
+            $slug = Str::slug($request->title, '-') . '-' . generateRandomString(); // Append random characters to the slug
+        }
         // Create the post record
         Post::create([
             'category_id' => $request->category,
             'sub_category_id' => $request->subcategory,
             'title' => $request->title,
-            'slug' => $request->slug ?? Str::slug($request->title, '-'), // Generate slug if not provided
+            'slug' => $slug, // Generate slug if not provided
             'long_des' => $request->long_description,
             'banner' => $bannerName,
             'added_by' => $request->add_type === 'member' ? null : Auth::guard('admin')->id(),
@@ -248,12 +259,17 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'category' => 'required',
             'subcategory' => 'required',
-            'title' => 'required|string|max:255',
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+                // 'unique:posts,title,' . $post->id, // Ensure title is unique except for the current post
+            ],
             'slug' => [
                 'nullable',
                 'string',
                 'max:255',
-                'unique:posts,slug,' . $post->id, // Ensure slug is unique except for current post
+                // 'unique:posts,slug,' . $post->id, // Ensure slug is unique except for the current post
                 'regex:/^[a-zA-Z0-9\-]*$/u', // Regex pattern to allow only alphanumeric characters and dashes
             ],
             'long_description' => 'required|string',
@@ -263,6 +279,7 @@ class PostController extends Controller
             'category.required' => 'Category is required.',
             'subcategory.required' => 'Subcategory is required.',
             'title.required' => 'Title is required.',
+            'title.unique' => 'Title must be unique.', // Custom error message for title uniqueness
             'slug.unique' => 'Slug must be unique.',
             'slug.regex' => 'Slug must only contain letters, numbers, and dashes.',
             'long_description.required' => 'Long description is required.',
@@ -321,6 +338,7 @@ class PostController extends Controller
 
         return response()->json(['success' => ['success' => 'Post Updated Successfully']]);
     }
+
 
 
     public function postRequestList(Request $request)
