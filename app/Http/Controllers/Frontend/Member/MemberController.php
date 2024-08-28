@@ -133,15 +133,16 @@ class MemberController extends Controller
             'org_name' => 'required|string|max:255',
             'org_website' => 'required|string|max:255',
             'org_email' => 'required|email|max:255',
-            'org_type' => ['required', Rule::in(['1', '2'])],
+            // 'org_type' => ['required', Rule::in(['1', '2'])],
             'ngo_reg_number' => 'required|string|max:255',
             'org_address' => 'required|string|max:255',
             'director_name' => 'required|string|max:255',
-            'director_email' => 'required|email|max:255',
+            // 'director_email' => 'required|email|max:255',
             'director_phone' => 'nullable|string|max:20',
             // 'login_email' => 'required|email|max:255',
             'login_phone' => 'nullable|string|max:20',
             'password' => 'nullable|string|min:8|confirmed',
+            'linkedin_profile' => 'nullable|string|max:255', // Add this rule if you want to validate LinkedIn profile
         ];
 
         // Define custom error messages
@@ -162,6 +163,7 @@ class MemberController extends Controller
             'password.required' => 'The password is required.',
             'password.confirmed' => 'The password confirmation does not match.',
             'password.min' => 'The password must be at least 8 characters.',
+            'linkedin_profile.max' => 'The LinkedIn profile URL must be less than 255 characters.',
         ];
 
         // Validate the request data
@@ -181,6 +183,11 @@ class MemberController extends Controller
         }
         $member->save();
 
+        // Prepare the director social data
+        $directorSocial = [
+            'linkedin' => $request->linkedin_profile,
+            // Add more social links if needed
+        ];
         // Update or create member information
         $memberInfo = $member->memberInfos()->firstOrNew();
         $memberInfo->organisation_name = $request->org_name;
@@ -192,6 +199,7 @@ class MemberController extends Controller
         $memberInfo->director_name = $request->director_name;
         $memberInfo->director_email = $request->director_email;
         $memberInfo->director_phone = $request->director_phone;
+        $memberInfo->director_social = json_encode($directorSocial);
         $memberInfo->save();
         return response()->json(['success' => true, 'message' => 'Successfully Update Your Profile'], 200);
 

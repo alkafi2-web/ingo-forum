@@ -1,5 +1,5 @@
 @extends('frontend.layouts.frontend-page-layout')
-@section('page-title', 'Our Mmebers')
+@section('page-title', 'Our Members')
 @section('frontend-section')
 
     <!-- Partners Area start here  -->

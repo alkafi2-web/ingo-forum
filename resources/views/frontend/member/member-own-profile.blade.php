@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-md-3 mb-3 mb-md-0">
                     <div class="members-profile-image h-100 text-center position-relative">
-                        <img src="{{ asset('public/frontend/images/member/' . ($member->memberInfos[0]['logo'] ?? 'placeholder.jpg')) }}"
+                        <img src="{{ asset('public/frontend/images/member/' . ($memberinfo->info->logo ?? 'placeholder.jpg')) }}"
                             alt="Profile Image" class="mb-3">
                         {{-- <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->info->organisation_name }}</span>
                         <span class="d-block w-100 text-orange fw-semibold fs-">Bureau Reg No. {{ $memberinfo->info->organisation_ngo_reg }}</span>
@@ -15,14 +15,14 @@
                             class="d-block w-100 text-bold">({{ $memberinfo->info->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span> --}}
 
                             <div class="edit-profile-img bg-white py-4 px-3">
-                                <span class="d-block w-100 text-success fw-semibold" style="font-size: 12px"><i
+                                <span class="d-block w-100 text-success fw-semibold" style="font-size: 12px">INGO ID&nbsp;&nbsp;<i
                                         class="fas fa-id-card-alt"></i>&nbsp;{{ $memberinfo->info->membership_id}}</span>
                                 <span class="d-block w-100 text-orange fw-semibold" style="font-size: 13px">Bureau Reg No.
                                     {{ $memberinfo->info->organisation_ngo_reg }}</span>
                                 <span
                                     class="d-block w-100 text-success fw-bold">{{ $memberinfo->info->organisation_name }}</span>
-                                <span
-                                    class="d-block w-100">({{ $memberinfo->info->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
+                                {{-- <span
+                                    class="d-block w-100">({{ $memberinfo->info->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span> --}}
                             </div>
                             
                     </div>

@@ -19,14 +19,15 @@
                                     <i class="fa-solid fa-camera" id="upload-icon"></i>
                                     <input type="file" name="" id="profile-input" class="d-none">
                                 </div>
-                                <span class="d-block w-100 text-success fw-semibold" style="font-size: 12px"><i
+                                <span class="d-block w-100 text-success fw-semibold" style="font-size: 12px">INGO
+                                    ID&nbsp;&nbsp;<i
                                         class="fas fa-id-card-alt"></i>&nbsp;{{ $member->memberInfos[0]['membership_id'] }}</span>
-                                <span class="d-block w-100 text-orange fw-semibold" style="font-size: 13px">Bureau Reg No.
+                                <span class="d-block w-100 text-orange fw-semibold" style="font-size: 13px">Bureau Reg No:
                                     {{ $member->memberInfos[0]['organisation_ngo_reg'] }}</span>
                                 <span
                                     class="d-block w-100 text-success fw-bold">{{ $member->memberInfos[0]['organisation_name'] }}</span>
-                                <span
-                                    class="d-block w-100">({{ $member->memberInfos[0]['org_type'] == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
+                                {{-- <span
+                                    class="d-block w-100">({{ $member->memberInfos[0]['org_type'] == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span> --}}
                             </div>
                             <div class="all-profile-tabs d-flex flex-column mt-4 bg-white py-4 px-3">
                                 <a href="{{ route('member.dashboard') }}"
@@ -68,7 +69,8 @@
                                 <a href="{{ route('member.user.manual') }}"
                                     class="nav-link {{ Route::currentRouteName() == 'member.user.manual' ? 'active' : '' }}"
                                     id="user-manual-tab" data-bs-target="#user-manual" type="button" role="tab"
-                                    aria-controls="user-manual" aria-selected="true"><i class="fas fa-id-card-alt"></i>&nbsp;User Manual</a>
+                                    aria-controls="user-manual" aria-selected="true"><i
+                                        class="fas fa-id-card-alt"></i>&nbsp;User Manual</a>
                             </div>
                         </div>
                         <div class="col-lg-9 tab-content bg-white p-3 rounded" id="v-pills-tabContent">
@@ -80,7 +82,7 @@
         </div>
     </section>
     <!-- Profile edit page end -->
-    @if ( request()->route()->getName() !== 'member.feedback.index' && $global['unread_feedback'] > 0)
+    @if (request()->route()->getName() !== 'member.feedback.index' && $global['unread_feedback'] > 0)
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
@@ -132,7 +134,12 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(response) {
-                            toastr.success(response.message);
+                            // toastr.success(response.message);
+                            Swal.fire({
+                                title: 'Success!',
+                                text: response.message,
+                                icon: 'success', // You can change this to 'error', 'warning', 'info', or 'question' as needed
+                            });
                         },
                         error: function(xhr, status, error) {
                             console.log(xhr);

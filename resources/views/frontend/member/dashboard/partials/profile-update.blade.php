@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
                                         <label for="org_type" class="form-label required">Organization
@@ -94,17 +94,16 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <label for="ngo_reg_number" class="form-label required">Bureau Reg
-                                            Number</label>
+                                        <label for="ngo_reg_number" class="form-label required">Bureau Registration Number</label>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" readonly name="ngo_reg_number"
                                             class="form-control member-profile-input" id="ngo_reg_number"
-                                            placeholder="Organization NGO Bureau Registration Number" required
+                                            placeholder="Organization Bureau Registration Number" required
                                             value="{{ $member->memberInfos[0]['organisation_ngo_reg'] }}">
                                     </div>
                                 </div>
@@ -112,8 +111,7 @@
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <label for="org_address" class="form-label required">Organization
-                                            Address</label>
+                                        <label for="org_address" class="form-label required">⁠Organisation’s office address</label>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" readonly name="org_address"
@@ -135,9 +133,7 @@
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <label for="director_name" class="form-label required">Country
-                                            Director
-                                            Name</label>
+                                        <label for="director_name" class="form-label required">Country Director’s Name</label>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" readonly name="director_name"
@@ -147,7 +143,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
                                         <label for="director_email" class="form-label required">Country
@@ -161,8 +157,8 @@
                                             value="{{ $member->memberInfos[0]['director_email'] }}">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12 mb-3">
+                            </div> --}}
+                            {{-- <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
                                         <label for="director_phone" class="form-label">Phone</label>
@@ -172,6 +168,17 @@
                                             class="form-control member-profile-input" id="director_phone"
                                             placeholder="Phone"
                                             value="{{ $member->memberInfos[0]['director_phone'] }}">
+                                    </div>
+                                </div>
+                            </div> --}}
+                            <div class="col-12 mb-3">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <label for="linkedin_profile" class="form-label">⁠Country Director LinkedIn profile</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" name="linkedin_profile" class="form-control"
+                                            id="linkedin_profile" placeholder="⁠Country Director LinkedIn profile" value="{{ isset($member->memberInfos[0]['director_social']) ? json_decode($member->memberInfos[0]['director_social'])->linkedin : '' }}">
                                     </div>
                                 </div>
                             </div>

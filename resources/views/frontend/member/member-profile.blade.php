@@ -9,8 +9,8 @@
                         <img src="{{ asset('public/frontend/images/member/') }}/{{ $memberinfo->logo ?? 'logo.png' }}"
                             alt="Profile Image" class="mb-3">
                         <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->membership_id }}</span>
-                        <span
-                            class="d-block w-100 text-bold">({{ $memberinfo->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span>
+                        {{-- <span
+                            class="d-block w-100 text-bold">({{ $memberinfo->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span> --}}
                     </div>
                 </div>
                 <div class="col-md-9">
