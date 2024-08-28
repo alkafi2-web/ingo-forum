@@ -5,12 +5,17 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3 mb-3 mb-md-0">
-                    <div class="members-profile-image h-100 text-center">
+                    <div class="members-profile-image h-100 text-center mt-5">
                         <img src="{{ asset('public/frontend/images/member/') }}/{{ $memberinfo->logo ?? 'logo.png' }}"
-                            alt="Profile Image" class="mb-3">
+                            alt="Profile Image" class="mb-5">
                         <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->membership_id }}</span>
-                        {{-- <span
-                            class="d-block w-100 text-bold">({{ $memberinfo->org_type == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures' }})</span> --}}
+                        <span class="d-block w-100 text-success fw-semibold" style="font-size: 12px">INGO ID&nbsp;&nbsp;<i
+                                class="fas fa-id-card-alt"></i>&nbsp;{{ $memberinfo->membership_id }}</span>
+                        <span class="d-block w-100 text-orange fw-semibold" style="font-size: 13px">Bureau Reg No.
+                            {{ $memberinfo->organisation_ngo_reg }}</span>
+                        <span class="d-block w-100 text-success fw-bold">{{ $memberinfo->organisation_name }}</span>
+
+
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -89,7 +94,8 @@
                                 <i class="fa-solid fa-globe"></i>
                             </a>
                             <a href="" type="button" class="ct-btn btn-yellow w-100 mt-3 py-2 px-3"
-                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Join Our Forum" target="__blank">
+                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Join Our Forum"
+                                target="__blank">
                                 <i class="fa-solid fa-paperclip"></i>
                             </a>
                         </div>
