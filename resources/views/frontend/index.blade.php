@@ -163,8 +163,11 @@
                 <div class="owl-carousel owl-theme members-logo py-2">
                     @foreach ($global['membersInfos'] as $membersInfos)
                         <div class="item">
-                            <img src="{{ asset('public/frontend/images/member') }}/{{ $membersInfos->logo }}"
-                                alt="">
+                            <a
+                                href="{{ route('frontend.member.show', ['membership_id' => $membersInfos->membership_id]) }}">
+                                <img src="{{ asset('public/frontend/images/member') }}/{{ $membersInfos->logo }}"
+                                    alt="">
+                            </a>
                         </div>
                     @endforeach
                 </div>
