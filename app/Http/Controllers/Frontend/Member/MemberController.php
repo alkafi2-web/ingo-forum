@@ -33,7 +33,7 @@ class MemberController extends Controller
     {
         $rules = [
             'org_name' => 'required|string|max:255',
-            'org_website' => 'required|string|max:255',
+            'org_website' => 'required|string|max:255|url',
             'org_email' => 'required|email|max:255',
             // 'org_type' => ['required', Rule::in(['1', '2'])],
             'ngo_reg_number' => 'required|string|max:255',
@@ -94,7 +94,8 @@ class MemberController extends Controller
             'member_id' => $member->id,
             'organisation_name' => $request->org_name,
             'organisation_email' => $request->org_email,
-            'organisation_type' => $request->org_type,
+            // 'organisation_type' => $request->org_type,
+            'organisation_phone' => $request->org_phone,
             'organisation_website' => $request->org_website,
             'organisation_ngo_reg' => $request->ngo_reg_number,
             'organisation_address' => $request->org_address,
@@ -192,6 +193,7 @@ class MemberController extends Controller
         $memberInfo = $member->memberInfos()->firstOrNew();
         $memberInfo->organisation_name = $request->org_name;
         $memberInfo->organisation_email = $request->org_email;
+        $memberInfo->organisation_phone = $request->org_phone;
         $memberInfo->organisation_type = $request->org_type;
         $memberInfo->organisation_ngo_reg = $request->ngo_reg_number;
         $memberInfo->organisation_website = $request->org_website;
