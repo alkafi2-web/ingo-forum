@@ -327,6 +327,7 @@
                     success: function(response) {
                         // Swal.fire('Success!', response.success,
                         //     'success');
+                        console.log(response);
                         $('#view-header-container').html(response.viewHeader);
                         $('#profile-image-name').html(response.profileImageName);
                         $.get(window.location.href, function(data) {
