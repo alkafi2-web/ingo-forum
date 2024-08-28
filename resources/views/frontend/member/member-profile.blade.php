@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3 mb-3 mb-md-0">
-                    <div class="members-profile-image h-100 text-center mt-5">
+                    <div class="members-profile-image h-100 text-center">
                         <img src="{{ asset('public/frontend/images/member/') }}/{{ $memberinfo->logo ?? 'logo.png' }}"
                             alt="Profile Image" class="mb-5">
                         <span class="d-block w-100 text-orange fw-semibold fs-">{{ $memberinfo->membership_id }}</span>
