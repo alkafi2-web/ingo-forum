@@ -28,7 +28,7 @@
                 let category = $('#category').val();
                 let subcategory = $('#subcategory').val();
                 let title = $('#title').val();
-                let slug = $('#slug').val();
+                // let slug = $('#slug').val();
                 let add_type = $('#add_type').val();
                 let long_description = CKEDITOR.instances['long_description'].getData();
                 // let short_description = CKEDITOR.instances['short_description'].getData();
@@ -39,7 +39,7 @@
                 formData.append('category', category);
                 formData.append('subcategory', subcategory);
                 formData.append('title', title);
-                formData.append('slug', slug);
+                // formData.append('slug', slug);
                 formData.append('long_description', long_description);
                 // formData.append('short_description', short_description);
                 formData.append('banner', banner);
@@ -81,17 +81,17 @@
             });
         });
 
-        $(document).ready(function() {
-            $('#title').on('input', function() {
-                var title = $(this).val();
-                var slug = title.toLowerCase()
-                    .replace(/\s+/g, '-') // Replace spaces with hyphens
-                    .replace(/[^a-zA-Z0-9-ঀ-৿]/g, '') // Allow alphanumeric, hyphens, and Bangla characters
-                    .replace(/-+/g, '-'); // Replace multiple hyphens with a single hyphen
+        // $(document).ready(function() {
+        //     $('#title').on('input', function() {
+        //         var title = $(this).val();
+        //         var slug = title.toLowerCase()
+        //             .replace(/\s+/g, '-') // Replace spaces with hyphens
+        //             .replace(/[^a-zA-Z0-9-ঀ-৿]/g, '') // Allow alphanumeric, hyphens, and Bangla characters
+        //             .replace(/-+/g, '-'); // Replace multiple hyphens with a single hyphen
 
-                $('#slug').val(slug);
-            });
-        });
+        //         $('#slug').val(slug);
+        //     });
+        // });
         $(document).ready(function() {
 
             $('#update').on('click', function(e) {
@@ -103,7 +103,7 @@
                 let category = $('#category').val();
                 let subcategory = $('#subcategory').val();
                 let title = $('#title').val();
-                let slug = $('#slug').val();
+                // let slug = $('#slug').val();
                 let add_type = $('#add_type').val();
                 let long_description = CKEDITOR.instances['long_description'].getData();
                 // let short_description = CKEDITOR.instances['short_description'].getData();
@@ -114,7 +114,7 @@
                 formData.append('category', category);
                 formData.append('subcategory', subcategory);
                 formData.append('title', title);
-                formData.append('slug', slug);
+                // formData.append('slug', slug);
                 formData.append('long_description', long_description);
                 // formData.append('short_description', short_description);
                 if (banner) {
@@ -149,6 +149,12 @@
                         $('#all-blog-news-tab').addClass('active');
                         $('#all-blog-news').addClass('show active');
                         $('#file-preview').html('');
+                        $('#postForm')[0].reset();
+                        $('#member-post-list').DataTable().ajax.reload(null, false);
+                        var long_description = CKEDITOR.instances['long_description'];
+                        long_description.setData('');
+                        long_description.focus();
+                        $('#pp').attr('src', '');
                     },
                     error: function(xhr) {
                         $('#update-spinner').addClass('d-none');
@@ -385,7 +391,7 @@
 
                     // Other form fields can be populated here as needed
                     $('#title').val(response.title);
-                    $('#slug').val(response.slug);
+                    // $('#slug').val(response.slug);
                     $('#post_id').val(response.id);
                     CKEDITOR.instances['long_description'].setData(response.long_des);
                     let basePath = '{{ asset('public/frontend/images/posts/') }}/'

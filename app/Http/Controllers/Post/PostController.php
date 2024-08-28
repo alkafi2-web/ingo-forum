@@ -35,27 +35,26 @@ class PostController extends Controller
 
     public function postStore(Request $request)
     {
-
+        // Define the validation rules with conditional logic for the slug field
         $validator = Validator::make($request->all(), [
-            'category' => 'required', // Example validation rule
+            'category' => 'required',
             'subcategory' => 'required',
             'title' => 'required|string|max:255',
             'slug' => [
-                'required',
+                'nullable', // Make the slug nullable by default
                 'string',
                 'max:255',
                 'unique:posts',
-                // Regex pattern to allow alphanumeric characters, dashes, and Bangla characters
+                // Add regex pattern if needed
                 // 'regex:/^[\p{L}a-zA-Z0-9\-]*$/u',
             ],
             'long_description' => 'required|string',
-            'banner' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
+            'banner' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             // Custom error messages
             'category.required' => 'Category is required.',
             'subcategory.required' => 'Subcategory is required.',
             'title.required' => 'Title is required.',
-            'slug.required' => 'Slug is required.',
             'slug.unique' => 'Slug must be unique.',
             'slug.regex' => 'Slug must only contain letters, numbers, and dashes.',
             'long_description.required' => 'Long description is required.',
@@ -65,10 +64,17 @@ class PostController extends Controller
             'banner.max' => 'Banner size should not exceed 2MB.',
             'banner.dimensions' => 'Banner must be 800px by 450px.',
         ]);
+
+        // Conditionally require slug if add_type is not 'member'
+        $validator->sometimes('slug', 'required', function ($input) {
+            return $input->add_type !== 'member';
+        });
+
         // Check validation results
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422); // Validation failed
+            return response()->json(['errors' => $validator->errors()], 422);
         }
+
         if ($request->hasFile('banner')) {
             $banner = $request->file('banner');
             $bannerName = Str::uuid() . '.' . $banner->getClientOriginalExtension();
@@ -78,27 +84,30 @@ class PostController extends Controller
             if (!File::exists($dir)) {
                 File::makeDirectory($dir, 0755, true);
             }
-            // Move new image to directory
-            // $banner->move($dir, $bannerName);
+
+            // Save the banner image
             $img = Image::make($banner);
             $img->save($dir . $bannerName);
         }
 
+        // Create the post record
         Post::create([
             'category_id' => $request->category,
             'sub_category_id' => $request->subcategory,
             'title' => $request->title,
-            'slug' => $request->slug ?? Str::slug($request->title, '-'),
-            // 'short_des' => $request->short_description,
+            'slug' => $request->slug ?? Str::slug($request->title, '-'), // Generate slug if not provided
             'long_des' => $request->long_description,
             'banner' => $bannerName,
-            'added_by' => $request->add_type === 'member' ? null : Auth::guard('admin')->id(), // Set to null if $request->add_type is not null, otherwise use the member ID
+            'added_by' => $request->add_type === 'member' ? null : Auth::guard('admin')->id(),
             'member_id' => $request->add_type === 'member' ? Auth::guard('member')->id() : null,
-            'approval_status' => $request->add_type === 'member' ? 0 : null
+            'approval_status' => $request->add_type === 'member' ? 0 : null,
         ]);
-        Helper::log("$request->title post create");
+
+        Helper::log("{$request->title} post created");
+
         return response()->json(['success' => ['success' => 'Post Added Successfully']]);
     }
+
 
     public function postList(Request $request)
     {
@@ -232,81 +241,94 @@ class PostController extends Controller
 
     public function postUpdate(Request $request)
     {
+        // Find the post by its ID
+        $post = Post::findOrFail($request->id);
 
-        // Validate incoming request data
+        // Validate incoming request data with conditional slug requirement
         $validator = Validator::make($request->all(), [
-            'category' => 'required', // Example validation rule
+            'category' => 'required',
             'subcategory' => 'required',
             'title' => 'required|string|max:255',
             'slug' => [
                 'nullable',
                 'string',
                 'max:255',
-                // 'unique:posts,slug,' . $request->id, // Ensure slug is unique except for current post
-                // Regex pattern to allow only alphanumeric characters and dashes
-                'regex:/^[a-zA-Z0-9\-]*$/u',
+                'unique:posts,slug,' . $post->id, // Ensure slug is unique except for current post
+                'regex:/^[a-zA-Z0-9\-]*$/u', // Regex pattern to allow only alphanumeric characters and dashes
             ],
             'long_description' => 'required|string',
-            'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Example file validation
+            'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             // Custom error messages
             'category.required' => 'Category is required.',
             'subcategory.required' => 'Subcategory is required.',
             'title.required' => 'Title is required.',
-            'slug.required' => 'Slug is required.',
             'slug.unique' => 'Slug must be unique.',
             'slug.regex' => 'Slug must only contain letters, numbers, and dashes.',
             'long_description.required' => 'Long description is required.',
             'banner.image' => 'Banner must be an image file.',
             'banner.mimes' => 'Banner must be a JPEG, PNG, JPG, or GIF image.',
             'banner.max' => 'Banner size should not exceed 2MB.',
-            'banner.dimensions' => 'Banner must be 800px by 450px.',
         ]);
+
+        // Conditionally require slug if add_type is not 'member'
+        $validator->sometimes('slug', 'required', function ($input) {
+            return $input->add_type !== 'member';
+        });
 
         // Check validation results
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422); // Validation failed
         }
-        $post = Post::findOrFail($request->id);
-        $bannerName = null;
+
+        // Handle banner upload and replacement
+        $bannerName = $post->banner;
         if ($request->hasFile('banner')) {
             $banner = $request->file('banner');
             $bannerName = Str::uuid() . '.' . $banner->getClientOriginalExtension();
             $dir = public_path('/frontend/images/posts/');
 
+            // Delete the old banner image if it exists
             $bannerImagePath = public_path('/frontend/images/posts/') . $post->banner;
-            // Delete the image file if it exists
             if (file_exists($bannerImagePath)) {
                 unlink($bannerImagePath);
             }
+
             // Ensure the directory exists
             if (!File::exists($dir)) {
                 File::makeDirectory($dir, 0755, true);
             }
 
-            // Move new image to directory
+            // Save the new banner image
             $banner->move($dir, $bannerName);
         }
+
+        // Update post details
         $post->category_id = $request->category;
         $post->sub_category_id = $request->subcategory;
         $post->title = $request->title;
-        $post->slug = $request->slug ?? Str::slug($request->title, '-');
-        // $post->short_des = $request->short_description;
-        $post->long_des = $request->long_description;
-        if ($bannerName) {
-            $post->banner = $bannerName;
+
+        // Only update the slug if add_type is not 'member'
+        if ($request->add_type !== 'member') {
+            $post->slug = $request->slug ?? Str::slug($request->title, '-');
         }
+
+        $post->long_des = $request->long_description;
+        $post->banner = $bannerName;
         $post->save();
-        Helper::log("$request->title post updated");
-        return response()->json(['success' => ['success' => 'Post Update Successfully']]);
+
+        Helper::log("{$request->title} post updated");
+
+        return response()->json(['success' => ['success' => 'Post Updated Successfully']]);
     }
+
 
     public function postRequestList(Request $request)
     {
         if (!Auth::guard('admin')->user()->hasPermissionTo('post-view-all')) {
             abort(401);
         }
-        $posts = Post::with('category', 'subcategory', 'addedBy', 'addedBy_member')->where('member_id', '!=', null)->where('approval_status',0)->latest();
+        $posts = Post::with('category', 'subcategory', 'addedBy', 'addedBy_member')->where('member_id', '!=', null)->where('approval_status', 0)->latest();
         if ($request->ajax()) {
             $category = $request->category;
             $subcategory = $request->subcategory;

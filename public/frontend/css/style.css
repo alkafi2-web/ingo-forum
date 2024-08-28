@@ -822,16 +822,17 @@ a {
 }
 
 .partners .partner img {
-  filter: grayscale(100%);
+  /* filter: grayscale(100%); */
   height: 170px;
   width: 170px;
   margin: 0 auto;
   object-fit: contain;
-  transition: all .3s ease-in-out;
+  transition: all .5s ease-in-out;
 }
 
 .partners .partner:hover img {
-  filter: grayscale(0%);
+  /* filter: grayscale(0%); */
+  transform: scale(1.1);
 }
 
 .partner-btn {

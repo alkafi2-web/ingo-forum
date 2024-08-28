@@ -109,8 +109,8 @@
                                     <h4>Mission</h4>
                                     <img src="{{ asset('public/frontend/images/icons/mission.png') }}" alt="">
                                 </div>
-                                <div class="msv-content">
-                                    <p>{!! $memberinfo->mission !!}</p>
+                                <div class="msv-content ">
+                                    {!! $memberinfo->mission !!}
                                 </div>
                             </div>
                         </div>

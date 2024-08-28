@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <!-- Title -->
                 <div class="form-group mt-3">
                     <label for="title" class="required form-label">Title</label>
@@ -34,13 +34,13 @@
                         spellcheck="false" data-ms-editor="true">
                 </div>
             </div>
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
                 <div class="form-group mt-3">
                     <label for="slug" class="required form-label">Slug</label>
                     <input type="text" id="slug" name="slug" class="form-control" required=""
                         spellcheck="false" data-ms-editor="true">
                 </div>
-            </div>
+            </div> --}}
         </div>
         <!-- Long Description -->
         <style>

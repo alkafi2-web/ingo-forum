@@ -177,7 +177,7 @@
                                         <label for="linkedin_profile" class="form-label">⁠Country Director LinkedIn profile</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="text" name="linkedin_profile" class="form-control"
+                                        <input type="text" name="linkedin_profile" class="form-control member-profile-input" readonly
                                             id="linkedin_profile" placeholder="⁠Country Director LinkedIn profile" value="{{ isset($member->memberInfos[0]['director_social']) ? json_decode($member->memberInfos[0]['director_social'])->linkedin : '' }}">
                                     </div>
                                 </div>
