@@ -136,7 +136,9 @@
 
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script src="{{ asset('public/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('public/ckeditor/config.js') }}"></script>
+    <script src="{{ asset('public/ckeditor/styles.js') }}"></script>
     <script src="{{ asset('public/admin/js/ekko-lightbox.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.rawgit.com/mjsarfatti/nestedSortable/master/jquery.mjs.nestedSortable.js"></script>
