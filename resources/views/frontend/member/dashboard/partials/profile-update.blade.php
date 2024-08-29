@@ -79,8 +79,10 @@
                                         <label for="org_phone" class="form-label">Organisation’s Phone</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="text" name="org_phone" class="form-control member-profile-input" id="org_phone"
-                                            placeholder="Organisation’s Phone" readonly value="{{ $member->memberInfos[0]['organisation_phone'] }}">
+                                        <input type="text" name="org_phone"
+                                            class="form-control member-profile-input" id="org_phone"
+                                            placeholder="Organisation’s Phone" readonly
+                                            value="{{ $member->memberInfos[0]['organisation_phone'] }}">
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +111,8 @@
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <label for="ngo_reg_number" class="form-label required">Bureau Registration Number</label>
+                                        <label for="ngo_reg_number" class="form-label required">Bureau Registration
+                                            Number</label>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" readonly name="ngo_reg_number"
@@ -122,7 +125,8 @@
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <label for="org_address" class="form-label required">⁠Organisation’s office address</label>
+                                        <label for="org_address" class="form-label required">⁠Organisation’s office
+                                            address</label>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" readonly name="org_address"
@@ -144,7 +148,8 @@
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <label for="director_name" class="form-label required">Country Director’s Name</label>
+                                        <label for="director_name" class="form-label required">Country Director’s
+                                            Name</label>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" readonly name="director_name"
@@ -185,11 +190,14 @@
                             <div class="col-12 mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <label for="linkedin_profile" class="form-label">⁠Country Director LinkedIn profile</label>
+                                        <label for="linkedin_profile" class="form-label">⁠Country Director LinkedIn
+                                            profile</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input type="text" name="linkedin_profile" class="form-control member-profile-input" readonly
-                                            id="linkedin_profile" placeholder="⁠Country Director LinkedIn profile" value="{{ isset($member->memberInfos[0]['director_social']) ? json_decode($member->memberInfos[0]['director_social'])->linkedin : '' }}">
+                                        <input type="text" name="linkedin_profile"
+                                            class="form-control member-profile-input" readonly id="linkedin_profile"
+                                            placeholder="⁠Country Director LinkedIn profile"
+                                            value="{{ isset($member->memberInfos[0]['director_social']) ? json_decode($member->memberInfos[0]['director_social'])->linkedin : '' }}">
                                     </div>
                                 </div>
                             </div>
@@ -306,6 +314,7 @@
                         </label>
                         <input type="file" class="form-control member-profile-input" id="organization_document"
                             name="organization_document" disabled>
+                        <div id="file-preview" class="mt-3"></div>
                     </div>
 
                     <!-- Mission -->
@@ -468,7 +477,7 @@
                     }
                 });
             });
-            
+
 
             $('#profilData-submit').on('click', function(e) {
                 e.preventDefault();
@@ -529,12 +538,44 @@
                         toastr.success(response.message);
                         var organizationDocument = $('#organization_document').val('');
                         // Display the uploaded file in the preview section
-                        var fileUrl = response.profile_attachment;
+                        var fileUrl = response.fileUrl;
+                        console.log(fileUrl);
                         var $previewContainer = $('#file-preview');
                         $previewContainer.empty(); // Clear previous preview
+
                         if (fileUrl) {
-                            var fileType = organizationDocument.type;
-                            if (fileType.startsWith('image/')) {
+                            // Extract file extension from the URL
+                            var fileExtension = fileUrl.split('.').pop().toLowerCase();
+
+                            // Determine file type based on extension
+                            var fileType = '';
+                            switch (fileExtension) {
+                                case 'jpg':
+                                case 'jpeg':
+                                case 'png':
+                                case 'gif':
+                                    fileType = 'image';
+                                    break;
+                                case 'pdf':
+                                    fileType = 'application/pdf';
+                                    break;
+                                case 'doc':
+                                case 'docx':
+                                    fileType =
+                                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                                    break;
+                                case 'ppt':
+                                case 'pptx':
+                                    fileType =
+                                        'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+                                    break;
+                                default:
+                                    fileType = 'unknown';
+                                    break;
+                            }
+                            console.log(fileType)
+                            // Render preview based on file type
+                            if (fileType === 'image') {
                                 var $img = $('<img>').attr('src', fileUrl).css('max-width',
                                     '100%');
                                 $previewContainer.append($img);
@@ -546,7 +587,8 @@
                                     height: '300px' // Adjust the height as needed
                                 });
                                 $previewContainer.append($iframe);
-                            } else if (fileType ===
+                            } else if (
+                                fileType ===
                                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
                                 fileType ===
                                 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
@@ -555,14 +597,15 @@
                                 var $link = $('<a>').attr({
                                     href: fileUrl,
                                     target: '_blank'
-                                }).text('Open file: ' + organizationDocument.name);
+                                }).text('Open file: ' + fileExtension.toUpperCase() +
+                                    ' Document');
                                 $previewContainer.append($link);
                             } else {
                                 // For other file types, provide a link to open the file in a new tab
                                 var $link = $('<a>').attr({
                                     href: fileUrl,
                                     target: '_blank'
-                                }).text('Open file: ' + organizationDocument.name);
+                                }).text('Open file: ' + fileExtension.toUpperCase());
                                 $previewContainer.append($link);
                             }
                         }
