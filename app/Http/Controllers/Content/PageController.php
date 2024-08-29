@@ -30,7 +30,9 @@ class PageController extends Controller
                 })
                 ->addColumn('status', function($row){
                     // Use the url() helper to generate the full URL
-                    $pageUrl = url($row->slug);
+                    
+                    $pageUrl = route('frontend.static.page', ['slug' => $row->slug]);
+
                     return $row->visibility 
                         ? '<i class="fas fa-eye text-primary" id="inactive-page" data="'.$row->id.'"></i>&nbsp;<a href="'.$pageUrl.'" target="_blank"><i class="fas fa-external-link-alt text-info"></i></a>'
                         : '<i class="fas fa-eye-slash" id="active-page" data="'.$row->id.'"></i>';

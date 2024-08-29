@@ -66,7 +66,7 @@
                                 </a>
                             @elseif ($menu->type == 'page' && $menu->page)
                                 <a class="nav-link {{ $menu->subMenus->count() ? 'dropdown-toggle' : '' }}"
-                                    href="{{ url($menu->page->slug) }}"
+                                    href="{{ route('frontend.static.page', ['slug' => $menu->page->slug]) }}"
                                     {{ $menu->subMenus->count() ? 'role=button data-bs-toggle=dropdown aria-expanded=false' : '' }}>
                                     <span>{{ $menu->name }}</span>
                                     @if ($menu->subMenus->count())
@@ -102,7 +102,7 @@
                                                         href="{{ route($child->route) }}">{{ $child->name }}</a></li>
                                             @elseif ($child->type == 'page' && $child->page)
                                                 <li><a class="dropdown-item"
-                                                        href="{{ url($child->page->slug) }}">{{ $child->name }}</a>
+                                                        href="{{ route('frontend.static.page', ['slug' => $child->page->slug]) }}">{{ $child->name }}</a>
                                                 </li>
                                             @elseif ($child->type == 'post' && $child->postCategory)
                                                 <li><a class="dropdown-item"
