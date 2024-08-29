@@ -320,12 +320,12 @@ class MemberController extends Controller
             'title' => $request->title,
             'sub_title' => $request->sub_title,
             'short_description' => $request->short_description,
-            'mission' => $request->mission,
-            'vision' => $request->vision,
-            'value' => $request->value,
-            'work' => $request->work,
-            'history' => $request->history,
-            'other_description' => $request->other_description,
+            'mission' => str_replace('&nbsp;', ' ', $request->mission),
+            'vision' => str_replace('&nbsp;', ' ', $request->vision),
+            'value' => str_replace('&nbsp;', ' ', $request->value),
+            'work' => str_replace('&nbsp;', ' ', $request->work),
+            'history' => str_replace('&nbsp;', ' ', $request->history),
+            'other_description' => str_replace('&nbsp;', ' ', $request->other_description),
         ]);
 
         // Save the updated member information
