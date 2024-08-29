@@ -68,8 +68,19 @@
                                     </div>
                                     <div class="col-md-8">
                                         <input type="email" name="org_email" class="form-control member-profile-input"
-                                            id="org_email" placeholder="Organization Email"
+                                            id="org_email" placeholder="Organization Email" readonly
                                             value="{{ $member->memberInfos[0]['organisation_email'] }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <label for="org_phone" class="form-label">Organisation’s Phone</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" name="org_phone" class="form-control member-profile-input" id="org_phone"
+                                            placeholder="Organisation’s Phone" readonly value="{{ $member->memberInfos[0]['organisation_phone'] }}">
                                     </div>
                                 </div>
                             </div>
