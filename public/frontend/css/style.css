@@ -62,7 +62,7 @@ span {
   font-size: 16px;
   font-family: 'Gilroy-Regular', sans-serif;
   line-height: 20px;
-  color: var(--paragraph-color);
+  /* color: var(--paragraph-color); */
 }
 li {
   font-family: 'Gilroy-Regular', sans-serif;
@@ -970,6 +970,7 @@ a {
 }
 
 .msv-content {
+  overflow: hidden;
   padding: 20px;
 }
 
