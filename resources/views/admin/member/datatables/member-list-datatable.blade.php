@@ -6,6 +6,9 @@
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                    {{ __('Organization Logo') }}
+                </th>
+                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Organization Name') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
@@ -38,7 +41,7 @@
         $('#reset-filters').click(function() {
             $('#organization').val('');
             $('#status_filter').val('');
-            
+
             $('#member-data').DataTable().ajax.reload(null, false);
         });
         $(document).ready(function() {
@@ -58,6 +61,9 @@
                     }
                 },
                 columns: [{
+                        data: 'logo',
+                        name: 'logo',
+                    }, {
                         orderable: true,
                         sortable: false,
                         data: 'organisation_name',

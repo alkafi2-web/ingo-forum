@@ -26,7 +26,7 @@ class MemberController extends Controller
         if ($request->ajax()) {
             $organizationType = $request->organization;
             $statusFilter = $request->status_filter;
-            $members = Member::with('memberInfos')->get();
+            $members = Member::with('memberInfos','info')->get();
             // If organization type is provided, filter the members
             if (!empty($organizationType)) {
                 $members = $members->filter(function ($member) use ($organizationType) {
@@ -51,6 +51,14 @@ class MemberController extends Controller
                 ->addColumn('org_type', function ($member) {
                     return optional($member->memberInfos->first())->organisation_type ?? 'N/A';
                 })
+                ->addColumn('logo', function ($member) {
+                    $logo = optional($member->memberInfos->first())->logo;
+                    $defaultLogo = asset('public/frontend/images/member/placeholder.jpg'); // Replace with the actual path to the default image
+                    $logoUrl = $logo ? asset('public/frontend/images/member/' . $logo) : $defaultLogo; // Adjust the storage path if necessary
+            
+                    return '<img src="' . $logoUrl . '" alt="Logo" style="width: 100px; height: 100px;">';
+                })
+                ->rawColumns(['logo'])
                 ->make(true);
         }
         return view('admin.member.member-list');
@@ -76,6 +84,14 @@ class MemberController extends Controller
                 ->addColumn('org_type', function ($member) {
                     return optional($member->memberInfos->first())->organisation_type ?? 'N/A';
                 })
+                ->addColumn('logo', function ($member) {
+                    $logo = optional($member->memberInfos->first())->logo;
+                    $defaultLogo = asset('public/frontend/images/member/placeholder.jpg'); // Replace with the actual path to the default image
+                    $logoUrl = $logo ? asset('public/frontend/images/member/' . $logo) : $defaultLogo; // Adjust the storage path if necessary
+            
+                    return '<img src="' . $logoUrl . '" alt="Logo" style="width: 100px; height: 100px;">';
+                })
+                ->rawColumns(['logo'])
                 ->make(true);
         }
         return view('admin.member.member-request');
