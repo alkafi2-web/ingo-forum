@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Feedback;
 use App\Models\Member;
 use App\Models\MemberInfo;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -26,7 +27,7 @@ class MemberController extends Controller
         if ($request->ajax()) {
             $organizationType = $request->organization;
             $statusFilter = $request->status_filter;
-            $members = Member::with('memberInfos')->get();
+            $members = Member::with('memberInfos', 'info')->get();
             // If organization type is provided, filter the members
             if (!empty($organizationType)) {
                 $members = $members->filter(function ($member) use ($organizationType) {
@@ -51,6 +52,14 @@ class MemberController extends Controller
                 ->addColumn('org_type', function ($member) {
                     return optional($member->memberInfos->first())->organisation_type ?? 'N/A';
                 })
+                ->addColumn('logo', function ($member) {
+                    $logo = optional($member->memberInfos->first())->logo;
+                    $defaultLogo = asset('public/frontend/images/member/placeholder.jpg'); // Replace with the actual path to the default image
+                    $logoUrl = $logo ? asset('public/frontend/images/member/' . $logo) : $defaultLogo; // Adjust the storage path if necessary
+
+                    return '<img src="' . $logoUrl . '" alt="Logo" style="width: 100px; height: 100px;">';
+                })
+                ->rawColumns(['logo'])
                 ->make(true);
         }
         return view('admin.member.member-list');
@@ -76,6 +85,14 @@ class MemberController extends Controller
                 ->addColumn('org_type', function ($member) {
                     return optional($member->memberInfos->first())->organisation_type ?? 'N/A';
                 })
+                ->addColumn('logo', function ($member) {
+                    $logo = optional($member->memberInfos->first())->logo;
+                    $defaultLogo = asset('public/frontend/images/member/placeholder.jpg'); // Replace with the actual path to the default image
+                    $logoUrl = $logo ? asset('public/frontend/images/member/' . $logo) : $defaultLogo; // Adjust the storage path if necessary
+
+                    return '<img src="' . $logoUrl . '" alt="Logo" style="width: 100px; height: 100px;">';
+                })
+                ->rawColumns(['logo'])
                 ->make(true);
         }
         return view('admin.member.member-request');
@@ -260,5 +277,34 @@ class MemberController extends Controller
         $feedback->delete();
         Helper::log(Auth::guard('admin')->user()->name . "Delete  feedbacks of $memberInfo->organisation_name");
         return response()->json(['success' => 'Feedback deleted successfully']);
+    }
+
+    public function superLogin($id)
+    {
+        session(['original_admin_id' => Auth::guard('admin')->id()]);
+        // Find the user by ID you want to log in as
+        $member = Member::findOrFail($id);
+        // Log in as the user
+        Auth::guard('member')->login($member);
+        return redirect()->route('member.dashboard');
+    }
+
+    public function superRevert()
+    {
+        // Check if the original admin ID is stored in the session
+        if (session()->has('original_admin_id')) {
+            $originalAdminId = session('original_admin_id');
+            // Log out the current member
+            Auth::guard('member')->logout();
+            // // Find the original admin and log them back in
+            // $originalAdmin = User::findOrFail($originalAdminId);
+            // Auth::guard('admin')->login($originalAdmin);
+
+            // Remove the original admin ID from the session
+            session()->forget('original_admin_id');
+
+            return redirect()->route('member.list'); // Redirect to the admin dashboard
+        }
+        return redirect()->route('login');
     }
 }

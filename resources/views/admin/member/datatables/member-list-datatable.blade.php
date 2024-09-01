@@ -6,6 +6,9 @@
         <thead>
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" style="background: #fff;">
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
+                    {{ __('Organization Logo') }}
+                </th>
+                <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
                     {{ __('Organization Name') }}
                 </th>
                 <th class="min-w-50px fw-bold text-dark firstTheadColumn" style="font-weight: 900">
@@ -38,10 +41,11 @@
         $('#reset-filters').click(function() {
             $('#organization').val('');
             $('#status_filter').val('');
-            
+
             $('#member-data').DataTable().ajax.reload(null, false);
         });
         $(document).ready(function() {
+            var isSuperAdmin = {{ auth()->user()->hasRole('super-admin') ? 'true' : 'false' }};
             var table = $('#member-data').DataTable({
                 processing: true,
                 serverSide: true,
@@ -58,6 +62,9 @@
                     }
                 },
                 columns: [{
+                        data: 'logo',
+                        name: 'logo',
+                    }, {
                         orderable: true,
                         sortable: false,
                         data: 'organisation_name',
@@ -75,15 +82,6 @@
                         data: 'organisation_ngo_reg',
                         name: 'organisation_ngo_reg'
                     },
-                    // {
-                    //     orderable: true,
-                    //     sortable: false,
-                    //     data: 'org_type',
-                    //     name: 'org_type',
-                    //     render: function(data, type, row) {
-                    //         return `<span class="badge badge-${data == 1 ? 'primary' : 'info'}" data-status="${data}" data-id="${row.id}">${data == 1 ? 'Registered with NGO Affairs Bureau (NGOAB) as an INGO' : 'Possess international governance structures'}</span>`;
-                    //     }
-                    // },
                     {
                         data: 'status',
                         name: 'status',
@@ -123,13 +121,29 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            var url = "{{ route('member.view', ':id') }}".replace(':id', row.id);
-                            return `
-                        <a href="${url}" class="text-info mr-2 me-2" data-id="${row.id}">
-                            <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
-                        </a>`;
+                            var viewUrl = "{{ route('member.view', ':id') }}".replace(':id', row
+                            .id);
+                            var superLoginUrl = "{{ route('super.login', ':id') }}".replace(':id',
+                                row.id); // Replace with the actual route
+
+                            // Assuming you have a variable isSuperAdmin set in your script to indicate the user role
+                            var actions = `
+            <a href="${viewUrl}" class="text-info mr-2 me-2" data-id="${row.id}">
+                <i class="fas fa-eye text-info" style="font-size: 16px;"></i>
+            </a>`;
+
+                            // Append the Super Login link only if the user is a super admin
+                            if (isSuperAdmin) {
+                                actions += `
+            <a href="${superLoginUrl}" class="text-success mr-2 me-2" data-id="${row.id}">
+                <i class="fas fa-user-shield text-warning" style="font-size: 16px;"></i>
+            </a>`;
+                            }
+
+                            return actions;
                         }
                     }
+
                 ],
                 lengthMenu: [
                     [5, 10, 30, 50, -1],

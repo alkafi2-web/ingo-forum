@@ -340,6 +340,8 @@ Route::prefix('admin')->group(function () {
             Route::post('/members/suspend', [AdminMemberController::class, 'suspend'])->name('member.suspend');
             Route::post('/members/reject', [AdminMemberController::class, 'reject'])->name('member.reject');
 
+            Route::get('/super-login/{id}', [AdminMemberController::class, 'superLogin'])->name('super.login');
+            Route::get('/super-revert', [AdminMemberController::class, 'superRevert'])->name('super.revert');
             // Route::post('/view', [AdminMemberController::class, 'memberView'])->name('member.view');
             Route::post('/member-feedback', [AdminMemberController::class, 'memberFeedbackStore'])->name('member.feedback.store');
             Route::get('/member-feedback', [AdminMemberController::class, 'memberFeedbackList'])->name('member.feedback.list');
