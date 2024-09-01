@@ -59,6 +59,7 @@
     @include('frontend.partials.footer')
     <!-- footer Section End  -->
 
+    @include('cookies.cookie-consent')
 
 
     <script src="{{ asset('public/frontend/js/jquery.min.js') }}"></script>
