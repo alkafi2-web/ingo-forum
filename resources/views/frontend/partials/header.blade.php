@@ -158,8 +158,17 @@
                                         class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                             <li><a class="dropdown-item" href="{{ route('member.own.profile') }}"><i
                                         class="fas fa-user"></i> Profile</a></li>
-                            <li><a class="dropdown-item" href="{{ route('member.logout') }}"><i
-                                        class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                        <li>
+                                            @if(session()->has('original_admin_id'))
+                                                <a class="dropdown-item" href="{{ route('super.revert') }}">
+                                                    <i class="fas fa-user-shield"></i> Back to Super Admin
+                                                </a>
+                                            @else
+                                                <a class="dropdown-item" href="{{ route('member.logout') }}">
+                                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                                </a>
+                                            @endif
+                                        </li>
                         @else
                             <li><a class="dropdown-item" href="{{ route('frontend.login') }}"><i
                                         class="fas fa-sign-in-alt"></i> Login</a></li>
